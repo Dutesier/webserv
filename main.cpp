@@ -1,4 +1,3 @@
-#include "my_code.hpp"
 
 
 int main()

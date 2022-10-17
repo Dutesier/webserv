@@ -25,11 +25,11 @@ class Socket {
 	private:
 
 		/* Other Private Functions */
-		struct sockaddr_in const*	init_address(in_port_t port, int domain);
+		void	init_address(in_port_t port, int domain);
 
 		/* Private Attributes */
 		int	fd;
-		struct sockaddr_in const*	address;
+		struct sockaddr_in	address;
 
 };
 
