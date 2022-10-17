@@ -1,9 +1,11 @@
 if (test)
-    add_executable(my_code_test my_code_test.cpp)
-    add_test(my_code_gtests my_code_test)
+    add_executable(webserv_test
+		socket_test.cpp
+	)
+    add_test(webserv_gtest webserv_test)
 
-    target_link_libraries(my_code_test
-        PRIVATE my_project::my_srcs
+    target_link_libraries(webserv_test
+        PRIVATE 42::webserv_lib
         PRIVATE gtest
         PRIVATE gmock
         )
