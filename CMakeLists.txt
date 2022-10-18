@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 
-set(PROJECT_NAME my_project)
+set(PROJECT_NAME webserv)
 project(${PROJECT_NAME})
 
 option(test "Build gtests" OFF)
@@ -16,11 +16,11 @@ if (test)
 endif()
 
 set(CMAKE_CXX_FLAGS "-g -pthread -Wall -Werror -Wextra -std=c++98")
-set(TARGET_SRC
-	${CMAKE_SOURCE_DIR}/srcs/Logger.cpp
-)
+# set(TARGET_SRC
+# 	${CMAKE_SOURCE_DIR}/srcs/Logger.cpp
+# )
 
 include_directories(${CMAKE_SOURCE_DIR}/includes)
 
 add_executable(${PROJECT_NAME} main.cpp)
-target_link_libraries(${PROJECT_NAME} my_project::my_srcs)
+target_link_libraries(${PROJECT_NAME} 42::webserv_lib)

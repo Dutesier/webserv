@@ -1,10 +1,10 @@
 #ifndef LOGGER_HPP
 # define LOGGER_HPP
 
-# include <thread>
+// # include <thread>
 # include <iostream>
 # include <fstream>
-# include <mutex>
+// # include <mutex>
 
 enum LogLevel {
     DEBUG,
@@ -25,7 +25,7 @@ private:
     Logger();
     std::ofstream   logFile;
     static Logger*  instance;
-    std::mutex      mtx;
+    // std::mutex      mtx;
 };
 
 

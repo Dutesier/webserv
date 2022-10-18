@@ -17,7 +17,7 @@ Logger::Logger(): logFile(NULL){
 }
 
 void Logger::Log(std::string msg, LogLevel level) {
-    mtx.lock();
+    // mtx.lock();
     switch (level){
         case DEBUG:
             msg = "[DEBUG]: " + msg;
@@ -40,7 +40,7 @@ void Logger::Log(std::string msg, LogLevel level) {
     } else {
         logFile << msg << std::endl;
     }
-    mtx.unlock();
+    // mtx.unlock();
 }
 
 void Logger::setLogFile(std::string filename) {

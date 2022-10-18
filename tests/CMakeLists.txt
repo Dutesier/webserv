@@ -1,9 +1,11 @@
 if (test)
-    add_executable(webserv_test logger_test.cpp)
-    add_test(webserv_gtests webserv_test)
+    add_executable(webserv_test
+        logger_test.cpp
+    )
+    add_test(webserv_gtest webserv_test)
 
     target_link_libraries(webserv_test
-        PRIVATE my_project::my_srcs
+        PRIVATE 42::webserv_lib
         PRIVATE gtest
         PRIVATE gmock
         )
