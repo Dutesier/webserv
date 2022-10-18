@@ -4,6 +4,10 @@
 # include <sys/socket.h>
 # include <netinet/in.h>
 
+# ifndef BACKLOG
+#  define BACKLOG 10
+# endif
+
 /* ************************************************************************** */
 /* Class                                                                      */
 /* ************************************************************************** */
@@ -21,6 +25,7 @@ class Socket {
 
 		/* Other Functions */
 		bool	bind_to_port();
+		bool	start_listening();
 
 	private:
 

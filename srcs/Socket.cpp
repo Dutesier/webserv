@@ -31,6 +31,10 @@ void	Socket::init_address(in_port_t port, int domain) {
 	this->address.sin_addr.s_addr = htonl(INADDR_ANY);
 }
 
+bool	Socket::start_listening(){
+	return (listen(this->fd, BACKLOG) == 0);
+}
+
 /* ************************************************************************** */
 /* Class Exceptions                                                           */
 /* ************************************************************************** */
