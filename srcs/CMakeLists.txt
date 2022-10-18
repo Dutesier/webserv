@@ -2,6 +2,7 @@ project(my_srcs)
 
 add_library(${PROJECT_NAME} STATIC
     my_code.cpp
+    Logger.cpp
 )
 
 add_library(my_project::${PROJECT_NAME} ALIAS ${PROJECT_NAME})

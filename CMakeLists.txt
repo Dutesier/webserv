@@ -15,9 +15,9 @@ if (test)
     pkg_check_modules(GMOCK "gmock" REQUIRED)
 endif()
 
-set(CMAKE_CXX_FLAGS "-g -Wall -Werror -Wextra -std=c++98")
+set(CMAKE_CXX_FLAGS "-g -pthread -Wall -Werror -Wextra -std=c++98")
 set(TARGET_SRC
-	${CMAKE_SOURCE_DIR}/srcs/my_code.cpp
+	${CMAKE_SOURCE_DIR}/srcs/Logger.cpp
 )
 
 include_directories(${CMAKE_SOURCE_DIR}/includes)
