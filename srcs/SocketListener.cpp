@@ -48,15 +48,20 @@ bool	SocketListener::start_listening(){
 
 bool	SocketListener::accept_connections(){
 	int connection_fd = -1;
+	std::cout << "Accepting connections" << std::endl;
 
 	// while (true) {
 		SocketConnection* client = new SocketConnection;
-		client->setFD(accept(this->fd, client->getAddress(), client->getAddrLenPointer()));
+		
+		connection_fd = accept(this->fd, client->getAddress(), client->getAddrLenPointer());
+		std::cout << "Reached this" << std::endl;
+		client->setFD(connection_fd);
 		if (client->getFD() >= 0){
+			std::cerr << "Accept successful" << std::endl;
 			connections.push_back(client);
 			return true;
-		}
-		else {
+		} else {
+			std::cerr << "Accept failed" << std::endl;
 			delete client;
 			return false;
 		}

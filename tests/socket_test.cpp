@@ -3,6 +3,8 @@
 #include <chrono>
 #include <cerrno>
 #include <cstdio>
+#include <thread>
+#include <arpa/inet.h>
 
 #include "Socket.hpp"
 #include "SocketListener.hpp"
@@ -36,6 +38,26 @@ public:
 		// This runs on TEST_F end
 		delete listener;
 	}
+
+	void sendRequestToListener(int port){
+		int client_fd = socket(AF_INET, SOCK_STREAM, 0);
+		if (client_fd == -1)
+			perror("Socket");
+
+		struct sockaddr_in address;
+		address.sin_family = AF_INET;
+		address.sin_port = htons(port);
+
+		if (inet_pton(AF_INET, "127.0.0.1", &address.sin_addr) <= 0)
+			perror("Inet_pton");
+		
+		if (connect(client_fd, reinterpret_cast<struct sockaddr*>(&address), sizeof(address)) < 0)
+			perror("Connect");
+		
+		send(client_fd, "Hello, world!", 14, 0);
+		close(client_fd);
+	}
+
 protected:
 	SocketListener* listener;
 	//SocketConnection* connection;
@@ -59,7 +81,10 @@ TEST_F(SocketFixture, BoundSocketListenerCanStartListening) {
 
 TEST_F(SocketListenerFixture, CanAccept_TimesOutAfter10Sec) {
 	std::chrono::_V2::system_clock::time_point starttime = std::chrono::system_clock::now();
-	listener->accept_connections();
+	std::thread server (&SocketListener::accept_connections, this->listener);
+	std::thread client (&SocketListenerFixture::sendRequestToListener, this, 8086);
+	client.join();
+	server.join();
 	std::chrono::_V2::system_clock::time_point endtime = std::chrono::system_clock::now();
 	std::chrono::duration<double> elapsed = endtime - starttime;
 
@@ -67,7 +92,7 @@ TEST_F(SocketListenerFixture, CanAccept_TimesOutAfter10Sec) {
 }
 
 TEST_F(SocketListenerFixture, CanReadIncomingRequest) {
-	
+
 }
 
 
