@@ -1,11 +1,12 @@
 #include "Socket.hpp"
+#include "SocketListener.hpp"
 #include <unistd.h>
 #include <iostream>
 
 
 // Proof of concept for sending and receiving an HTTP request and response
 void hello_world() {
-    Socket socket(AF_INET, 8089);
+    SocketListener socket(AF_INET, 8089);
 
     if (!socket.bind_to_port())
         return static_cast<void>(std::cout << "bind" << std::endl);
@@ -26,7 +27,7 @@ void hello_world() {
     write(client_fd, "HTTP/1.1 200 OK\n\
     Content-Type: text/plain\n\
     Content-Lenght: 14\n\n\
-    Hello, world!", 99);
+    Hello, world!", 87);
     close(client_fd);
     std::cout << buffer << std::endl;
     delete buffer;

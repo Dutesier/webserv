@@ -16,9 +16,6 @@ if (test)
 endif()
 
 set(CMAKE_CXX_FLAGS "-g -Wall -Werror -Wextra -std=c++98")
-set(TARGET_SRC
-	${CMAKE_SOURCE_DIR}/srcs/my_code.cpp
-)
 
 include_directories(${CMAKE_SOURCE_DIR}/includes)
 

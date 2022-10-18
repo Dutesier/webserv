@@ -3,39 +3,23 @@
 
 # include <sys/socket.h>
 # include <netinet/in.h>
-
-# ifndef BACKLOG
-#  define BACKLOG 10
-# endif
-
-/* ************************************************************************** */
-/* Class                                                                      */
-/* ************************************************************************** */
+# include <iostream>
+# include <unistd.h> // Let's get back to this, can we use close()?
 
 class Socket {
+public:
+    /* Constructors and Destructors */
+    Socket();
+    virtual ~Socket();
 
-	public:
+    /* Getters and Setters */
+    int getFD(void) const;
+    struct sockaddr* getAddress(void) const;
 
-		/* Constructors and Destructors */
-		Socket(int domain, in_port_t port);
-
-		/* Getters and Setters */
-		int	getFD(void) const;
-		int	getName(void) const;
-
-		/* Other Functions */
-		bool	bind_to_port();
-		bool	start_listening();
-
-	private:
-
-		/* Other Private Functions */
-		void	init_address(in_port_t port, int domain);
-
-		/* Private Attributes */
-		int	fd;
-		struct sockaddr_in	address;
-
+protected:
+    /* Protected Attributes */
+    int                 fd;
+    struct sockaddr*    address;
 };
 
-#endif /* SOCKET_HPP */
+#endif
