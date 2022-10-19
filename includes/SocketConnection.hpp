@@ -25,15 +25,3 @@ private:
 };
 
 #endif
-
-// std::string SocketConnection::read_connection(void) {
-// 	char buff[1024 + 1]; // This will probably not be a fized size
-// 	size_t bytes_read;
-// 	std::string temp;
-
-// 	if ((bytes_read = recv(fd, &buff, 1024, MSG_DONTWAIT)) < 0)
-// 		return "No message in connection - RECV failed";
-// 	else
-// 		buff[bytes_read] = '\0';
-// 	return temp;
-// }
