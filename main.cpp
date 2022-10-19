@@ -8,7 +8,7 @@
 void hello_world() {
     SocketListener socket(AF_INET, 8089);
 
-    if (!socket.bind_to_port())
+    if (!socket.bind_to_address())
         return static_cast<void>(std::cout << "bind" << std::endl);
     if (!socket.start_listening())
         return static_cast<void>(std::cout << "listen" << std::endl);

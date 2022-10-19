@@ -22,7 +22,7 @@ class SocketListener: public Socket {
 		~SocketListener();
 
 		/* Other Functions */
-		bool	bind_to_port();
+		bool	bind_to_address();
 		bool	start_listening();
         bool    accept_connections();
 

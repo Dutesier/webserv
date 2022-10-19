@@ -31,7 +31,7 @@ public:
 	void SetUp(){
 		// This runs on TEST_F start
 		listener = new SocketListener(AF_INET, 8096);
-		listener->bind_to_port();
+		listener->bind_to_address();
 		listener->start_listening();
 	}
 
@@ -72,11 +72,11 @@ TEST_F(SocketFixture, SocketListenerCanInitialize) {
 }
 
 TEST_F(SocketFixture, SocketListenerCanBind) {
-	ASSERT_TRUE(listener->bind_to_port());
+	ASSERT_TRUE(listener->bind_to_address());
 }
 
 TEST_F(SocketFixture, BoundSocketListenerCanStartListening) {
-	EXPECT_TRUE(listener->bind_to_port());
+	EXPECT_TRUE(listener->bind_to_address());
 	ASSERT_TRUE(listener->start_listening());
 }
 
