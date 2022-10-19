@@ -22,8 +22,19 @@ SocketListener::~SocketListener( void ) {
 
 
 /* ************************************************************************** */
-/* Other Functions                                                            */
+/* Other Functions (Socket setup)                                             */
 /* ************************************************************************** */
+
+// TODO: Refactor this!
+// Initializes a struct sockaddr_in called address and sets the IP, PORT, and connection type(TCP)
+void	SocketListener::init_address(in_port_t port, int domain) {
+	struct sockaddr_in* temp = new struct sockaddr_in;
+
+	temp->sin_family = domain;
+	temp->sin_port = htons(port);
+	temp->sin_addr.s_addr = htonl(INADDR_ANY);
+	this->address = reinterpret_cast<struct sockaddr *>(temp);
+}
 
 // Binds a socket to a sockaddr structure and sets its flags
 // In other words, gives an fd a data structure
@@ -69,13 +80,48 @@ bool	SocketListener::accept_connections(){
 	// }
 }
 
-// TODO: Refactor this!
-// Initializes a struct sockaddr_in called address and sets the IP, PORT, and connection type(TCP)
-void	SocketListener::init_address(in_port_t port, int domain) {
-	struct sockaddr_in* temp = new struct sockaddr_in;
+/* ************************************************************************** */
+/* Other Functions (I/O handling)                                             */
+/* ************************************************************************** */
 
-	temp->sin_family = domain;
-	temp->sin_port = htons(port);
-	temp->sin_addr.s_addr = htonl(INADDR_ANY);
-	this->address = reinterpret_cast<struct sockaddr *>(temp);
+std::string SocketListener::read_from_connection(SocketConnection* connection){
+	/* The following if statement is useful for testing but might also be useful in prod */
+	if (connection == NULL){
+		if (connections.size() > 0)
+			connection = connections.at(0);
+		else
+			return ("No connection detected");
+	}
+
+	char buff[1024 + 1]; // This will probably not be a fized size
+	size_t bytes_read;
+	std::string temp;
+	int maximum_iterations = 64; // This is equivalent to having a 64Kb packet (TCP max packet size)
+
+	while ((bytes_read = recv(connection->getFD(), &buff, 1024, 0)) > 0) {
+		if (!maximum_iterations)
+			break;
+		buff[bytes_read] = '\0';
+		temp += buff;
+		--maximum_iterations;
+	}
+	if (maximum_iterations == 64) // No loop was done
+		return "No message in connection - RECV failed";
+	return temp;
+}
+
+bool SocketListener::write_to_connection(SocketConnection* connection, std::string response){
+	/* Same as above */
+	if (connection == NULL){
+		if (connections.size() > 0)
+			connection = connections.at(0);
+		else
+			return ("No connection detected");
+	}
+
+	char* tempStr = new char[(response.size())];
+	if (send(connection->getFD(), response.c_str(), response.size(), 0) < 0) {
+		return false;
+	}
+	return true;
 }

@@ -26,6 +26,8 @@ class SocketListener: public Socket {
 		bool	start_listening();
         bool    accept_connections();
 
+        std::string read_from_connection(SocketConnection* connection);
+        bool        write_to_connection(SocketConnection* connection, std::string response);
 
 	private:
 		/* Other Private Functions */

@@ -10,6 +10,11 @@
 #include "Socket.hpp"
 #include "SocketListener.hpp"
 
+# define HTTP_REQ "GET / HTTP/1.1\r\nHost:x\r\n\r\n"
+# define HTTP_REQ_LEN 27
+# define HTTP_RES "HTTP/1.1 404\r\nContent-Length: 0\r\n"
+# define HTTP_RES_LEN 34
+
 class SocketFixture: public ::testing::Test {
 public:
 	void SetUp(){
@@ -55,7 +60,8 @@ public:
 		if (connect(client_fd, (struct sockaddr*)(&address), sizeof(address)) < 0)
 			perror("Connect");
 		
-		send(client_fd, "Hello, world!", 14, 0);
+		if (send(client_fd, HTTP_REQ, HTTP_REQ_LEN, 0) < 0)
+			perror("send");
 		close(client_fd);
 	}
 
@@ -92,8 +98,24 @@ TEST_F(SocketListenerFixture, CanAccept_TimesOutAfter10Sec) {
 	ASSERT_LT(elapsed.count(), 11);
 }
 
-TEST_F(SocketListenerFixture, CanReadIncomingRequest) {
+TEST_F(SocketListenerFixture, CanReadFromConnection) {
+	std::thread server (&SocketListener::accept_connections, this->listener);
+	std::thread client (&SocketListenerFixture::sendRequestToListener, this, 8096);
+	server.join();
+	client.join();
 
+	ASSERT_STREQ(HTTP_REQ, listener->read_from_connection(NULL).c_str());
+}
+
+TEST_F(SocketListenerFixture, CanWriteToConnection) {
+	std::thread server (&SocketListener::accept_connections, this->listener);
+	std::thread client (&SocketListenerFixture::sendRequestToListener, this, 8096);
+	server.join();
+	client.join();
+
+	EXPECT_STREQ(HTTP_REQ, listener->read_from_connection(NULL).c_str());
+	listener->write_to_connection(NULL, HTTP_RES);
+	EXPECT_STREQ(HTTP_RES, listener->read_from_connection(NULL).c_str());
 }
 
 
