@@ -1,5 +1,5 @@
 #ifndef SOCKETCONNECTION_HPP
-# define SOCKETCONNETION_HPP
+# define SOCKETCONNECTION_HPP
 
 # include "Socket.hpp"
 # ifndef READING_BUFFER
