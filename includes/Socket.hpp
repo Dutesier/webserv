@@ -13,8 +13,8 @@ public:
     virtual ~Socket();
 
     /* Getters and Setters */
-    int getFD(void) const;
-    struct sockaddr* getAddress(void) const;
+    int get_fd(void) const;
+    struct sockaddr* get_address(void) const;
 
 protected:
     /* Protected Attributes */

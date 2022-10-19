@@ -67,8 +67,8 @@ bool	SocketListener::accept_connections(){
 	// while (true) {
 		SocketConnection* client = new SocketConnection;
 		
-		client->setFD(accept(this->fd, client->getAddress(), client->getAddrLenPointer()));
-		if (client->getFD() >= 0){
+		client->set_fd(accept(this->fd, client->get_address(), client->get_addr_len_ptr()));
+		if (client->get_fd() >= 0){
 			std::cerr << "Accept successful" << std::endl;
 			connections.push_back(client);
 			return true; // This would be commented

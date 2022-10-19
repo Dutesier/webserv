@@ -21,17 +21,17 @@ SocketConnection::~SocketConnection(){
 /* Setters and Getters                                                        */
 /* ************************************************************************** */
 
-void SocketConnection::setFD(int client_connection){
+void SocketConnection::set_fd(int client_connection){
     this->fd = client_connection;
 }
 
-void SocketConnection::setAddress(struct sockaddr* addr){
+void SocketConnection::set_address(struct sockaddr* addr){
     if (this->address != NULL)
 		delete this->address;
 	this->address = addr;
 }
 
-socklen_t* SocketConnection::getAddrLenPointer(void) {
+socklen_t* SocketConnection::get_addr_len_ptr(void) {
     return &(this->addr_len);
 }
 

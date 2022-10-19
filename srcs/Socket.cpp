@@ -12,10 +12,10 @@ Socket::~Socket(){
 /* Getters and Setters                                                        */
 /* ************************************************************************** */
 
-int Socket::getFD(void) const {
+int Socket::get_fd(void) const {
     return (this->fd);
 }
 
-struct sockaddr* Socket::getAddress(void) const {
+struct sockaddr* Socket::get_address(void) const {
     return (this->address);
 }

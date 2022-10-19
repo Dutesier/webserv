@@ -39,7 +39,7 @@ public:
 		listener->start_listening();
 
 		client = new SocketConnection();
-		setupClient(8096);
+		setup_client(8096);
 		listener->accept_connections();
 
 		// NOTE: on setup a functional TCP connection is created.
@@ -52,21 +52,21 @@ public:
 	}
 
 	// Setup helper for the TCP connection (populates client and connects to listener)
-	void setupClient(int port) {
-		client->setFD(socket(AF_INET, SOCK_STREAM, 0));
-		if (client->getFD() == -1)
+	void setup_client(int port) {
+		client->set_fd(socket(AF_INET, SOCK_STREAM, 0));
+		if (client->get_fd() == -1)
 			perror("Socket");
 
 		struct sockaddr_in* temp = new struct sockaddr_in;
 
 		temp->sin_family = AF_INET;
 		temp->sin_port = htons(port);
-		client->setAddress(reinterpret_cast<struct sockaddr *>(temp));
+		client->set_address(reinterpret_cast<struct sockaddr *>(temp));
 
 		if (inet_pton(AF_INET, "127.0.0.1", &temp->sin_addr) <= 0)
 			perror("Inet_pton");
 		
-		if (connect(client->getFD(), client->getAddress(), sizeof(*client->getAddress())) < 0)
+		if (connect(client->get_fd(), client->get_address(), sizeof(*client->get_address())) < 0)
 			perror("Connect");
 	}
 
@@ -78,8 +78,8 @@ protected:
 
 
 TEST_F(SocketFixture, SocketListenerCanInitialize) {
-	EXPECT_TRUE(listener->getAddress() != NULL);
-	ASSERT_GT(listener->getFD(), -1);
+	EXPECT_TRUE(listener->get_address() != NULL);
+	ASSERT_GT(listener->get_fd(), -1);
 }
 
 TEST_F(SocketFixture, SocketListenerCanBind) {

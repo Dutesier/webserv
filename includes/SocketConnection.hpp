@@ -12,9 +12,9 @@ public:
     ~SocketConnection();
 
 
-    void setFD(int client_connection);
-    void setAddress(struct sockaddr* addr);
-    socklen_t* getAddrLenPointer(void);
+    void set_fd(int client_connection);
+    void set_address(struct sockaddr* addr);
+    socklen_t* get_addr_len_ptr(void);
 
     std::string read_connection(void);
     bool        write_connection(std::string message);

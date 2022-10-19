@@ -12,11 +12,10 @@ void hello_world() {
         return static_cast<void>(std::cout << "bind" << std::endl);
     if (!socket.start_listening())
         return static_cast<void>(std::cout << "listen" << std::endl);
-
     struct sockaddr_in client;
     socklen_t sizeOfClient;
     
-    int client_fd = accept(socket.getFD(),
+    int client_fd = accept(socket.get_fd(),
             reinterpret_cast<sockaddr *>(&client),
             &sizeOfClient);
     if (client_fd < 0)
@@ -31,7 +30,7 @@ void hello_world() {
     close(client_fd);
     std::cout << buffer << std::endl;
     delete buffer;
-    close(socket.getFD());
+    close(socket.get_fd());
 }
 
 int main() {
