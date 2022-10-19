@@ -28,7 +28,6 @@ public:
 	}
 protected:
 	SocketListener* listener;
-	//SocketConnection* connection;
 };
 
 class SocketListenerFixture: public ::testing::Test {
@@ -38,36 +37,42 @@ public:
 		listener = new SocketListener(AF_INET, 8096);
 		listener->bind_to_address();
 		listener->start_listening();
+
+		client = new SocketConnection();
+		setupClient(8096);
+		listener->accept_connections();
+
+		// NOTE: on setup a functional TCP connection is created.
 	}
 
 	void TearDown(){
 		// This runs on TEST_F end
 		delete listener;
+		delete client;
 	}
 
-	void sendRequestToListener(int port){
-		int client_fd = socket(AF_INET, SOCK_STREAM, 0);
-		if (client_fd == -1)
+	// Setup helper for the TCP connection (populates client and connects to listener)
+	void setupClient(int port) {
+		client->setFD(socket(AF_INET, SOCK_STREAM, 0));
+		if (client->getFD() == -1)
 			perror("Socket");
 
-		struct sockaddr_in address;
-		address.sin_family = AF_INET;
-		address.sin_port = htons(port);
+		struct sockaddr_in* temp = new struct sockaddr_in;
 
-		if (inet_pton(AF_INET, "127.0.0.1", &address.sin_addr) <= 0)
+		temp->sin_family = AF_INET;
+		temp->sin_port = htons(port);
+		client->setAddress(reinterpret_cast<struct sockaddr *>(temp));
+
+		if (inet_pton(AF_INET, "127.0.0.1", &temp->sin_addr) <= 0)
 			perror("Inet_pton");
 		
-		if (connect(client_fd, (struct sockaddr*)(&address), sizeof(address)) < 0)
+		if (connect(client->getFD(), client->getAddress(), sizeof(*client->getAddress())) < 0)
 			perror("Connect");
-		
-		if (send(client_fd, HTTP_REQ, HTTP_REQ_LEN, 0) < 0)
-			perror("send");
-		close(client_fd);
 	}
 
 protected:
 	SocketListener* listener;
-	//SocketConnection* connection;
+	SocketConnection* client;
 };
 
 
@@ -86,79 +91,28 @@ TEST_F(SocketFixture, BoundSocketListenerCanStartListening) {
 	ASSERT_TRUE(listener->start_listening());
 }
 
-TEST_F(SocketListenerFixture, CanAccept_TimesOutAfter10Sec) {
+TEST_F(SocketFixture, ListeningSocketTimesoutIfNoConnections) {
+	ASSERT_TRUE(listener->bind_to_address());
+	ASSERT_TRUE(listener->start_listening());
 	std::chrono::_V2::system_clock::time_point starttime = std::chrono::system_clock::now();
-	std::thread server (&SocketListener::accept_connections, this->listener);
-	std::thread client (&SocketListenerFixture::sendRequestToListener, this, 8096);
-	server.join();
-	client.join();
+	listener->accept_connections();
 	std::chrono::_V2::system_clock::time_point endtime = std::chrono::system_clock::now();
 	std::chrono::duration<double> elapsed = endtime - starttime;
-
-	ASSERT_LT(elapsed.count(), 11);
+	ASSERT_GT(elapsed.count(), 9);
 }
 
+// The following tests test an already established connection between a listener and a client
 TEST_F(SocketListenerFixture, CanReadFromConnection) {
-	std::thread server (&SocketListener::accept_connections, this->listener);
-	std::thread client (&SocketListenerFixture::sendRequestToListener, this, 8096);
-	server.join();
-	client.join();
+	EXPECT_TRUE(client->write_connection(HTTP_REQ));
 
 	ASSERT_STREQ(HTTP_REQ, listener->read_from_connection(NULL).c_str());
 }
 
 TEST_F(SocketListenerFixture, CanWriteToConnection) {
-	std::thread server (&SocketListener::accept_connections, this->listener);
-	std::thread client (&SocketListenerFixture::sendRequestToListener, this, 8096);
-	server.join();
-	client.join();
+	EXPECT_TRUE(listener->write_to_connection(NULL, HTTP_RES));
 
-	EXPECT_STREQ(HTTP_REQ, listener->read_from_connection(NULL).c_str());
-	listener->write_to_connection(NULL, HTTP_RES);
-	EXPECT_STREQ(HTTP_RES, listener->read_from_connection(NULL).c_str());
+	ASSERT_STREQ(HTTP_RES, client->read_connection().c_str());
 }
-
-
-// TEST( SocketUnitTest, CanCreateSocketIpv4 ) {
-
-// 	SocketListener	socket(AF_INET, 8081);
-
-// 	ASSERT_GT(socket.getFD(), 0);
-// }
-
-// TEST( SocketUnitTest, CanCreateSocketIpv6 ) {
-
-// 	SocketListener	socket(AF_INET6, 8081);
-
-// 	ASSERT_GT(socket.getFD(), 0);
-// }
-
-// TEST( SocketUnitTest, FailedCreateSocket ) {
-
-// 	Socket	socket(0, 8081);
-
-// 	ASSERT_LT(socket.getFD(), 0);
-// }
-
-// TEST( SocketUnitTest, CanBind ) {
-// 	SocketListener	socket(AF_INET, 8081);
-
-// 	ASSERT_TRUE(socket.bind_to_port());
-// }
-
-// TEST( SocketUnitTest, BoundSocketCanListen ) {
-// 	SocketListener socket(AF_INET, 8082);
-
-// 	EXPECT_TRUE(socket.bind_to_port());
-// 	EXPECT_TRUE(socket.start_listening());
-// }
-
-// TEST ( SocketUnitTest, BoundSocketCantBind) {
-// 	SocketListener socket(AF_INET, 8083);
-
-// 	EXPECT_TRUE(socket.bind_to_port());
-// 	ASSERT_FALSE(socket.bind_to_port());
-// }
 
 int	main(int argc, char** argv)
 {

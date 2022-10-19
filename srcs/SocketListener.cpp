@@ -93,21 +93,7 @@ std::string SocketListener::read_from_connection(SocketConnection* connection){
 			return ("No connection detected");
 	}
 
-	char buff[1024 + 1]; // This will probably not be a fized size
-	size_t bytes_read;
-	std::string temp;
-	int maximum_iterations = 64; // This is equivalent to having a 64Kb packet (TCP max packet size)
-
-	while ((bytes_read = recv(connection->getFD(), &buff, 1024, 0)) > 0) {
-		if (!maximum_iterations)
-			break;
-		buff[bytes_read] = '\0';
-		temp += buff;
-		--maximum_iterations;
-	}
-	if (maximum_iterations == 64) // No loop was done
-		return "No message in connection - RECV failed";
-	return temp;
+	return connection->read_connection();
 }
 
 bool SocketListener::write_to_connection(SocketConnection* connection, std::string response){
@@ -119,9 +105,5 @@ bool SocketListener::write_to_connection(SocketConnection* connection, std::stri
 			return ("No connection detected");
 	}
 
-	char* tempStr = new char[(response.size())];
-	if (send(connection->getFD(), response.c_str(), response.size(), 0) < 0) {
-		return false;
-	}
-	return true;
+	return connection->write_connection(response);
 }
