@@ -3,6 +3,7 @@
 #include <chrono>
 #include <cerrno>
 #include <cstdio>
+
 #include <thread>
 #include <arpa/inet.h>
 
@@ -51,7 +52,7 @@ public:
 		if (inet_pton(AF_INET, "127.0.0.1", &address.sin_addr) <= 0)
 			perror("Inet_pton");
 		
-		if (connect(client_fd, reinterpret_cast<struct sockaddr*>(&address), sizeof(address)) < 0)
+		if (connect(client_fd, (struct sockaddr*)(&address), sizeof(address)) < 0)
 			perror("Connect");
 		
 		send(client_fd, "Hello, world!", 14, 0);
@@ -82,9 +83,9 @@ TEST_F(SocketFixture, BoundSocketListenerCanStartListening) {
 TEST_F(SocketListenerFixture, CanAccept_TimesOutAfter10Sec) {
 	std::chrono::_V2::system_clock::time_point starttime = std::chrono::system_clock::now();
 	std::thread server (&SocketListener::accept_connections, this->listener);
-	std::thread client (&SocketListenerFixture::sendRequestToListener, this, 8086);
-	client.join();
+	std::thread client (&SocketListenerFixture::sendRequestToListener, this, 8096);
 	server.join();
+	client.join();
 	std::chrono::_V2::system_clock::time_point endtime = std::chrono::system_clock::now();
 	std::chrono::duration<double> elapsed = endtime - starttime;
 
