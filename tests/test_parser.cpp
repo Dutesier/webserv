@@ -42,11 +42,6 @@ TEST_F(test_parser, test_listen_directive) {
 	EXPECT_NE(this->parser->get_error(), nullptr);
 
 	// Testing with wrong arguments command
-	command.push_back("wrong");
-
-	EXPECT_FALSE(this->parser->listen_handler(command));
-	EXPECT_NE(this->parser->get_error(), nullptr);
-
 	command[1] = "-1";
 
 	EXPECT_FALSE(this->parser->listen_handler(command));
