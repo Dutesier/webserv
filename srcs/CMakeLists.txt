@@ -4,6 +4,7 @@ add_library(${PROJECT_NAME} STATIC
 	Socket.cpp
 	SocketListener.cpp
 	SocketConnection.cpp
+	Parser.cpp
 	Client.cpp
 )
 

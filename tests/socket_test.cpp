@@ -113,9 +113,3 @@ TEST_F(SocketListenerFixture, CanWriteToConnection) {
 
 	ASSERT_STREQ(HTTP_RES, client->read_connection().c_str());
 }
-
-int	main(int argc, char** argv)
-{
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
