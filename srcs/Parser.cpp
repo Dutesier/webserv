@@ -32,6 +32,9 @@ void	Parser::set_error(Error* error) {
 /* Other Functions                                                            */
 /* ************************************************************************** */
 
+// This function returns true if the command var is valid and was successfully
+// stored in this->listen. In case of error, the function returns false and
+// this->error stops being nullptr to an instance of the Error class.
 bool	Parser::listen_handler(std::vector<std::string> command) {
 
 	int		port;
