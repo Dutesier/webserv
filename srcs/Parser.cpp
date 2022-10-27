@@ -60,3 +60,17 @@ bool	Parser::listen_handler(std::vector<std::string> command) {
 	this->set_listen(port);
 	return (true);
 }
+
+// This function returns true if the command is valid so that it can be
+// successfully stored in this->root. In case of error, the function returns
+// false and this->error stops being nullptr to an instance of the Error class.
+bool	Parser::root_handler(std::vector<std::string> command) {
+
+	std::string root;
+	if (command.size() != 2 || command[0] != "root") {
+		this->set_error(new Error);
+		return (false);
+	}
+	this->root = command[1];
+	return (true);
+}

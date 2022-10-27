@@ -31,12 +31,14 @@ class Parser {
 
 		/* Other Functions */
 		bool	listen_handler(std::vector<std::string> command);
+		bool	root_handler(std::vector<std::string> command);
 
 
 	private:
 
 		/* Private Attributes */
 		unsigned int	listen;
+		std::string 	root;
 		Error*			error;
 
 };
