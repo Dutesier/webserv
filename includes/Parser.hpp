@@ -21,6 +21,7 @@ class Parser {
 
 		/* Constructors and Destructors */
 		Parser(void);
+		~Parser(void);
 
 		/* Getters and Setters */
 		unsigned int	get_listen(void) const;
