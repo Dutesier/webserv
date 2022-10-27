@@ -1,6 +1,7 @@
 if (test)
     add_executable(webserv_test
-		socket_test.cpp
+		test.cpp
+		test_parser.cpp
 	)
     add_test(webserv_gtest webserv_test)
 
