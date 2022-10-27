@@ -4,7 +4,7 @@
 /* Constructors and Destructors                                               */
 /* ************************************************************************** */
 
-Parser::Parser( void ) {}
+Parser::Parser( void ) : listen(80), error(nullptr) {}
 
 Parser::~Parser( void ) {
 	if (this->error)
