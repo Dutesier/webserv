@@ -41,7 +41,7 @@ class Parser {
 		std::string 	root;
 		Error*			error;
 
-		bool	is_port_only(std::string str) const;
+		bool		is_port_only(std::string str) const;
 };
 
 #endif /* PARSER_HPP */

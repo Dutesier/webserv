@@ -42,10 +42,10 @@ TEST_F(test_parser, test_listen_directive) {
 	EXPECT_NE(this->parser->get_error(), nullptr);
 
 	// Testing with wrong arguments command
-	command[1] = "-1";
+	command.push_back("-1");
 
-	EXPECT_FALSE(this->parser->listen_handler(command));
-	EXPECT_NE(this->parser->get_error(), nullptr);
+	EXPECT_TRUE(this->parser->listen_handler(command));
+	EXPECT_EQ(this->parser->get_address(), "-1");
 
 	// Testing successfull case with port only
 	this->Reset();

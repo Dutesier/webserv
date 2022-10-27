@@ -36,27 +36,61 @@ bool	Parser::listen_handler(std::vector<std::string> command) {
 
 	// EXPECT_FALSE(this->parser->listen_handler(command));
 	// EXPECT_NE(this->parser->get_error(), nullptr);	int					port;
-	std::string			address;
-	std::stringstream	s;
-
+	std::string					address;
+	std::stringstream			s;
+	int							n;
+	std::vector<std::string>	split_content;
+	size_t						pos;
+	// Basic error handling
 	if (command.empty() || command[0] != "listen") {
 		this->error = new Error();
 		return (false);
 	}
-
 	if (command.size() < 2 ) {
 		this->error = new Error();
 		return (false);
 	}
-
-	s << command[1];
-	s >> port;
-	if (port <= 0) {
-		this->error = new Error();
-		return (false);
+	// Check if there directive has both address and port by finding a ":"
+	pos = command[1].find(":");
+	if (pos != std::string::npos) {
+		split_content.push_back(command[1].substr(0, pos));
+		split_content.push_back(command[1].substr(pos + 1,command[1].size() - pos));
+		// If we find another ":", the directive is wrong
+		if (split_content[1].find(":") != std::string::npos) {
+			this->error = new Error();
+			return (false);
+		}
+		if (this->is_port_only(split_content[1]) == false) {
+			this->error = new Error();
+			return (false);
+		}
+		this->address = split_content[0];
+		s << split_content[1];
+		s >> n;
+		if (n <= 0) {
+			this->error = new Error();
+			return (false);
+		}
+		this->port = n;
+		return (true);
 	}
-	this->port = port;
-	return (true);
+	// If no ":" are found, it means only an address or a port is delivered. Here we check if it is a port
+	else if (this->is_port_only(command[1]) == true) {
+		s << command[1];
+		s >> n;
+		if (n <= 0) {
+			this->error = new Error();
+			return (false);
+		}
+		this->port = n;
+		return (true);
+	}
+	// If it reached this point, we will assume it is an address
+	else {
+		this->address = command[1];
+		return (true);
+	}
+	return (false);
 }
 
 // This function returns true if the command is valid so that it can be
@@ -76,7 +110,7 @@ bool	Parser::root_handler(std::vector<std::string> command) {
 
 bool	Parser::is_port_only(std::string str) const{
 	for ( size_t i = 0; i < str.size(); i++) {
-		if (isdigit(str[i]))
+		if (!isdigit(str[i]))
 			return (false);
 	}
 	return (true);
