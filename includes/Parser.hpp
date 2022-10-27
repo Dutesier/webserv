@@ -24,7 +24,8 @@ class Parser {
 		~Parser(void);
 
 		/* Getters and Setters */
-		unsigned int	get_listen(void) const;
+		unsigned int	get_port(void) const;
+		std::string		get_address(void) const;
 		std::string		get_root(void) const;
 		Error*			get_error(void) const;
 

@@ -15,9 +15,9 @@ Parser::~Parser( void ) {
 /* Getters and Setters                                                        */
 /* ************************************************************************** */
 
-unsigned int	Parser::get_listen(void) const { return (this->port); }
+Error*			Parser::get_error(void) const { return (this->error); }
 
-Error*	Parser::get_error(void) const { return (this->error); }
+unsigned int	Parser::get_port(void) const { return (this->port); }
 
 std::string		Parser::get_address(void) const { return (this->address); }
 
@@ -32,7 +32,10 @@ std::string		Parser::get_root(void) const { return (this->root); }
 // false and this->error stops being nullptr to an instance of the Error class.
 bool	Parser::listen_handler(std::vector<std::string> command) {
 
-	int					port;
+// command.push_back("wrong");
+
+	// EXPECT_FALSE(this->parser->listen_handler(command));
+	// EXPECT_NE(this->parser->get_error(), nullptr);	int					port;
 	std::string			address;
 	std::stringstream	s;
 
@@ -52,7 +55,6 @@ bool	Parser::listen_handler(std::vector<std::string> command) {
 		this->error = new Error();
 		return (false);
 	}
-
 	this->port = port;
 	return (true);
 }
