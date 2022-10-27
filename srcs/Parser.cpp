@@ -19,7 +19,9 @@ unsigned int	Parser::get_listen(void) const { return (this->port); }
 
 Error*	Parser::get_error(void) const { return (this->error); }
 
-std::string	Parser::get_root(void) const { return (this->root); }
+std::string		Parser::get_address(void) const { return (this->address); }
+
+std::string		Parser::get_root(void) const { return (this->root); }
 
 /* ************************************************************************** */
 /* Other Functions                                                            */
@@ -30,7 +32,8 @@ std::string	Parser::get_root(void) const { return (this->root); }
 // false and this->error stops being nullptr to an instance of the Error class.
 bool	Parser::listen_handler(std::vector<std::string> command) {
 
-	int		port;
+	int					port;
+	std::string			address;
 	std::stringstream	s;
 
 	if (command.empty() || command[0] != "listen") {
@@ -65,5 +68,14 @@ bool	Parser::root_handler(std::vector<std::string> command) {
 		return (false);
 	}
 	this->root = command[1];
+	return (true);
+}
+
+
+bool	Parser::is_port_only(std::string str) const{
+	for ( size_t i = 0; i < str.size(); i++) {
+		if (isdigit(str[i]))
+			return (false);
+	}
 	return (true);
 }

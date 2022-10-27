@@ -36,9 +36,11 @@ class Parser {
 
 		/* Private Attributes */
 		unsigned int	port;
+		std::string		address;
 		std::string 	root;
 		Error*			error;
 
+		bool	is_port_only(std::string str) const;
 };
 
 #endif /* PARSER_HPP */
