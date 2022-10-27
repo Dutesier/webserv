@@ -52,17 +52,34 @@ TEST_F(test_parser, test_listen_directive) {
 	EXPECT_FALSE(this->parser->listen_handler(command));
 	EXPECT_NE(this->parser->get_error(), nullptr);
 
-	// Testing successfull case
+	// Testing successfull case with port only
 	this->Reset();
 	command[1] = "443";
 
 	EXPECT_TRUE(this->parser->listen_handler(command));
 	EXPECT_EQ(this->parser->get_error(), nullptr);
-	EXPECT_EQ(this->parser->get_listen(), 443);
+	EXPECT_EQ(this->parser->get_port(), 443);
+
+	// Testing successful case with address only
+	this->Reset();
+	command[1] = "html";
+
+	EXPECT_TRUE(this->parser->listen_handler(command));
+	EXPECT_EQ(this->parser->get_error(), nullptr);
+	EXPECT_EQ(this->parser->get_address(), "html");
+
+	// Testing successful case with address and port
+	this->Reset();
+	command[1] = "html:120";
+
+	EXPECT_TRUE(this->parser->listen_handler(command));
+	EXPECT_EQ(this->parser->get_error(), nullptr);
+	EXPECT_EQ(this->parser->get_address(), "html");
+	EXPECT_EQ(this->parser->get_port(), 120);
 
 	// Testing default value
 	this->Reset();
-	EXPECT_EQ(this->parser->get_listen(), 80);
+	EXPECT_EQ(this->parser->get_port(), 80);
 }
 
 
