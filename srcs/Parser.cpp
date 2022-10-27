@@ -19,13 +19,15 @@ unsigned int	Parser::get_listen(void) const { return (this->listen); }
 
 Error*	Parser::get_error(void) const { return (this->error); }
 
+std::string	Parser::get_root(void) const { return (this->root); }
+
 /* ************************************************************************** */
 /* Other Functions                                                            */
 /* ************************************************************************** */
 
-// This function returns true if the command var is valid and was successfully
-// stored in this->listen. In case of error, the function returns false and
-// this->error stops being nullptr to an instance of the Error class.
+// This function returns true if the command var is valid so that it can be 
+// successfully stored in this->listen. In case of error, the function returns
+// false and this->error stops being nullptr to an instance of the Error class.
 bool	Parser::listen_handler(std::vector<std::string> command) {
 
 	int		port;
@@ -49,5 +51,19 @@ bool	Parser::listen_handler(std::vector<std::string> command) {
 	}
 
 	this->listen = port;
+	return (true);
+}
+
+// This function returns true if the command is valid so that it can be
+// successfully stored in this->root. In case of error, the function returns
+// false and this->error stops being nullptr to an instance of the Error class.
+bool	Parser::root_handler(std::vector<std::string> command) {
+
+	std::string root;
+	if (command.size() != 2 || command[0] != "root") {
+		this->error = new Error();
+		return (false);
+	}
+	this->root = command[1];
 	return (true);
 }

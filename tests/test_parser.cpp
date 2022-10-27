@@ -64,3 +64,31 @@ TEST_F(test_parser, test_listen_directive) {
 	this->Reset();
 	EXPECT_EQ(this->parser->get_listen(), 80);
 }
+
+
+TEST_F(test_parser, test_root_directive) {
+
+	std::vector<std::string>	command;
+
+	// Testing with empty command;
+	EXPECT_FALSE(this->parser->root_handler(command));
+	EXPECT_NE(this->parser->get_error(), nullptr);
+
+	// Testing with wrong command
+	this->Reset();
+	command.push_back("wrong");
+	EXPECT_FALSE(this->parser->root_handler(command));
+	EXPECT_NE(this->parser->get_error(), nullptr);
+	
+	// Testing with wrong number of commands
+	this->Reset();
+	command[0] = "root";
+	EXPECT_FALSE(this->parser->root_handler(command));
+	EXPECT_NE(this->parser->get_error(), nullptr);
+	
+	// Testing with successful command
+	this->Reset();
+	command.push_back("html");
+	EXPECT_TRUE(this->parser->root_handler(command));
+	EXPECT_EQ(this->parser->get_error(), nullptr); 
+}

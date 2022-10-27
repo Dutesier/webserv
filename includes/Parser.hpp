@@ -25,16 +25,18 @@ class Parser {
 
 		/* Getters and Setters */
 		unsigned int	get_listen(void) const;
+		std::string		get_root(void) const;
 		Error*			get_error(void) const;
 
 		/* Other Functions */
 		bool	listen_handler(std::vector<std::string> command);
-
+		bool	root_handler(std::vector<std::string> command);
 
 	private:
 
 		/* Private Attributes */
 		unsigned int	listen;
+		std::string 	root;
 		Error*			error;
 
 };
