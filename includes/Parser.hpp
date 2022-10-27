@@ -29,7 +29,7 @@ class Parser {
 		void			set_error(Error* error);
 
 		/* Other Functions */
-		void	listen_handler(std::vector<std::string> command);
+		bool	listen_handler(std::vector<std::string> command);
 
 
 	private:

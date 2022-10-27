@@ -27,17 +27,28 @@ void	Parser::set_error(Error* error) {
 /* Other Functions                                                            */
 /* ************************************************************************** */
 
-void	Parser::listen_handler(std::vector<std::string> command) {
+bool	Parser::listen_handler(std::vector<std::string> command) {
+
 	int		port;
 	std::stringstream	s;
 
-	if (command.empty() || command[0] != "listen")
-		return ( this->set_error(new Error()));
-	if (command.size() < 2 )
-		return ( this->set_error(new Error()));
+	if (command.empty() || command[0] != "listen") {
+		this->set_error(new Error());
+		return (false);
+	}
+
+	if (command.size() < 2 ) {
+		this->set_error(new Error());
+		return (false);
+	}
+
 	s << command[1];
 	s >> port;
-	if (port <= 0)
-		return ( this->set_error(new Error()));
-	this->set_listen( static_cast<unsigned int>(port));
+	if (port <= 0) {
+		this->set_error(new Error());
+		return (false);
+	}
+
+	this->set_listen(port);
+	return (true);
 }
