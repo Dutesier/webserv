@@ -4,7 +4,7 @@
 /* Constructors and Destructors                                               */
 /* ************************************************************************** */
 
-Parser::Parser( void ) : listen(80), error(nullptr) {}
+Parser::Parser( void ) : port(80), error(nullptr) {}
 
 Parser::~Parser( void ) {
 	if (this->error)
@@ -15,7 +15,7 @@ Parser::~Parser( void ) {
 /* Getters and Setters                                                        */
 /* ************************************************************************** */
 
-unsigned int	Parser::get_listen(void) const { return (this->listen); }
+unsigned int	Parser::get_listen(void) const { return (this->port); }
 
 Error*	Parser::get_error(void) const { return (this->error); }
 
@@ -50,7 +50,7 @@ bool	Parser::listen_handler(std::vector<std::string> command) {
 		return (false);
 	}
 
-	this->listen = port;
+	this->port = port;
 	return (true);
 }
 

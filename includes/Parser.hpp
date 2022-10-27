@@ -35,7 +35,7 @@ class Parser {
 	private:
 
 		/* Private Attributes */
-		unsigned int	listen;
+		unsigned int	port;
 		std::string 	root;
 		Error*			error;
 
