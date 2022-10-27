@@ -13,6 +13,7 @@ class test_parser : public ::testing::Test {
 		void	TearDown() {};
 		void	Reset() {
 			this->parser.set_listen(0);
+			this->parser.set_root("");
 			this->parser.set_error(nullptr);
 		}
 	protected:
@@ -59,4 +60,32 @@ TEST_F(test_parser, test_listen_directive) {
 	EXPECT_TRUE(this->parser.listen_handler(command));
 	EXPECT_EQ(this->parser.get_error(), nullptr);
 	EXPECT_EQ(this->parser.get_listen(), 443);
+}
+
+
+TEST_F(test_parser, test_root_directive) {
+
+	std::vector<std::string>	command;
+
+	// Testing with empty command;
+	EXPECT_FALSE(this->parser.root_handler(command));
+	EXPECT_NE(this->parser.get_error(), nullptr);
+
+	// Testing with wrong command
+	this->Reset();
+	command.push_back("wrong");
+	EXPECT_FALSE(this->parser.root_handler(command));
+	EXPECT_NE(this->parser.get_error(), nullptr);
+	
+	// Testing with wrong number of commands
+	this->Reset();
+	command[0] = "root";
+	EXPECT_FALSE(this->parser.root_handler(command));
+	EXPECT_NE(this->parser.get_error(), nullptr);
+	
+	// Testing with successful command
+	this->Reset();
+	command.push_back("html");
+	EXPECT_TRUE(this->parser.root_handler(command));
+	EXPECT_EQ(this->parser.get_error(), nullptr); 
 }
