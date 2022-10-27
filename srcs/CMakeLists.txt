@@ -1,7 +1,12 @@
 project(webserv_lib)
 
 add_library(${PROJECT_NAME} STATIC
+	Socket.cpp
+	SocketListener.cpp
+	SocketConnection.cpp
+	Client.cpp
     Logger.cpp
+	Parser.cpp
 )
 
 add_library(42::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
