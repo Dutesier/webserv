@@ -35,7 +35,7 @@ public:
         this->pointer = other.pointer;
         this->referenceCount = other.referenceCount;
         if (this->pointer != nullptr) {
-            *(this->referenceCount)++;
+            (*(this->referenceCount))++;
         }
     }
 
@@ -44,7 +44,7 @@ public:
         this->pointer = other.pointer;
         this->referenceCount = other.referenceCount;
         if (this->pointer != nullptr) {
-            *(this->referenceCount)++;
+            (*(this->referenceCount))++;
         }
         return (*this);
     }
@@ -58,7 +58,7 @@ public:
 
 private:
     void destroy(){
-        *referenceCount--;
+        (*referenceCount)--;
         if (*referenceCount == 0) {
             if (pointer != nullptr) {
                 delete pointer;

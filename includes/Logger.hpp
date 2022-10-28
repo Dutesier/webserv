@@ -17,7 +17,7 @@ public:
     Logger(LogLevel l);
     ~Logger();
 
-    void operator()(std::string const& message, char const *function, char *const file, int line);
+    void operator()(std::string const& message, char const *function, char const* file, int line);
 private:
     LogLevel        level;
 };
@@ -50,7 +50,7 @@ public:
     FileLogger(LogLevel l);
     ~FileLogger();
 
-    void operator()(std::string const& message, char const *function, char *const file, int line);
+    void operator()(std::string const& message, char const *function, char const * file, int line);
     void setLogFile(std::string filename);
 
 private:

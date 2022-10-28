@@ -6,7 +6,7 @@ Logger::Logger(LogLevel l): level(l){
 Logger::~Logger(){
 }
 
-void Logger::operator()(std::string const& message, char const *function, char *const file, int line){
+void Logger::operator()(std::string const& message, char const *function, char const* file, int line){
     switch (level){
         case DEBUG:
             std::cout << "[DEBUG]: " << "(" << function << ":" << file << ":" << line << ") " << message << std::endl ;
@@ -71,7 +71,7 @@ void FileLogger::setLogFile(std::string filename) {
     logToFile = true;
 }
 
-void FileLogger::operator()(std::string const& message, char const *function, char *const file, int line){
+void FileLogger::operator()(std::string const& message, char const *function, char const* file, int line){
     if (!logToFile) {
         std::cerr << "Failed to open " << LOGFILENAME << " for writing." << std::endl;
         return ;
