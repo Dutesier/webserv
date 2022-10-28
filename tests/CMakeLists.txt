@@ -4,6 +4,7 @@ if (test)
 		test_parser.cpp
 		test_socket.cpp
         test_logger.cpp
+        test_smt.cpp
     )
     add_test(webserv_gtest webserv_test)
 

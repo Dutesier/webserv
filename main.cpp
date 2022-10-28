@@ -3,8 +3,6 @@
 #include "Client.hpp"
 #include "Logger.hpp"
 
-// Initializing instance to avoid linker errors
-Logger* Logger::instance = NULL;
 
 // Proof of concept for sending and receiving an HTTP request and response
 void client_hello_world() {
