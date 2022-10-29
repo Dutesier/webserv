@@ -9,12 +9,8 @@
 class test_parser : public ::testing::Test {
 
 	public:
-		void	SetUp() {
-			parser = new Parser();
-		};
-		void	TearDown() {
-			delete parser;
-		};
+		void	SetUp() { parser = new Parser(); };
+		void	TearDown() { delete parser; };
 		void	Reset() {
 			parser->set_listen(0);
 			parser->set_error(nullptr);
