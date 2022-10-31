@@ -13,6 +13,7 @@ class test_parser : public ::testing::Test {
 		void	TearDown() { if (this->parser) delete this->parser; };
 		void	Reset() { this->TearDown(); this->SetUp(); }
 
+
 	protected:
 		Parser*	parser;
 };
