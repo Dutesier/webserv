@@ -57,7 +57,7 @@ bool	Parser::listen_handler(std::vector<std::string> command) {
 			this->error = new Error();
 			return (false);
 		}
-		if (this->is_port_only(split_content[1]) == false) {
+		if (this->is_port(split_content[1]) == false) {
 			this->error = new Error();
 			return (false);
 		}
@@ -72,7 +72,7 @@ bool	Parser::listen_handler(std::vector<std::string> command) {
 		return (true);
 	}
 	// If no ":" are found, it means only an address or a port is delivered. Here we check if it is a port
-	else if (this->is_port_only(command[1]) == true) {
+	else if (this->is_port(command[1]) == true) {
 		s << command[1];
 		s >> n;
 		if (n <= 0 || n > 65535) {
@@ -104,7 +104,7 @@ bool	Parser::root_handler(std::vector<std::string> command) {
 }
 
 
-bool	Parser::is_port_only(std::string str) const{
+bool	Parser::is_port(std::string str) const{
 	for ( size_t i = 0; i < str.size(); i++) {
 		if (!isdigit(str[i]))
 			return (false);
