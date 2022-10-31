@@ -9,13 +9,11 @@
 class test_parser : public ::testing::Test {
 
 	public:
-
 		void	SetUp() { this->parser = new Parser(); }
 		void	TearDown() { if (this->parser) delete this->parser; };
 		void	Reset() { this->TearDown(); this->SetUp(); }
 
 	protected:
-
 		Parser*	parser;
 };
 
