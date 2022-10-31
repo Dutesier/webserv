@@ -41,11 +41,24 @@ TEST_F(test_parser, test_listen_directive) {
 	EXPECT_FALSE(this->parser->listen_handler(command));
 	EXPECT_NE(this->parser->get_error(), nullptr);
 
-	// Testing with wrong arguments command
+	// Testing with allowed arguments command 
 	command.push_back("-1");
 
 	EXPECT_TRUE(this->parser->listen_handler(command));
 	EXPECT_EQ(this->parser->get_address(), "-1");
+
+	// Testing with invalid ports only
+	this->Reset();
+	command[1] = "-433";
+
+	EXPECT_FALSE(this->parser->listen_handler(command));
+	EXPECT_NE(this->parser->get_error(), nullptr);
+
+	this->Reset();
+	command[1] = "100000";
+
+	EXPECT_FALSE(this->parser->listen_handler(command));
+	EXPECT_NE(this->parser->get_error(), nullptr);
 
 	// Testing successfull case with port only
 	this->Reset();
@@ -62,6 +75,13 @@ TEST_F(test_parser, test_listen_directive) {
 	EXPECT_TRUE(this->parser->listen_handler(command));
 	EXPECT_EQ(this->parser->get_error(), nullptr);
 	EXPECT_EQ(this->parser->get_address(), "html");
+
+	// Testing successful case with address but invalid port
+	this->Reset();
+	command[1] = "html:120000";
+
+	EXPECT_FALSE(this->parser->listen_handler(command));
+	EXPECT_NE(this->parser->get_error(), nullptr);
 
 	// Testing successful case with address and port
 	this->Reset();
