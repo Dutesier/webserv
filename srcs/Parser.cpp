@@ -32,15 +32,12 @@ std::string		Parser::get_root(void) const { return (this->root); }
 // false and this->error stops being nullptr to an instance of the Error class.
 bool	Parser::listen_handler(std::vector<std::string> command) {
 
-// command.push_back("wrong");
-
-	// EXPECT_FALSE(this->parser->listen_handler(command));
-	// EXPECT_NE(this->parser->get_error(), nullptr);	int					port;
 	std::string					address;
 	std::stringstream			s;
 	int							n;
 	std::vector<std::string>	split_content;
 	size_t						pos;
+	
 	// Basic error handling
 	if (command.empty() || command[0] != "listen") {
 		this->error = new Error();
@@ -67,7 +64,7 @@ bool	Parser::listen_handler(std::vector<std::string> command) {
 		this->address = split_content[0];
 		s << split_content[1];
 		s >> n;
-		if (n <= 0) {
+		if (n <= 0 || n > 65535) {
 			this->error = new Error();
 			return (false);
 		}
@@ -78,7 +75,7 @@ bool	Parser::listen_handler(std::vector<std::string> command) {
 	else if (this->is_port_only(command[1]) == true) {
 		s << command[1];
 		s >> n;
-		if (n <= 0) {
+		if (n <= 0 || n > 65535) {
 			this->error = new Error();
 			return (false);
 		}
@@ -98,7 +95,6 @@ bool	Parser::listen_handler(std::vector<std::string> command) {
 // false and this->error stops being nullptr to an instance of the Error class.
 bool	Parser::root_handler(std::vector<std::string> command) {
 
-	std::string root;
 	if (command.size() != 2 || command[0] != "root") {
 		this->error = new Error();
 		return (false);
