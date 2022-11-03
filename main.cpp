@@ -1,7 +1,7 @@
 #include "SocketListener.hpp"
 #include "SocketConnection.hpp"
 #include "Client.hpp"
-#include "Logger.hpp"
+#include "ConfigSetup.hpp"
 
 
 // Proof of concept for sending and receiving an HTTP request and response
@@ -28,7 +28,11 @@ void browser_hello_world() {
     server.write_to_connection(NULL, "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Lenght: 14\r\n\r\nHello, world!");
 }
 
-int main() {
+
+int main(int argc, char* argv[]) {
+    ConfigSetup setup(argc, argv);
+    Config* config = setup.get_config();
+    LOG_D( config == NULL ? "Config is NULL" : "Config was created");
     //client_hello_world();
     browser_hello_world();
     return 0;

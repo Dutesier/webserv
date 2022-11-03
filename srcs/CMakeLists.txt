@@ -7,6 +7,7 @@ add_library(${PROJECT_NAME} STATIC
 	Client.cpp
     Logger.cpp
 	Parser.cpp
+	ConfigSetup.cpp
 )
 
 add_library(42::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
