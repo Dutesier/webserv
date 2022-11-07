@@ -15,6 +15,8 @@ struct Config {
 	unsigned int	port;
 	std::string		address;
 	std::string		root;
+	bool			server;
+	bool			location;
 };
 
 /* ************************************************************************** */
@@ -37,6 +39,7 @@ class ConfigParser : public Parser {
 		void	parse(std::string arg);
 		bool	listen_handler(std::vector<std::string> commands);
 		bool	root_handler(std::vector<std::string> commands);
+		bool	block_handler(std::vector<std::string> commands);
 
 	private:
 

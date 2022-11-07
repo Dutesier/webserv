@@ -4,7 +4,13 @@
 /* Constructors and Destructors                                               */
 /* ************************************************************************** */
 
-ConfigParser::ConfigParser( void ) : Parser(), config(new Config) {}
+ConfigParser::ConfigParser( void ) : Parser(), config(new Config) {
+	this->config->port = 80;
+	this->config->address = "localhost";
+	this->config->root = "/var/www/html";
+	this->config->server = false;
+	this->config->location = false;
+}
 
 ConfigParser::~ConfigParser( void ) { if (this->config) delete this->config; }
 
@@ -92,6 +98,9 @@ bool	ConfigParser::listen_handler(std::vector<std::string> commands) {
 	// checking if command ends with ';'
 	if (!this->valid_end(&commands))
 		return (false);
+	// checking if command is inside correct block
+	if (!this->config->server)
+		return (false);
 
 	// checking listen directive syntax
 	// possible syntaxes: listen port; listen address[:port]
@@ -131,9 +140,48 @@ bool	ConfigParser::root_handler(std::vector<std::string> commands) {
 	// checking if command ends with ';'
 	if (!this->valid_end(&commands))
 		return (false);
+	// checking if command is inside correct block
+	if (!this->config->server)
+		return (false);
 
 	// storing root
 	this->config->root = commands[1];	
 
+	return (true);
+}
+
+// this function handler location and server blocks.
+// when a commands is the start of a block, the function only sets the block
+// variable to true. when a commands is the end of a block the function sets
+// the ending block to false - it finds the ending block hereditarily
+bool	ConfigParser::block_handler(std::vector<std::string> commands) {
+
+	if (commands.empty())
+		return (false);
+	// checking if command size is valid
+	if (commands.size() > 2)
+		return (false);
+
+	// start of server block
+	if ((commands[0] == "server" && commands[1] == "{")
+		|| commands[0] == "server{" ) {
+		if (this->config->server)
+			return (false);
+		this->config->server = true;
+	}
+	// start of server block
+	else if ((commands[0] == "location" && commands[1] == "{")
+		|| commands[0] == "location{" ) {
+		if (this->config->location || !this->config->server)
+			return (false);
+		this->config->location = true;
+	}
+	// end of block
+	else if (commands[0] == "}") {
+		if (this->config->location)
+			this->config->location = false;
+		else if (this->config->server)
+			this->config->server = false;
+	}
 	return (true);
 }
