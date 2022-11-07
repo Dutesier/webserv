@@ -5,9 +5,11 @@ add_library(${PROJECT_NAME} STATIC
 	SocketListener.cpp
 	SocketConnection.cpp
 	Client.cpp
-    Logger.cpp
+	Logger.cpp
 	Parser.cpp
 	ConfigSetup.cpp
+	ConfigParser.cpp
+	Fail.cpp
 )
 
 add_library(42::${PROJECT_NAME} ALIAS ${PROJECT_NAME})

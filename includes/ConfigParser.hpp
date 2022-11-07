@@ -1,37 +1,29 @@
-#ifndef PARSER_HPP
-# define PARSER_HPP
-
 /* ************************************************************************** */
 /* Headers                                                                    */
 /* ************************************************************************** */
 
-# include <vector>
 # include <iostream>
-# include <cstring>
+# include <vector>
+# include <fstream>
 
+# include "Parser.hpp"
 # include "Fail.hpp"
 
 /* ************************************************************************** */
 /* Class                                                                      */
 /* ************************************************************************** */
 
-class Parser {
+class ConfigParser : public Parser {
 
 	public:
 
 		/* Constructors and Destructors */
-		Parser(void);
-		virtual ~Parser(void);
+		ConfigParser(void);
+		~ConfigParser(void);
 
 		/* Other Functions */
-		std::vector<std::string>	split_line(std::string line) const;
-		Fail*	error(void) const;
-		virtual void	parse(std::string arg) = 0;
-
-	protected:
-
-		Fail*	fail;
+		void	parse(std::string arg);
+		bool	listen_handler(std::vector<std::string> commands);
+		bool	root_handler(std::vector<std::string> commands);
 
 };
-
-#endif /* PARSER_HPP */
