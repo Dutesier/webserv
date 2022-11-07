@@ -34,25 +34,19 @@ void	ConfigParser::parse(std::string arg) {
 	i = 1;
 	while (getline(file, line)) {
 		if (!line.empty()) {
-			std::cout << "line: " << line << std::endl;
+
 			commands = this->split_line(line);
-
-			for ( size_t i = 0; i < commands.size(); i++)
-				std::cout << "commands[" << i << "]: " << commands[1] << std::endl;
-
 			// handle commands
-			if (commands[0] == "listen" && !listen_handler(commands)) {
-				std::cout << "here" << std::endl;
+			if (commands[0] == "listen" && !listen_handler(commands))
 				this->fail = new Fail(line, arg, i);
-			}
 			else if (commands[0] == "root" && !root_handler(commands))
 				this->fail = new Fail(line, arg, i);
+			// else
+			// 	this->fail = new Fail("unknown command", arg);
 
 			// checking for errors
-			if (this->fail) {
-				std::cout << "error: " << *this->fail << std::endl;
+			if (this->fail)
 				return ;
-			}
 		}
 		i++;
 		commands.clear();
