@@ -5,11 +5,11 @@
 /* ************************************************************************** */
 
 ConfigParser::ConfigParser( void ) : Parser(), config(new Config) {
-	this->config->port = 80;
-	this->config->address = "localhost";
-	this->config->root = "/var/www/html";
-	this->config->server = false;
-	this->config->location = false;
+	// this->config->port = 80;
+	// this->config->address = "localhost";
+	// this->config->root = "/var/www/html";
+	// this->config->server = false;
+	// this->config->location = false;
 }
 
 ConfigParser::~ConfigParser( void ) { if (this->config) delete this->config; }
@@ -48,12 +48,12 @@ void	ConfigParser::parse(std::string arg) {
 
 			commands = this->split_line(line);
 			// handle commands
-			if (commands[0] == "listen" && !listen_handler(commands))
+			if (commands[0] == "listen" && listen_handler(commands)) ;
+			else if (commands[0] == "root" && root_handler(commands)) ;
+			else if ((commands[0] == "server" || commands[0] == "server{"
+					|| commands[0] == "}") && block_handler(commands)) ;
+			else
 				this->fail = new Fail(line, arg, i);
-			else if (commands[0] == "root" && !root_handler(commands))
-				this->fail = new Fail(line, arg, i);
-			// else
-			// 	this->fail = new Fail("unknown command", arg);
 
 			// checking for errors
 			if (this->fail)
@@ -183,5 +183,6 @@ bool	ConfigParser::block_handler(std::vector<std::string> commands) {
 		else if (this->config->server)
 			this->config->server = false;
 	}
+	std::cout << "HERE2" << std::endl;
 	return (true);
 }

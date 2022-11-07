@@ -12,6 +12,8 @@
 # include "Fail.hpp"
 
 struct Config {
+	Config(void) : port(80), address("localhost"), root("/var/www/html"),
+				   server(false), location(false) {}
 	unsigned int	port;
 	std::string		address;
 	std::string		root;
