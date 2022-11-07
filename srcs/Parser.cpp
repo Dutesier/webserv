@@ -12,6 +12,7 @@ Parser::~Parser( void ) { if (this->fail) delete this->fail; }
 /* Other Functions                                                            */
 /* ************************************************************************** */
 
+//TODO: take comments out
 std::vector<std::string>	Parser::split_line(std::string line) const {
 
 	std::vector<std::string>	commands;

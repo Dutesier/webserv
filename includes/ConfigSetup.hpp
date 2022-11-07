@@ -6,7 +6,7 @@
 # include <iostream>
 # include <fstream>
 
-struct Config {};
+struct Config;
 
 // Class for setting up the config class from the config file
 class ConfigSetup {
