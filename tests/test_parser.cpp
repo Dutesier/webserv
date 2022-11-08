@@ -197,3 +197,36 @@ TEST_F(test_parser, server_handler) {
 	this->Reset();
 	ASSERT_FALSE(this->parser->get_config()->server);
 }
+
+TEST_F(test_parser, end_block_handler) {
+
+	// testing with empty commmand
+	ASSERT_FALSE(this->parser->end_block_handler(commands));
+
+	// testing inside wrong block
+	this->Reset();
+	commands.push_back("root");
+	ASSERT_FALSE(this->parser->end_block_handler(commands));
+
+	// testing not in server or location block failure
+	this->Reset();
+	commands.push_back("}");
+	ASSERT_FALSE(this->parser->end_block_handler(commands));
+	ASSERT_FALSE(this->parser->get_config()->server);
+	ASSERT_FALSE(this->parser->get_config()->location);
+
+	// testing successfull cases
+	this->Reset();
+	this->parser->get_config()->server = true;
+	commands.push_back("}");
+	ASSERT_TRUE(this->parser->end_block_handler(commands));
+	ASSERT_FALSE(this->parser->get_config()->server);
+
+	this->Reset();
+	this->parser->get_config()->server = true;
+	this->parser->get_config()->location = true;
+	commands.push_back("}");
+	ASSERT_TRUE(this->parser->end_block_handler(commands));
+	ASSERT_FALSE(this->parser->get_config()->location);
+	ASSERT_TRUE(this->parser->get_config()->server);
+}
