@@ -1,12 +1,12 @@
 #ifndef CONFIGSETUP_HPP
 # define CONFIGSETUP_HPP
 
-# include "Error.hpp"
+# include "Fail.hpp"
 # include "Logger.hpp"
 # include <iostream>
 # include <fstream>
 
-struct Config {};
+struct Config;
 
 // Class for setting up the config class from the config file
 class ConfigSetup {
@@ -21,8 +21,8 @@ private:
     Config* config_from_default();
     Config* get_config_from_file(std::ifstream& configFile);
 
-    Config* config = NULL;
-    Error error;
+    Config*	config /* = NULL */;
+    Fail	error;
 };
 
 #endif

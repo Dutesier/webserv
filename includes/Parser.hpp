@@ -7,9 +7,9 @@
 
 # include <vector>
 # include <iostream>
-# include <sstream>
+# include <cstring>
 
-# include "Error.hpp"
+# include "Fail.hpp"
 
 /* ************************************************************************** */
 /* Class                                                                      */
@@ -21,23 +21,16 @@ class Parser {
 
 		/* Constructors and Destructors */
 		Parser(void);
-		~Parser(void);
-
-		/* Getters and Setters */
-		unsigned int	get_listen(void) const;
-		std::string		get_root(void) const;
-		Error*			get_error(void) const;
+		virtual ~Parser(void);
 
 		/* Other Functions */
-		bool	listen_handler(std::vector<std::string> command);
-		bool	root_handler(std::vector<std::string> command);
+		std::vector<std::string>	split_line(std::string line) const;
+		Fail*	error(void) const;
+		virtual void	parse(std::string arg) = 0;
 
-	private:
+	protected:
 
-		/* Private Attributes */
-		unsigned int	listen;
-		std::string 	root;
-		Error*			error;
+		Fail*	fail;
 
 };
 
