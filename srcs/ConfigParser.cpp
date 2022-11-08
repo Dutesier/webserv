@@ -4,13 +4,7 @@
 /* Constructors and Destructors                                               */
 /* ************************************************************************** */
 
-ConfigParser::ConfigParser( void ) : Parser(), config(new Config) {
-	// this->config->port = 80;
-	// this->config->address = "localhost";
-	// this->config->root = "/var/www/html";
-	// this->config->server = false;
-	// this->config->location = false;
-}
+ConfigParser::ConfigParser( void ) : Parser(), config(new Config) {}
 
 ConfigParser::~ConfigParser( void ) { if (this->config) delete this->config; }
 
@@ -35,38 +29,38 @@ void	ConfigParser::parse(std::string arg) {
 	std::ifstream	file;
 	file.open(arg);
 	if (!file.is_open()) {
-		perror("failed to open");
 		this->fail = new Fail("failed to open", arg);
 		return ;
 	}
 
-	// read a line from a config file
-	// convert it to a vector of string - commands
 	i = 1;
+	// read a line from a config file
 	while (getline(file, line)) {
-		if (!line.empty()) {
 
+		if (!line.empty()) {
+			// convert it to a vector of string - commands
 			commands = this->split_line(line);
 			// handle commands
 			if (commands[0] == "listen" && listen_handler(commands)) ;
 			else if (commands[0] == "root" && root_handler(commands)) ;
-			else if ((commands[0] == "server" || commands[0] == "server{"
-					|| commands[0] == "}") && block_handler(commands)) ;
-			else
-				this->fail = new Fail(line, arg, i);
+			else if ((commands[0] == "server" || commands[0] == "server{")
+					  && server_handler(commands)) ;
+			else if (commands[0] == "}" && end_block_handler(commands)) ;
+			else this->fail = new Fail(line, arg, i);
 
 			// checking for errors
-			if (this->fail)
-				return ;
+			if (this->fail) return ;
 		}
 		i++;
 		commands.clear();
 	}
+	// here we need to check if blocks were correctly closed
 }
 
 // this function returns true if the last string of commands ends with in a ';'
 // removing the ';' from commands if valid
 bool	ConfigParser::valid_end(std::vector<std::string>* commands) const {
+
 	if (commands->back().back() == ';') {
 		commands->back().resize( commands->back().size() - 1);
 		return (true);
@@ -77,9 +71,9 @@ bool	ConfigParser::valid_end(std::vector<std::string>* commands) const {
 // This function returns true if 'port' is valid - only containes digits
 // TODO: try and make this in a more cpp manner if possible
 bool	ConfigParser::is_port(std::string port) const {
-	for (size_t i = 0; i < port.size(); i++) {
+
+	for (size_t i = 0; i < port.size(); i++)
 		if (!isdigit(port[i])) return (false);
-	}
 	return (true);
 }
 
@@ -131,7 +125,7 @@ bool	ConfigParser::listen_handler(std::vector<std::string> commands) {
 bool	ConfigParser::root_handler(std::vector<std::string> commands) {
 
 	// checking if command is empty
-	// or if commands starts with listen
+	// or if commands starts with root
 	if (commands.empty() || commands[0] != "root")
 		return (false);
 	// checking if command size is valid
@@ -150,12 +144,11 @@ bool	ConfigParser::root_handler(std::vector<std::string> commands) {
 	return (true);
 }
 
-// this function handler location and server blocks.
-// when a commands is the start of a block, the function only sets the block
-// variable to true. when a commands is the end of a block the function sets
-// the ending block to false - it finds the ending block hereditarily
-bool	ConfigParser::block_handler(std::vector<std::string> commands) {
+// this function handles server blocks - it validates if the start of a server
+// block is valid
+bool	ConfigParser::server_handler(std::vector<std::string> commands) {
 
+	// checking if command is empty
 	if (commands.empty())
 		return (false);
 	// checking if command size is valid
@@ -163,26 +156,33 @@ bool	ConfigParser::block_handler(std::vector<std::string> commands) {
 		return (false);
 
 	// start of server block
-	if ((commands[0] == "server" && commands[1] == "{")
-		|| commands[0] == "server{" ) {
-		if (this->config->server)
-			return (false);
+	if (commands[0] == "server{" || (commands.size() > 1
+		&& commands[0] == "server" &&commands[1] == "{")) {
+		if (this->config->server) return (false);
 		this->config->server = true;
 	}
-	// start of server block
-	else if ((commands[0] == "location" && commands[1] == "{")
-		|| commands[0] == "location{" ) {
-		if (this->config->location || !this->config->server)
-			return (false);
-		this->config->location = true;
-	}
-	// end of block
-	else if (commands[0] == "}") {
-		if (this->config->location)
-			this->config->location = false;
-		else if (this->config->server)
-			this->config->server = false;
-	}
-	std::cout << "HERE2" << std::endl;
+	else return (false);
+
+	return (true);
+}
+
+// This function handler commands that contain a '}'. It closes a block -
+// either location or server blocks
+bool	ConfigParser::end_block_handler(std::vector<std::string> commands) {
+
+	// checking if command is empty
+	// or if commands starts with listen
+	if (commands.empty() || commands[0] != "}")
+		return (false);
+	// checking if command size is valid
+	if (commands.size() != 1)
+		return (false);
+
+	if (this->config->location)
+		this->config->location = false;
+	else if (this->config->server)
+		this->config->server = false;
+	else
+		return (false);
 	return (true);
 }

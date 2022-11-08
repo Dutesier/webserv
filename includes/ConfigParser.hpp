@@ -41,7 +41,8 @@ class ConfigParser : public Parser {
 		void	parse(std::string arg);
 		bool	listen_handler(std::vector<std::string> commands);
 		bool	root_handler(std::vector<std::string> commands);
-		bool	block_handler(std::vector<std::string> commands);
+		bool	server_handler(std::vector<std::string> commands);
+		bool	end_block_handler(std::vector<std::string> commands);
 
 	private:
 

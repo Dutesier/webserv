@@ -154,3 +154,46 @@ TEST_F(test_parser, root_handler) {
 	this->parser->get_config()->server = true;
 	ASSERT_EQ(this->parser->get_config()->root, "/var/www/html");
 }
+
+TEST_F(test_parser, server_handler) {
+
+	// testing with empty commmand
+	ASSERT_FALSE(this->parser->server_handler(commands));
+
+	// testing inside wrong block
+	this->Reset();
+	commands.push_back("root");
+	ASSERT_FALSE(this->parser->server_handler(commands));
+	ASSERT_FALSE(this->parser->get_config()->server);
+
+	// testing with incomplete commmand
+	this->Reset();
+	commands.push_back("server");
+	ASSERT_FALSE(this->parser->server_handler(commands));
+	ASSERT_FALSE(this->parser->get_config()->server);
+	commands[0] ="{";
+	ASSERT_FALSE(this->parser->server_handler(commands));
+	ASSERT_FALSE(this->parser->get_config()->server);
+
+	// testing already in a server block failure
+	this->Reset();
+	this->parser->get_config()->server = true;
+	commands.push_back("server{");
+	ASSERT_TRUE(this->parser->get_config()->server);
+
+	// testing successfull cases
+	this->Reset();
+	commands.push_back("server");
+	commands.push_back("{");
+	ASSERT_TRUE(this->parser->server_handler(commands));
+	ASSERT_TRUE(this->parser->get_config()->server);
+
+	this->Reset();
+	commands.push_back("server{");
+	ASSERT_TRUE(this->parser->server_handler(commands));
+	ASSERT_TRUE(this->parser->get_config()->server);
+
+	// testing default value
+	this->Reset();
+	ASSERT_FALSE(this->parser->get_config()->server);
+}
