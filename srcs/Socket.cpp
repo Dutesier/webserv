@@ -3,9 +3,7 @@
 namespace webserv {
 
 Socket::Socket(int port, std::string host, int family, int type)
-	: socktype(type), fd(-1) {
-	this->addr = new SocketAddress(port, host, family);
-}
+	: socktype(type), fd(-1), addr(new SocketAddress(port, host, family)){}
 
 Socket::~Socket() { if (this->addr) delete this->addr; }
 

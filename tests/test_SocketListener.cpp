@@ -21,7 +21,5 @@ TEST_F(test_SocketListener, constructor) {}
 TEST_F(test_SocketListener, destructor) {}
 
 TEST_F(test_SocketListener, bind) {
-	EXPECT_TRUE(this->sock->bind());
-	perror("bind");
-	std::cout << errno << std::endl;
+	ASSERT_TRUE(this->sock->bind()) << errno;
 }

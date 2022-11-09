@@ -13,13 +13,10 @@ SocketAddress::SocketAddress(int port, std::string host, int family)
 	this->addr->sin_family = this->addr_family;
 	this->addr->sin_port = htons(this->port_nu);
 	this->addr->sin_addr.s_addr = htonl(INADDR_ANY);
-
-	this->len = sizeof(sizeof(reinterpret_cast<struct sockaddr*>(this->addr)));
+	this->len = sizeof(*this->addr);
 }
 
-SocketAddress::~SocketAddress( void ) {
-	delete this->addr;
-}
+SocketAddress::~SocketAddress( void ) { delete this->addr; }
 
 /* ************************************************************************** */
 /* Getters and Setters                                                        */

@@ -42,8 +42,8 @@ TEST_F(test_SocketAddress, length) {
 	struct sockaddr*	a = this->addr->address();
 	ASSERT_EQ(typeid(this->addr->length()), typeid(socklen_t));
 	ASSERT_EQ(this->addr->length(),
-		   		sizeof(reinterpret_cast<struct sockaddr_in*>(a)));
-	ASSERT_EQ(this->addr->length(), sizeof(a));
+		   		sizeof(*(reinterpret_cast<struct sockaddr_in*>(a))));
+	ASSERT_EQ(this->addr->length(), sizeof(*a));
 }
 
 TEST_F(test_SocketAddress, port) {
