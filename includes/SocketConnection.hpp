@@ -6,7 +6,7 @@
 #  define READING_BUFFER 1024
 # endif
 
-class SocketConnection: public Socket {
+class SocketConnection: public webserv::Socket {
 public:
     SocketConnection();
     ~SocketConnection();

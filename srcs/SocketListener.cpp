@@ -28,36 +28,47 @@ SocketListener::~SocketListener( void ) {
 // Binds a socket to a sockaddr structure and sets its flags
 // In other words, gives an fd a data structure
 bool	SocketListener::bind(void) {
-	return (::bind(this->fd, this->addr->address(), this->addr->length()) == 0);
-}
-void	SocketListener::close(void) {
-	if (this->fd > 0) ::close(this->fd);
-	this->fd = -1;
+
+	// // setting options
+	// const int	enable = 1;
+	// struct timeval	timeout;
+	// timeout.tv_sec = 10;
+	// timeout.tv_usec = 0;
+	// if (this->setsockopt(SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)))
+	// 	std::cerr << ("setsockopt(SO_REUSEADDR) failed") << std::endl;
+	// if (this->setsockopt(SOL_SOCKET, SO_REUSEPORT, &enable, sizeof(int)))
+	// 	std::cerr << ("setsockopt(SO_REUSEPORT) failed") << std::endl;
+	// if (this->setsockopt(SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout)))
+	// 	std::cerr << ("setsockopt(SO_RCVTIMEO) failed") << std::endl;
+	return (!::bind(this->fd, this->addr->address(), this->addr->length()));
 }
 
-// bool	SocketListener::bind_to_address(){
-	// const int enable = 1;
-	// struct timeval timeout;      
- //    timeout.tv_sec = 10;
- //    timeout.tv_usec = 0;
-	// if (setsockopt(this->fd, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0)
- //    	std::cerr << ("setsockopt(SO_REUSEADDR) failed") << std::endl;
-	// if (setsockopt(this->fd, SOL_SOCKET, SO_REUSEPORT, &enable, sizeof(int)) < 0)
- //    	std::cerr << ("setsockopt(SO_REUSEPORT) failed") << std::endl;
-	// if (setsockopt(this->fd, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout)) < 0)
- //    	std::cerr << ("setsockopt(SO_RCVTIMEO) failed") << std::endl;
-// 	
-// 	return ( bind(this->fd, this->address, sizeof(*address)) == 0);
-// }
-//
-// // Sets the port state to LISTEN and sets a BACKLOG max ammount of connections
-// // Every connection will have a specific fd/socket where we can communicate
-// bool	SocketListener::listen(){
-// 	return (::listen(this->fd, BACKLOG) == 0);
-// }
-//
-// // Starts accepting connections. Accept is a blocking call that will wait for an incoming connection
-// // We can set a RCVTIMEO (timeout) value for the socket in order to prevent accept from blocking our program 
+// This function sets socket's options
+bool	SocketListener::setsockopt(int level, int optname, const void *optval,
+				  		   socklen_t optlen) {
+	return (::setsockopt(this->fd, level, optname, optval, optlen) > 0);
+}
+
+// Sets the port state to LISTEN and sets a BACKLOG max ammount of connections
+// Every connection will have a specific fd/socket where we can communicate
+bool	SocketListener::listen(void) {
+	return (!::listen(this->fd, BACKLOG));
+}
+
+bool	SocketListener::shutdown(int how) {
+	return (!::shutdown(this->fd, how));
+}
+
+bool	SocketListener::close(void) {
+	if (::close(this->fd) < 0) return (false);
+	this->fd = -1;
+	return (true);
+}
+
+// bool	SocketListener::accept(SocketConnection* client) {}
+
+// Starts accepting connections. Accept is a blocking call that will wait for an incoming connection
+// We can set a RCVTIMEO (timeout) value for the socket in order to prevent accept from blocking our program 
 // bool	SocketListener::accept_connections(){
 // 	std::cout << "Accepting connections" << std::endl;
 //
@@ -80,7 +91,7 @@ void	SocketListener::close(void) {
 // /* ************************************************************************** */
 // /* Other Functions (I/O handling)                                             */
 // /* ************************************************************************** */
-//
+
 // std::string SocketListener::read_from_connection(SocketConnection* connection){
 // 	/* The following if statement is useful for testing but might also be useful in prod */
 // 	if (connection == NULL){

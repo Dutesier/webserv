@@ -7,16 +7,42 @@ namespace webserv {
 /* ************************************************************************** */
 
 SocketAddress::SocketAddress(int port, std::string host, int family)
-	: port_nu(port), host_addr(host), addr_family(family) {
+	: port_nu(port), host_addr(host), addr_family(family),
+	addr(new struct sockaddr_in) {
 
-	this->addr = new struct sockaddr_in;
 	this->addr->sin_family = this->addr_family;
 	this->addr->sin_port = htons(this->port_nu);
 	this->addr->sin_addr.s_addr = htonl(INADDR_ANY);
 	this->len = sizeof(*this->addr);
 }
 
+SocketAddress::SocketAddress(SocketAddress const& src)
+	: addr(nullptr) { *this = src; }
+
 SocketAddress::~SocketAddress( void ) { delete this->addr; }
+
+/* ************************************************************************** */
+/* Operator's Overload                                                        */
+/* ************************************************************************** */
+
+SocketAddress&	SocketAddress::operator=(SocketAddress const& rhs) {
+
+	this->host_addr = rhs.host_addr;
+	this->addr_family = rhs.addr_family;
+	this->port_nu = rhs.port_nu;
+	this->ipv4 = rhs.ipv4;
+	this->ipv6 = rhs.ipv6;
+
+	if (this->addr)
+		delete this->addr;
+	this->addr = new struct sockaddr_in;
+
+	this->addr->sin_port = htons(this->port_nu);
+	this->addr->sin_family = this->addr_family;
+	this->addr->sin_addr.s_addr = htonl(INADDR_ANY);
+	this->len = sizeof(*this->addr);
+	return (*this);
+}
 
 /* ************************************************************************** */
 /* Getters and Setters                                                        */
