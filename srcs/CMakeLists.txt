@@ -7,7 +7,8 @@ add_library(${PROJECT_NAME} STATIC
 	Client.cpp
 	Logger.cpp
 	Parser.cpp
-	# ConfigSetup.cpp
+	Config.cpp
+	ConfigSetup.cpp
 	ConfigParser.cpp
 	Fail.cpp
 )

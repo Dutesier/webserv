@@ -68,11 +68,8 @@ std::string SocketConnection::read_connection(void) {
 }
 
 bool        SocketConnection::write_connection(std::string message){
-    char* tempStr = new char[(message.size())];
 	if (send(fd, message.c_str(), message.size(), 0) < 0) {
-		delete tempStr;
 		return false;
 	}
-	delete tempStr;
 	return true;
 }

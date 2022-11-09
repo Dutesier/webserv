@@ -25,6 +25,7 @@ class Fail {
 		std::string		get_message(void) const;
 		std::string		get_filename(void) const;
 		unsigned int	get_line(void) const;
+		std::string		generate_error_str(void) const;
 
 	private:
 

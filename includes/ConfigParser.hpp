@@ -10,22 +10,13 @@
 
 # include "Parser.hpp"
 # include "Fail.hpp"
+# include "Config.hpp"
 
-struct Config {
-	Config(void) : port(80), address("localhost"), root("/var/www/html"),
-				   server(false), location(false) {}
-	unsigned int	port;
-	std::string		address;
-	std::string		root;
-	bool			server;
-	bool			location;
-};
 
 /* ************************************************************************** */
 /* Class                                                                      */
 /* ************************************************************************** */
 
-struct	config;
 class ConfigParser : public Parser {
 
 	public:
@@ -35,21 +26,24 @@ class ConfigParser : public Parser {
 		~ConfigParser(void);
 
 		/* Getter and Setters */
-		struct Config*	get_config(void) const;
+		Config*	get_config(void) const;
 
 		/* Other Functions */
-		void	parse(std::string arg);
+		void	parse(std::ifstream& file);
+
+		/* Handlers */
 		bool	listen_handler(std::vector<std::string> commands);
 		bool	root_handler(std::vector<std::string> commands);
 		bool	server_handler(std::vector<std::string> commands);
 		bool	end_block_handler(std::vector<std::string> commands);
-
+		
 	private:
 
 		/* Private Functions */
 		bool	valid_end(std::vector<std::string>* commands) const;
 		bool	is_port(std::string port) const;
 
+
 		/* Private Attribute */
-		struct Config*	config;
+		Config*	config;
 };
