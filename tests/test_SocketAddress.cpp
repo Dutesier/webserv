@@ -21,7 +21,29 @@ class test_SocketAddress : public ::testing::Test {
 		webserv::SocketAddress*		addr;
 };
 
-TEST_F(test_SocketAddress, constructor) {}
+TEST_F(test_SocketAddress, default_constructor) {}
+
+TEST_F(test_SocketAddress, copy_constructor) {
+	webserv::SocketAddress*	a = new webserv::SocketAddress(*this->addr);
+	// webserv::SocketAddress*	b;
+	// *b = *a;
+
+	// ASSERT_EQ(a->address(), this->addr->address());
+	// ASSERT_EQ(b->address(), this->addr->address());
+	//
+	// ASSERT_EQ(a->length(), this->addr->length());
+	// ASSERT_EQ(b->length(), this->addr->length());
+	//
+	// ASSERT_EQ(a->host(), this->addr->host());
+	// ASSERT_EQ(b->host(), this->addr->host());
+	//
+	// ASSERT_EQ(a->port(), this->addr->port());
+	// ASSERT_EQ(b->port(), this->addr->port());
+	//
+	// ASSERT_EQ(a->family(), this->addr->family());
+	// ASSERT_EQ(b->family(), this->addr->family());
+	delete a;
+}
 
 TEST_F(test_SocketAddress, destructor) {}
 

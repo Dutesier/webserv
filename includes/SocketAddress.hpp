@@ -22,7 +22,12 @@ class SocketAddress {
 		/* Constructors and Destructors */
 		SocketAddress(int port, std::string host = "localhost",
 					  int family = AF_INET);
+		SocketAddress(SocketAddress const& src);
+
 		~SocketAddress(void);
+
+		/* Operator's Overload */
+		SocketAddress&	operator=(SocketAddress const& rhs);
 
 		/* Getters and Setters */
 		struct sockaddr*	address(void) const;

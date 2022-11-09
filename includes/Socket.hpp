@@ -32,7 +32,7 @@ class Socket {
 		bool			supportsIPv6(void) const;
 
 		/* Other Functions */
-		virtual void	close(void) = 0;
+		virtual bool	close(void) = 0;
 
 	protected:
 

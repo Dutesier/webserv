@@ -6,6 +6,8 @@
 # include <vector>
 # include <unistd.h>
 
+// TODO: make this either specific to each socket or to each server
+// That way we can tests specific backlogs
 # ifndef BACKLOG
 #  define BACKLOG 10
 # endif
@@ -27,20 +29,24 @@ class SocketListener : public Socket {
 		~SocketListener(void);
 
 		/* Other Functions */
+		// TODO: understand what should be const and whatnot
 		bool	bind(void);
-		bool	start_listening(void);
-        bool    accept_connections(void);
-		void	shutdown_socket(void);
-		void	close(void);
+		bool	listen(void);
+		bool	setsockopt(int level, int optname, const void *optval,
+				  		   socklen_t optlen);
+		//TODO: change return val
+        bool	accept(void);
+		bool	shutdown(int how);
+		bool	close(void);
 
-        std::string read_from_connection(SocketConnection* connection);
-        bool        write_to_connection(SocketConnection* connection,
-										std::string response);
+        std::string recv(SocketConnection* connection);
+        bool        send(SocketConnection* connection,
+						 std::string response);
 
 	private:
 
-		/* Other Private Functions */
-        std::vector<SocketConnection*> connections;
+		// /* Other Private Functions */
+  		// std::vector<SocketConnection*> connections;
 
 };
 
