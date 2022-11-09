@@ -36,8 +36,6 @@ class SocketAddress {
 		bool	has_ipv4(void) const;
 		bool	has_ipv6(void) const;
 
-		/* Other Functions */
-
 	private:
 
 		/* Private Attributes */

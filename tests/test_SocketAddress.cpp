@@ -1,19 +1,24 @@
 
 #include <gtest/gtest.h>
-#include <netinet/in.h>
-
 #include "SocketAddress.hpp"
+#include "SocketListener.hpp"
+#include "Socket.hpp"
 
 class test_SocketAddress : public ::testing::Test {
 
 	public:
 
-		void SetUp(void) { this->addr = new webserv::SocketAddress(443); }
+		void SetUp(void) {
+			// this->addr = new webserv::SocketAddress(443);
+			this->sock = new webserv::SocketListener(443);
+			this->addr = this->sock->address();
+		}
 		void TearDown(void) { delete this->addr; }
 
 	protected:
 
-		webserv::SocketAddress*	addr;
+		webserv::SocketListener*	sock;
+		webserv::SocketAddress*		addr;
 };
 
 TEST_F(test_SocketAddress, constructor) {}
