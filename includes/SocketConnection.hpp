@@ -11,9 +11,6 @@
 namespace webserv {
 
 class SocketConnection: public webserv::Socket {
-public:
-    SocketConnection();
-    ~SocketConnection();
 
 	public:
 
