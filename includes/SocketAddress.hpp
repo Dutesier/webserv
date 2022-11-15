@@ -33,6 +33,7 @@ class SocketAddress {
 		struct sockaddr*	address(void) const;
 
 		socklen_t	length(void) const;
+		socklen_t*	length_ptr(void);
 		std::string	host(void) const;
 
 		int	port(void) const;
