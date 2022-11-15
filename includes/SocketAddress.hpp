@@ -20,6 +20,7 @@ class SocketAddress {
 	public:
 
 		/* Constructors and Destructors */
+		SocketAddress(void);
 		SocketAddress(int port, std::string host = "localhost",
 					  int family = AF_INET);
 		SocketAddress(SocketAddress const& src);

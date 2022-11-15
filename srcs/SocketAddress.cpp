@@ -6,6 +6,10 @@ namespace webserv {
 /* Constructors and Destructors                                               */
 /* ************************************************************************** */
 
+SocketAddress::SocketAddress( void ) : addr(new struct sockaddr_in) {
+	this->len = sizeof(*this->addr);
+}
+
 SocketAddress::SocketAddress(int port, std::string host, int family)
 	: port_nu(port), host_addr(host), addr_family(family),
 	addr(new struct sockaddr_in) {
@@ -53,6 +57,8 @@ struct sockaddr*	SocketAddress::address(void) const {
 }
 
 socklen_t	SocketAddress::length(void) const { return (this->len); }
+
+socklen_t*	SocketAddress::length_ptr(void) { return ( &this->len ); }
 
 int	SocketAddress::port(void) const { return (this->port_nu); }
 
