@@ -2,26 +2,31 @@
 # define SOCKETCONNECTION_HPP
 
 # include "Socket.hpp"
+# include "SocketAddress.hpp"
+
 # ifndef READING_BUFFER
 #  define READING_BUFFER 1024
 # endif
+
+namespace webserv {
 
 class SocketConnection: public webserv::Socket {
 public:
     SocketConnection();
     ~SocketConnection();
 
+	public:
 
-    void set_fd(int client_connection);
-    void set_address(struct sockaddr* addr);
-    socklen_t* get_addr_len_ptr(void);
+		SocketConnection(int fd, SocketAddress addr);
+		~SocketConnection(void);
 
-    std::string read_connection(void);
-    bool        write_connection(std::string message);
+		bool		close(void);
 
-private:
-    socklen_t addr_len;
+        std::string	recv(void);
+        bool		send(std::string message);
 
 };
+
+} /* webserv */
 
 #endif
