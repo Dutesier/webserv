@@ -2,6 +2,9 @@
 
 namespace webserv {
 
+Socket::Socket(int fd, SocketAddress* addr, int type)
+	: fd(fd), addr(addr), type(type) {}
+
 Socket::Socket(int port, std::string host, int family, int type)
 	: socktype(type), fd(-1), addr(new SocketAddress(port, host, family)){}
 

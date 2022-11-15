@@ -19,6 +19,7 @@ class Socket {
 	public:
 
 		/* Constructors and Destructors */
+		Socket(int fd, SocketAddress* addr, int type = SOCK_STREAM);
 		Socket(int port, std::string host = "localhost",
 		 	   int family = AF_INET, int type = SOCK_STREAM);
 		virtual ~Socket(void);
@@ -37,6 +38,7 @@ class Socket {
 	protected:
 
 		/* Protected Attributes */
+		// FIXME: stop being a pointer!
 		SocketAddress*	addr;
 		int				fd;
 		int				socktype;
