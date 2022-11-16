@@ -66,7 +66,7 @@
 
 class server_example {
 public:
-	server_example(int argc, char* argv[]) {
+	server_example(int argc, char* argv[]): my_conf(NULL) {
 		ConfigSetup temp(argc, argv);
 
 		my_conf = temp.get_config();
@@ -77,7 +77,7 @@ public:
 			delete my_conf;
 	}
 private:
-	Config* my_conf = NULL;
+	Config* my_conf;
 };
 
 int	main( int argc, char *argv[] ) {
