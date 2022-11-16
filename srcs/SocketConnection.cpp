@@ -46,16 +46,8 @@ std::string	SocketConnection::recv(void) {
 	return (temp);
 }
 
-<<<<<<< HEAD
 bool	SocketConnection::send(std::string message) {
 	return (::send(fd, message.c_str(), message.size(), 0) > 0);
-=======
-bool        SocketConnection::write_connection(std::string message){
-	if (send(fd, message.c_str(), message.size(), 0) < 0) {
-		return false;
-	}
-	return true;
->>>>>>> 572ed39563a7937eea1a4a862820ca0ab2d6db7c
 }
 
 } /* webserv */
