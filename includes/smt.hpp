@@ -29,10 +29,8 @@ template<typename T>
 class shared_ptr {
 public:
     shared_ptr(): pointer(nullptr), referenceCount(new uint(0)) {
-        std::cout << "build shared pointer" << std::endl;
     }
     shared_ptr(T* ptr): pointer(ptr), referenceCount(new uint(1)) {
-        std::cout << "build shared pointer (via ref)" << std::endl;
     }
 
     shared_ptr(const shared_ptr& other){
