@@ -10,7 +10,10 @@ class test_parser : public ::testing::Test {
 
 	public:
 		void	SetUp(void) { this->parser = new ConfigParser; }
-		void	TearDown(void) { delete this->parser; }
+		void	TearDown(void) {
+			if (this->parser->get_config())
+				delete this->parser->get_config();
+			delete this->parser; }
 		void	Reset(void) {
 			this->TearDown();
 			commands.clear();

@@ -5,9 +5,9 @@ if (test)
 		test_logger.cpp
 		test_SocketAddress.cpp
 		test_SocketListener.cpp
-		# test_smt.cpp
-		# test_config.cpp
-		# test_socket.cpp
+		test_smt.cpp
+		test_config.cpp
+		test_socket.cpp
     )
     add_test(webserv_gtest webserv_test)
 

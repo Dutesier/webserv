@@ -5,6 +5,8 @@ add_library(${PROJECT_NAME} STATIC
 	SocketListener.cpp
 	Logger.cpp
 	Parser.cpp
+	Config.cpp
+	ConfigSetup.cpp
 	ConfigParser.cpp
 	Fail.cpp
 	SocketAddress.cpp
