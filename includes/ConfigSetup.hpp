@@ -35,7 +35,7 @@ private:
 
     Config* get_config_from_file(std::ifstream& configFile);
 
-    Config*         config = NULL;
+    Config*         config;
     
     int     argc;
     char**   argv;

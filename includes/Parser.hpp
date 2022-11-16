@@ -32,7 +32,7 @@ class Parser {
 
 	protected:
 
-		Fail*	fail = NULL;
+		Fail*	fail;
 
 };
 

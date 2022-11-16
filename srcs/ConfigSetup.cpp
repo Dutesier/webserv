@@ -1,7 +1,7 @@
 #include "ConfigSetup.hpp"
 #include <ostream>
 
-ConfigSetup::ConfigSetup(int argc, char *argv[]): argc(argc), argv(argv) {
+ConfigSetup::ConfigSetup(int argc, char *argv[]): argc(argc), argv(argv), config(NULL) {
 }
 
 ConfigSetup::~ConfigSetup(){        
