@@ -13,7 +13,7 @@ class test_SocketAddress : public ::testing::Test {
 			this->sock = new webserv::SocketListener(443);
 			this->addr = this->sock->address();
 		}
-		void TearDown(void) {}
+		void TearDown(void) { delete this->sock; }
 
 	protected:
 
