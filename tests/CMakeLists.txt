@@ -7,6 +7,7 @@ if (test)
 		test_SocketListener.cpp
 		test_smt.cpp
 		test_config.cpp
+		test_SocketConnection.cpp
 		# test_socket.cpp
     )
     add_test(webserv_gtest webserv_test)
