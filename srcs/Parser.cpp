@@ -6,7 +6,7 @@
 
 Parser::Parser( void ) {}
 
-Parser::~Parser( void ) { if (this->fail) delete this->fail; }
+Parser::~Parser( void ) {}
 
 /* ************************************************************************** */
 /* Other Functions                                                            */
