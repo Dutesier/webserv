@@ -5,6 +5,12 @@
 #include "SocketAddress.hpp"
 #include "SocketListener.hpp"
 #include "SocketConnection.hpp"
+#include "Client.hpp"
+
+# define HTTP_REQ "GET / HTTP/1.1\r\nHost:x\r\n\r\n"
+# define HTTP_REQ_LEN 27
+# define HTTP_RES "HTTP/1.1 404\r\nContent-Length: 0\r\n"
+# define HTTP_RES_LEN 34
 
 class test_SocketConnection : public ::testing::Test {
 
@@ -22,28 +28,39 @@ class test_SocketConnection : public ::testing::Test {
 			timeout.tv_usec = 0;
 			this->sock->setsockopt(SOL_SOCKET, SO_RCVTIMEO, &timeout,
 											   sizeof(struct timeval));
-			// calling bind listen and accept
-			// @dutesier in here we can make client make a request to sock
-			// I'm using curl
+			// preparing socket for requests
 			this->sock->bind();
 			this->sock->listen();
+			// preparing client and connection
+			this->client = new Client(8080);
 			this->sock->accept();
-			auto connections = this->sock->get_connections();
-			this->connection = connections[0];
+			auto v = this->sock->get_connections();
+			if (v.empty())
+				this->connection = nullptr;
+			this->connection = v[0];
 		}
-		void TearDown(void) { delete this->sock; }
+		void TearDown(void) {
+			delete this->sock;
+			delete this->client;
+		}
 
 	protected:
 
+		Client*						client;
 		webserv::SocketListener*	sock;
 		webserv::SocketConnection*	connection;
 };
 
-TEST_F(test_SocketConnection, constructor) {}
+TEST_F(test_SocketConnection, constructor) {
+	ASSERT_NE(this->connection, nullptr);
+}
 
-TEST_F(test_SocketConnection, destructor) {}
+TEST_F(test_SocketConnection, destructor) {
+	ASSERT_NE(this->connection, nullptr);
+}
 
 TEST_F(test_SocketConnection, close) {
+	ASSERT_NE(this->connection, nullptr);
 	ASSERT_TRUE(this->connection->close()) << errno;
 	ASSERT_EQ(this->connection->sockfd(), -1);
 	std::string message = "HTTP/1.1 404\r\nContent-Length: 0\r\n";
@@ -51,11 +68,14 @@ TEST_F(test_SocketConnection, close) {
 }
 
 TEST_F(test_SocketConnection, recv) {
+	ASSERT_NE(this->connection, nullptr);
+	this->client->send_message(HTTP_REQ);
 	auto str = this->connection->recv();
 	ASSERT_NE(str, "");
 }
 
 TEST_F(test_SocketConnection, send) {
-	std::string message = "HTTP/1.1 404\r\nContent-Length: 0\r\n";
-	ASSERT_TRUE(this->connection->send(message)) << errno;
+	ASSERT_NE(this->connection, nullptr);
+	ASSERT_TRUE(this->connection->send(HTTP_RES)) << errno;
+	ASSERT_STREQ(client->receive_message().c_str(), HTTP_RES) << errno;
 }
