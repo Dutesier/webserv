@@ -1,25 +1,49 @@
 #ifndef SOCKET_HPP
 # define SOCKET_HPP
 
+/* ************************************************************************** */
+/* Headers                                                                    */
+/* ************************************************************************** */
+
+# include "SocketAddress.hpp"
 # include <sys/socket.h>
-# include <netinet/in.h>
-# include <iostream>
-# include <unistd.h> // Let's get back to this, can we use close()?
+
+/* ************************************************************************** */
+/* Class                                                                      */
+/* ************************************************************************** */
+
+namespace webserv {
 
 class Socket {
-public:
-    /* Constructors and Destructors */
-    Socket();
-    virtual ~Socket();
 
-    /* Getters and Setters */
-    int get_fd(void) const;
-    struct sockaddr* get_address(void) const;
+	public:
 
-protected:
-    /* Protected Attributes */
-    int                 fd;
-    struct sockaddr*    address;
+		/* Constructors and Destructors */
+		Socket(int fd, SocketAddress addr, int type = SOCK_STREAM);
+		Socket(int port, std::string host = "localhost",
+		 	   int family = AF_INET, int type = SOCK_STREAM);
+		virtual ~Socket(void);
+
+		/* Getters and Setters */
+		int sockfd(void) const;
+		int	type(void) const;
+
+		SocketAddress	address(void) const;
+		bool			supportsIPv4(void) const;
+		bool			supportsIPv6(void) const;
+
+		/* Other Functions */
+		virtual bool	close(void) = 0;
+
+	protected:
+
+		/* Protected Attributes */
+		SocketAddress	addr;
+		int				fd;
+		int				socktype;
+
 };
+
+} /* webserv */
 
 #endif

@@ -3,8 +3,12 @@
 
 # include "Socket.hpp"
 # include "SocketConnection.hpp"
-# include <vector>
 
+# include <vector>
+# include <unistd.h>
+
+// TODO: make this either specific to each socket or to each server
+// That way we can tests specific backlogs
 # ifndef BACKLOG
 #  define BACKLOG 10
 # endif
@@ -13,27 +17,43 @@
 /* Class                                                                      */
 /* ************************************************************************** */
 
-class SocketListener: public Socket {
+namespace webserv {
+
+class SocketListener : public Socket {
 
 	public:
 
 		/* Constructors and Destructors */
-		SocketListener(int domain, in_port_t port);
-		~SocketListener();
+		// SocketListener(int domain, in_port_t port);
+		SocketListener(int port, std::string host = "localhost",
+				 	   int family = AF_INET);
+		~SocketListener(void);
 
 		/* Other Functions */
-		bool	bind_to_address();
-		bool	start_listening();
-        bool    accept_connections();
+		// TODO: understand what should be const and whatnot
+		bool	bind(void);
+		bool	listen(void);
+		bool	setsockopt(int level, int optname, const void *optval,
+				  		   socklen_t optlen);
+		//TODO: change return val
+        bool	accept(void);
+		bool	shutdown(int how);
+		bool	close(void);
 
-        std::string read_from_connection(SocketConnection* connection);
-        bool        write_to_connection(SocketConnection* connection, std::string response);
+        std::string recv(SocketConnection* connection);
+        bool        send(SocketConnection* connection,
+						 std::string response);
+
+		//TODO: refactor this to a more safe and smart approach
+		std::vector<SocketConnection*>	get_connections(void) const;
 
 	private:
+
 		/* Other Private Functions */
-		void	init_address(in_port_t port, int domain);
-        std::vector<SocketConnection*> connections;
+  		std::vector<SocketConnection*> connections;
 
 };
+
+} /* webserv */
 
 #endif /* SOCKET_HPP */

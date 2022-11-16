@@ -1,21 +1,27 @@
 #include "Socket.hpp"
 
-Socket::Socket(): fd(-1), address(NULL){
+namespace webserv {
 
-}
+Socket::Socket(int fd, SocketAddress addr, int type)
+	: fd(fd), addr(addr), socktype(type) {}
 
-Socket::~Socket(){
+Socket::Socket(int port, std::string host, int family, int type)
+	: socktype(type), fd(-1), addr(SocketAddress(port, host, family)) {}
 
-}
+Socket::~Socket() {}
 
 /* ************************************************************************** */
 /* Getters and Setters                                                        */
 /* ************************************************************************** */
 
-int Socket::get_fd(void) const {
-    return (this->fd);
-}
+int Socket::sockfd(void) const { return (this->fd); }
 
-struct sockaddr* Socket::get_address(void) const {
-    return (this->address);
-}
+int Socket::type(void) const { return (this->socktype); }
+
+SocketAddress Socket::address(void) const { return (this->addr); }
+
+bool Socket::supportsIPv4(void) const { return (this->addr.has_ipv4()); }
+
+bool Socket::supportsIPv6(void) const { return (this->addr.has_ipv6()); }
+
+} /* webserv */
