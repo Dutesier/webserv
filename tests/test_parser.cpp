@@ -55,7 +55,9 @@ TEST_F(test_parser, listen_handler) {
 	this->parser->get_config()->server = true;
 	commands.push_back("root;");
 	ASSERT_FALSE(this->parser->listen_handler(commands));
-	commands[0] = "listen;";
+	commands[0] = "listen";
+	ASSERT_FALSE(this->parser->listen_handler(commands));
+	commands.push_back(";");
 	ASSERT_FALSE(this->parser->listen_handler(commands));
 	commands[0] = "listen";
 	commands.push_back("655555");

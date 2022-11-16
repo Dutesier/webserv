@@ -58,6 +58,8 @@ void	ConfigParser::parse(std::ifstream& file) {
 // removing the ';' from commands if valid
 bool	ConfigParser::valid_end(std::vector<std::string>* commands) const {
 
+	if (commands->back() == ";")
+		commands->pop_back();
 	if (commands->back().back() == ';') {
 		commands->back().resize( commands->back().size() - 1);
 		return (true);
