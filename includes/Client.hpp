@@ -3,17 +3,19 @@
 
 # include "SocketConnection.hpp"
 # include <arpa/inet.h>
+#include "smt.hpp"
 
-class Client {
+class Client: webserv::Socket {
 public:
-    Client(int domain, in_port_t port);
+    Client(in_port_t port);
     ~Client();
 
-    void send_message(std::string message);
+    bool close(void);
+    bool send_message(std::string message);
     std::string receive_message(void);
 
 private:
-    SocketConnection connection;
+    smt::shared_ptr<webserv::SocketConnection> connection;
 };
 
 #endif

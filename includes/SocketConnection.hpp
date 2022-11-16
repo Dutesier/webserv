@@ -27,6 +27,7 @@ class SocketConnection: public webserv::Socket {
 
 		/* Constructors and Destructors */
 		SocketConnection(int fd, SocketAddress addr);
+		SocketConnection();
 		~SocketConnection(void);
 
 		/* Other Functions */

@@ -21,7 +21,7 @@ SocketAddress::SocketAddress(int port, std::string host, int family)
 }
 
 SocketAddress::SocketAddress(SocketAddress const& src)
-	: addr(nullptr) { *this = src; }
+	: addr(NULL) { *this = src; }
 
 SocketAddress::~SocketAddress( void ) { delete this->addr; }
 

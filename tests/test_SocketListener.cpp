@@ -1,10 +1,17 @@
 #include <gtest/gtest.h>
+#include <chrono>
 #include <cstdio>
 
 #include "Socket.hpp"
 #include "SocketAddress.hpp"
 #include "SocketConnection.hpp"
 #include "SocketListener.hpp"
+#include "Client.hpp"
+
+# define HTTP_REQ "GET / HTTP/1.1\r\nHost:x\r\n\r\n"
+# define HTTP_REQ_LEN 27
+# define HTTP_RES "HTTP/1.1 404\r\nContent-Length: 0\r\n"
+# define HTTP_RES_LEN 34
 
 class test_SocketListener : public ::testing::Test {
 
@@ -67,6 +74,7 @@ TEST_F(test_SocketListener, accept) {
 	this->set_options();
 	ASSERT_TRUE(this->sock->bind()) << errno;
 	ASSERT_TRUE(this->sock->listen()) << errno;
+	Client client(8080);
 	ASSERT_TRUE(this->sock->accept()) << errno;
 }
 
@@ -94,10 +102,10 @@ TEST_F(test_SocketListener, recv) {
 	this->set_options();
 	ASSERT_TRUE(this->sock->bind()) << errno;
 	ASSERT_TRUE(this->sock->listen()) << errno;
-	// @dutesier - client makes a request here if you'd like
-	// i've been using curl to test
+	Client client(8080);
 	ASSERT_TRUE(this->sock->accept()) << errno;
 	auto	connections = this->sock->get_connections();
+	client.send_message(HTTP_REQ);
 	auto	str = this->sock->recv(connections[0]);
 	ASSERT_NE(str, "") << str;
 }
@@ -106,12 +114,20 @@ TEST_F(test_SocketListener, send) {
 	this->set_options();
 	ASSERT_TRUE(this->sock->bind()) << errno;
 	ASSERT_TRUE(this->sock->listen()) << errno;
+	Client client(8080);
 	ASSERT_TRUE(this->sock->accept()) << errno;
-	// @dutesier - client could maybe check if the received message is the same
-	// I'm using curl to test that
 	auto	connections = this->sock->get_connections();
-	auto	str = this->sock->recv(connections[0]);
-	ASSERT_NE(str, "") << str;
-	std::string message = "HTTP/1.1 404\r\nContent-Length: 0\r\n";
-	ASSERT_TRUE(this->sock->send(connections[0], message)) << errno;
+	ASSERT_TRUE(this->sock->send(connections[0], HTTP_RES)) << errno;
+	ASSERT_STREQ(client.receive_message().c_str(), HTTP_RES) << errno;
+}
+
+TEST_F(test_SocketListener, ListeningSocketTimesoutIfNoConnections) {
+	this->set_options();
+	ASSERT_TRUE(sock->bind());
+	ASSERT_TRUE(sock->listen());
+	std::chrono::_V2::system_clock::time_point starttime = std::chrono::system_clock::now();
+	sock->accept();
+	std::chrono::_V2::system_clock::time_point endtime = std::chrono::system_clock::now();
+	std::chrono::duration<double> elapsed = endtime - starttime;
+	ASSERT_GT(elapsed.count(), 9);
 }

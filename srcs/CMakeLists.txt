@@ -11,8 +11,7 @@ add_library(${PROJECT_NAME} STATIC
 	Fail.cpp
 	SocketAddress.cpp
 	SocketConnection.cpp
-	# Client.cpp
-	# ConfigSetup.cpp
+	Client.cpp
 )
 
 add_library(42::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
