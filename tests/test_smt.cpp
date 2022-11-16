@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "smt.hpp"
-#include "SocketConnection.hpp"
-#include "SocketListener.hpp"
+#include "SocketAddress.hpp"
+
 #include <iostream>
 #include <memory>
 #include <vector>
