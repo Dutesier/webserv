@@ -1,5 +1,5 @@
-#ifndef SOCKETLISTENER_HPP
-# define SOCKETLISTENER_HPP
+#ifndef TCP_SOCKET_HPP
+# define TCP_SOCKET_HPP
 
 # include "Socket.hpp"
 # include "SocketConnection.hpp"
@@ -19,15 +19,15 @@
 
 namespace webserv {
 
-class SocketListener : public Socket {
+class TCPSocket : public Socket {
 
 	public:
 
 		/* Constructors and Destructors */
-		// SocketListener(int domain, in_port_t port);
-		SocketListener(int port, std::string host = "localhost",
+		// TCPSocket(int domain, in_port_t port);
+		TCPSocket(int port, std::string host = "localhost",
 				 	   int family = AF_INET);
-		~SocketListener(void);
+		~TCPSocket(void);
 
 		/* Other Functions */
 		// TODO: understand what should be const and whatnot
@@ -56,4 +56,4 @@ class SocketListener : public Socket {
 
 } /* webserv */
 
-#endif /* SOCKET_HPP */
+#endif /* TCP_SOCKET_HPP */

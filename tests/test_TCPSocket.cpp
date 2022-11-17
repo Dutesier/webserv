@@ -5,7 +5,7 @@
 #include "Socket.hpp"
 #include "SocketAddress.hpp"
 #include "SocketConnection.hpp"
-#include "SocketListener.hpp"
+#include "TCPSocket.hpp"
 #include "Client.hpp"
 
 # define HTTP_REQ "GET / HTTP/1.1\r\nHost:x\r\n\r\n"
@@ -13,11 +13,11 @@
 # define HTTP_RES "HTTP/1.1 404\r\nContent-Length: 0\r\n"
 # define HTTP_RES_LEN 34
 
-class test_SocketListener : public ::testing::Test {
+class test_TCPSocket : public ::testing::Test {
 
 	public:
 
-		void SetUp(void) { this->sock = new webserv::SocketListener(8080); }
+		void SetUp(void) { this->sock = new webserv::TCPSocket(8080); }
 		void TearDown(void) { delete this->sock; }
 		void set_options(void) {
 			const int	enable = 1;
@@ -34,25 +34,25 @@ class test_SocketListener : public ::testing::Test {
 
 	protected:
 
-		webserv::SocketListener*	sock;
+		webserv::TCPSocket*	sock;
 };
 
-TEST_F(test_SocketListener, constructor) {}
+TEST_F(test_TCPSocket, constructor) {}
 
-TEST_F(test_SocketListener, destructor) {}
+TEST_F(test_TCPSocket, destructor) {}
 
-TEST_F(test_SocketListener, bind) {
+TEST_F(test_TCPSocket, bind) {
 	this->set_options();
 	ASSERT_TRUE(this->sock->bind()) << errno;
 }
 
-TEST_F(test_SocketListener, listen) {
+TEST_F(test_TCPSocket, listen) {
 	this->set_options();
 	ASSERT_TRUE(this->sock->bind()) << errno;
 	ASSERT_TRUE(this->sock->listen()) << errno;
 }
 
-TEST_F(test_SocketListener, setsockopt) {
+TEST_F(test_TCPSocket, setsockopt) {
 	// setting options
 	const int	enable = 1;
 	ASSERT_TRUE(this->sock->setsockopt(SOL_SOCKET, SO_REUSEADDR, &enable,
@@ -70,7 +70,7 @@ TEST_F(test_SocketListener, setsockopt) {
 	ASSERT_TRUE(this->sock->listen()) << errno;
 }
 
-TEST_F(test_SocketListener, accept) {
+TEST_F(test_TCPSocket, accept) {
 	this->set_options();
 	ASSERT_TRUE(this->sock->bind()) << errno;
 	ASSERT_TRUE(this->sock->listen()) << errno;
@@ -79,7 +79,7 @@ TEST_F(test_SocketListener, accept) {
 }
 
 
-TEST_F(test_SocketListener, shutdown) {
+TEST_F(test_TCPSocket, shutdown) {
 
 	this->set_options();
 	ASSERT_TRUE(this->sock->bind()) << errno;
@@ -88,7 +88,7 @@ TEST_F(test_SocketListener, shutdown) {
 	ASSERT_FALSE(this->sock->bind()) << errno;
 }
 
-TEST_F(test_SocketListener, close) {
+TEST_F(test_TCPSocket, close) {
 
 	ASSERT_TRUE(this->sock->close()) << errno;
 	ASSERT_EQ(this->sock->sockfd(), -1);
@@ -98,7 +98,7 @@ TEST_F(test_SocketListener, close) {
 	ASSERT_FALSE(this->sock->close()) << errno;
 }
 
-TEST_F(test_SocketListener, recv) {
+TEST_F(test_TCPSocket, recv) {
 	this->set_options();
 	ASSERT_TRUE(this->sock->bind()) << errno;
 	ASSERT_TRUE(this->sock->listen()) << errno;
@@ -110,7 +110,7 @@ TEST_F(test_SocketListener, recv) {
 	ASSERT_NE(str, "") << str;
 }
 
-TEST_F(test_SocketListener, send) {
+TEST_F(test_TCPSocket, send) {
 	this->set_options();
 	ASSERT_TRUE(this->sock->bind()) << errno;
 	ASSERT_TRUE(this->sock->listen()) << errno;
@@ -121,7 +121,7 @@ TEST_F(test_SocketListener, send) {
 	ASSERT_STREQ(client.receive_message().c_str(), HTTP_RES) << errno;
 }
 
-TEST_F(test_SocketListener, ListeningSocketTimesoutIfNoConnections) {
+TEST_F(test_TCPSocket, ListeningSocketTimesoutIfNoConnections) {
 	this->set_options();
 	ASSERT_TRUE(sock->bind());
 	ASSERT_TRUE(sock->listen());

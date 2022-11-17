@@ -3,7 +3,7 @@
 
 #include "Socket.hpp"
 #include "SocketAddress.hpp"
-#include "SocketListener.hpp"
+#include "TCPSocket.hpp"
 #include "SocketConnection.hpp"
 #include "Client.hpp"
 
@@ -18,7 +18,7 @@ class test_SocketConnection : public ::testing::Test {
 
 		void SetUp(void) {
 
-			this->sock = new webserv::SocketListener(8080);
+			this->sock = new webserv::TCPSocket(8080);
 			// setting socket options
 			const int	e = 1;
 			this->sock->setsockopt(SOL_SOCKET, SO_REUSEADDR, &e, sizeof(int));
@@ -47,7 +47,7 @@ class test_SocketConnection : public ::testing::Test {
 	protected:
 
 		Client*						client;
-		webserv::SocketListener*	sock;
+		webserv::TCPSocket*	sock;
 		webserv::SocketConnection*	connection;
 };
 

@@ -1,14 +1,14 @@
 project(webserv_lib)
 
 add_library(${PROJECT_NAME} STATIC
-	Socket.cpp
-	SocketListener.cpp
 	Logger.cpp
 	Parser.cpp
 	Config.cpp
 	ConfigSetup.cpp
 	ConfigParser.cpp
 	Fail.cpp
+	Socket.cpp
+	TCPSocket.cpp
 	SocketAddress.cpp
 	SocketConnection.cpp
 	Client.cpp

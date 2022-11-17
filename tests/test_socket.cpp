@@ -8,7 +8,7 @@
 #include <arpa/inet.h>
 
 #include "Client.hpp"
-#include "SocketListener.hpp"
+#include "TCPSocket.hpp"
 
 # define HTTP_REQ "GET / HTTP/1.1\r\nHost:x\r\n\r\n"
 # define HTTP_REQ_LEN 27
@@ -20,7 +20,7 @@ class test_activeConnection: public ::testing::Test {
 public:
 	void SetUp(){
 		// This runs on TEST_F start
-		listener = new webserv::SocketListener(8042, "localhost", AF_INET);
+		listener = new webserv::TCPSocket(8042, "localhost", AF_INET);
 		set_options();
 		listener->bind();
 		listener->listen();
@@ -50,7 +50,7 @@ public:
 											sizeof(struct timeval));
 	}
 protected:
-	webserv::SocketListener* listener;
+	webserv::TCPSocket* listener;
 	Client* client;
 };
 
