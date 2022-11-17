@@ -22,6 +22,7 @@ class Socket {
 		Socket(int fd, SocketAddress addr, int type = SOCK_STREAM);
 		Socket(int port, std::string host = "localhost",
 		 	   int family = AF_INET, int type = SOCK_STREAM);
+		Socket();
 		virtual ~Socket(void);
 
 		/* Getters and Setters */

@@ -38,26 +38,53 @@
 //     return 0;
 // }
 
-#include <iostream>
-#include "ConfigParser.hpp"
-#include "Fail.hpp"
+// #include <iostream>
+// #include "ConfigParser.hpp"
+// #include "Fail.hpp"
+
+// int	main( int argc, char *argv[] ) {
+
+// 	( void )argc;
+// 	( void )argv;
+
+// 	std::string		filename;
+// 	Parser*	parser = new ConfigParser();
+
+// 	if ( argc > 1 ) filename = std::string(argv[1]);
+// 	else filename = "./webserv.tmp";
+
+// 	parser->parse(filename);
+// 	if ( parser->error() )
+// 		std::cout << *parser->error() << std::endl;
+
+// 	delete parser;
+
+// 	return ( 0 );
+// }
+
+#include "ConfigSetup.hpp"
+
+class server_example {
+public:
+	server_example(int argc, char* argv[]): my_conf(NULL) {
+		ConfigSetup temp(argc, argv);
+
+		my_conf = temp.get_config();
+	}
+
+	~server_example(){
+		if (my_conf != NULL)
+			delete my_conf;
+	}
+private:
+	Config* my_conf;
+};
 
 int	main( int argc, char *argv[] ) {
 
-	( void )argc;
-	( void )argv;
 
-	std::string		filename;
-	Parser*	parser = new ConfigParser();
-
-	if ( argc > 1 ) filename = std::string(argv[1]);
-	else filename = "./webserv.tmp";
-
-	parser->parse(filename);
-	if ( parser->error() )
-		std::cout << *parser->error() << std::endl;
-
-	delete parser;
+	server_example example(argc, argv);
 
 	return ( 0 );
 }
+

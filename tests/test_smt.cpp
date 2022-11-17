@@ -56,13 +56,14 @@ TEST(SmartPointerTests, TestVectorSharedPtr) {
 }
 
 TEST(SmartPointerTests, TestVectorSharedPtrSockets) {
-    SocketConnection* socketPtr = new SocketConnection();
+    webserv::SocketAddress* socketPtr = new webserv::SocketAddress();
 
-    smt::shared_ptr<SocketConnection> SocketConnectionSharedPtr(socketPtr);
-    smt::shared_ptr<SocketConnection> SocketConnectionOtherSharedPtr(SocketConnectionSharedPtr);
+    smt::shared_ptr<webserv::SocketAddress> SocketAddressSharedPtr(socketPtr);
+    smt::shared_ptr<webserv::SocketAddress> SocketAddressOtherSharedPtr(SocketAddressSharedPtr);
 
-    std::vector<smt::shared_ptr<SocketConnection>> vec;
-    vec.push_back(SocketConnectionSharedPtr);
-    vec.push_back(SocketConnectionOtherSharedPtr);
-    ASSERT_EQ( vec.at(0)->get_address() , vec.at(1)->get_address());
+    std::vector<smt::shared_ptr<webserv::SocketAddress>> vec;
+    vec.push_back(SocketAddressSharedPtr);
+    vec.push_back(SocketAddressOtherSharedPtr);
+    ASSERT_EQ( vec.at(0)->address() , vec.at(1)->address());
+
 }

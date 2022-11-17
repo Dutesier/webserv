@@ -1,7 +1,7 @@
 
 #include <gtest/gtest.h>
 #include "SocketAddress.hpp"
-#include "SocketListener.hpp"
+#include "TCPSocket.hpp"
 #include "Socket.hpp"
 
 class test_SocketAddress : public ::testing::Test {
@@ -10,14 +10,14 @@ class test_SocketAddress : public ::testing::Test {
 
 		void SetUp(void) {
 			// this->addr = new webserv::SocketAddress(443);
-			this->sock = new webserv::SocketListener(443);
+			this->sock = new webserv::TCPSocket(443);
 			this->addr = this->sock->address();
 		}
 		void TearDown(void) { delete this->sock; }
 
 	protected:
 
-		webserv::SocketListener*	sock;
+		webserv::TCPSocket*	sock;
 		webserv::SocketAddress		addr;
 };
 

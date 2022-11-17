@@ -9,6 +9,9 @@ namespace webserv {
 SocketConnection::SocketConnection(int fd, SocketAddress addr)
 	: Socket(fd, addr, SOCK_STREAM) {}
 
+SocketConnection::SocketConnection()
+	: Socket() {}
+
 SocketConnection::~SocketConnection(void) {
 	this->close();
 }

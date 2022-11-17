@@ -26,7 +26,9 @@ class Parser {
 		/* Other Functions */
 		std::vector<std::string>	split_line(std::string line) const;
 		Fail*	error(void) const;
-		virtual void	parse(std::string arg) = 0;
+
+		/* Need to be implemented */
+		virtual void	parse(std::ifstream& file) = 0;
 
 	protected:
 

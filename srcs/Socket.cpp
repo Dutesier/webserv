@@ -8,6 +8,9 @@ Socket::Socket(int fd, SocketAddress addr, int type)
 Socket::Socket(int port, std::string host, int family, int type)
 	: socktype(type), fd(-1), addr(SocketAddress(port, host, family)) {}
 
+Socket::Socket()
+	: fd(-1), socktype(SOCK_STREAM), addr(SocketAddress()) {}
+
 Socket::~Socket() {}
 
 /* ************************************************************************** */

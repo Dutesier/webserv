@@ -4,34 +4,31 @@
 /* Constructors and Destructors                                               */
 /* ************************************************************************** */
 
-ConfigParser::ConfigParser( void ) : Parser(), config(new Config) {}
+ConfigParser::ConfigParser( void ) : Parser(), config(new Config()) {
 
-ConfigParser::~ConfigParser( void ) { if (this->config) delete this->config; }
+}
+
+ConfigParser::~ConfigParser( void ) { 
+	// if (this->config) delete this->config;
+	if (this->fail)
+		delete this->fail;
+}
 
 /* ************************************************************************** */
 /* Getters and Setters                                                        */
 /* ************************************************************************** */
 
-struct Config*	ConfigParser::get_config(void) const { return (this->config); }
+Config*	ConfigParser::get_config(void) const { return (this->config); }
 
 /* ************************************************************************** */
 /* Other Functions                                                            */
 /* ************************************************************************** */
 
-void	ConfigParser::parse(std::string arg) {
+void	ConfigParser::parse(std::ifstream& file) {
 
 	std::vector<std::string>	commands;
-
-	std::string		line;
-	unsigned int	i;
-
-	// open config file
-	std::ifstream	file;
-	file.open(arg);
-	if (!file.is_open()) {
-		this->fail = new Fail("failed to open", arg);
-		return ;
-	}
+	std::string					line;
+	unsigned int				i;
 
 	i = 1;
 	// read a line from a config file
@@ -46,7 +43,7 @@ void	ConfigParser::parse(std::string arg) {
 			else if ((commands[0] == "server" || commands[0] == "server{")
 					  && server_handler(commands)) ;
 			else if (commands[0] == "}" && end_block_handler(commands)) ;
-			else this->fail = new Fail(line, arg, i);
+			else this->fail = new Fail(line, "CONFIG_FILE", i);
 
 			// checking for errors
 			if (this->fail) return ;
@@ -61,6 +58,8 @@ void	ConfigParser::parse(std::string arg) {
 // removing the ';' from commands if valid
 bool	ConfigParser::valid_end(std::vector<std::string>* commands) const {
 
+	if (commands->back() == ";")
+		commands->pop_back();
 	if (commands->back().back() == ';') {
 		commands->back().resize( commands->back().size() - 1);
 		return (true);

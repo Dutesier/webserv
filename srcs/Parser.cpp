@@ -4,9 +4,9 @@
 /* Constructors and Destructors                                               */
 /* ************************************************************************** */
 
-Parser::Parser( void ) {}
+Parser::Parser( void ): fail(NULL) {}
 
-Parser::~Parser( void ) { if (this->fail) delete this->fail; }
+Parser::~Parser( void ) {}
 
 /* ************************************************************************** */
 /* Other Functions                                                            */

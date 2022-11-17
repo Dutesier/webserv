@@ -1,4 +1,4 @@
-#include "SocketListener.hpp"
+#include "TCPSocket.hpp"
 
 /* ************************************************************************** */
 /* Constructors and Destructors                                               */
@@ -6,12 +6,12 @@
 
 namespace webserv {
 
-SocketListener::SocketListener(int port, std::string host, int family)
+TCPSocket::TCPSocket(int port, std::string host, int family)
 	: Socket(port, host, family, SOCK_STREAM) {
 	this->fd = socket(family, this->socktype, 0);
 }
 
-SocketListener::~SocketListener( void ) {
+TCPSocket::~TCPSocket( void ) {
 
 	typedef std::vector<SocketConnection *>::iterator iterator;
 
@@ -28,27 +28,27 @@ SocketListener::~SocketListener( void ) {
 
 // Binds a socket to a sockaddr structure and sets its flags
 // In other words, gives an fd a data structure
-bool	SocketListener::bind(void) {
+bool	TCPSocket::bind(void) {
 	return (!::bind(this->fd, this->addr.address(), this->addr.length()));
 }
 
 // This function sets socket's options
-bool	SocketListener::setsockopt(int level, int optname, const void *optval,
+bool	TCPSocket::setsockopt(int level, int optname, const void *optval,
 				  		   socklen_t optlen) {
 	return (!::setsockopt(this->fd, level, optname, optval, optlen));
 }
 
 // Sets the port state to LISTEN and sets a BACKLOG max ammount of connections
 // Every connection will have a specific fd/socket where we can communicate
-bool	SocketListener::listen(void) {
+bool	TCPSocket::listen(void) {
 	return (!::listen(this->fd, BACKLOG));
 }
 
-bool	SocketListener::shutdown(int how) {
+bool	TCPSocket::shutdown(int how) {
 	return (!::shutdown(this->fd, how));
 }
 
-bool	SocketListener::close(void) {
+bool	TCPSocket::close(void) {
 	if (::close(this->fd) < 0) return (false);
 	this->fd = -1;
 	return (true);
@@ -57,7 +57,7 @@ bool	SocketListener::close(void) {
 // Starts accepting connections. Accept is a blocking call that will wait for
 // an incoming connection we can set a RCVTIMEO (timeout) value for the socket
 // in order to prevent accept from blocking our program
-bool	SocketListener::accept(void) {
+bool	TCPSocket::accept(void) {
 
 	SocketAddress		connect_addr;
 	SocketConnection*	sock_connect;
@@ -76,7 +76,7 @@ bool	SocketListener::accept(void) {
 
 // TODO: i don't really like this connection == NULL verification. I think this
 // will probably need to do something more specific in the future
-std::string SocketListener::recv(SocketConnection* connection) {
+std::string TCPSocket::recv(SocketConnection* connection) {
 	/* The following if statement is useful for testing but might also be
 	 * useful in prod */
 	if (connection == NULL) {
@@ -89,7 +89,7 @@ std::string SocketListener::recv(SocketConnection* connection) {
 	return (connection->recv());
 }
 
-bool SocketListener::send(SocketConnection* connection, std::string response) {
+bool TCPSocket::send(SocketConnection* connection, std::string response) {
 	/* Same as above */
 	if (connection == NULL){
 		if (connections.size() > 0)
@@ -100,7 +100,7 @@ bool SocketListener::send(SocketConnection* connection, std::string response) {
 	return (connection->send(response));
 }
 
-std::vector<SocketConnection*>	SocketListener::get_connections(void) const {
+std::vector<SocketConnection*>	TCPSocket::get_connections(void) const {
 	return (this->connections);
 }
 

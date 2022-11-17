@@ -10,7 +10,10 @@ class test_parser : public ::testing::Test {
 
 	public:
 		void	SetUp(void) { this->parser = new ConfigParser; }
-		void	TearDown(void) { delete this->parser; }
+		void	TearDown(void) {
+			if (this->parser->get_config())
+				delete this->parser->get_config();
+			delete this->parser; }
 		void	Reset(void) {
 			this->TearDown();
 			commands.clear();
@@ -52,7 +55,9 @@ TEST_F(test_parser, listen_handler) {
 	this->parser->get_config()->server = true;
 	commands.push_back("root;");
 	ASSERT_FALSE(this->parser->listen_handler(commands));
-	commands[0] = "listen;";
+	commands[0] = "listen";
+	ASSERT_FALSE(this->parser->listen_handler(commands));
+	commands.push_back(";");
 	ASSERT_FALSE(this->parser->listen_handler(commands));
 	commands[0] = "listen";
 	commands.push_back("655555");
