@@ -1,43 +1,34 @@
 #ifndef SOCKETCONNECTION_HPP
-# define SOCKETCONNECTION_HPP
+#define SOCKETCONNECTION_HPP
 
-/* ************************************************************************** */
-/* Headers                                                                    */
-/* ************************************************************************** */
+#include "Socket.hpp"
+#include "SocketAddress.hpp"
 
-# include "Socket.hpp"
-# include "SocketAddress.hpp"
+#include <unistd.h>
+#include <vector>
 
-# include <vector>
-# include <unistd.h>
-
-# ifndef READING_BUFFER
-#  define READING_BUFFER 1024
-# endif
-
-/* ************************************************************************** */
-/* Class                                                                      */
-/* ************************************************************************** */
+#ifndef READING_BUFFER
+# define READING_BUFFER 1024
+#endif
 
 namespace webserv {
 
-class SocketConnection: public webserv::Socket {
+class SocketConnection : public webserv::Socket {
 
-	public:
+    public:
 
-		/* Constructors and Destructors */
-		SocketConnection(int fd, SocketAddress addr);
-		SocketConnection();
-		~SocketConnection(void);
+        /* Constructors and Destructors */
+        SocketConnection(int fd, SocketAddress addr);
+        SocketConnection(void);
+        ~SocketConnection(void);
 
-		/* Other Functions */
-		bool		close(void);
+        /* Other Functions */
+        bool close(void);
 
-        std::string	recv(void);
-        bool		send(std::string message);
-
+        std::string recv(void);
+        bool        send(std::string message);
 };
 
-} /* webserv */
+} // namespace webserv
 
 #endif
