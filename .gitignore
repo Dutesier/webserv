@@ -1,9 +1,4 @@
-<<<<<<< HEAD
 build/
 .ccls-cache/
-.clang-format
-=======
-build/*
 *.vscode
-.vscode/*
->>>>>>> main
+.vscode/

@@ -1,41 +1,32 @@
-#ifndef W_ERROR_HPP
-# define W_ERROR_HPP
+#ifndef FAIL_HPP
+#define FAIL_HPP
 
-/* ************************************************************************** */
-/* Headers                                                                    */
-/* ************************************************************************** */
-
-# include <iostream>
-
-/* ************************************************************************** */
-/* Class                                                                      */
-/* ************************************************************************** */
+#include <iostream>
 
 class Fail {
 
-	public:
+    public:
 
-		/* Constructors and Destructors */
-		Fail(void);
-		Fail(std::string message, std::string filename, unsigned int line = 0);
+        /* Constructors and Destructors */
+        Fail(void);
+        Fail(std::string message, std::string filename, unsigned int line = 0);
 
-		~Fail(void);
+        ~Fail(void);
 
-		/* Getters */
-		std::string		get_message(void) const;
-		std::string		get_filename(void) const;
-		unsigned int	get_line(void) const;
-		std::string		generate_error_str(void) const;
+        /* Getters */
+        std::string  get_message(void) const;
+        std::string  get_filename(void) const;
+        unsigned int get_line(void) const;
+        std::string  generate_error_str(void) const;
 
-	private:
+    private:
 
-		/* Private Attributes */
-		std::string		message;
-		std::string		filename;
-		unsigned int	line;
-
+        /* Private Attributes */
+        std::string  message;
+        std::string  filename;
+        unsigned int line;
 };
 
-std::ostream&	operator<<(std::ostream& os, Fail const& rhs);
+std::ostream& operator<<(std::ostream& os, Fail const& rhs);
 
-#endif /* W_ERROR_HPP */
+#endif /* FAIL_HPP */

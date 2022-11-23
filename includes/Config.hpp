@@ -1,16 +1,16 @@
 #ifndef CONFIG_HPP
-# define CONFIG_HPP
+#define CONFIG_HPP
 
-# include <iostream>
+#include <iostream>
 
 struct Config {
-	Config(void);
+        Config(void);
 
-	unsigned int	port;
-	std::string		address;
-	std::string		root;
-	bool			server;
-	bool			location;
+        unsigned int port;
+        std::string  address;
+        std::string  root;
+        bool         server;
+        bool         location;
 };
 
 #endif

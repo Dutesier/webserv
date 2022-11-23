@@ -1,49 +1,44 @@
-/* ************************************************************************** */
-/* Headers                                                                    */
-/* ************************************************************************** */
+#ifndef CONFIG_PARSER_HPP
+#define CONFIG_PARSER_HPP
 
-# include <cstdio>
-# include <iostream>
-# include <fstream>
-# include <vector>
-# include <sstream>
+#include "Config.hpp"
+#include "Fail.hpp"
+#include "Parser.hpp"
 
-# include "Parser.hpp"
-# include "Fail.hpp"
-# include "Config.hpp"
-
-
-/* ************************************************************************** */
-/* Class                                                                      */
-/* ************************************************************************** */
+#include <cstdio>
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <vector>
 
 class ConfigParser : public Parser {
 
-	public:
+    public:
 
-		/* Constructors and Destructors */
-		ConfigParser(void);
-		~ConfigParser(void);
+        /* Constructors and Destructors */
+        ConfigParser(void);
+        ~ConfigParser(void);
 
-		/* Getter and Setters */
-		Config*	get_config(void) const;
+        /* Getter and Setters */
+        Config* get_config(void) const;
 
-		/* Other Functions */
-		void	parse(std::ifstream& file);
+        /* Other Functions */
+        void parse(std::ifstream& file);
 
-		/* Handlers */
-		bool	listen_handler(std::vector<std::string> commands);
-		bool	root_handler(std::vector<std::string> commands);
-		bool	server_handler(std::vector<std::string> commands);
-		bool	end_block_handler(std::vector<std::string> commands);
-		
-	private:
+        /* Handlers */
+        bool listen_handler(std::vector<std::string> commands);
+        bool root_handler(std::vector<std::string> commands);
+        bool server_handler(std::vector<std::string> commands);
+        bool end_block_handler(std::vector<std::string> commands);
 
-		/* Private Functions */
-		bool	valid_end(std::vector<std::string>* commands) const;
-		bool	is_port(std::string port) const;
+    private:
 
+        /* Private Functions */
+        bool valid_end(std::vector<std::string>* commands) const;
+        bool is_port(std::string port) const;
 
-		/* Private Attribute */
-		Config*	config;
+        /* Private Attribute */
+        Config* config;
 };
+
+#endif /* CONFIG_PARSER_HPP */

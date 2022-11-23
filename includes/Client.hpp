@@ -1,21 +1,24 @@
 #ifndef CLIENT_HPP
-# define CLIENT_HPP
+#define CLIENT_HPP
 
-# include "SocketConnection.hpp"
-# include <arpa/inet.h>
+#include "SocketConnection.hpp"
 #include "smt.hpp"
 
-class Client: webserv::Socket {
-public:
-    Client(in_port_t port);
-    ~Client();
+#include <arpa/inet.h>
 
-    bool close(void);
-    bool send_message(std::string message);
-    std::string receive_message(void);
+class Client : webserv::Socket {
+    public:
 
-private:
-    smt::shared_ptr<webserv::SocketConnection> connection;
+        Client(in_port_t port);
+        ~Client(void);
+
+        bool        close(void);
+        bool        send_message(std::string message);
+        std::string receive_message(void);
+
+    private:
+
+        smt::shared_ptr<webserv::SocketConnection> connection;
 };
 
 #endif

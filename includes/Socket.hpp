@@ -1,50 +1,42 @@
 #ifndef SOCKET_HPP
-# define SOCKET_HPP
+#define SOCKET_HPP
 
-/* ************************************************************************** */
-/* Headers                                                                    */
-/* ************************************************************************** */
+#include "SocketAddress.hpp"
 
-# include "SocketAddress.hpp"
-# include <sys/socket.h>
-
-/* ************************************************************************** */
-/* Class                                                                      */
-/* ************************************************************************** */
+#include <sys/socket.h>
 
 namespace webserv {
 
 class Socket {
 
-	public:
+    public:
 
-		/* Constructors and Destructors */
-		Socket(int fd, SocketAddress addr, int type = SOCK_STREAM);
-		Socket(int port, std::string host = "localhost",
-		 	   int family = AF_INET, int type = SOCK_STREAM);
-		Socket();
-		virtual ~Socket(void);
+        /* Constructors and Destructors */
+        Socket(int fd, SocketAddress addr, int type = SOCK_STREAM);
+        Socket(int port, std::string host = "localhost", int family = AF_INET,
+               int type = SOCK_STREAM);
+        Socket(void);
+        virtual ~Socket(void);
 
-		/* Getters and Setters */
-		int sockfd(void) const;
-		int	type(void) const;
+        /* Getters and Setters */
+        int sockfd(void) const;
+        int type(void) const;
 
-		SocketAddress	address(void) const;
-		bool			supportsIPv4(void) const;
-		bool			supportsIPv6(void) const;
+        SocketAddress address(void) const;
+        bool          supportsIPv4(void) const;
+        bool          supportsIPv6(void) const;
 
-		/* Other Functions */
-		virtual bool	close(void) = 0;
+        /* Other Functions */
+        virtual bool close(void) = 0;
 
-	protected:
+    protected:
 
-		/* Protected Attributes */
-		SocketAddress	addr;
-		int				fd;
-		int				socktype;
-
+        /* Protected Attributes */
+        SocketAddress addr;
+        int           fd;
+        int           socktype;
 };
 
-} /* webserv */
+} // namespace webserv
 
 #endif

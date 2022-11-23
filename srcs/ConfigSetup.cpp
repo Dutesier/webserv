@@ -1,10 +1,11 @@
 #include "ConfigSetup.hpp"
+
 #include <ostream>
 
-ConfigSetup::ConfigSetup(int argc, char *argv[]): argc(argc), argv(argv), config(NULL) {
-}
+ConfigSetup::ConfigSetup(int argc, char* argv[])
+    : argc(argc), argv(argv), config(NULL) {}
 
-ConfigSetup::~ConfigSetup(){        
+ConfigSetup::~ConfigSetup() {
     // if (config != NULL)
     //     delete config;
 }
@@ -20,36 +21,37 @@ Config* ConfigSetup::get_config() {
     return config;
 }
 
-
 Config* ConfigSetup::config_from_argument(std::string argument) {
     std::ifstream configFile(argument);
-    Config* config = NULL;
+    Config*       config = NULL;
 
     if (configFile.good()) {
         // Load file contents to config struct
         config = get_config_from_file(configFile);
     } else {
-        LOG_E( argument + " couldn't be opened for reading. Check if the file exists and that it has the right permissions.");
+        LOG_E(argument + " couldn't be opened for reading. Check if the file "
+                         "exists and that it has the right permissions.");
     }
     return config;
 }
 
-Config* ConfigSetup::config_from_default(){
+Config* ConfigSetup::config_from_default() {
     Config* config = NULL;
     LOG_I("No config file provided. Looking for file in default path...");
 
     std::ifstream configFile("/tmp/webserv/webserv.config");
-    if (configFile.good()){
+    if (configFile.good()) {
         // Load file contents to config struct
         config = get_config_from_file(configFile);
     } else {
-        LOG_E("No config file at default location (/tmp/webserv/webserv.config). Please provide one.");
+        LOG_E("No config file at default location "
+              "(/tmp/webserv/webserv.config). Please provide one.");
     }
     return config;
 }
 
 Config* ConfigSetup::get_config_from_file(std::ifstream& configFile) {
-    ConfigParser    parser;
+    ConfigParser parser;
 
     parser.parse(configFile);
     Config* config = parser.get_config();
@@ -59,4 +61,3 @@ Config* ConfigSetup::get_config_from_file(std::ifstream& configFile) {
     configFile.close();
     return config;
 }
-

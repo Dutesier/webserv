@@ -1,30 +1,38 @@
 #include "Logger.hpp"
 
-Logger::Logger(LogLevel l): level(l){
-}
+Logger::Logger(LogLevel l) : level(l) {}
 
-Logger::~Logger(){
-}
+Logger::~Logger() {}
 
-void Logger::operator()(std::string const& message, char const *function, char const* file, int line){
-    switch (level){
+void Logger::operator()(std::string const& message, char const* function,
+                        char const* file, int line) {
+    switch (level) {
         case DEBUG:
-            std::cout << "[DEBUG]: " << "(" << function << ":" << file << ":" << line << ") " << message << std::endl ;
+            std::cout << "[DEBUG]: "
+                      << "(" << function << ":" << file << ":" << line << ") "
+                      << message << std::endl;
             break;
         case INFO:
-            std::cout << "[INFO]: " << "(" << function << ":" << file << ":" << line << ") " << message << std::endl ;
+            std::cout << "[INFO]: "
+                      << "(" << function << ":" << file << ":" << line << ") "
+                      << message << std::endl;
             break;
         case WARNING:
-            std::cout << "[WARNING]: " << "(" << function << ":" << file << ":" << line << ") " << message << std::endl ;
+            std::cout << "[WARNING]: "
+                      << "(" << function << ":" << file << ":" << line << ") "
+                      << message << std::endl;
             break;
         case ERROR:
-            std::cout << "[ERROR]: " << "(" << function << ":" << file << ":" << line << ") " << message << std::endl ;
+            std::cout << "[ERROR]: "
+                      << "(" << function << ":" << file << ":" << line << ") "
+                      << message << std::endl;
             break;
         case FATAL:
-            std::cout << "[FATAL]: " << "(" << function << ":" << file << ":" << line << ") " << message << std::endl ;
+            std::cout << "[FATAL]: "
+                      << "(" << function << ":" << file << ":" << line << ") "
+                      << message << std::endl;
             break;
     }
-
 }
 
 Logger& Debug() {
@@ -52,14 +60,11 @@ Logger& Fatal() {
     return logger;
 }
 
-// File Logger - FLOG 
-FileLogger::FileLogger(LogLevel l): level(l){
-    setLogFile(LOGFILENAME);
-}
+// File Logger - FLOG
+FileLogger::FileLogger(LogLevel l) : level(l) { setLogFile(LOGFILENAME); }
 
-FileLogger::~FileLogger(){
-    if (logFile)
-        logFile.close();
+FileLogger::~FileLogger() {
+    if (logFile) logFile.close();
 }
 
 void FileLogger::setLogFile(std::string filename) {
@@ -71,29 +76,40 @@ void FileLogger::setLogFile(std::string filename) {
     logToFile = true;
 }
 
-void FileLogger::operator()(std::string const& message, char const *function, char const* file, int line){
+void FileLogger::operator()(std::string const& message, char const* function,
+                            char const* file, int line) {
     if (!logToFile) {
-        std::cerr << "Failed to open " << LOGFILENAME << " for writing." << std::endl;
-        return ;
+        std::cerr << "Failed to open " << LOGFILENAME << " for writing."
+                  << std::endl;
+        return;
     }
-    switch (level){
+    switch (level) {
         case DEBUG:
-            logFile << "[DEBUG]: " << "(" << function << ":" << file << ":" << line << ") " << message << std::endl ;
+            logFile << "[DEBUG]: "
+                    << "(" << function << ":" << file << ":" << line << ") "
+                    << message << std::endl;
             break;
         case INFO:
-            logFile << "[INFO]: " << "(" << function << ":" << file << ":" << line << ") " << message << std::endl ;
+            logFile << "[INFO]: "
+                    << "(" << function << ":" << file << ":" << line << ") "
+                    << message << std::endl;
             break;
         case WARNING:
-            logFile << "[WARNING]: " << "(" << function << ":" << file << ":" << line << ") " << message << std::endl ;
+            logFile << "[WARNING]: "
+                    << "(" << function << ":" << file << ":" << line << ") "
+                    << message << std::endl;
             break;
         case ERROR:
-            logFile << "[ERROR]: " << "(" << function << ":" << file << ":" << line << ") " << message << std::endl ;
+            logFile << "[ERROR]: "
+                    << "(" << function << ":" << file << ":" << line << ") "
+                    << message << std::endl;
             break;
         case FATAL:
-            logFile << "[FATAL]: " << "(" << function << ":" << file << ":" << line << ") " << message << std::endl ;
+            logFile << "[FATAL]: "
+                    << "(" << function << ":" << file << ":" << line << ") "
+                    << message << std::endl;
             break;
     }
-
 }
 
 FileLogger& FileDebug() {
@@ -120,4 +136,3 @@ FileLogger& FileFatal() {
     static FileLogger fileLogger(LogLevel::FATAL);
     return fileLogger;
 }
-

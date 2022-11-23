@@ -1,6 +1,7 @@
-#include <gtest/gtest.h>
-#include "smt.hpp"
 #include "SocketConnection.hpp"
+#include "smt.hpp"
+
+#include <gtest/gtest.h>
 #include <iostream>
 #include <memory>
 #include <vector>
@@ -9,7 +10,7 @@ TEST(SmartPointerTests, TestUniquePtr) {
     int* numberPtr = new int(42);
 
     smt::unique_ptr<int> intUniquePtr(numberPtr);
-    ASSERT_EQ( *intUniquePtr , 42);
+    ASSERT_EQ(*intUniquePtr, 42);
 }
 
 TEST(SmartPointerTests, TestTwoUniquePtr) {
@@ -21,7 +22,7 @@ TEST(SmartPointerTests, TestTwoUniquePtr) {
     // The code commented bellow should NOT compile
     // smt::unique_ptr<int> intOtherUniquePtr(intUniquePtr);
     // intOtherUniquePtr = intUniquePtr;
-    ASSERT_EQ( *intUniquePtr , 42);
+    ASSERT_EQ(*intUniquePtr, 42);
 }
 
 TEST(SmartPointerTests, TestSharedPtr) {
@@ -29,7 +30,7 @@ TEST(SmartPointerTests, TestSharedPtr) {
 
     smt::shared_ptr<int> intSharedPtr(numberPtr);
 
-    ASSERT_EQ( *intSharedPtr , 42);
+    ASSERT_EQ(*intSharedPtr, 42);
 }
 
 TEST(SmartPointerTests, TestTwoSharedPtr) {
@@ -38,8 +39,8 @@ TEST(SmartPointerTests, TestTwoSharedPtr) {
     smt::shared_ptr<int> intSharedPtr(numberPtr);
     smt::shared_ptr<int> intOtherSharedPtr(intSharedPtr);
 
-    ASSERT_EQ( *intSharedPtr , 42);
-    ASSERT_EQ( *intOtherSharedPtr , 42);
+    ASSERT_EQ(*intSharedPtr, 42);
+    ASSERT_EQ(*intOtherSharedPtr, 42);
 }
 
 TEST(SmartPointerTests, TestVectorSharedPtr) {
@@ -48,22 +49,22 @@ TEST(SmartPointerTests, TestVectorSharedPtr) {
     smt::shared_ptr<int> intSharedPtr(numberPtr);
     smt::shared_ptr<int> intOtherSharedPtr(intSharedPtr);
 
-    std::vector<smt::shared_ptr<int>> vec;
+    std::vector<smt::shared_ptr<int> > vec;
     vec.push_back(intSharedPtr);
     vec.push_back(intOtherSharedPtr);
-    ASSERT_EQ( *vec.at(0) , 42);
-    ASSERT_EQ( *vec.at(1) , 42);
+    ASSERT_EQ(*vec.at(0), 42);
+    ASSERT_EQ(*vec.at(1), 42);
 }
 
 TEST(SmartPointerTests, TestVectorSharedPtrSockets) {
     webserv::SocketAddress* socketPtr = new webserv::SocketAddress();
 
     smt::shared_ptr<webserv::SocketAddress> SocketAddressSharedPtr(socketPtr);
-    smt::shared_ptr<webserv::SocketAddress> SocketAddressOtherSharedPtr(SocketAddressSharedPtr);
+    smt::shared_ptr<webserv::SocketAddress> SocketAddressOtherSharedPtr(
+        SocketAddressSharedPtr);
 
-    std::vector<smt::shared_ptr<webserv::SocketAddress>> vec;
+    std::vector<smt::shared_ptr<webserv::SocketAddress> > vec;
     vec.push_back(SocketAddressSharedPtr);
     vec.push_back(SocketAddressOtherSharedPtr);
-    ASSERT_EQ( vec.at(0)->address() , vec.at(1)->address());
-
+    ASSERT_EQ(vec.at(0)->address(), vec.at(1)->address());
 }
