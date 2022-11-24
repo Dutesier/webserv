@@ -280,7 +280,6 @@ bool Config::ServerBlock::directive_access_log(
     // checking if command size is valid
     if (command.size() != 2) return (false);
 
-	std::cout << command[1] << std::endl;
 	std::ifstream file(command[1]);
 	if (!file.good()) return (false);
 	file.close();

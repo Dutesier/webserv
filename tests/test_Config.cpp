@@ -72,3 +72,29 @@ TEST_F(test_ServerBlock, root) {
 	ASSERT_TRUE(this->server_block->add_directive("root /var/www/;"));
 	ASSERT_EQ(this->server_block->root, "/var/www/");
 }
+
+TEST_F(test_ServerBlock, server_name) {
+	ASSERT_TRUE(this->server_block->server_name.empty());
+	ASSERT_FALSE(this->server_block->add_directive("server_name ;"));
+	ASSERT_FALSE(this->server_block->add_directive("server_name "));
+	ASSERT_TRUE(this->server_block->server_name.empty());
+	ASSERT_TRUE(this->server_block->add_directive("server_name example.com;"));
+	ASSERT_TRUE(this->server_block->server_name.size() == 1);
+	ASSERT_EQ(this->server_block->server_name[0], "example.com");
+}
+
+TEST_F(test_ServerBlock, error_page) {
+	ASSERT_TRUE(this->server_block->error_page.empty());
+	ASSERT_FALSE(this->server_block->add_directive("error_page ;"));
+	ASSERT_FALSE(this->server_block->add_directive("error_page 500.html;"));
+	ASSERT_FALSE(this->server_block->add_directive("error_page 500.html"));
+	ASSERT_TRUE(this->server_block->error_page.empty());
+	ASSERT_TRUE(this->server_block->add_directive("error_page 500 ../webserv/error_pages/500.html;"));
+	ASSERT_TRUE(this->server_block->error_page.size() == 1);
+	ASSERT_EQ(this->server_block->error_page[500], "../webserv/error_pages/500.html");
+	ASSERT_TRUE(this->server_block->add_directive("error_page 500 501 502 ../webserv/error_pages/50X.html;"));
+	ASSERT_EQ(this->server_block->error_page[500], "../webserv/error_pages/50X.html");
+	ASSERT_EQ(this->server_block->error_page[501], "../webserv/error_pages/50X.html");
+	ASSERT_EQ(this->server_block->error_page[502], "../webserv/error_pages/50X.html");
+	ASSERT_TRUE(this->server_block->error_page.size() == 3);
+}
