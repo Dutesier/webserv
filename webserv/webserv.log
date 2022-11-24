@@ -1,0 +1,13 @@
+[ERROR]: (Config:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:99) invalid file: ./default: failed to open
+[ERROR]: (Config:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:99) invalid file: ./default: failed to open
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:34) multiple logs
