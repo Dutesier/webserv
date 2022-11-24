@@ -138,11 +138,15 @@ Config::~Config(void) {
     this->file.close();
 }
 
+std::vector<Config::ServerBlock*> Config::server_configs(void) const {
+	return (this->server_block);
+}
+
 /* ServerBlock Class */
 
 Config::ServerBlock::ServerBlock(void)
     : autoindex(false), port(80), host("localhost"), root("/var/www/html"),
-      access_log(Config::default_path + "webserv.log"), body_size(80000) {
+      access_log(Config::default_path + "webserv.log"), body_size(8000) {
     this->index.push_back("index");
     this->index.push_back("index.html");
 }
@@ -194,12 +198,16 @@ bool Config::ServerBlock::directive_listen(std::vector<std::string> command) {
     size_t      n = command[1].find(":");
     if (n != std::string::npos) {
         a = command[1].substr(0, n);
+		bool flag = true;
         p = command[1].substr(n + 1);
+		for (size_t i = 0; i < p.size(); i++)
+			if (!isdigit(p[i])) return (false);
     } else if (!flag) {
         a = command[1];
     } else {
         p = command[1];
     }
+
 
     if (!p.empty()) {
         std::stringstream ss(p);
@@ -271,9 +279,12 @@ bool Config::ServerBlock::directive_access_log(
     std::vector<std::string> command) {
     // checking if command size is valid
     if (command.size() != 2) return (false);
+
+	std::cout << command[1] << std::endl;
 	std::ifstream file(command[1]);
 	if (!file.good()) return (false);
 	file.close();
+
 	this->access_log = command[1];
     return (true);
 }

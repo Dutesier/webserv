@@ -27,24 +27,14 @@ namespace webserv {
  throw(InvalidSyntaxException());
 
 class Config {
+
     public:
 
         /* Constructor and Destructor */
         Config(int argc, char* argv[]);
         ~Config(void);
 
-        /* Exceptions */
-        struct InvalidFileException : public std::exception {
-                char const* what(void) const throw();
-        };
-
-        struct InvalidSyntaxException : public std::exception {
-                char const* what(void) const throw();
-        };
-
-    private:
-
-        /* Private Nested Classes */
+       /* Nested Classes */
         class LocationBlock {
             public:
 
@@ -93,6 +83,20 @@ class Config {
                 std::map<int, std::string>  error_page;
         };
 
+        /* Getters and Setters */
+		std::vector<ServerBlock*> server_configs(void) const;
+
+        /* Exceptions */
+        struct InvalidFileException : public std::exception {
+                char const* what(void) const throw();
+        };
+
+        struct InvalidSyntaxException : public std::exception {
+                char const* what(void) const throw();
+        };
+
+	private:
+
         /* Private Attributes */
         std::ifstream             file;
         std::vector<ServerBlock*> server_block;
@@ -105,6 +109,7 @@ class Config {
         static std::vector<std::string> const   request_method;
         static std::map<int, std::string>       init_exit_code(void);
         static std::vector<std::string>         init_request_method(void);
+
 };
 
 } // namespace webserv
