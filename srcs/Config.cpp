@@ -174,7 +174,7 @@ bool Config::ServerBlock::add_directive(std::string line) {
     if (command[0] == "access_log") return (directive_access_log(command));
     if (command[0] == "root") return (directive_root(command));
     if (command[0] == "autoindex") return (directive_autoindex(command));
-    if (command[0] == "location" != std::string::npos)
+    if (command[0] == "location")
         return (directive_location(command));
     if (command[0].find("index") != std::string::npos)
         return (directive_index(command));
@@ -214,16 +214,42 @@ bool Config::ServerBlock::directive_listen(std::vector<std::string> command) {
 }
 
 bool Config::ServerBlock::directive_root(std::vector<std::string> command) {
+    // checking if command size is valid
+    if (command.size() != 2) return (false);
+	// TODO: check if folder is available
+	this->root = command[1];
     return (true);
 }
 
 bool Config::ServerBlock::directive_server_name(
     std::vector<std::string> command) {
+    // checking if command size is valid
+    if (command.size() < 2) return (false);
+
+	for (size_t i = 1; i < command.size(); i++)
+		this->server_name.push_back(command[i]);
     return (true);
 }
 
 bool Config::ServerBlock::directive_error_page(
     std::vector<std::string> command) {
+    // checking if command size is valid
+    if (command.size() != 2) return (false);
+
+	// checking if error page exists
+	std::ifstream file(command.back());
+	if (!file.good()) return (false);
+	file.close();
+	std::string page = command.back();
+	command.erase(command.end());
+	command.erase(command.begin());
+
+	for (size_t i = 0; i < command.size(); i++) {
+		std::stringstream ss(command[1]);
+		int code; ss << code;
+		if (code < 100 || code > 600) return (false);
+		this->error_page[code] = page;
+	}
     return (true);
 }
 
