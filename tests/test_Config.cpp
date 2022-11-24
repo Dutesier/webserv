@@ -105,3 +105,63 @@ TEST_F(test_ServerBlock, error_page) {
               "../webserv/error_pages/50X.html");
     ASSERT_TRUE(this->server_block->error_page.size() == 3);
 }
+
+class test_LocationBlock : public ::testing::Test {
+    public:
+
+        void SetUp(void) {
+            this->location_block = new webserv::Config::LocationBlock("location /php {");
+        }
+
+        void TearDown(void) { delete this->location_block; }
+
+    protected:
+
+        webserv::Config::LocationBlock* location_block;
+};
+
+TEST_F(test_LocationBlock, constructor) {
+    ASSERT_EQ(this->location_block->uri, "/php");
+    ASSERT_EQ(this->location_block->root, "");
+    ASSERT_EQ(this->location_block->fastcgi_pass, "");
+    std::vector<std::string> request;
+	request.push_back("GET");
+	request.push_back("POST");
+	request.push_back("DELETE");
+    ASSERT_EQ(this->location_block->request_method, request);
+}
+
+TEST_F(test_LocationBlock, destructor) {}
+
+TEST_F(test_LocationBlock, root) {
+    ASSERT_EQ(this->location_block->root, "");
+    ASSERT_FALSE(this->location_block->add_directive("root /var/www/"));
+    ASSERT_FALSE(this->location_block->add_directive("root ;"));
+    ASSERT_EQ(this->location_block->root, "");
+    ASSERT_TRUE(this->location_block->add_directive("root /var/www/;"));
+    ASSERT_EQ(this->location_block->root, "/var/www/");
+}
+
+TEST_F(test_LocationBlock, fastcgi_pass) {
+    ASSERT_EQ(this->location_block->fastcgi_pass, "");
+    ASSERT_FALSE(this->location_block->add_directive("fastcgi_pass wordpress:9000"));
+    ASSERT_FALSE(this->location_block->add_directive("fastcgi_pass ;"));
+    ASSERT_EQ(this->location_block->fastcgi_pass, "");
+    ASSERT_TRUE(this->location_block->add_directive("fastcgi_pass wordpress:9000;"));
+    ASSERT_EQ(this->location_block->fastcgi_pass, "wordpress:9000");
+}
+
+TEST_F(test_LocationBlock, request_method) {
+	std::vector<std::string> request;
+	request.push_back("GET");
+	request.push_back("POST");
+	request.push_back("DELETE");
+    ASSERT_EQ(this->location_block->request_method, request);
+    ASSERT_FALSE(this->location_block->add_directive("request_method GET"));
+    ASSERT_FALSE(this->location_block->add_directive("request_method ;"));
+    ASSERT_FALSE(this->location_block->add_directive("request_method UPDATE;"));
+    ASSERT_TRUE(this->location_block->add_directive("request_method GET;"));
+	request.clear();
+	request.push_back("GET");
+    ASSERT_EQ(this->location_block->request_method, request);
+}

@@ -48,12 +48,10 @@ class Config {
                 bool directive_fastcgi_pass(std::vector<std::string> command);
                 bool directive_request_method(std::vector<std::string> command);
 
-				/* Private Static Attributes */
+				/* Static Attributes */
 				static std::string methods;
 
-            private:
-
-                /* Private Attributes */
+                /* Attributes */
 				std::string 			 uri;
                 std::string              root;
                 std::string              fastcgi_pass;
@@ -79,7 +77,7 @@ class Config {
                 bool directive_index(std::vector<std::string> command);
                 bool directive_location(std::vector<std::string> command);
 
-                /* Private Attributes */
+                /* Attributes */
                 bool        autoindex;
                 unsigned    body_size;
                 unsigned    port;

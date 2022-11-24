@@ -1,3 +1,463 @@
 [INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
 [INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
 [INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[ERROR]: (Config:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:99) invalid file: ./default: failed to open
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[ERROR]: (Config:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:99) invalid file: ./default: failed to open
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:34) multiple logs
+[ERROR]: (Config:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:99) invalid file: ./default: failed to open
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[ERROR]: (Config:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:99) invalid file: ./default: failed to open
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:34) multiple logs
+[ERROR]: (Config:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:99) invalid file: ./default: failed to open
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[ERROR]: (Config:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:99) invalid file: ./default: failed to open
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:34) multiple logs
+[ERROR]: (Config:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:99) invalid file: ./default: failed to open
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[ERROR]: (Config:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:99) invalid file: ./default: failed to open
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:34) multiple logs
+[ERROR]: (Config:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:99) invalid file: ./default: failed to open
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[ERROR]: (Config:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:99) invalid file: ./default: failed to open
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:34) multiple logs
+[ERROR]: (Config:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:99) invalid file: ./default: failed to open
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[ERROR]: (Config:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:99) invalid file: ./default: failed to open
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:34) multiple logs
+[ERROR]: (Config:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:99) invalid file: ./default: failed to open
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[ERROR]: (Config:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:99) invalid file: ./default: failed to open
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:34) multiple logs
+[ERROR]: (Config:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:99) invalid file: ./default: failed to open
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[ERROR]: (Config:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:99) invalid file: ./default: failed to open
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:34) multiple logs
+[ERROR]: (Config:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:99) invalid file: ./default: failed to open
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[ERROR]: (Config:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:99) invalid file: ./default: failed to open
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:34) multiple logs
+[ERROR]: (Config:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:99) invalid file: ./default: failed to open
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[ERROR]: (Config:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:99) invalid file: ./default: failed to open
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:34) multiple logs
+[ERROR]: (Config:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:99) invalid file: ./default: failed to open
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[ERROR]: (Config:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:99) invalid file: ./default: failed to open
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:34) multiple logs
+[ERROR]: (Config:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:99) invalid file: ./default: failed to open
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[ERROR]: (Config:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:99) invalid file: ./default: failed to open
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:34) multiple logs
+[ERROR]: (Config:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:99) invalid file: ./default: failed to open
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[ERROR]: (Config:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:99) invalid file: ./default: failed to open
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv/tests/test_Logger.cpp:34) multiple logs
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /file.php
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /dir
+[INFO]: (LocationBlock:/home/mlancac/.Cursus/lv5/webserv/srcs/Config.cpp:329) /project
