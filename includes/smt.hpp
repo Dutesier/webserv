@@ -1,5 +1,6 @@
 #ifndef SMT_HPP
-#define SMT_HPP
+# define SMT_HPP
+# include <cstddef>
 
 namespace smt {
 
@@ -11,18 +12,20 @@ class unique_ptr {
 
         unique_ptr(T* ptr) : pointer(ptr) {}
 
-        unique_ptr(const unique_ptr& other) = delete;
-        unique_ptr& operator=(const unique_ptr& other) = delete;
 
         ~unique_ptr() {
-            if (pointer != nullptr) delete pointer;
+            if (pointer != NULL) { delete pointer; }
         }
 
         T* operator->() { return this->pointer; }
 
         T& operator*() { return *(this->pointer); }
+        
+        operator bool() { return (this->pointer != NULL); }
 
     private:
+        unique_ptr(const unique_ptr& other);
+        unique_ptr& operator=(const unique_ptr& other);
 
         T* pointer;
 };
@@ -31,9 +34,9 @@ template<typename T>
 class shared_ptr {
     public:
 
-        shared_ptr() : pointer(NULL), referenceCount(new uint(0)) {}
+        shared_ptr() : pointer(NULL), referenceCount(new unsigned int(0)) {}
 
-        shared_ptr(T* ptr) : pointer(ptr), referenceCount(new uint(1)) {}
+        shared_ptr(T* ptr) : pointer(ptr), referenceCount(new unsigned int(1)) {}
 
         shared_ptr(const shared_ptr& other) {
             this->pointer = other.pointer;
@@ -55,6 +58,8 @@ class shared_ptr {
 
         T& operator*() { return *(this->pointer); }
 
+        operator bool() { return (this->pointer != NULL); }
+
     private:
 
         void destroy() {
@@ -66,7 +71,7 @@ class shared_ptr {
         }
 
         T*    pointer;
-        uint* referenceCount;
+        unsigned int* referenceCount;
 };
 
 } // namespace smt
