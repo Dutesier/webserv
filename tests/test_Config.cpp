@@ -53,6 +53,22 @@ TEST_F(test_ServerBlock, listen) {
 	ASSERT_FALSE(this->server_block->add_directive("listen 443"));
 	ASSERT_FALSE(this->server_block->add_directive("listen ;"));
 	ASSERT_FALSE(this->server_block->add_directive("listen 8080:localhost;"));
+	ASSERT_FALSE(this->server_block->add_directive("listen 111111111"));
 	ASSERT_EQ(this->server_block->port, 80);
 	ASSERT_EQ(this->server_block->host, "localhost");
+	ASSERT_TRUE(this->server_block->add_directive("listen www.example.com;"));
+	ASSERT_EQ(this->server_block->port, 80);
+	ASSERT_EQ(this->server_block->host, "www.example.com");
+	ASSERT_TRUE(this->server_block->add_directive("listen example.com:8080;"));
+	ASSERT_EQ(this->server_block->port, 8080);
+	ASSERT_EQ(this->server_block->host, "example.com");
+}
+
+TEST_F(test_ServerBlock, root) {
+	ASSERT_EQ(this->server_block->root, "/var/www/html");
+	ASSERT_FALSE(this->server_block->add_directive("root /var/www/"));
+	ASSERT_FALSE(this->server_block->add_directive("root ;"));
+	ASSERT_EQ(this->server_block->root, "/var/www/html");
+	ASSERT_TRUE(this->server_block->add_directive("root /var/www/;"));
+	ASSERT_EQ(this->server_block->root, "/var/www/");
 }
