@@ -39,15 +39,25 @@ class Config {
             public:
 
                 /* Constructor and Destructor */
-                LocationBlock(void);
+                LocationBlock(std::string line);
                 ~LocationBlock(void);
+
+                /* Other Functions */
+                bool add_directive(std::string line);
+                bool directive_root(std::vector<std::string> command);
+                bool directive_fastcgi_pass(std::vector<std::string> command);
+                bool directive_request_method(std::vector<std::string> command);
+
+				/* Private Static Attributes */
+				static std::string methods;
 
             private:
 
                 /* Private Attributes */
+				std::string 			 uri;
                 std::string              root;
                 std::string              fastcgi_pass;
-                std::vector<std::string> methods;
+                std::vector<std::string> request_method;
         };
 
         class ServerBlock {
@@ -106,9 +116,7 @@ class Config {
         static std::string default_path;
 
         static std::map<int, std::string> const exit_code;
-        static std::vector<std::string> const   request_method;
         static std::map<int, std::string>       init_exit_code(void);
-        static std::vector<std::string>         init_request_method(void);
 };
 
 } // namespace webserv

@@ -7,8 +7,6 @@ std::string Config::default_file = "default";
 std::string Config::default_path = "../webserv/";
 
 std::map<int, std::string> const Config::exit_code = Config::init_exit_code();
-std::vector<std::string> const   Config::request_method =
-    Config::init_request_method();
 
 char const* Config::InvalidSyntaxException::what(void) const throw() {
     return ("Config: Exception: Invalid Syntax");
@@ -16,14 +14,6 @@ char const* Config::InvalidSyntaxException::what(void) const throw() {
 
 char const* Config::InvalidFileException::what(void) const throw() {
     return ("Config: Exception: Invalid File");
-}
-
-std::vector<std::string> Config::init_request_method(void) {
-    std::vector<std::string> method;
-    method.push_back("GET");
-    method.push_back("POST");
-    method.push_back("DELETE");
-    return (method);
 }
 
 std::map<int, std::string> Config::init_exit_code(void) {
@@ -111,24 +101,36 @@ Config::Config(int argc, char* argv[]) {
     // Parsing file
     std::string  line;
     ServerBlock* server;
-    bool         in_block = false;
+    LocationBlock* location;
+    bool         in_server = false;
+    bool         in_location = false;
 
     while (getline(this->file, line)) {
         if (line.empty()) continue;
 
         if (line == "server {") { // beginning of the server block
-            if (in_block) { error_syntax(filename, line) };
+            if (in_server) { error_syntax(filename, line); }
             server = new ServerBlock();
-            in_block = true;
+            in_server = true;
         } else if (line == "}") { // end of the server block
-            if (!in_block) { error_syntax(filename, line) };
+            if (!in_server) { error_syntax(filename, line); }
             this->server_block.push_back(server);
-            in_block = false;
-        } else if (in_block && server->add_directive(line)) // directive
+            in_server = false;
+        } else if (in_server && !in_location && server->add_directive(line)) { // directive
+            ;
+		} else if (in_server && line.find("location") != std::string::npos) { // beginning of the location block
+			if (in_location) { error_syntax(filename, line); }
+			location = new LocationBlock(line);
+			in_location = true;
+		} else if (line.find("}") != std::string::npos) { // end of location block
+            if (!in_location) { error_syntax(filename, line); }
+			server->location_block.push_back(location);
+			in_location = false;
+		} else if (in_server && in_location && location->add_directive(line)) // directive
             continue;
         else { error_syntax(filename, line); }
     }
-    if (in_block) { error_syntax(filename, line); }
+    if (in_server) { error_syntax(filename, line); }
 }
 
 Config::~Config(void) {
@@ -164,7 +166,7 @@ bool Config::ServerBlock::add_directive(std::string line) {
     }
 
     // checking if command ends with a comma
-    if (command.back() == ";") command.pop_back();
+	if (command.back() == ";") command.pop_back();
     else if (command.back().back() == ';')
         command.back().resize(command.back().size() - 1);
     else return (false);
@@ -300,10 +302,10 @@ bool Config::ServerBlock::directive_autoindex(
 }
 
 bool Config::ServerBlock::directive_index(std::vector<std::string> command) {
-    // cleaning default index
-    this->index.clear();
     // checking if command size is valid
     if (command.size() < 2) return (false);
+    // cleaning default index
+    this->index.clear();
 
     // TODO: check if command[1] is part of vector
     for (size_t i = 0; i < command.size(); i++)
@@ -313,17 +315,75 @@ bool Config::ServerBlock::directive_index(std::vector<std::string> command) {
 }
 
 bool Config::ServerBlock::directive_location(std::vector<std::string> command) {
+    // checking if command size is valid
+    if (command.size() < 2) return (false);
     return (true);
 }
 
 /* LocationBlock Class */
+std::string Config::LocationBlock::methods = "GET POST DELETE";
 
-Config::LocationBlock::LocationBlock(void) {
-    this->methods.push_back("GET");
-    this->methods.push_back("POST");
-    this->methods.push_back("DELETE");
+Config::LocationBlock::LocationBlock(std::string line) {
+    strtok(const_cast<char*>(line.c_str()), " \t");
+    this->uri = strtok(NULL, " \t");
+	FLOG_I(this->uri);
+    this->request_method.push_back("GET");
+    this->request_method.push_back("POST");
+    this->request_method.push_back("DELETE");
 }
 
 Config::LocationBlock::~LocationBlock(void) {}
+
+bool Config::LocationBlock::add_directive(std::string line) {
+	std::vector<std::string> command;
+
+    // splitting line into vector of strings
+    char* word = strtok(const_cast<char*>(line.c_str()), " \t");
+    while (word) {
+        command.push_back(word);
+        word = strtok(NULL, " \t");
+    }
+
+    // checking if command ends with a comma
+	if (command.back() == ";") command.pop_back();
+    else if (command.back().back() == ';')
+        command.back().resize(command.back().size() - 1);
+    else return (false);
+
+    // forwarding command to the right function
+    if (command[0] == "root") return (directive_root(command));
+    if (command[0] == "fastcgi_pass") return (directive_fastcgi_pass(command));
+    if (command[0] == "request_method") return (directive_request_method(command));
+    return (false);
+}
+
+bool Config::LocationBlock::directive_root(std::vector<std::string> command) {
+    // checking if command size is valid
+    if (command.size() != 2) return (false);
+    // TODO: check if folder is available
+    this->root = command[1];
+    return (true);
+}
+
+bool Config::LocationBlock::directive_fastcgi_pass(std::vector<std::string> command) {
+    // checking if command size is valid
+    if (command.size() != 2) return (false);
+	this->fastcgi_pass = command[1];
+	return (true);
+}
+
+bool Config::LocationBlock::directive_request_method(std::vector<std::string> command) {
+    // checking if command size is valid
+    if (command.size() < 2) return (false);
+    // cleaning default index
+	this->request_method.clear();
+
+    for (size_t i = 1; i < command.size(); i++) {
+		if (Config::LocationBlock::methods.find(command[i]) == std::string::npos)
+			return (false);
+		this->request_method.push_back(command[i]);
+	}
+	return (true);
+}
 
 } // namespace webserv
