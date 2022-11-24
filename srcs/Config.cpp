@@ -242,7 +242,7 @@ bool Config::ServerBlock::directive_server_name(
 bool Config::ServerBlock::directive_error_page(
     std::vector<std::string> command) {
     // checking if command size is valid
-    if (command.size() != 2) return (false);
+    if (command.size() < 3) return (false);
 
 	// checking if error page exists
 	std::ifstream file(command.back());
@@ -253,8 +253,8 @@ bool Config::ServerBlock::directive_error_page(
 	command.erase(command.begin());
 
 	for (size_t i = 0; i < command.size(); i++) {
-		std::stringstream ss(command[1]);
-		int code; ss << code;
+		std::stringstream ss(command[i]);
+		int code; ss >> code;
 		if (code < 100 || code > 600) return (false);
 		this->error_page[code] = page;
 	}
