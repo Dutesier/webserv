@@ -254,6 +254,14 @@ bool Config::ServerBlock::directive_error_page(
 }
 
 bool Config::ServerBlock::directive_max_size(std::vector<std::string> command) {
+    // checking if command size is valid
+    if (command.size() != 2) return (false);
+	// checking if command[1] is a numeric string
+	for (size_t i = 0; i < command[1].size(); i++)
+		if (!isdigit(command[1][i])) return (false);
+
+	std::stringstream ss(command[1]);
+	ss >> this->max_size;
     return (true);
 }
 
