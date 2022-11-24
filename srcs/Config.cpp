@@ -260,6 +260,7 @@ bool Config::ServerBlock::directive_max_size(std::vector<std::string> command) {
 	for (size_t i = 0; i < command[1].size(); i++)
 		if (!isdigit(command[1][i])) return (false);
 
+	//TODO: maybe validate max_size - it needs to be reasonable
 	std::stringstream ss(command[1]);
 	ss >> this->body_size;
     return (true);
