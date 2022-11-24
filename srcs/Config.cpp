@@ -289,11 +289,6 @@ bool Config::ServerBlock::directive_autoindex(
     return (true);
 }
 
-bool Config::ServerBlock::directive_autoindex(
-    std::vector<std::string> command) {
-    return (true);
-}
-
 bool Config::ServerBlock::directive_index(std::vector<std::string> command) {
     return (true);
 }
