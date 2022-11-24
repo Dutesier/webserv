@@ -261,7 +261,7 @@ bool Config::ServerBlock::directive_max_size(std::vector<std::string> command) {
 		if (!isdigit(command[1][i])) return (false);
 
 	std::stringstream ss(command[1]);
-	ss >> this->max_size;
+	ss >> this->body_size;
     return (true);
 }
 
@@ -290,6 +290,15 @@ bool Config::ServerBlock::directive_autoindex(
 }
 
 bool Config::ServerBlock::directive_index(std::vector<std::string> command) {
+	// cleaning default index
+	this->index.clear();
+    // checking if command size is valid
+    if (command.size() < 2) return (false);
+
+	//TODO: check if command[1] is part of vector
+	for (size_t i = 0; i < command.size(); i++)
+		this->index.push_back(command[i]);
+		
     return (true);
 }
 
