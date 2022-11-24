@@ -48,11 +48,11 @@ class Config {
                 bool directive_fastcgi_pass(std::vector<std::string> command);
                 bool directive_request_method(std::vector<std::string> command);
 
-				/* Static Attributes */
-				static std::string methods;
+                /* Static Attributes */
+                static std::string methods;
 
                 /* Attributes */
-				std::string 			 uri;
+                std::string              uri;
                 std::string              root;
                 std::string              fastcgi_pass;
                 std::vector<std::string> request_method;

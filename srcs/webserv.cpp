@@ -25,8 +25,11 @@ void webserv::webserv(int argc, char* argv[]) {
     }
     signal(SIGQUIT, webserv::stop);
     signal(SIGSTOP, webserv::stop);
+
+    // webserv::stop(SIGSTOP);
+
     // FIXME: if testing leaks with valgrind, you need to uncomment the above
-    // line because valgring ignores signals webserv::stop(SIGSTOP);
+    // line because valgring ignores signals
 }
 
 void webserv::stop(int signum) {

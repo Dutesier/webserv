@@ -5,7 +5,7 @@ namespace webserv {
 HTTPServer::HTTPServer(int argc, char* argv[])
     : config(new Config(argc, argv)) {}
 
-HTTPServer::~HTTPServer(void) {}
+HTTPServer::~HTTPServer(void) { delete this->config; }
 
 void HTTPServer::start(void) {}
 

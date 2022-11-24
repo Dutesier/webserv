@@ -99,11 +99,11 @@ Config::Config(int argc, char* argv[]) {
     if (!this->file.good()) { error_file(filename + ": failed to open") };
 
     // Parsing file
-    std::string  line;
-    ServerBlock* server;
+    std::string    line;
+    ServerBlock*   server;
     LocationBlock* location;
-    bool         in_server = false;
-    bool         in_location = false;
+    bool           in_server = false;
+    bool           in_location = false;
 
     while (getline(this->file, line)) {
         if (line.empty()) continue;
@@ -116,17 +116,22 @@ Config::Config(int argc, char* argv[]) {
             if (!in_server) { error_syntax(filename, line); }
             this->server_block.push_back(server);
             in_server = false;
-        } else if (in_server && !in_location && server->add_directive(line)) { // directive
+        } else if (in_server && !in_location &&
+                   server->add_directive(line)) { // directive
             ;
-		} else if (in_server && line.find("location") != std::string::npos) { // beginning of the location block
-			if (in_location) { error_syntax(filename, line); }
-			location = new LocationBlock(line);
-			in_location = true;
-		} else if (line.find("}") != std::string::npos) { // end of location block
+        } else if (in_server &&
+                   line.find("location") !=
+                       std::string::npos) { // beginning of the location block
+            if (in_location) { error_syntax(filename, line); }
+            location = new LocationBlock(line);
+            in_location = true;
+        } else if (line.find("}") !=
+                   std::string::npos) { // end of location block
             if (!in_location) { error_syntax(filename, line); }
-			server->location_block.push_back(location);
-			in_location = false;
-		} else if (in_server && in_location && location->add_directive(line)) // directive
+            server->location_block.push_back(location);
+            in_location = false;
+        } else if (in_server && in_location &&
+                   location->add_directive(line)) // directive
             continue;
         else { error_syntax(filename, line); }
     }
@@ -153,7 +158,12 @@ Config::ServerBlock::ServerBlock(void)
     this->index.push_back("index.html");
 }
 
-Config::ServerBlock::~ServerBlock(void) {}
+Config::ServerBlock::~ServerBlock(void) {
+    for (std::vector<LocationBlock*>::iterator it =
+             this->location_block.begin();
+         it != this->location_block.end(); ++it)
+        delete *it;
+}
 
 bool Config::ServerBlock::add_directive(std::string line) {
     std::vector<std::string> command;
@@ -166,7 +176,7 @@ bool Config::ServerBlock::add_directive(std::string line) {
     }
 
     // checking if command ends with a comma
-	if (command.back() == ";") command.pop_back();
+    if (command.back() == ";") command.pop_back();
     else if (command.back().back() == ';')
         command.back().resize(command.back().size() - 1);
     else return (false);
@@ -333,7 +343,7 @@ Config::LocationBlock::LocationBlock(std::string line) {
 Config::LocationBlock::~LocationBlock(void) {}
 
 bool Config::LocationBlock::add_directive(std::string line) {
-	std::vector<std::string> command;
+    std::vector<std::string> command;
 
     // splitting line into vector of strings
     char* word = strtok(const_cast<char*>(line.c_str()), " \t");
@@ -343,7 +353,7 @@ bool Config::LocationBlock::add_directive(std::string line) {
     }
 
     // checking if command ends with a comma
-	if (command.back() == ";") command.pop_back();
+    if (command.back() == ";") command.pop_back();
     else if (command.back().back() == ';')
         command.back().resize(command.back().size() - 1);
     else return (false);
@@ -351,7 +361,8 @@ bool Config::LocationBlock::add_directive(std::string line) {
     // forwarding command to the right function
     if (command[0] == "root") return (directive_root(command));
     if (command[0] == "fastcgi_pass") return (directive_fastcgi_pass(command));
-    if (command[0] == "request_method") return (directive_request_method(command));
+    if (command[0] == "request_method")
+        return (directive_request_method(command));
     return (false);
 }
 
@@ -363,25 +374,28 @@ bool Config::LocationBlock::directive_root(std::vector<std::string> command) {
     return (true);
 }
 
-bool Config::LocationBlock::directive_fastcgi_pass(std::vector<std::string> command) {
+bool Config::LocationBlock::directive_fastcgi_pass(
+    std::vector<std::string> command) {
     // checking if command size is valid
     if (command.size() != 2) return (false);
-	this->fastcgi_pass = command[1];
-	return (true);
+    this->fastcgi_pass = command[1];
+    return (true);
 }
 
-bool Config::LocationBlock::directive_request_method(std::vector<std::string> command) {
+bool Config::LocationBlock::directive_request_method(
+    std::vector<std::string> command) {
     // checking if command size is valid
     if (command.size() < 2) return (false);
     // cleaning default index
-	this->request_method.clear();
+    this->request_method.clear();
 
     for (size_t i = 1; i < command.size(); i++) {
-		if (Config::LocationBlock::methods.find(command[i]) == std::string::npos)
-			return (false);
-		this->request_method.push_back(command[i]);
-	}
-	return (true);
+        if (Config::LocationBlock::methods.find(command[i]) ==
+            std::string::npos)
+            return (false);
+        this->request_method.push_back(command[i]);
+    }
+    return (true);
 }
 
 } // namespace webserv

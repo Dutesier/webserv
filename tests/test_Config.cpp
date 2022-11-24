@@ -107,60 +107,54 @@ TEST_F(test_ServerBlock, error_page) {
 }
 
 TEST_F(test_ServerBlock, access_log) {
-	ASSERT_TRUE(this->server_block->access_log == "../webserv/webserv.log");
-	ASSERT_FALSE(this->server_block->add_directive(
-		"access_log	;"));
-	ASSERT_TRUE(this->server_block->access_log == "../webserv/webserv.log");
-	ASSERT_FALSE(this->server_block->add_directive(
-		"sdfs/sf"));
-	ASSERT_TRUE(this->server_block->access_log == "../webserv/webserv.log");
-	ASSERT_TRUE(this->server_block->add_directive(
-		"access_log	../webserv/default;"));
-	ASSERT_TRUE(this->server_block->access_log == "../webserv/default");
+    ASSERT_TRUE(this->server_block->access_log == "../webserv/webserv.log");
+    ASSERT_FALSE(this->server_block->add_directive("access_log	;"));
+    ASSERT_TRUE(this->server_block->access_log == "../webserv/webserv.log");
+    ASSERT_FALSE(this->server_block->add_directive("sdfs/sf"));
+    ASSERT_TRUE(this->server_block->access_log == "../webserv/webserv.log");
+    ASSERT_TRUE(
+        this->server_block->add_directive("access_log	../webserv/default;"));
+    ASSERT_TRUE(this->server_block->access_log == "../webserv/default");
 }
 
 TEST_F(test_ServerBlock, autoindex) {
-	ASSERT_TRUE(this->server_block->autoindex == false);
-	ASSERT_FALSE(this->server_block->add_directive(
-		"autoindex	;"));
-	ASSERT_FALSE(this->server_block->add_directive(
-		"autoindex	on off;"));
-	ASSERT_TRUE(this->server_block->autoindex == false);
-	ASSERT_TRUE(this->server_block->add_directive(
-		"autoindex	on;"));
-	ASSERT_TRUE(this->server_block->autoindex == true);
+    ASSERT_TRUE(this->server_block->autoindex == false);
+    ASSERT_FALSE(this->server_block->add_directive("autoindex	;"));
+    ASSERT_FALSE(this->server_block->add_directive("autoindex	on off;"));
+    ASSERT_TRUE(this->server_block->autoindex == false);
+    ASSERT_TRUE(this->server_block->add_directive("autoindex	on;"));
+    ASSERT_TRUE(this->server_block->autoindex == true);
 }
 
 TEST_F(test_ServerBlock, index) {
-	ASSERT_TRUE(this->server_block->index.size() == 2);
-	ASSERT_FALSE(this->server_block->add_directive(
-		"index	;"));
-	ASSERT_TRUE(this->server_block->index.size() == 2);
-	ASSERT_TRUE(this->server_block->add_directive(
-		"index	index.html index.php;"));
-	ASSERT_TRUE(this->server_block->index.size() == 3);
-	ASSERT_TRUE(this->server_block->index[1] == "index.html"
-		&& this->server_block->index[2] == "index.php");
+    ASSERT_TRUE(this->server_block->index.size() == 2);
+    ASSERT_FALSE(this->server_block->add_directive("index	;"));
+    ASSERT_TRUE(this->server_block->index.size() == 2);
+    ASSERT_TRUE(
+        this->server_block->add_directive("index	index.html index.php;"));
+    ASSERT_TRUE(this->server_block->index.size() == 3);
+    ASSERT_TRUE(this->server_block->index[1] == "index.html" &&
+                this->server_block->index[2] == "index.php");
 }
 
 TEST_F(test_ServerBlock, client_max_body_size) {
-	ASSERT_TRUE(this->server_block->body_size == 8000);
-	ASSERT_FALSE(this->server_block->add_directive(
-		"client_max_body_size ;"));
-	ASSERT_TRUE(this->server_block->body_size == 8000);
-	ASSERT_TRUE(this->server_block->add_directive(
-		"client_max_body_size 2342;"));
-	ASSERT_TRUE(this->server_block->body_size == 2342);
-	ASSERT_FALSE(this->server_block->add_directive(
-		"client_max_body_size 2dksf;"));
-	ASSERT_TRUE(this->server_block->body_size == 2342);
+    ASSERT_TRUE(this->server_block->body_size == 8000);
+    ASSERT_FALSE(this->server_block->add_directive("client_max_body_size ;"));
+    ASSERT_TRUE(this->server_block->body_size == 8000);
+    ASSERT_TRUE(
+        this->server_block->add_directive("client_max_body_size 2342;"));
+    ASSERT_TRUE(this->server_block->body_size == 2342);
+    ASSERT_FALSE(
+        this->server_block->add_directive("client_max_body_size 2dksf;"));
+    ASSERT_TRUE(this->server_block->body_size == 2342);
 }
 
 class test_LocationBlock : public ::testing::Test {
     public:
 
         void SetUp(void) {
-            this->location_block = new webserv::Config::LocationBlock("location /php {");
+            this->location_block =
+                new webserv::Config::LocationBlock("location /php {");
         }
 
         void TearDown(void) { delete this->location_block; }
@@ -175,9 +169,9 @@ TEST_F(test_LocationBlock, constructor) {
     ASSERT_EQ(this->location_block->root, "");
     ASSERT_EQ(this->location_block->fastcgi_pass, "");
     std::vector<std::string> request;
-	request.push_back("GET");
-	request.push_back("POST");
-	request.push_back("DELETE");
+    request.push_back("GET");
+    request.push_back("POST");
+    request.push_back("DELETE");
     ASSERT_EQ(this->location_block->request_method, request);
 }
 
@@ -194,24 +188,26 @@ TEST_F(test_LocationBlock, root) {
 
 TEST_F(test_LocationBlock, fastcgi_pass) {
     ASSERT_EQ(this->location_block->fastcgi_pass, "");
-    ASSERT_FALSE(this->location_block->add_directive("fastcgi_pass wordpress:9000"));
+    ASSERT_FALSE(
+        this->location_block->add_directive("fastcgi_pass wordpress:9000"));
     ASSERT_FALSE(this->location_block->add_directive("fastcgi_pass ;"));
     ASSERT_EQ(this->location_block->fastcgi_pass, "");
-    ASSERT_TRUE(this->location_block->add_directive("fastcgi_pass wordpress:9000;"));
+    ASSERT_TRUE(
+        this->location_block->add_directive("fastcgi_pass wordpress:9000;"));
     ASSERT_EQ(this->location_block->fastcgi_pass, "wordpress:9000");
 }
 
 TEST_F(test_LocationBlock, request_method) {
-	std::vector<std::string> request;
-	request.push_back("GET");
-	request.push_back("POST");
-	request.push_back("DELETE");
+    std::vector<std::string> request;
+    request.push_back("GET");
+    request.push_back("POST");
+    request.push_back("DELETE");
     ASSERT_EQ(this->location_block->request_method, request);
     ASSERT_FALSE(this->location_block->add_directive("request_method GET"));
     ASSERT_FALSE(this->location_block->add_directive("request_method ;"));
     ASSERT_FALSE(this->location_block->add_directive("request_method UPDATE;"));
     ASSERT_TRUE(this->location_block->add_directive("request_method GET;"));
-	request.clear();
-	request.push_back("GET");
+    request.clear();
+    request.push_back("GET");
     ASSERT_EQ(this->location_block->request_method, request);
 }
