@@ -267,6 +267,13 @@ bool Config::ServerBlock::directive_max_size(std::vector<std::string> command) {
 
 bool Config::ServerBlock::directive_access_log(
     std::vector<std::string> command) {
+    // checking if command size is valid
+    if (command.size() != 2) return (false);
+
+	if (command[1] == "off") this->autoindex = false;
+	if (command[1] == "on") this->autoindex = true;
+	else return (false);
+
     return (true);
 }
 
