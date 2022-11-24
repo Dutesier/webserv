@@ -2,7 +2,8 @@
 
 namespace webserv {
 
-HTTPServer::HTTPServer(int argc, char* argv[]) : config(new Config(argc, argv)) {}
+HTTPServer::HTTPServer(int argc, char* argv[])
+    : config(new Config(argc, argv)) {}
 
 HTTPServer::~HTTPServer(void) {}
 

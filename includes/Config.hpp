@@ -34,7 +34,7 @@ class Config {
         Config(int argc, char* argv[]);
         ~Config(void);
 
-       /* Nested Classes */
+        /* Nested Classes */
         class LocationBlock {
             public:
 
@@ -84,7 +84,7 @@ class Config {
         };
 
         /* Getters and Setters */
-		std::vector<ServerBlock*> server_configs(void) const;
+        std::vector<ServerBlock*> server_configs(void) const;
 
         /* Exceptions */
         struct InvalidFileException : public std::exception {
@@ -95,7 +95,7 @@ class Config {
                 char const* what(void) const throw();
         };
 
-	private:
+    private:
 
         /* Private Attributes */
         std::ifstream             file;
@@ -109,7 +109,6 @@ class Config {
         static std::vector<std::string> const   request_method;
         static std::map<int, std::string>       init_exit_code(void);
         static std::vector<std::string>         init_request_method(void);
-
 };
 
 } // namespace webserv

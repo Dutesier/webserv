@@ -139,7 +139,7 @@ Config::~Config(void) {
 }
 
 std::vector<Config::ServerBlock*> Config::server_configs(void) const {
-	return (this->server_block);
+    return (this->server_block);
 }
 
 /* ServerBlock Class */
@@ -178,8 +178,7 @@ bool Config::ServerBlock::add_directive(std::string line) {
     if (command[0] == "access_log") return (directive_access_log(command));
     if (command[0] == "root") return (directive_root(command));
     if (command[0] == "autoindex") return (directive_autoindex(command));
-    if (command[0] == "location")
-        return (directive_location(command));
+    if (command[0] == "location") return (directive_location(command));
     if (command[0].find("index") != std::string::npos)
         return (directive_index(command));
     return (false);
@@ -198,16 +197,15 @@ bool Config::ServerBlock::directive_listen(std::vector<std::string> command) {
     size_t      n = command[1].find(":");
     if (n != std::string::npos) {
         a = command[1].substr(0, n);
-		bool flag = true;
+        bool flag = true;
         p = command[1].substr(n + 1);
-		for (size_t i = 0; i < p.size(); i++)
-			if (!isdigit(p[i])) return (false);
+        for (size_t i = 0; i < p.size(); i++)
+            if (!isdigit(p[i])) return (false);
     } else if (!flag) {
         a = command[1];
     } else {
         p = command[1];
     }
-
 
     if (!p.empty()) {
         std::stringstream ss(p);
@@ -224,8 +222,8 @@ bool Config::ServerBlock::directive_listen(std::vector<std::string> command) {
 bool Config::ServerBlock::directive_root(std::vector<std::string> command) {
     // checking if command size is valid
     if (command.size() != 2) return (false);
-	// TODO: check if folder is available
-	this->root = command[1];
+    // TODO: check if folder is available
+    this->root = command[1];
     return (true);
 }
 
@@ -234,8 +232,8 @@ bool Config::ServerBlock::directive_server_name(
     // checking if command size is valid
     if (command.size() < 2) return (false);
 
-	for (size_t i = 1; i < command.size(); i++)
-		this->server_name.push_back(command[i]);
+    for (size_t i = 1; i < command.size(); i++)
+        this->server_name.push_back(command[i]);
     return (true);
 }
 
@@ -244,47 +242,48 @@ bool Config::ServerBlock::directive_error_page(
     // checking if command size is valid
     if (command.size() < 3) return (false);
 
-	// checking if error page exists
-	std::ifstream file(command.back());
-	if (!file.good()) return (false);
-	file.close();
-	std::string page = command.back();
-	command.erase(command.end());
-	command.erase(command.begin());
+    // checking if error page exists
+    std::ifstream file(command.back());
+    if (!file.good()) return (false);
+    file.close();
+    std::string page = command.back();
+    command.erase(command.end());
+    command.erase(command.begin());
 
-	for (size_t i = 0; i < command.size(); i++) {
-		std::stringstream ss(command[i]);
-		int code; ss >> code;
-		if (code < 100 || code > 600) return (false);
-		this->error_page[code] = page;
-	}
+    for (size_t i = 0; i < command.size(); i++) {
+        std::stringstream ss(command[i]);
+        int               code;
+        ss >> code;
+        if (code < 100 || code > 600) return (false);
+        this->error_page[code] = page;
+    }
     return (true);
 }
 
 bool Config::ServerBlock::directive_max_size(std::vector<std::string> command) {
     // checking if command size is valid
     if (command.size() != 2) return (false);
-	// checking if command[1] is a numeric string
-	for (size_t i = 0; i < command[1].size(); i++)
-		if (!isdigit(command[1][i])) return (false);
+    // checking if command[1] is a numeric string
+    for (size_t i = 0; i < command[1].size(); i++)
+        if (!isdigit(command[1][i])) return (false);
 
-	//TODO: maybe validate max_size - it needs to be reasonable
-	std::stringstream ss(command[1]);
-	ss >> this->body_size;
+    // TODO: maybe validate max_size - it needs to be reasonable
+    std::stringstream ss(command[1]);
+    ss >> this->body_size;
     return (true);
 }
 
-//TODO: maybe change this->access_log type to std::ifstream
+// TODO: maybe change this->access_log type to std::ifstream
 bool Config::ServerBlock::directive_access_log(
     std::vector<std::string> command) {
     // checking if command size is valid
     if (command.size() != 2) return (false);
 
-	std::ifstream file(command[1]);
-	if (!file.good()) return (false);
-	file.close();
+    std::ifstream file(command[1]);
+    if (!file.good()) return (false);
+    file.close();
 
-	this->access_log = command[1];
+    this->access_log = command[1];
     return (true);
 }
 
@@ -293,23 +292,23 @@ bool Config::ServerBlock::directive_autoindex(
     // checking if command size is valid
     if (command.size() != 2) return (false);
 
-	if (command[1] == "off") this->autoindex = false;
-	if (command[1] == "on") this->autoindex = true;
-	else return (false);
+    if (command[1] == "off") this->autoindex = false;
+    if (command[1] == "on") this->autoindex = true;
+    else return (false);
 
     return (true);
 }
 
 bool Config::ServerBlock::directive_index(std::vector<std::string> command) {
-	// cleaning default index
-	this->index.clear();
+    // cleaning default index
+    this->index.clear();
     // checking if command size is valid
     if (command.size() < 2) return (false);
 
-	//TODO: check if command[1] is part of vector
-	for (size_t i = 0; i < command.size(); i++)
-		this->index.push_back(command[i]);
-		
+    // TODO: check if command[1] is part of vector
+    for (size_t i = 0; i < command.size(); i++)
+        this->index.push_back(command[i]);
+
     return (true);
 }
 
