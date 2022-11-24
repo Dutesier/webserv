@@ -165,3 +165,54 @@ TEST_F(test_LocationBlock, request_method) {
 	request.push_back("GET");
     ASSERT_EQ(this->location_block->request_method, request);
 }
+TEST_F(test_ServerBlock, client_max_body_size) {
+	ASSERT_TRUE(this->server_block->body_size == 8000);
+	ASSERT_FALSE(this->server_block->add_directive(
+		"client_max_body_size ;"));
+	ASSERT_TRUE(this->server_block->body_size == 8000);
+	ASSERT_TRUE(this->server_block->add_directive(
+		"client_max_body_size 2342;"));
+	ASSERT_TRUE(this->server_block->body_size == 2342);
+	ASSERT_FALSE(this->server_block->add_directive(
+		"client_max_body_size 2dksf;"));
+	ASSERT_TRUE(this->server_block->body_size == 2342);
+}
+
+TEST_F(test_ServerBlock, access_log) {
+	ASSERT_TRUE(this->server_block->access_log == "../webserv/webserv.log");
+	ASSERT_FALSE(this->server_block->add_directive(
+		"access_log	;"));
+	ASSERT_TRUE(this->server_block->access_log == "../webserv/webserv.log");
+	ASSERT_FALSE(this->server_block->add_directive(
+		"sdfs/sf"));
+	ASSERT_TRUE(this->server_block->access_log == "../webserv/webserv.log");
+	ASSERT_TRUE(this->server_block->add_directive(
+		"access_log	../webserv/default;"));
+	ASSERT_TRUE(this->server_block->access_log == "../webserv/default");
+}
+
+TEST_F(test_ServerBlock, autoindex) {
+	ASSERT_TRUE(this->server_block->autoindex == false);
+	ASSERT_FALSE(this->server_block->add_directive(
+		"autoindex	;"));
+	ASSERT_FALSE(this->server_block->add_directive(
+		"autoindex	on off;"));
+	ASSERT_TRUE(this->server_block->autoindex == false);
+	ASSERT_TRUE(this->server_block->add_directive(
+		"autoindex	on;"));
+	ASSERT_TRUE(this->server_block->autoindex == true);
+}
+
+TEST_F(test_ServerBlock, index) {
+	ASSERT_TRUE(this->server_block->index.size() == 2);
+	ASSERT_FALSE(this->server_block->add_directive(
+		"index	;"));
+	ASSERT_TRUE(this->server_block->index.size() == 2);
+	ASSERT_TRUE(this->server_block->add_directive(
+		"index	index.html index.php;"));
+	ASSERT_TRUE(this->server_block->index.size() == 3);
+	ASSERT_TRUE(this->server_block->index[1] == "index.html"
+		&& this->server_block->index[2] == "index.php");
+}
+
+

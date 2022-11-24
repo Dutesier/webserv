@@ -268,7 +268,6 @@ bool Config::ServerBlock::directive_max_size(std::vector<std::string> command) {
     // checking if command[1] is a numeric string
     for (size_t i = 0; i < command[1].size(); i++)
         if (!isdigit(command[1][i])) return (false);
-
     // TODO: maybe validate max_size - it needs to be reasonable
     std::stringstream ss(command[1]);
     ss >> this->body_size;
@@ -307,7 +306,7 @@ bool Config::ServerBlock::directive_index(std::vector<std::string> command) {
     // cleaning default index
     this->index.clear();
 
-    // TODO: check if command[1] is part of vector
+    // TODO: check if command[0] is part of vector
     for (size_t i = 0; i < command.size(); i++)
         this->index.push_back(command[i]);
 
@@ -326,7 +325,6 @@ std::string Config::LocationBlock::methods = "GET POST DELETE";
 Config::LocationBlock::LocationBlock(std::string line) {
     strtok(const_cast<char*>(line.c_str()), " \t");
     this->uri = strtok(NULL, " \t");
-	FLOG_I(this->uri);
     this->request_method.push_back("GET");
     this->request_method.push_back("POST");
     this->request_method.push_back("DELETE");
