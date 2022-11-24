@@ -265,7 +265,19 @@ bool Config::ServerBlock::directive_max_size(std::vector<std::string> command) {
     return (true);
 }
 
+//TODO: maybe change this->access_log type to std::ifstream
 bool Config::ServerBlock::directive_access_log(
+    std::vector<std::string> command) {
+    // checking if command size is valid
+    if (command.size() != 2) return (false);
+	std::ifstream file(command[1]);
+	if (!file.good()) return (false);
+	file.close();
+	this->access_log = command[1];
+    return (true);
+}
+
+bool Config::ServerBlock::directive_autoindex(
     std::vector<std::string> command) {
     // checking if command size is valid
     if (command.size() != 2) return (false);
