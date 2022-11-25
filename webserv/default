@@ -1,0 +1,25 @@
+server {
+    listen       80;
+    server_name  domain1.com www.domain1.com;
+    access_log   ../webserv/webserv.log;
+	error_page 500 502 503 ../webserv/error_pages/50X.html;
+
+    location /file.php {
+		fastcgi_pass   127.0.0.1:1025;
+		request_method GET POST;
+    }
+
+	location /dir {
+		root /var/www/php;
+		request_method DELETE;
+	}
+}
+
+server {
+	listen localhost:443;
+	server_name domain2.com;
+
+	location /project {
+		root /var/www/html;
+	}
+}

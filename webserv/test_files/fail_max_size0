@@ -1,0 +1,9 @@
+server {
+	client_max_body_size	kgj;
+}
+
+server {
+	listen localhost:443;
+	server_name domain2.com;
+}
+

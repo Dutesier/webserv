@@ -36,7 +36,7 @@ Logger& Fatal();
 #define LOG_E(Message_) LOGGER(Error(), Message_)
 #define LOG_F(Message_) LOGGER(Fatal(), Message_)
 
-#define LOGFILENAME "webserv.log"
+#define LOGFILENAME "../webserv/webserv.log"
 
 class FileLogger {
     public:
