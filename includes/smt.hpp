@@ -21,7 +21,7 @@ class unique_ptr {
 
         T& operator*() { return *(this->pointer); }
         
-        operator bool() { return (this->pointer != NULL); }
+        operator bool() const { return (this->pointer != NULL); }
 
     private:
         unique_ptr(const unique_ptr& other);
@@ -58,7 +58,7 @@ class shared_ptr {
 
         T& operator*() { return *(this->pointer); }
 
-        operator bool() { return (this->pointer != NULL); }
+        operator bool() const { return (this->pointer != NULL); }
 
     private:
 

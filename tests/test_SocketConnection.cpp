@@ -70,12 +70,17 @@ TEST_F(test_SocketConnection, close) {
 TEST_F(test_SocketConnection, recv) {
     ASSERT_NE(this->connection, nullptr);
     this->client->send_message(HTTP_REQ);
-    auto str = this->connection->recv();
-    ASSERT_NE(str, "");
+
+    auto httpRequest = this->connection->recv();
+    ASSERT_NE(httpRequest, NULL);
+    ASSERT_EQ(httpRequest->method, 1);
+    ASSERT_EQ(httpRequest->resource, "/");
+    ASSERT_EQ(httpRequest->version, "HTTP/1.1");
+    ASSERT_EQ(httpRequest->headers.find("Host")->second, "x");
 }
 
-TEST_F(test_SocketConnection, send) {
-    ASSERT_NE(this->connection, nullptr);
-    ASSERT_NO_THROW(this->connection->send(HTTP_RES)) << errno;
-    ASSERT_STREQ(client->receive_message().c_str(), HTTP_RES) << errno;
-}
+// TEST_F(test_SocketConnection, send) {
+//     ASSERT_NE(this->connection, nullptr);
+//     ASSERT_TRUE(this->connection->send(HTTP_RES)) << errno;
+//     ASSERT_STREQ(client->receive_message().c_str(), HTTP_RES) << errno;
+// }

@@ -12,16 +12,25 @@ typedef struct s_HTTPRequest {
 	unsigned int method; //enums later
 	std::string resource;
 	std::string version;
+	std::string host;
 
 	// unsigned int code; //enums later
-	// std::map<std::string, std::string> headers;
-	// std::string content;
+	std::map<std::string, std::string> headers;
+	std::string content;
 } HTTPRequest;
 
 class HTTPParser{
 public:
-	smt::shared_ptr<HTTPRequest> parse(std::vector<std::string>& request);
+	smt::shared_ptr<HTTPRequest> parse_header(std::string& header);
+	int find_next_request(const char* buff) const;
 private:
+	std::pair<unsigned int, bool> getMethod(std::string& firstLine);
+	std::pair<std::string, bool> getResource(std::string& firstLine);
+	std::pair<std::string, bool> getVersion(std::string& firstLine);
+	std::pair<std::string, std::string> getKeyValueHeader(std::string& header);
+	bool setHeader(smt::shared_ptr<HTTPRequest> pReq, std::string& header);
+	bool setHeader(smt::shared_ptr<HTTPRequest> pReq, std::string& header, std::string mustBe);
+	std::vector<std::string> separateByCRLF(std::string& raw);
 
 };
 
