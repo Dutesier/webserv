@@ -2,8 +2,16 @@
 #include "Logger.hpp"
 #include <sstream>
 #include <cstring>
+#include <cstdlib>
 #include <cmath>
 
+HTTPParser::HTTPParser(){
+
+}
+
+HTTPParser::~HTTPParser(){
+    
+}
 
 // A la golang, parsing functions return a pair of the actual result and a bool of success
 std::pair<unsigned int, bool> HTTPParser::getMethod(std::string& firstLine){

@@ -21,6 +21,8 @@ typedef struct s_HTTPRequest {
 
 class HTTPParser{
 public:
+	HTTPParser();
+	~HTTPParser();
 	smt::shared_ptr<HTTPRequest> parse_header(std::string& header);
 	int find_next_request(const char* buff) const;
 private:

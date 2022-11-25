@@ -79,6 +79,22 @@ TEST_F(test_SocketConnection, recv) {
     ASSERT_EQ(httpRequest->headers.find("Host")->second, "x");
 }
 
+TEST_F(test_SocketConnection, hardcore) {
+    ASSERT_NE(this->connection, nullptr);
+    this->client->send_message("GET /usr/home HTTP/1.1\r\nHost:x\r\nContent-Length: 120\r\n\r\n........................................................................................................................"); 
+
+    auto httpRequest = this->connection->recv();
+    ASSERT_NE(httpRequest, NULL);
+    ASSERT_EQ(httpRequest->method, 1);
+    ASSERT_EQ(httpRequest->resource, "/usr/home");
+    ASSERT_EQ(httpRequest->version, "HTTP/1.1");
+    ASSERT_EQ(httpRequest->headers.find("Host")->second, "x");
+    ASSERT_EQ(httpRequest->headers.find("Content-Length")->second, " 120");
+    ASSERT_EQ(httpRequest->content, "........................................................................................................................");
+}
+
+
+// Our server doesnt really handle responses right now :)
 // TEST_F(test_SocketConnection, send) {
 //     ASSERT_NE(this->connection, nullptr);
 //     ASSERT_TRUE(this->connection->send(HTTP_RES)) << errno;

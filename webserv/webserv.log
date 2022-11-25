@@ -473,3 +473,465 @@
 [WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
 [ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
 [FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/ctw02489/42/webserv/tests/test_Logger.cpp:34) multiple logs

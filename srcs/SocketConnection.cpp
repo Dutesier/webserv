@@ -76,50 +76,41 @@ smt::shared_ptr<HTTPRequest> SocketConnection::recv(void) { // When recv is call
         header.insert(eoh_position + 4, "");
     }
     request = parser.parse_header(header);
+
     // If there is more data to be dealt with
     if (strlen(buff) > eoh_position + 4) {
         // If we have a Content-Lenght
-        if (request->headers.find("Content-Lenght") != request->headers.end()) {
-            int body_size = atoi(request->headers.find("Content-Lenght")->second.c_str());
-            if (body_size < MAX_BODY_SIZE) {
+        if (request->headers.find("Content-Length") != request->headers.end()) {
+            int body_size = atoi(request->headers.find("Content-Length")->second.c_str());
+            if (body_size < MAX_BODY_SIZE && body_size) {
                 request->content.reserve(body_size);
-                for (int i = 0, j = eoh_position + 4; i < body_size; i++) {
-
-                    if (j == READING_BUFFER) {
-                        // We need to keep making recv call until we get something (or timeout which we would implement here)
-                        while (true){
-                            bytes_read = ::recv(fd, &buff, READING_BUFFER, 0);
-                            if (bytes_read < 0) {
-                                return NULL;
-                                LOG_E("Error when reading from socket");
-                            } else if (bytes_read > 0) {
-                                buff[bytes_read] = '\0';
-                                break;
-                            }
+                std::string temp(buff);
+                request->content = temp.substr(eoh_position + 4, std::min(int(temp.size() - eoh_position - 4), body_size));
+                while (body_size > request->content.size()) { // If there's more to the body then what we have
+                    while (true){
+                        bytes_read = ::recv(fd, &buff, READING_BUFFER, 0);
+                        if (bytes_read < 0) {
+                            return NULL;
+                            LOG_E("Error when reading from socket");
+                        } else if (bytes_read > 0) {
+                            buff[bytes_read] = '\0';
+                            break;
                         }
-                        j = 0; // Resetting j to 0 because it is the position in the newly aquired buff
                     }
-
-                    // Adding character by character
-                    request->content.push_back(buff[j]);
-                    j++;
+                    temp = buff;
+                    // What I want to do here is add what's missing until we are of size: body_size
+                    request->content += temp.substr(0, std::min(temp.size(), body_size - request->content.size()));
                 }
             }
+        }
+        int next = parser.find_next_request(buff);
+        if (next == -1) {
+            dataInBuffer = false;
         } else {
-            // Right now if no Content-Lenght is provided we're jumping into the next RequestLine and ignoring the content
-            std::string before_eoh(buff);
-            std::string after_eoh = before_eoh.substr(eoh_position);
-
-            // if we can find a new RequestLine we'll store from that point to restOfData
-            // otherwise we'll just clear the buffer
-            int next = parser.find_next_request(after_eoh.c_str());
-            if (next == -1) {
-                dataInBuffer = false;
-            } else {
-                std::string temp = after_eoh.substr(next);
-                buff_to_data(const_cast<char *>(temp.c_str()), restOfData);
-                dataInBuffer = true;
-            }
+            std::string temp(buff);
+            std::string store = temp.substr(next);
+            buff_to_data(const_cast<char *>(temp.c_str()), restOfData);
+            dataInBuffer = true;
         }
     }
     

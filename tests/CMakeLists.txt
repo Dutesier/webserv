@@ -10,6 +10,7 @@ if (test)
 		test_SocketAddress.cpp
 		test_SocketConnection.cpp
 		test_TCPSocket.cpp
+		test_HTTPParser.cpp
 		Client.cpp
     )
     add_test(webserv_gtest webserv_test)
