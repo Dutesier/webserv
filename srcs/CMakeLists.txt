@@ -4,6 +4,7 @@ add_library(${PROJECT_NAME} STATIC
 	webserv.cpp
 	HTTPServer.cpp
 	Config.cpp
+	ServerConfig.cpp
 	Logger.cpp
 	Error.cpp
 	Socket.cpp

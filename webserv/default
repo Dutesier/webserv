@@ -1,7 +1,6 @@
 server {
     listen       80;
     server_name  domain1.com www.domain1.com;
-    access_log   ../webserv/webserv.log;
 	error_page 500 502 503 ../webserv/error_pages/50X.html;
 
     location /file.php {

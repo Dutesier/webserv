@@ -1,0 +1,31 @@
+[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:116) invalid file: ../webserv/defaul: failed to open
+[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:117) invalid file: ../webserv/defaul: failed to open
+[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:117) invalid file: ../webserv/defaul: failed to open
+[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:117) invalid file: ../webserv/defaul: failed to open
+[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:146) invalid syntax: ../webserv/default: jahjasd
+[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:146) invalid syntax: ../webserv/default:     access_log   ../webserv/webserv.log;
+[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:141) invalid syntax: ../webserv/default:     access_log   ../webserv/webserv.log;
+[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:141) invalid syntax: ../webserv/default: 		request_method GET POST UPLOAD;
+[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:141) invalid syntax: ../webserv/default: 		root ;
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:17) I'm writing to file
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:19) I'm writing to file
+[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:21) I'm writing to file
+[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:23) I'm writing to file
+[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:25) I'm writing to file
+[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:27) I'm writing to file
+[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:30) multiple logs
+[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:31) multiple logs
+[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:32) multiple logs
+[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:33) multiple logs
+[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:34) multiple logs
