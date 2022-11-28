@@ -62,8 +62,8 @@ struct Config::impl {
         };
 
         /* Other Functions */
-        bool location_cmd(std::string line);
         bool server_cmd(std::string line);
+        bool location_cmd(std::string line);
         bool cmd_listen(std::vector<std::string> cmd);
         bool cmd_server_name(std::vector<std::string> cmd);
         bool cmd_error_page(std::vector<std::string> cmd);

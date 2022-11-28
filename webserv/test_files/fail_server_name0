@@ -1,7 +1,6 @@
 server {
     listen       80;
     server_name  ;
-    access_log   logs/domain1.access.log;
 	error_page 500 502 503 /500.hmtl;
 }
 

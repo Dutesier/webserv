@@ -1,31 +1,23 @@
-[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:116) invalid file: ../webserv/defaul: failed to open
-[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:117) invalid file: ../webserv/defaul: failed to open
-[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:117) invalid file: ../webserv/defaul: failed to open
-[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:117) invalid file: ../webserv/defaul: failed to open
-[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:146) invalid syntax: ../webserv/default: jahjasd
-[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:146) invalid syntax: ../webserv/default:     access_log   ../webserv/webserv.log;
-[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:141) invalid syntax: ../webserv/default:     access_log   ../webserv/webserv.log;
-[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:141) invalid syntax: ../webserv/default: 		request_method GET POST UPLOAD;
-[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:141) invalid syntax: ../webserv/default: 		root ;
-[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:17) I'm writing to file
-[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:19) I'm writing to file
-[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:21) I'm writing to file
-[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:23) I'm writing to file
-[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:25) I'm writing to file
-[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:27) I'm writing to file
-[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:30) multiple logs
-[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:31) multiple logs
-[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:32) multiple logs
-[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:33) multiple logs
-[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:34) multiple logs
-[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:17) I'm writing to file
-[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:19) I'm writing to file
-[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:21) I'm writing to file
-[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:23) I'm writing to file
-[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:25) I'm writing to file
-[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:27) I'm writing to file
-[DEBUG]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:30) multiple logs
-[INFO]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:31) multiple logs
-[WARNING]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:32) multiple logs
-[ERROR]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:33) multiple logs
-[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:34) multiple logs
+[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:111) invalid file: ../webserv/default1: failed to open
+[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:111) invalid file: ./default: failed to open
+[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:141) invalid syntax: ../webserv/test_files/fail_autoindex0: 	autoindex	;
+[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:141) invalid syntax: ../webserv/test_files/fail_autoindex1: 	autoindex	on off;
+[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:141) invalid syntax: ../webserv/test_files/fail_autoindex2: 	autoindex	of;
+[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:141) invalid syntax: ../webserv/test_files/fail_comma0: server {;
+[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:141) invalid syntax: ../webserv/test_files/fail_comma1: 	listen localhost:80
+[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:141) invalid syntax: ../webserv/test_files/fail_comma2: server ;{
+[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:141) invalid syntax: ../webserv/test_files/fail_comma0: server {;
+[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:141) invalid syntax: ../webserv/test_files/fail_command1: 	error_pge 500 502 503 /500.hmtl;
+[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:141) invalid syntax: ../webserv/test_files/fail_error_page0: 	error_page 500 502 503;
+[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:141) invalid syntax: ../webserv/test_files/fail_error_page1: 	error_page /500.hmtl;
+[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:141) invalid syntax: ../webserv/test_files/fail_error_page2: 	error_page 500 502 503 /500.hmtl /400.html;
+[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:141) invalid syntax: ../webserv/test_files/fail_index0: 	index	;
+[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:141) invalid syntax: ../webserv/test_files/fail_listen0:     listen       80:localhost;
+[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:141) invalid syntax: ../webserv/test_files/fail_listen1:     listen       111111111;
+[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:141) invalid syntax: ../webserv/test_files/fail_listen2:     listen       ;
+[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:141) invalid syntax: ../webserv/test_files/fail_max_size0: 	client_max_body_size	kgj;
+[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:141) invalid syntax: ../webserv/test_files/fail_max_size1: 	client_max_body_size ;
+[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:141) invalid syntax: ../webserv/test_files/fail_root0: 	root		 ;
+[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:143) invalid syntax: ../webserv/test_files/fail_server0: 
+[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:141) invalid syntax: ../webserv/test_files/fail_server1: 	server {
+[ERROR]: (impl:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/Config.cpp:141) invalid syntax: ../webserv/test_files/fail_server_name0:     server_name  ;
