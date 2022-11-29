@@ -219,6 +219,7 @@ TEST_F(test_Config, InvalidFileException) {
 			  webserv::Config::impl::InvalidFileException);
 }
 
+//TODO:understand leaks
 TEST_F(test_Config, InvalidSyntaxException) {
 	char*	argv[2] = {"webserv", "../webserv/test_files/fail_autoindex0"};
 	ASSERT_THROW(new webserv::Config(2, argv),

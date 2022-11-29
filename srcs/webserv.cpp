@@ -7,27 +7,19 @@ webserv::HTTPServer* g_webserv;
 
 void webserv::webserv(int argc, char* argv[]) {
     try {
+		signal(SIGINT, webserv::stop);
         g_webserv = new HTTPServer(argc, argv);
-    } catch (std::exception& e) {
-        std::cout << "failure on parser: " << e.what() << std::endl;
-    }
-
-    try {
         g_webserv->start();
-    } catch (std::exception& e) {
-        std::cout << "failure on start: " << e.what() << std::endl;
-    }
-
-    try {
         g_webserv->run();
-    } catch (std::exception& e) {
-        std::cout << "failure on run: " << e.what() << std::endl;
-    }
-    webserv::stop(SIGSTOP);
+		// webserv::stop(SIGSTOP); // uncomment this when using valgrind
+    } catch (std::exception& e) { std::cout << e.what() << std::endl; }
+
 }
 
 void webserv::stop(int signum) {
-    g_webserv->stop();
-    delete g_webserv;
-    exit(signum);
+	try {
+		g_webserv->stop();
+		delete g_webserv;
+	}
+	catch ( std::exception& e ) { std::cout << e.what() << std::endl; }
 }
