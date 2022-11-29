@@ -9,10 +9,12 @@ HTTPServer::HTTPServer(int argc, char* argv[])
 
 HTTPServer::~HTTPServer(void) {
     delete this->config;
-    if (this->state > ready)
+    if (this->state > ready) {
         for (std::map<int, TCPSocket*>::iterator it = this->sockets.begin();
-             it != this->sockets.end(); ++it)
+             it != this->sockets.end(); it++) {
             delete (*it).second;
+		}
+	}
 }
 
 void HTTPServer::start(void) {
@@ -34,6 +36,7 @@ void HTTPServer::run(void) {
     this->state = running;
     while (this->state == running) {
         int nfds = epoll_wait(this->epollfd, events, EP_MAX_EVENTS, EP_TIMEOUT);
+		if (this->state != running) break ;
         if (nfds < 0) throw(EpollWaitException());
         for (int i = 0; i < nfds; i++) {
             if (this->sockets.find(events[i].data.fd) != this->sockets.end()) {
@@ -65,15 +68,14 @@ void HTTPServer::run(void) {
             }
         }
     }
-    std::cout << (this->state == running ? "yes" : "no") << std::endl;
 }
 
 void HTTPServer::stop(void) {
+    this->state = stoped;
     for (std::map<int, TCPSocket*>::iterator it = this->sockets.begin();
          it != this->sockets.end(); ++it) {
         (*it).second->close();
     }
-    this->state = stoped;
 }
 
 void HTTPServer::init_socket(ServerConfig* server) {

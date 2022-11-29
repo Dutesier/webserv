@@ -9,10 +9,9 @@ TCPSocket::TCPSocket(int port, std::string host, int family)
 }
 
 TCPSocket::~TCPSocket(void) {
-
     for (std::map<int, SocketConnection*>::iterator it =
              this->connections.begin();
-         it != this->connections.end(); ++it)
+         it != this->connections.end(); it++)
         delete (*it).second;
     this->connections.clear();
     this->close();
