@@ -1,6 +1,7 @@
 #ifndef SOCKETCONNECTION_HPP
 #define SOCKETCONNECTION_HPP
 
+#include "Logger.hpp"
 #include "Socket.hpp"
 #include "SocketAddress.hpp"
 
@@ -23,10 +24,23 @@ class SocketConnection : public webserv::Socket {
         ~SocketConnection(void);
 
         /* Other Functions */
-        bool close(void);
+        void close(void);
 
         std::string recv(void);
-        bool        send(std::string message);
+        void        send(std::string message);
+
+        /* Exceptions */
+        struct CloseFailureException : public std::exception {
+                char const* what(void) const throw();
+        };
+
+        struct SendFailureException : public std::exception {
+                char const* what(void) const throw();
+        };
+
+        struct RecvFailureException : public std::exception {
+                char const* what(void) const throw();
+        };
 };
 
 } // namespace webserv

@@ -1,6 +1,7 @@
 #ifndef TCP_SOCKET_HPP
 #define TCP_SOCKET_HPP
 
+#include "Logger.hpp"
 #include "Socket.hpp"
 #include "SocketConnection.hpp"
 
@@ -27,25 +28,59 @@ class TCPSocket : public Socket {
 
         /* Other Functions */
         // TODO: understand what should be const and whatnot
-        bool bind(void);
-        bool listen(void);
-        bool setsockopt(int level, int optname, const void* optval,
+        void bind(void);
+        void listen(void);
+        void setsockopt(int level, int optname, const void* optval,
                         socklen_t optlen);
         // TODO: change return val
-        bool accept(void);
-        bool shutdown(int how);
-        bool close(void);
+        void accept(void);
+        void shutdown(int how);
+        void close(void);
 
         std::string recv(SocketConnection* connection);
-        bool        send(SocketConnection* connection, std::string response);
+        void        send(SocketConnection* connection, std::string response);
 
         // TODO: refactor this to a more safe and smart approach
         std::vector<SocketConnection*> get_connections(void) const;
+
+        /* Exceptions */
+        struct BindFailureException : public std::exception {
+                char const* what(void) const throw();
+        };
+
+        struct ListenFailureException : public std::exception {
+                char const* what(void) const throw();
+        };
+
+        struct SetOptFailureException : public std::exception {
+                char const* what(void) const throw();
+        };
+
+        struct AcceptFailureException : public std::exception {
+                char const* what(void) const throw();
+        };
+
+        struct ShutdownFailureException : public std::exception {
+                char const* what(void) const throw();
+        };
+
+        struct CloseFailureException : public std::exception {
+                char const* what(void) const throw();
+        };
+
+        struct SendFailureException : public std::exception {
+                char const* what(void) const throw();
+        };
+
+        struct RecvFailureException : public std::exception {
+                char const* what(void) const throw();
+        };
 
     private:
 
         /* Other Private Functions */
         std::vector<SocketConnection*> connections;
+        // ServerConfig				   configs; // just an idea for now
 };
 
 } // namespace webserv

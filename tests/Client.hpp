@@ -12,9 +12,14 @@ class Client : webserv::Socket {
         Client(in_port_t port);
         ~Client(void);
 
-        bool        close(void);
+        void        close(void);
         bool        send_message(std::string message);
         std::string receive_message(void);
+
+        /* Exceptions */
+        struct CloseFailureException : public std::exception {
+                char const* what(void) const throw();
+        };
 
     private:
 
