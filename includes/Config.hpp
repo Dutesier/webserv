@@ -3,13 +3,11 @@
 
 #include "Error.hpp"
 #include "Logger.hpp"
+#include "ServerConfig.hpp"
 
 #include <cstring>
-#include <exception>
-#include <fstream>
 #include <map>
 #include <sstream>
-#include <string>
 #include <vector>
 
 namespace webserv {
@@ -34,65 +32,25 @@ class Config {
         Config(int argc, char* argv[]);
         ~Config(void);
 
-        /* Nested Classes */
-        class LocationBlock {
-            public:
-
-                /* Constructor and Destructor */
-                LocationBlock(std::string line);
-                ~LocationBlock(void);
-
-                /* Other Functions */
-                bool add_directive(std::string line);
-                bool directive_root(std::vector<std::string> command);
-                bool directive_fastcgi_pass(std::vector<std::string> command);
-                bool directive_request_method(std::vector<std::string> command);
-
-                /* Static Attributes */
-                static std::string methods;
-
-                /* Attributes */
-                std::string              uri;
-                std::string              root;
-                std::string              fastcgi_pass;
-                std::vector<std::string> request_method;
-        };
-
-        class ServerBlock {
-            public:
-
-                /* Constructor and Destructor */
-                ServerBlock(void);
-                ~ServerBlock(void);
-
-                /* Other Functions */
-                bool add_directive(std::string line);
-                bool directive_listen(std::vector<std::string> command);
-                bool directive_server_name(std::vector<std::string> command);
-                bool directive_error_page(std::vector<std::string> command);
-                bool directive_max_size(std::vector<std::string> command);
-                bool directive_access_log(std::vector<std::string> command);
-                bool directive_root(std::vector<std::string> command);
-                bool directive_autoindex(std::vector<std::string> command);
-                bool directive_index(std::vector<std::string> command);
-                bool directive_location(std::vector<std::string> command);
-
-                /* Attributes */
-                bool        autoindex;
-                unsigned    body_size;
-                unsigned    port;
-                std::string host;
-                std::string access_log;
-                std::string root;
-
-                std::vector<LocationBlock*> location_block;
-                std::vector<std::string>    index;
-                std::vector<std::string>    server_name;
-                std::map<int, std::string>  error_page;
-        };
-
         /* Getters and Setters */
-        std::vector<ServerBlock*> server_configs(void) const;
+        std::vector<ServerConfig*> server_config(void) const;
+
+#ifndef GTEST_TESTING
+
+    private:
+
+#endif
+
+        /* PImpl Object */
+        struct impl;
+        impl* m_impl;
+};
+
+struct Config::impl {
+
+        /* Constructor and Destructor */
+        impl(int argc, char* argv[]);
+        ~impl(void);
 
         /* Exceptions */
         struct InvalidFileException : public std::exception {
@@ -103,18 +61,32 @@ class Config {
                 char const* what(void) const throw();
         };
 
-    private:
+        /* Other Functions */
+        bool server_cmd(std::string line);
+        bool location_cmd(std::string line);
+        bool cmd_listen(std::vector<std::string> cmd);
+        bool cmd_server_name(std::vector<std::string> cmd);
+        bool cmd_error_page(std::vector<std::string> cmd);
+        bool cmd_max_size(std::vector<std::string> cmd);
+        bool cmd_root(std::vector<std::string> cmd);
+        bool cmd_autoindex(std::vector<std::string> cmd);
+        bool cmd_index(std::vector<std::string> cmd);
+        bool cmd_location(std::vector<std::string> cmd);
+        bool cmd_lroot(std::vector<std::string> cmd);
+        bool cmd_fastcgi_pass(std::vector<std::string> cmd);
+        bool cmd_request_method(std::vector<std::string> cmd);
 
-        /* Private Attributes */
-        std::ifstream             file;
-        std::vector<ServerBlock*> server_block;
-
-        /* Private Static Attributes */
-        static std::string default_file;
-        static std::string default_path;
-
+        /* Static Members */
+        static std::string const                d_path;
+        static std::string const                d_file;
         static std::map<int, std::string> const exit_code;
-        static std::map<int, std::string>       init_exit_code(void);
+        static std::string const                method;
+
+        static std::map<int, std::string> init_exit_code(void);
+
+        /* Member Attributes */
+        std::ifstream              file;
+        std::vector<ServerConfig*> server;
 };
 
 } // namespace webserv

@@ -3,20 +3,23 @@
 namespace webserv {
 
 /* Config Class */
-std::string Config::default_file = "default";
-std::string Config::default_path = "../webserv/";
+Config::Config(int argc, char* argv[]) : m_impl(new Config::impl(argc, argv)) {}
 
-std::map<int, std::string> const Config::exit_code = Config::init_exit_code();
+Config::~Config(void) { delete this->m_impl; }
 
-char const* Config::InvalidSyntaxException::what(void) const throw() {
-    return ("Config: Exception: Invalid Syntax");
+std::vector<ServerConfig*> Config::server_config(void) const {
+    return (this->m_impl->server);
 }
 
-char const* Config::InvalidFileException::what(void) const throw() {
-    return ("Config: Exception: Invalid File");
-}
+/* Config::impl Class */
+std::string const Config::impl::d_file = "default";
+std::string const Config::impl::d_path = "../webserv/";
 
-std::map<int, std::string> Config::init_exit_code(void) {
+std::map<int, std::string> const Config::impl::exit_code =
+    Config::impl::init_exit_code();
+std::string const Config::impl::method = "GET POST DELETE";
+
+std::map<int, std::string> Config::impl::init_exit_code(void) {
     std::map<int, std::string> code;
     code[100] = "StatusContinue";
     code[101] = "StatusSwitchingProtocols";
@@ -83,317 +86,234 @@ std::map<int, std::string> Config::init_exit_code(void) {
     return (code);
 }
 
-Config::Config(int argc, char* argv[]) {
+char const* Config::impl::InvalidFileException::what(void) const throw() {
+    return ("Config::impl invalid file exception");
+}
+
+char const* Config::impl::InvalidSyntaxException::what(void) const throw() {
+    return ("Config::impl invalid syntax exception");
+}
+
+/* Config::impl Class */
+Config::impl::impl(int argc, char* argv[]) {
     std::string filename;
 
     // checking to see if a filename was provided
     if (argc > 1) filename = std::string(argv[1]);
-    else filename = Config::default_file;
+    else filename = Config::impl::d_file;
 
     // checking to see if a path for the file was provided
     if (filename.find("/") == std::string::npos)
-        filename = Config::default_path + filename;
+        filename = Config::impl::d_path + filename;
 
     // open file and checking if everything is ok
     this->file.open(filename);
     if (!this->file.good()) { error_file(filename + ": failed to open") };
 
     // Parsing file
-    std::string    line;
-    ServerBlock*   server;
-    LocationBlock* location;
-    bool           in_server = false;
-    bool           in_location = false;
+    std::string line;
+    bool        in_server = false;
+    bool        in_location = false;
 
     while (getline(this->file, line)) {
         if (line.empty()) continue;
 
         if (line == "server {") { // beginning of the server block
-            if (in_server) { error_syntax(filename, line); }
-            server = new ServerBlock();
+            this->server.push_back(new ServerConfig());
             in_server = true;
         } else if (line == "}") { // end of the server block
             if (!in_server) { error_syntax(filename, line); }
-            this->server_block.push_back(server);
             in_server = false;
-        } else if (in_server && !in_location &&
-                   server->add_directive(line)) { // directive
+        } else if (in_server && !in_location && server_cmd(line)) { // directive
             ;
-        } else if (in_server &&
-                   line.find("location") !=
-                       std::string::npos) { // beginning of the location block
+        } else if (in_server && // beginning of the location block
+                   line.find("location") != std::string::npos) {
             if (in_location) { error_syntax(filename, line); }
-            location = new LocationBlock(line);
+            strtok(const_cast<char*>(line.c_str()), " \t");
+            this->server.back()->location.push_back(
+                new LocationConfig(strtok(NULL, " \t")));
             in_location = true;
-        } else if (line.find("}") !=
-                   std::string::npos) { // end of location block
+        } else if (line.find("}") != std::string::npos) { // end of location
             if (!in_location) { error_syntax(filename, line); }
-            server->location_block.push_back(location);
             in_location = false;
-        } else if (in_server && in_location &&
-                   location->add_directive(line)) // directive
+        } else if (in_server && in_location && location_cmd(line)) // directive
             continue;
         else { error_syntax(filename, line); }
     }
     if (in_server) { error_syntax(filename, line); }
 }
 
-Config::~Config(void) {
-    for (std::vector<ServerBlock*>::iterator it = this->server_block.begin();
-         it != this->server_block.end(); ++it)
+Config::impl::~impl(void) {
+    for (std::vector<ServerConfig*>::iterator it = this->server.begin();
+         it != this->server.end(); ++it)
         delete *it;
     this->file.close();
 }
 
-std::vector<Config::ServerBlock*> Config::server_configs(void) const {
-    return (this->server_block);
-}
-
-/* ServerBlock Class */
-
-Config::ServerBlock::ServerBlock(void)
-    : autoindex(false), port(80), host("localhost"), root("/var/www/html"),
-      access_log(Config::default_path + "webserv.log"), body_size(8000) {
-    this->index.push_back("index");
-    this->index.push_back("index.html");
-}
-
-Config::ServerBlock::~ServerBlock(void) {
-    for (std::vector<LocationBlock*>::iterator it =
-             this->location_block.begin();
-         it != this->location_block.end(); ++it)
-        delete *it;
-}
-
-bool Config::ServerBlock::add_directive(std::string line) {
-    std::vector<std::string> command;
-
+bool Config::impl::server_cmd(std::string line) {
+    std::vector<std::string> cmd;
     // splitting line into vector of strings
     char* word = strtok(const_cast<char*>(line.c_str()), " \t");
     while (word) {
-        command.push_back(word);
+        cmd.push_back(word);
         word = strtok(NULL, " \t");
     }
-
-    // checking if command ends with a comma
-    if (command.back() == ";") command.pop_back();
-    else if (command.back().back() == ';')
-        command.back().resize(command.back().size() - 1);
+    // checking if cmd ends with a comma
+    if (cmd.back() == ";") cmd.pop_back();
+    else if (cmd.back().back() == ';') cmd.back().resize(cmd.back().size() - 1);
     else return (false);
-
-    // forwarding command to the right function
-    if (command[0] == "listen") return (directive_listen(command));
-    if (command[0] == "server_name") return (directive_server_name(command));
-    if (command[0] == "error_page") return (directive_error_page(command));
-    if (command[0] == "client_max_body_size")
-        return (directive_max_size(command));
-    if (command[0] == "access_log") return (directive_access_log(command));
-    if (command[0] == "root") return (directive_root(command));
-    if (command[0] == "autoindex") return (directive_autoindex(command));
-    if (command[0] == "location") return (directive_location(command));
-    if (command[0].find("index") != std::string::npos)
-        return (directive_index(command));
+    // forwarding cmd to the right function
+    if (cmd[0] == "listen") return (cmd_listen(cmd));
+    if (cmd[0] == "server_name") return (cmd_server_name(cmd));
+    if (cmd[0] == "error_page") return (cmd_error_page(cmd));
+    if (cmd[0] == "client_max_body_size") return (cmd_max_size(cmd));
+    if (cmd[0] == "root") return (cmd_root(cmd));
+    if (cmd[0] == "autoindex") return (cmd_autoindex(cmd));
+    if (cmd[0] == "index") return (cmd_index(cmd));
     return (false);
 }
 
-bool Config::ServerBlock::directive_listen(std::vector<std::string> command) {
-    // checking if command size is valid
-    if (command.size() != 2) return (false);
+bool Config::impl::location_cmd(std::string line) {
+    std::vector<std::string> cmd;
+    // splitting line into vector of strings
+    char* word = strtok(const_cast<char*>(line.c_str()), " \t");
+    while (word) {
+        cmd.push_back(word);
+        word = strtok(NULL, " \t");
+    }
+    // checking if cmd ends with a comma
+    if (cmd.back() == ";") cmd.pop_back();
+    else if (cmd.back().back() == ';') cmd.back().resize(cmd.back().size() - 1);
+    else return (false);
+    // forwarding cmd to the right function
+    if (cmd[0] == "root") return (cmd_lroot(cmd));
+    if (cmd[0] == "fastcgi_pass") return (cmd_fastcgi_pass(cmd));
+    if (cmd[0] == "request_method") return (cmd_request_method(cmd));
+    return (false);
+}
 
-    // checking if command[1] is a numeric string
+bool Config::impl::cmd_listen(std::vector<std::string> cmd) {
+    // checking if cmd size is valid
+    if (cmd.size() != 2) return (false);
+    // checking if cmd[1] is a numeric string
     bool flag = true;
-    for (size_t i = 0; i < command[1].size(); i++)
-        if (!isdigit(command[1][i])) flag = false;
-
+    for (size_t i = 0; i < cmd[1].size(); i++)
+        if (!isdigit(cmd[1][i])) flag = false;
     std::string p, a;
-    size_t      n = command[1].find(":");
+    size_t      n = cmd[1].find(":");
     if (n != std::string::npos) {
-        a = command[1].substr(0, n);
+        a = cmd[1].substr(0, n);
         bool flag = true;
-        p = command[1].substr(n + 1);
+        p = cmd[1].substr(n + 1);
         for (size_t i = 0; i < p.size(); i++)
             if (!isdigit(p[i])) return (false);
     } else if (!flag) {
-        a = command[1];
+        a = cmd[1];
     } else {
-        p = command[1];
+        p = cmd[1];
     }
-
     if (!p.empty()) {
         std::stringstream ss(p);
-        ss >> this->port;
+        ss >> this->server.back()->port;
         // validating port number
-        if (this->port < 1 || this->port > 65535) return (false);
+        if (this->server.back()->port < 1 || this->server.back()->port > 65535)
+            return (false);
     }
-
-    if (!a.empty()) this->host = a;
-
+    if (!a.empty()) this->server.back()->host = a;
     return (true);
 }
 
-bool Config::ServerBlock::directive_root(std::vector<std::string> command) {
-    // checking if command size is valid
-    if (command.size() != 2) return (false);
-    // TODO: check if folder is available
-    this->root = command[1];
+bool Config::impl::cmd_server_name(std::vector<std::string> cmd) {
+    // checking if cmd size is valid
+    if (cmd.size() < 2) return (false);
+    for (size_t i = 1; i < cmd.size(); i++)
+        this->server.back()->server_name.push_back(cmd[i]);
     return (true);
 }
 
-bool Config::ServerBlock::directive_server_name(
-    std::vector<std::string> command) {
-    // checking if command size is valid
-    if (command.size() < 2) return (false);
-
-    for (size_t i = 1; i < command.size(); i++)
-        this->server_name.push_back(command[i]);
-    return (true);
-}
-
-bool Config::ServerBlock::directive_error_page(
-    std::vector<std::string> command) {
-    // checking if command size is valid
-    if (command.size() < 3) return (false);
-
+bool Config::impl::cmd_error_page(std::vector<std::string> cmd) {
+    // checking if cmd size is valid
+    if (cmd.size() < 3) return (false);
     // checking if error page exists
-    std::ifstream file(command.back());
+    std::ifstream file(cmd.back());
     if (!file.good()) return (false);
     file.close();
-    std::string page = command.back();
-    command.erase(command.end());
-    command.erase(command.begin());
-
-    for (size_t i = 0; i < command.size(); i++) {
-        std::stringstream ss(command[i]);
+    std::string page = cmd.back();
+    cmd.erase(cmd.end());
+    cmd.erase(cmd.begin());
+    for (size_t i = 0; i < cmd.size(); i++) {
+        std::stringstream ss(cmd[i]);
         int               code;
         ss >> code;
         if (code < 100 || code > 600) return (false);
-        this->error_page[code] = page;
+        this->server.back()->error_page[code] = page;
     }
     return (true);
 }
 
-bool Config::ServerBlock::directive_max_size(std::vector<std::string> command) {
-    // checking if command size is valid
-    if (command.size() != 2) return (false);
-    // checking if command[1] is a numeric string
-    for (size_t i = 0; i < command[1].size(); i++)
-        if (!isdigit(command[1][i])) return (false);
+bool Config::impl::cmd_max_size(std::vector<std::string> cmd) {
+    // checking if cmd size is valid
+    if (cmd.size() != 2) return (false);
+    // checking if cmd[1] is a numeric string
+    for (size_t i = 0; i < cmd[1].size(); i++)
+        if (!isdigit(cmd[1][i])) return (false);
     // TODO: maybe validate max_size - it needs to be reasonable
-    std::stringstream ss(command[1]);
-    ss >> this->body_size;
+    std::stringstream ss(cmd[1]);
+    ss >> this->server.back()->body_size;
     return (true);
 }
 
-// TODO: maybe change this->access_log type to std::ifstream
-bool Config::ServerBlock::directive_access_log(
-    std::vector<std::string> command) {
-    // checking if command size is valid
-    if (command.size() != 2) return (false);
-
-    std::ifstream file(command[1]);
-    if (!file.good()) return (false);
-    file.close();
-
-    this->access_log = command[1];
-    return (true);
-}
-
-bool Config::ServerBlock::directive_autoindex(
-    std::vector<std::string> command) {
-    // checking if command size is valid
-    if (command.size() != 2) return (false);
-
-    if (command[1] == "off") this->autoindex = false;
-    if (command[1] == "on") this->autoindex = true;
-    else return (false);
-
-    return (true);
-}
-
-bool Config::ServerBlock::directive_index(std::vector<std::string> command) {
-    // checking if command size is valid
-    if (command.size() < 2) return (false);
-    // cleaning default index
-    this->index.clear();
-
-    // TODO: check if command[0] is part of vector
-    for (size_t i = 0; i < command.size(); i++)
-        this->index.push_back(command[i]);
-
-    return (true);
-}
-
-bool Config::ServerBlock::directive_location(std::vector<std::string> command) {
-    // checking if command size is valid
-    if (command.size() < 2) return (false);
-    return (true);
-}
-
-/* LocationBlock Class */
-std::string Config::LocationBlock::methods = "GET POST DELETE";
-
-Config::LocationBlock::LocationBlock(std::string line) {
-    strtok(const_cast<char*>(line.c_str()), " \t");
-    this->uri = strtok(NULL, " \t");
-    this->request_method.push_back("GET");
-    this->request_method.push_back("POST");
-    this->request_method.push_back("DELETE");
-}
-
-Config::LocationBlock::~LocationBlock(void) {}
-
-bool Config::LocationBlock::add_directive(std::string line) {
-    std::vector<std::string> command;
-
-    // splitting line into vector of strings
-    char* word = strtok(const_cast<char*>(line.c_str()), " \t");
-    while (word) {
-        command.push_back(word);
-        word = strtok(NULL, " \t");
-    }
-
-    // checking if command ends with a comma
-    if (command.back() == ";") command.pop_back();
-    else if (command.back().back() == ';')
-        command.back().resize(command.back().size() - 1);
-    else return (false);
-
-    // forwarding command to the right function
-    if (command[0] == "root") return (directive_root(command));
-    if (command[0] == "fastcgi_pass") return (directive_fastcgi_pass(command));
-    if (command[0] == "request_method")
-        return (directive_request_method(command));
-    return (false);
-}
-
-bool Config::LocationBlock::directive_root(std::vector<std::string> command) {
-    // checking if command size is valid
-    if (command.size() != 2) return (false);
+bool Config::impl::cmd_root(std::vector<std::string> cmd) {
+    // checking if cmd size is valid
+    if (cmd.size() != 2) return (false);
     // TODO: check if folder is available
-    this->root = command[1];
+    this->server.back()->root = cmd[1];
     return (true);
 }
 
-bool Config::LocationBlock::directive_fastcgi_pass(
-    std::vector<std::string> command) {
-    // checking if command size is valid
-    if (command.size() != 2) return (false);
-    this->fastcgi_pass = command[1];
+bool Config::impl::cmd_autoindex(std::vector<std::string> cmd) {
+    // checking if cmd size is valid
+    if (cmd.size() != 2) return (false);
+    if (cmd[1] == "off") this->server.back()->autoindex = false;
+    if (cmd[1] == "on") this->server.back()->autoindex = true;
+    else return (false);
     return (true);
 }
 
-bool Config::LocationBlock::directive_request_method(
-    std::vector<std::string> command) {
-    // checking if command size is valid
-    if (command.size() < 2) return (false);
+bool Config::impl::cmd_index(std::vector<std::string> cmd) {
+    // checking if cmd size is valid
+    if (cmd.size() < 2) return (false);
     // cleaning default index
-    this->request_method.clear();
+    this->server.back()->index.clear();
+    // TODO: check if cmd[0] is part of vector
+    for (size_t i = 0; i < cmd.size(); i++)
+        this->server.back()->index.push_back(cmd[i]);
+    return (true);
+}
 
-    for (size_t i = 1; i < command.size(); i++) {
-        if (Config::LocationBlock::methods.find(command[i]) ==
-            std::string::npos)
+bool Config::impl::cmd_lroot(std::vector<std::string> cmd) {
+    // checking if cmd size is valid
+    if (cmd.size() != 2) return (false);
+    this->server.back()->location.back()->root = cmd[1];
+    return (true);
+}
+
+bool Config::impl::cmd_fastcgi_pass(std::vector<std::string> cmd) {
+    // checking if cmd size is valid
+    if (cmd.size() != 2) return (false);
+    this->server.back()->location.back()->fastcgi_pass = cmd[1];
+    return (true);
+}
+
+bool Config::impl::cmd_request_method(std::vector<std::string> cmd) {
+    // checking if cmd size is valid
+    if (cmd.size() < 2) return (false);
+    // cleaning default index
+    this->server.back()->location.back()->request_method.clear();
+    for (size_t i = 1; i < cmd.size(); i++) {
+        if (Config::impl::method.find(cmd[i]) == std::string::npos)
             return (false);
-        this->request_method.push_back(command[i]);
+        this->server.back()->location.back()->request_method.push_back(cmd[i]);
     }
     return (true);
 }
