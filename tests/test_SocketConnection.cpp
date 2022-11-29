@@ -33,10 +33,8 @@ class test_SocketConnection : public ::testing::Test {
             this->sock->listen();
             // preparing client and connection
             this->client = new Client(8080);
-            this->sock->accept();
-            auto v = this->sock->get_connections();
-            if (v.empty()) this->connection = nullptr;
-            this->connection = v[0];
+            int fd = this->sock->accept();
+            this->connection = this->sock->connection(fd);
         }
 
         void TearDown(void) {
@@ -61,10 +59,12 @@ TEST_F(test_SocketConnection, destructor) {
 
 TEST_F(test_SocketConnection, close) {
     ASSERT_NE(this->connection, nullptr);
-    ASSERT_TRUE(this->connection->close()) << errno;
+    ASSERT_NO_THROW(this->connection->close()) << errno;
     ASSERT_EQ(this->connection->sockfd(), -1);
     std::string message = "HTTP/1.1 404\r\nContent-Length: 0\r\n";
-    ASSERT_FALSE(this->connection->send(message)) << errno;
+    ASSERT_THROW(this->connection->send(message),
+                 webserv::SocketConnection::SendFailureException)
+        << errno;
 }
 
 TEST_F(test_SocketConnection, recv) {
@@ -76,6 +76,6 @@ TEST_F(test_SocketConnection, recv) {
 
 TEST_F(test_SocketConnection, send) {
     ASSERT_NE(this->connection, nullptr);
-    ASSERT_TRUE(this->connection->send(HTTP_RES)) << errno;
+    ASSERT_NO_THROW(this->connection->send(HTTP_RES)) << errno;
     ASSERT_STREQ(client->receive_message().c_str(), HTTP_RES) << errno;
 }

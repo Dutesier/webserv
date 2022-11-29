@@ -13,7 +13,7 @@ class Client : webserv::Socket {
         ~Client(void);
 
         void        close(void);
-        bool        send_message(std::string message);
+        void        send_message(std::string message);
         std::string receive_message(void);
 
         /* Exceptions */

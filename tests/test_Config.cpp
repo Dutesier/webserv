@@ -42,14 +42,14 @@ TEST_F(test_Config, server_cmd) {
     ASSERT_EQ(server->host, "example.com");
 }
 
-TEST_F(test_Config, location_cmd) {
-    ASSERT_FALSE(this->impl->location_cmd("\tfastcgi_pass unix"));
-    ASSERT_FALSE(this->impl->location_cmd("\trot /var/www/html"));
-    ASSERT_TRUE(this->impl->location_cmd("\troot /html;"));
-    webserv::LocationConfig* location =
-        this->impl->server.back()->location.back();
-    ASSERT_EQ(location->root, "/html");
-}
+// TEST_F(test_Config, location_cmd) {
+//     ASSERT_FALSE(this->impl->location_cmd("\tfastcgi_pass unix"));
+//     ASSERT_FALSE(this->impl->location_cmd("\trot /var/www/html"));
+//     ASSERT_TRUE(this->impl->location_cmd("\troot /html;"));
+//     webserv::LocationConfig* location =
+//         this->impl->server.back()->location.back();
+//     ASSERT_EQ(location->root, "/html");
+// }
 
 TEST_F(test_Config, cmd_listen) {
     this->impl->server.push_back(new webserv::ServerConfig());
