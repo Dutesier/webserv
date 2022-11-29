@@ -10,9 +10,9 @@ HTTPServer::HTTPServer(int argc, char* argv[])
 HTTPServer::~HTTPServer(void) {
     delete this->config;
     if (this->state > ready)
-        for (std::vector<TCPSocket*>::iterator it = this->sockets.begin();
-             it != this->sockets.end(); ++it)
-            delete *it;
+        for (std::map<int, TCPSocket*>::iterator it = this->sockets.begin();
+			it != this->sockets.end(); ++it)
+            delete (*it).second;
 }
 
 void HTTPServer::start(void) {
@@ -21,11 +21,9 @@ void HTTPServer::start(void) {
     if ((this->epollfd = epoll_create1(0)) < 0) // creating an epoll instance
         throw(EpollCreateException());
     // initializing all TCPSockets
-    std::vector<ServerConfig*> server = config->server_config();
+	std::vector<ServerConfig*> server = config->server_config();
     for (std::vector<ServerConfig*>::iterator it = server.begin();
-         it != server.end(); it++) {
-        init_socket(*it);
-    }
+		 it != server.end(); it++) { init_socket(*it); }
     this->state = started;
 }
 
@@ -36,13 +34,12 @@ void HTTPServer::run(void) {
         int nfds = epoll_wait(this->epollfd, events, EP_MAX_EVENTS, EP_TIMEOUT);
         if (nfds < 0) throw(EpollWaitException());
         for (int i = 0; i < nfds; i++) {
-            if (this->has_socket(events[i].data.fd)) {
+            if (this->sockets.find(events[i].data.fd) != this->sockets.end()) {
                 // TCPSocket accepts request
-                TCPSocket* sock = this->get_socket(events[i].data.fd);
-                sock->accept();
+                TCPSocket* sock = this->sockets[events[i].data.fd];
                 // A connection socket is created and inserted in epoll's
                 // interest list
-                int fd = sock->get_connections().back()->sockfd();
+                int fd = sock->accept();
                 ev.data.fd = fd;
                 ev.events = EPOLLIN | EPOLLET;
                 if (epoll_ctl(this->epollfd, EPOLL_CTL_ADD, fd, &ev) < 0)
@@ -56,25 +53,11 @@ void HTTPServer::run(void) {
 }
 
 void HTTPServer::stop(void) {
-    for (std::vector<TCPSocket*>::iterator it = this->sockets.begin();
+    for (std::map<int, TCPSocket*>::iterator it = this->sockets.begin();
          it != this->sockets.end(); ++it) {
-        (*it)->close();
+        (*it).second->close();
     }
     this->state = stoped;
-}
-
-TCPSocket* HTTPServer::get_socket(int fd) {
-    for (std::vector<TCPSocket*>::iterator it = this->sockets.begin();
-         it != this->sockets.end(); ++it)
-        if ((*it)->sockfd() == fd) return (*it);
-    return (NULL);
-}
-
-bool HTTPServer::has_socket(int fd) {
-    for (std::vector<TCPSocket*>::iterator it = this->sockets.begin();
-         it != this->sockets.end(); ++it)
-        if ((*it)->sockfd() == fd) return (true);
-    return (false);
 }
 
 void HTTPServer::init_socket(ServerConfig* server) {
@@ -84,7 +67,7 @@ void HTTPServer::init_socket(ServerConfig* server) {
     timeout.tv_usec = 0;
     // creating socket
     TCPSocket* sock = new TCPSocket(server->port, server->host);
-    this->sockets.push_back(sock);
+	this->sockets.insert(std::pair<int,TCPSocket*>(sock->sockfd(), sock));
     // setting socket options
     sock->setsockopt(SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int));
     sock->setsockopt(SOL_SOCKET, SO_REUSEPORT, &enable, sizeof(int));

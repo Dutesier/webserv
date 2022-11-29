@@ -11,7 +11,7 @@ void webserv::webserv(int argc, char* argv[]) {
         g_webserv = new HTTPServer(argc, argv);
         g_webserv->start();
         g_webserv->run();
-        // webserv::stop(SIGSTOP); // uncomment this when using valgrind
+        webserv::stop(SIGSTOP); // uncomment this when using valgrind
     } catch (std::exception& e) { std::cout << e.what() << std::endl; }
 }
 

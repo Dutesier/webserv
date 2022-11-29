@@ -10,11 +10,9 @@ TCPSocket::TCPSocket(int port, std::string host, int family)
 
 TCPSocket::~TCPSocket(void) {
 
-    typedef std::vector<SocketConnection*>::iterator iterator;
-
-    for (iterator it = this->connections.begin(); it < this->connections.end();
+    for (std::map<int, SocketConnection*>::iterator it = this->connections.begin(); it != this->connections.end();
          ++it)
-        delete *it;
+        delete (*it).second;
     this->connections.clear();
     this->close();
     // FLOG_D("webserv::TCPSocket destroyed a socket");
@@ -58,7 +56,7 @@ void TCPSocket::close(void) {
 // Starts accepting connections. Accept is a blocking call that will wait for
 // an incoming connection we can set a RCVTIMEO (timeout) value for the socket
 // in order to prevent accept from blocking our program
-void TCPSocket::accept(void) {
+int TCPSocket::accept(void) {
 
     SocketAddress     connect_addr;
     SocketConnection* sock_connect;
@@ -67,7 +65,8 @@ void TCPSocket::accept(void) {
         ::accept(this->fd, connect_addr.address(), connect_addr.length_ptr());
     if (connect_fd < 0) throw(AcceptFailureException());
     sock_connect = new SocketConnection(connect_fd, connect_addr);
-    this->connections.push_back(sock_connect);
+    this->connections.insert(std::pair<int, SocketConnection*>(connect_fd, sock_connect));
+	return (connect_fd);
     // FLOG_D("webserv::TCPSocket accepted new client");
 }
 
@@ -92,8 +91,10 @@ void TCPSocket::send(SocketConnection* connection, std::string response) {
     connection->send(response);
 }
 
-std::vector<SocketConnection*> TCPSocket::get_connections(void) const {
-    return (this->connections);
+SocketConnection* TCPSocket::connection(int fd) const {
+	if (this->connections.find(fd) == this->connections.end())
+		throw (NoSuchConnectionException());
+	return (this->connections.at(fd));
 }
 
 char const* TCPSocket::BindFailureException::what(void) const throw() {
@@ -126,6 +127,10 @@ char const* TCPSocket::SendFailureException::what(void) const throw() {
 
 char const* TCPSocket::RecvFailureException::what(void) const throw() {
     return ("webserv::TCPSocket failure in recv()");
+}
+
+char const* TCPSocket::NoSuchConnectionException::what(void) const throw() {
+    return ("webserv::TCPSocket no such SocketConnection");
 }
 
 } // namespace webserv

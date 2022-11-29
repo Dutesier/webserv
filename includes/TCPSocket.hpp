@@ -6,7 +6,7 @@
 #include "SocketConnection.hpp"
 
 #include <unistd.h>
-#include <vector>
+#include <map>
 
 // TODO: make this either specific to each socket or to each server
 // That way we can tests specific backlogs
@@ -33,7 +33,7 @@ class TCPSocket : public Socket {
         void setsockopt(int level, int optname, const void* optval,
                         socklen_t optlen);
         // TODO: change return val
-        void accept(void);
+        int accept(void);
         void shutdown(int how);
         void close(void);
 
@@ -41,7 +41,7 @@ class TCPSocket : public Socket {
         void        send(SocketConnection* connection, std::string response);
 
         // TODO: refactor this to a more safe and smart approach
-        std::vector<SocketConnection*> get_connections(void) const;
+        SocketConnection* connection(int fd) const;
 
         /* Exceptions */
         struct BindFailureException : public std::exception {
@@ -76,10 +76,14 @@ class TCPSocket : public Socket {
                 char const* what(void) const throw();
         };
 
+        struct NoSuchConnectionException : public std::exception {
+                char const* what(void) const throw();
+        };
+
     private:
 
         /* Other Private Functions */
-        std::vector<SocketConnection*> connections;
+        std::map<int, SocketConnection*> connections;
         // ServerConfig				   configs; // just an idea for now
 };
 

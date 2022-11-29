@@ -5,6 +5,7 @@
 #include "ServerConfig.hpp"
 #include "TCPSocket.hpp"
 
+#include <map>
 #include <sys/epoll.h>
 
 #define EP_MAX_EVENTS 200
@@ -40,19 +41,18 @@ class HTTPServer {
 
     private:
 
+		/* Private Member Types */
         typedef enum s_state { ready, started, running, stoped } t_state;
 
         /* Other Functions */
-        TCPSocket* get_socket(int fd);
-        bool       has_socket(int fd);
         void       init_socket(ServerConfig* server);
 
         /* Private Attributes */
-        t_state state;
-        Config* config;
-        int     epollfd;
+        Config*  config;
+		std::map<int, TCPSocket*> sockets;
 
-        std::vector<TCPSocket*> sockets;
+        t_state  state;
+        int      epollfd;
 };
 
 } // namespace webserv
