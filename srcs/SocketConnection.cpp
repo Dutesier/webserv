@@ -38,7 +38,7 @@ std::string SocketConnection::recv(void) {
 }
 
 void SocketConnection::send(std::string message) {
-    if (::send(fd, message.c_str(), message.size(), 0) <= 0)
+    if (::send(fd, message.c_str(), message.size(), 0) < 0)
         throw(SendFailureException());
 }
 

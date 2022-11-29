@@ -46,10 +46,23 @@ void HTTPServer::run(void) {
                     throw(EpollAddException());
                 FLOG_D("webserv::HTTPServer ACK()");
             } else {
+				// find client socket
+				SocketConnection* con;
+				for (std::map<int, TCPSocket*>::iterator it = this->sockets.begin();
+					 it != this->sockets.end(); it++) {
+						try {
+							con = (*it).second->connection(events[i].data.fd);
+						} catch (TCPSocket::NoSuchConnectionException& e) {;}
+						if (con) break ;
+				}
                 FLOG_D("webserv::HTTPServer REQ()");
+				std::string str = con->recv();
+				std::cout << str << std::endl;
+				con->send(str);
             }
         }
     }
+	std::cout << (this->state == running ? "yes" : "no") << std::endl;
 }
 
 void HTTPServer::stop(void) {
