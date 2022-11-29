@@ -11,7 +11,7 @@ HTTPServer::~HTTPServer(void) {
     delete this->config;
     if (this->state > ready)
         for (std::map<int, TCPSocket*>::iterator it = this->sockets.begin();
-			it != this->sockets.end(); ++it)
+             it != this->sockets.end(); ++it)
             delete (*it).second;
 }
 
@@ -21,9 +21,11 @@ void HTTPServer::start(void) {
     if ((this->epollfd = epoll_create1(0)) < 0) // creating an epoll instance
         throw(EpollCreateException());
     // initializing all TCPSockets
-	std::vector<ServerConfig*> server = config->server_config();
+    std::vector<ServerConfig*> server = config->server_config();
     for (std::vector<ServerConfig*>::iterator it = server.begin();
-		 it != server.end(); it++) { init_socket(*it); }
+         it != server.end(); it++) {
+        init_socket(*it);
+    }
     this->state = started;
 }
 
@@ -46,23 +48,24 @@ void HTTPServer::run(void) {
                     throw(EpollAddException());
                 FLOG_D("webserv::HTTPServer ACK()");
             } else {
-				// find client socket
-				SocketConnection* con;
-				for (std::map<int, TCPSocket*>::iterator it = this->sockets.begin();
-					 it != this->sockets.end(); it++) {
-						try {
-							con = (*it).second->connection(events[i].data.fd);
-						} catch (TCPSocket::NoSuchConnectionException& e) {;}
-						if (con) break ;
-				}
+                // find client socket
+                SocketConnection* con = NULL;
+                for (std::map<int, TCPSocket*>::iterator it =
+                         this->sockets.begin();
+                     it != this->sockets.end(); it++) {
+                    try {
+                        con = (*it).second->connection(events[i].data.fd);
+                    } catch (TCPSocket::NoSuchConnectionException& e) { ; }
+                    if (con) break;
+                }
                 FLOG_D("webserv::HTTPServer REQ()");
-				std::string str = con->recv();
-				std::cout << str << std::endl;
-				con->send(str);
+                std::string str = con->recv();
+                std::cout << str << std::endl;
+                con->send(str);
             }
         }
     }
-	std::cout << (this->state == running ? "yes" : "no") << std::endl;
+    std::cout << (this->state == running ? "yes" : "no") << std::endl;
 }
 
 void HTTPServer::stop(void) {
@@ -80,7 +83,7 @@ void HTTPServer::init_socket(ServerConfig* server) {
     timeout.tv_usec = 0;
     // creating socket
     TCPSocket* sock = new TCPSocket(server->port, server->host);
-	this->sockets.insert(std::pair<int,TCPSocket*>(sock->sockfd(), sock));
+    this->sockets.insert(std::pair<int, TCPSocket*>(sock->sockfd(), sock));
     // setting socket options
     sock->setsockopt(SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int));
     sock->setsockopt(SOL_SOCKET, SO_REUSEPORT, &enable, sizeof(int));

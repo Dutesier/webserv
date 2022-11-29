@@ -41,18 +41,18 @@ class HTTPServer {
 
     private:
 
-		/* Private Member Types */
+        /* Private Member Types */
         typedef enum s_state { ready, started, running, stoped } t_state;
 
         /* Other Functions */
-        void       init_socket(ServerConfig* server);
+        void init_socket(ServerConfig* server);
 
         /* Private Attributes */
-        Config*  config;
-		std::map<int, TCPSocket*> sockets;
+        Config*                   config;
+        std::map<int, TCPSocket*> sockets;
 
-        t_state  state;
-        int      epollfd;
+        t_state state;
+        int     epollfd;
 };
 
 } // namespace webserv

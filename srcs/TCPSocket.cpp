@@ -10,8 +10,9 @@ TCPSocket::TCPSocket(int port, std::string host, int family)
 
 TCPSocket::~TCPSocket(void) {
 
-    for (std::map<int, SocketConnection*>::iterator it = this->connections.begin(); it != this->connections.end();
-         ++it)
+    for (std::map<int, SocketConnection*>::iterator it =
+             this->connections.begin();
+         it != this->connections.end(); ++it)
         delete (*it).second;
     this->connections.clear();
     this->close();
@@ -65,8 +66,9 @@ int TCPSocket::accept(void) {
         ::accept(this->fd, connect_addr.address(), connect_addr.length_ptr());
     if (connect_fd < 0) throw(AcceptFailureException());
     sock_connect = new SocketConnection(connect_fd, connect_addr);
-    this->connections.insert(std::pair<int, SocketConnection*>(connect_fd, sock_connect));
-	return (connect_fd);
+    this->connections.insert(
+        std::pair<int, SocketConnection*>(connect_fd, sock_connect));
+    return (connect_fd);
     // FLOG_D("webserv::TCPSocket accepted new client");
 }
 
@@ -92,9 +94,9 @@ void TCPSocket::send(SocketConnection* connection, std::string response) {
 }
 
 SocketConnection* TCPSocket::connection(int fd) const {
-	if (this->connections.find(fd) == this->connections.end())
-		throw (NoSuchConnectionException());
-	return (this->connections.at(fd));
+    if (this->connections.find(fd) == this->connections.end())
+        throw(NoSuchConnectionException());
+    return (this->connections.at(fd));
 }
 
 char const* TCPSocket::BindFailureException::what(void) const throw() {

@@ -5,8 +5,8 @@
 #include "Socket.hpp"
 #include "SocketConnection.hpp"
 
-#include <unistd.h>
 #include <map>
+#include <unistd.h>
 
 // TODO: make this either specific to each socket or to each server
 // That way we can tests specific backlogs
@@ -33,7 +33,7 @@ class TCPSocket : public Socket {
         void setsockopt(int level, int optname, const void* optval,
                         socklen_t optlen);
         // TODO: change return val
-        int accept(void);
+        int  accept(void);
         void shutdown(int how);
         void close(void);
 

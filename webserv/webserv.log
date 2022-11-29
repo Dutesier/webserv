@@ -1,39 +1,129 @@
 [DEBUG]: (TCPSocket:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/TCPSocket.cpp:8) webserv::TCPSocket created a socket
 [DEBUG]: (TCPSocket:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/TCPSocket.cpp:8) webserv::TCPSocket created a socket
 [DEBUG]: (SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:7) webserv::SocketConnection created a socket
-[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:47) webserv::HTTPServer ACK()
-[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:58) webserv::HTTPServer REQ()
-[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:58) webserv::HTTPServer REQ()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:49) webserv::HTTPServer ACK()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
 [DEBUG]: (SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:7) webserv::SocketConnection created a socket
-[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:47) webserv::HTTPServer ACK()
-[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:58) webserv::HTTPServer REQ()
-[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:58) webserv::HTTPServer REQ()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:49) webserv::HTTPServer ACK()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
 [DEBUG]: (SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:7) webserv::SocketConnection created a socket
-[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:47) webserv::HTTPServer ACK()
-[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:58) webserv::HTTPServer REQ()
-[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:58) webserv::HTTPServer REQ()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:49) webserv::HTTPServer ACK()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
 [DEBUG]: (SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:7) webserv::SocketConnection created a socket
-[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:47) webserv::HTTPServer ACK()
-[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:58) webserv::HTTPServer REQ()
-[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:58) webserv::HTTPServer REQ()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:49) webserv::HTTPServer ACK()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
 [DEBUG]: (SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:7) webserv::SocketConnection created a socket
-[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:47) webserv::HTTPServer ACK()
-[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:58) webserv::HTTPServer REQ()
-[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:58) webserv::HTTPServer REQ()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:49) webserv::HTTPServer ACK()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
 [DEBUG]: (SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:7) webserv::SocketConnection created a socket
-[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:47) webserv::HTTPServer ACK()
-[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:58) webserv::HTTPServer REQ()
-[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:58) webserv::HTTPServer REQ()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:49) webserv::HTTPServer ACK()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
 [DEBUG]: (SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:7) webserv::SocketConnection created a socket
-[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:47) webserv::HTTPServer ACK()
-[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:58) webserv::HTTPServer REQ()
-[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:58) webserv::HTTPServer REQ()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:49) webserv::HTTPServer ACK()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
 [DEBUG]: (SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:7) webserv::SocketConnection created a socket
-[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:47) webserv::HTTPServer ACK()
-[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:58) webserv::HTTPServer REQ()
-[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:58) webserv::HTTPServer REQ()
-[DEBUG]: (close:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/TCPSocket.cpp:53) webserv::TCPSocket closed socket
-[DEBUG]: (close:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/TCPSocket.cpp:53) webserv::TCPSocket closed socket
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:49) webserv::HTTPServer ACK()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:7) webserv::SocketConnection created a socket
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:49) webserv::HTTPServer ACK()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:7) webserv::SocketConnection created a socket
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:49) webserv::HTTPServer ACK()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:7) webserv::SocketConnection created a socket
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:49) webserv::HTTPServer ACK()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:7) webserv::SocketConnection created a socket
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:49) webserv::HTTPServer ACK()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:7) webserv::SocketConnection created a socket
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:49) webserv::HTTPServer ACK()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:7) webserv::SocketConnection created a socket
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:49) webserv::HTTPServer ACK()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:7) webserv::SocketConnection created a socket
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:49) webserv::HTTPServer ACK()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:7) webserv::SocketConnection created a socket
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:49) webserv::HTTPServer ACK()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:7) webserv::SocketConnection created a socket
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:49) webserv::HTTPServer ACK()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:7) webserv::SocketConnection created a socket
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:49) webserv::HTTPServer ACK()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:7) webserv::SocketConnection created a socket
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:49) webserv::HTTPServer ACK()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:7) webserv::SocketConnection created a socket
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:49) webserv::HTTPServer ACK()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:7) webserv::SocketConnection created a socket
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:49) webserv::HTTPServer ACK()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:7) webserv::SocketConnection created a socket
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:49) webserv::HTTPServer ACK()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:7) webserv::SocketConnection created a socket
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:49) webserv::HTTPServer ACK()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/HTTPServer.cpp:61) webserv::HTTPServer REQ()
+[DEBUG]: (close:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/TCPSocket.cpp:54) webserv::TCPSocket closed socket
+[DEBUG]: (close:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/TCPSocket.cpp:54) webserv::TCPSocket closed socket
+[DEBUG]: (~SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:15) webserv::SocketConnection destroyed a socket
+[DEBUG]: (close:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:23) webserv::SocketConnection closed a socket
+[DEBUG]: (~SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:15) webserv::SocketConnection destroyed a socket
+[DEBUG]: (close:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:23) webserv::SocketConnection closed a socket
+[DEBUG]: (~SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:15) webserv::SocketConnection destroyed a socket
+[DEBUG]: (close:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:23) webserv::SocketConnection closed a socket
+[DEBUG]: (~SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:15) webserv::SocketConnection destroyed a socket
+[DEBUG]: (close:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:23) webserv::SocketConnection closed a socket
+[DEBUG]: (~SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:15) webserv::SocketConnection destroyed a socket
+[DEBUG]: (close:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:23) webserv::SocketConnection closed a socket
+[DEBUG]: (~SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:15) webserv::SocketConnection destroyed a socket
+[DEBUG]: (close:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:23) webserv::SocketConnection closed a socket
+[DEBUG]: (~SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:15) webserv::SocketConnection destroyed a socket
+[DEBUG]: (close:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:23) webserv::SocketConnection closed a socket
+[DEBUG]: (~SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:15) webserv::SocketConnection destroyed a socket
+[DEBUG]: (close:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:23) webserv::SocketConnection closed a socket
+[DEBUG]: (~SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:15) webserv::SocketConnection destroyed a socket
+[DEBUG]: (close:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:23) webserv::SocketConnection closed a socket
+[DEBUG]: (~SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:15) webserv::SocketConnection destroyed a socket
+[DEBUG]: (close:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:23) webserv::SocketConnection closed a socket
+[DEBUG]: (~SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:15) webserv::SocketConnection destroyed a socket
+[DEBUG]: (close:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:23) webserv::SocketConnection closed a socket
+[DEBUG]: (~SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:15) webserv::SocketConnection destroyed a socket
+[DEBUG]: (close:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:23) webserv::SocketConnection closed a socket
+[DEBUG]: (~SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:15) webserv::SocketConnection destroyed a socket
+[DEBUG]: (close:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:23) webserv::SocketConnection closed a socket
+[DEBUG]: (~SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:15) webserv::SocketConnection destroyed a socket
+[DEBUG]: (close:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:23) webserv::SocketConnection closed a socket
+[DEBUG]: (~SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:15) webserv::SocketConnection destroyed a socket
+[DEBUG]: (close:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:23) webserv::SocketConnection closed a socket
 [DEBUG]: (~SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:15) webserv::SocketConnection destroyed a socket
 [DEBUG]: (close:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:23) webserv::SocketConnection closed a socket
 [DEBUG]: (~SocketConnection:/home/mlancac/.Cursus/lv5/webserv_pimpl/srcs/SocketConnection.cpp:15) webserv::SocketConnection destroyed a socket
