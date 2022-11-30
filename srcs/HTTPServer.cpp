@@ -13,8 +13,8 @@ HTTPServer::~HTTPServer(void) {
         for (std::map<int, TCPSocket*>::iterator it = this->sockets.begin();
              it != this->sockets.end(); it++) {
             delete (*it).second;
-		}
-	}
+        }
+    }
 }
 
 void HTTPServer::start(void) {
@@ -36,7 +36,7 @@ void HTTPServer::run(void) {
     this->state = running;
     while (this->state == running) {
         int nfds = epoll_wait(this->epollfd, events, EP_MAX_EVENTS, EP_TIMEOUT);
-		if (this->state != running) break ;
+        if (this->state != running) break;
         if (nfds < 0) throw(EpollWaitException());
         for (int i = 0; i < nfds; i++) {
             if (this->sockets.find(events[i].data.fd) != this->sockets.end()) {
