@@ -80,7 +80,7 @@ class TCPSocket : public Socket {
                 char const* what(void) const throw();
         };
 
-    private:
+    protected:
 
         /* Other Private Functions */
         std::map<int, SocketConnection*> connections;

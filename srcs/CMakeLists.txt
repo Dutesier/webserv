@@ -11,6 +11,7 @@ add_library(${PROJECT_NAME} STATIC
 	SocketAddress.cpp
 	SocketConnection.cpp
 	TCPSocket.cpp
+	ServerSocket.cpp
 )
 
 add_library(42::${PROJECT_NAME} ALIAS ${PROJECT_NAME})

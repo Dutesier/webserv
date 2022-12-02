@@ -3,7 +3,7 @@
 
 #include "Config.hpp"
 #include "ServerConfig.hpp"
-#include "TCPSocket.hpp"
+#include "ServerSocket.hpp"
 
 #include <map>
 #include <sys/epoll.h>
@@ -45,11 +45,11 @@ class HTTPServer {
         typedef enum s_state { ready, started, running, stoped } t_state;
 
         /* Other Functions */
-        void init_socket(ServerConfig* server);
+        void epoll_add(int fd);
 
         /* Private Attributes */
         Config*                   config;
-        std::map<int, TCPSocket*> sockets;
+        std::map<int, ServerSocket*> sockets;
 
         t_state state;
         int     epollfd;
