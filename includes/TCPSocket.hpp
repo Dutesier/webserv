@@ -42,6 +42,7 @@ class TCPSocket : public Socket {
 
         // TODO: refactor this to a more safe and smart approach
         SocketConnection* connection(int fd) const;
+        bool has_connection(int fd) const;
 
         /* Exceptions */
         struct BindFailureException : public std::exception {
@@ -84,7 +85,6 @@ class TCPSocket : public Socket {
 
         /* Other Private Functions */
         std::map<int, SocketConnection*> connections;
-        // ServerConfig				   configs; // just an idea for now
 };
 
 } // namespace webserv

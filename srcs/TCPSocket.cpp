@@ -74,28 +74,24 @@ int TCPSocket::accept(void) {
 // TODO: i don't really like this connection == NULL verification. I think this
 // will probably need to do something more specific in the future
 std::string TCPSocket::recv(SocketConnection* connection) {
-    /* The following if statement is useful for testing but might also be
-     * useful in prod */
-    if (connection == NULL) {
-        if (connections.size() > 0) connection = connections.at(0);
-        else throw(RecvFailureException());
-    }
+
+    if (this->has_connection(fd)) throw(NoSuchConnectionException());
     return (connection->recv());
 }
 
 void TCPSocket::send(SocketConnection* connection, std::string response) {
-    /* Same as above */
-    if (connection == NULL) {
-        if (connections.size() > 0) connection = connections.at(0);
-        else throw(SendFailureException());
-    }
+
+    if (this->has_connection(fd)) throw(NoSuchConnectionException());
     connection->send(response);
 }
 
 SocketConnection* TCPSocket::connection(int fd) const {
-    if (this->connections.find(fd) == this->connections.end())
-        throw(NoSuchConnectionException());
+    if (this->has_connection(fd)) throw(NoSuchConnectionException());
     return (this->connections.at(fd));
+}
+
+bool TCPSocket::has_connection(int fd) const {
+	return (this->connections.find(fd) == this->connections.end() ? false : true);
 }
 
 char const* TCPSocket::BindFailureException::what(void) const throw() {
