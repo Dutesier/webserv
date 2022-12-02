@@ -2,6 +2,7 @@
 #define HTTP_SERVER_HPP
 
 #include "Config.hpp"
+#include "HTTPHandler.hpp"
 #include "ServerConfig.hpp"
 #include "ServerSocket.hpp"
 

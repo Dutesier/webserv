@@ -51,10 +51,13 @@ void HTTPServer::run(void) {
             } else {
                 std::map<int, ServerSocket*>::iterator it;
                 for (it = this->sockets.begin(); it != this->sockets.end();
-                     it++)
-                    if ((*it).second->has_connection(events[i].data.fd)) break;
-                // HTTPHandler::handle((*it).second);
-                FLOG_D("webserv::HTTPServer REQ()");
+                     it++) {
+                    if ((*it).second->has_connection(events[i].data.fd)) {
+                        FLOG_D("webserv::HTTPServer REQ()");
+                        HTTPHandler::handle((*it).second, events[i].data.fd);
+                        break;
+                    }
+                }
             }
         }
     }

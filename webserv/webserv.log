@@ -1,4 +1,0 @@
-[DEBUG]: (TCPSocket:/home/mlancac/.Cursus/lv5/webserv/srcs/TCPSocket.cpp:8) webserv::TCPSocket created a socket
-[DEBUG]: (TCPSocket:/home/mlancac/.Cursus/lv5/webserv/srcs/TCPSocket.cpp:8) webserv::TCPSocket created a socket
-[DEBUG]: (close:/home/mlancac/.Cursus/lv5/webserv/srcs/TCPSocket.cpp:53) webserv::TCPSocket closed socket
-[DEBUG]: (close:/home/mlancac/.Cursus/lv5/webserv/srcs/TCPSocket.cpp:53) webserv::TCPSocket closed socket

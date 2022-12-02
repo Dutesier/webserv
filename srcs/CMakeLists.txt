@@ -3,6 +3,7 @@ project(webserv_lib)
 add_library(${PROJECT_NAME} STATIC
 	webserv.cpp
 	HTTPServer.cpp
+	HTTPHandler.cpp
 	Config.cpp
 	ServerConfig.cpp
 	Logger.cpp

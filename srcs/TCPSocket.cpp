@@ -75,18 +75,18 @@ int TCPSocket::accept(void) {
 // will probably need to do something more specific in the future
 std::string TCPSocket::recv(SocketConnection* connection) {
 
-    if (this->has_connection(fd)) throw(NoSuchConnectionException());
+    if (!this->has_connection(fd)) throw(NoSuchConnectionException());
     return (connection->recv());
 }
 
 void TCPSocket::send(SocketConnection* connection, std::string response) {
 
-    if (this->has_connection(fd)) throw(NoSuchConnectionException());
+    if (!this->has_connection(fd)) throw(NoSuchConnectionException());
     connection->send(response);
 }
 
 SocketConnection* TCPSocket::connection(int fd) const {
-    if (this->has_connection(fd)) throw(NoSuchConnectionException());
+    if (!this->has_connection(fd)) throw(NoSuchConnectionException());
     return (this->connections.at(fd));
 }
 
