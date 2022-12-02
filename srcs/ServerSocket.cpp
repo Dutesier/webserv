@@ -2,7 +2,8 @@
 
 namespace webserv {
 
-ServerSocket::ServerSocket(ServerConfig* config) : TCPSocket(config->port, config->host) {
+ServerSocket::ServerSocket(ServerConfig* config)
+    : TCPSocket(config->port, config->host) {
 
     int            enable = 1;
     struct timeval timeout;
@@ -20,4 +21,4 @@ ServerSocket::ServerSocket(ServerConfig* config) : TCPSocket(config->port, confi
 
 ServerSocket::~ServerSocket(void) {}
 
-}
+} // namespace webserv

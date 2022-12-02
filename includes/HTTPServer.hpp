@@ -48,7 +48,7 @@ class HTTPServer {
         void epoll_add(int fd);
 
         /* Private Attributes */
-        Config*                   config;
+        Config*                      config;
         std::map<int, ServerSocket*> sockets;
 
         t_state state;

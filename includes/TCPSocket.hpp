@@ -42,7 +42,7 @@ class TCPSocket : public Socket {
 
         // TODO: refactor this to a more safe and smart approach
         SocketConnection* connection(int fd) const;
-        bool has_connection(int fd) const;
+        bool              has_connection(int fd) const;
 
         /* Exceptions */
         struct BindFailureException : public std::exception {

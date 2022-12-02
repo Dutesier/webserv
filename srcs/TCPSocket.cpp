@@ -91,7 +91,8 @@ SocketConnection* TCPSocket::connection(int fd) const {
 }
 
 bool TCPSocket::has_connection(int fd) const {
-	return (this->connections.find(fd) == this->connections.end() ? false : true);
+    return (this->connections.find(fd) == this->connections.end() ? false
+                                                                  : true);
 }
 
 char const* TCPSocket::BindFailureException::what(void) const throw() {

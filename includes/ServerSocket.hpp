@@ -1,5 +1,5 @@
 #ifndef SERVER_SOCKET_HPP
-# define SERVER_SOCKET_HPP
+#define SERVER_SOCKET_HPP
 
 #include "ServerConfig.hpp"
 #include "TCPSocket.hpp"
@@ -8,19 +8,18 @@ namespace webserv {
 
 class ServerSocket : public TCPSocket {
 
-	public:
+    public:
 
-		/* Constructor and Destructor */
-		ServerSocket(ServerConfig* config);
-		~ServerSocket(void);
+        /* Constructor and Destructor */
+        ServerSocket(ServerConfig* config);
+        ~ServerSocket(void);
 
-	private:
+    private:
 
-		/* Private Attributes */
+        /* Private Attributes */
         ServerConfig* configs;
-
 };
 
-}
+} // namespace webserv
 
 #endif /* SERVER_SOCKET_HPP */
