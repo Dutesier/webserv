@@ -21,6 +21,9 @@ namespace webserv {
  throw(InvalidFileException());
 
 #define error_syntax(M, L)                                                     \
+ for (std::vector<ServerConfig*>::iterator it = this->server.begin();          \
+      it != this->server.end(); ++it)                                          \
+  delete *it;                                                                  \
  ERROR_(M + ": " + L, webserv::Error::invalid_syntax);                         \
  throw(InvalidSyntaxException());
 

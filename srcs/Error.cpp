@@ -11,6 +11,7 @@ std::string Error::message(void) const {
         case invalid_file: return ("invalid file: " + this->msg);
         case invalid_syntax: return ("invalid syntax: " + this->msg);
     }
+    return ("error: " + this->msg);
 }
 
 } // namespace webserv

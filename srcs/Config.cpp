@@ -87,11 +87,11 @@ std::map<int, std::string> Config::impl::init_exit_code(void) {
 }
 
 char const* Config::impl::InvalidFileException::what(void) const throw() {
-    return ("Config::impl invalid file exception");
+    return ("webserv::Config::impl invalid file exception");
 }
 
 char const* Config::impl::InvalidSyntaxException::what(void) const throw() {
-    return ("Config::impl invalid syntax exception");
+    return ("webser::Config::impl invalid syntax exception");
 }
 
 /* Config::impl Class */

@@ -12,9 +12,8 @@ ServerConfig::ServerConfig(void)
 
 ServerConfig::~ServerConfig(void) {
     for (std::vector<LocationConfig*>::iterator it = this->location.begin();
-         it != this->location.end(); ++it) {
+         it != this->location.end(); ++it)
         delete *it;
-    }
 }
 
 /* LocationConfig Class */

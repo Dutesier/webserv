@@ -3,6 +3,7 @@ project(webserv_lib)
 add_library(${PROJECT_NAME} STATIC
 	webserv.cpp
 	HTTPServer.cpp
+	HTTPHandler.cpp
 	Config.cpp
 	ServerConfig.cpp
 	Logger.cpp
@@ -11,6 +12,7 @@ add_library(${PROJECT_NAME} STATIC
 	SocketAddress.cpp
 	SocketConnection.cpp
 	TCPSocket.cpp
+	ServerSocket.cpp
 )
 
 add_library(42::${PROJECT_NAME} ALIAS ${PROJECT_NAME})

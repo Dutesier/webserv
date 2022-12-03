@@ -68,6 +68,7 @@ FileLogger::~FileLogger() {
 }
 
 void FileLogger::setLogFile(std::string filename) {
+    remove(filename.c_str());
     logFile.open(filename, std::ios_base::app);
     if (!logFile.good()) {
         logFile.close();

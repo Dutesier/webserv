@@ -15,7 +15,7 @@ class unique_ptr {
         unique_ptr& operator=(const unique_ptr& other) = delete;
 
         ~unique_ptr() {
-            if (pointer != nullptr) { delete pointer; }
+            if (pointer != nullptr) delete pointer;
         }
 
         T* operator->() { return this->pointer; }
@@ -38,14 +38,14 @@ class shared_ptr {
         shared_ptr(const shared_ptr& other) {
             this->pointer = other.pointer;
             this->referenceCount = other.referenceCount;
-            if (this->pointer != NULL) { (*(this->referenceCount))++; }
+            if (this->pointer != NULL) (*(this->referenceCount))++;
         }
 
         shared_ptr& operator=(const shared_ptr& other) {
             destroy();
             this->pointer = other.pointer;
             this->referenceCount = other.referenceCount;
-            if (this->pointer != NULL) { (*(this->referenceCount))++; }
+            if (this->pointer != NULL) (*(this->referenceCount))++;
             return (*this);
         }
 
@@ -60,7 +60,7 @@ class shared_ptr {
         void destroy() {
             if (*referenceCount) (*referenceCount)--;
             if (*referenceCount == 0) {
-                if (pointer != NULL) { delete pointer; }
+                if (pointer != NULL) delete pointer;
                 delete referenceCount;
             }
         }

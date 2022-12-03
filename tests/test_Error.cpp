@@ -4,6 +4,10 @@
 #include <iostream>
 #include <string>
 
+#define INVALID_FILE                                                           \
+ std::string("invalid_file: ../webserv/default: failed to open")
+#define INVALID_SYNTAX "invalid_syntax: ../webserv/default 12: listen 443;"
+
 TEST(test_Error, constructor) {
     webserv::Error error("../webserv/default: failed to open",
                          webserv::Error::invalid_file);
@@ -23,8 +27,6 @@ TEST(test_Error, message) {
                               webserv::Error::invalid_file);
     webserv::Error syntax_error("../webserv/default 12: listen 443;",
                                 webserv::Error::invalid_syntax);
-    ASSERT_TRUE(file_error.message() ==
-                "invalid_file: ../webserv/default: failed to open");
-    ASSERT_TRUE(syntax_error.message() ==
-                "invalid_syntax: ../webserv/default 12: listen 443;");
+    ASSERT_STREQ(file_error.message().c_str(), INVALID_FILE.c_str());
+    ASSERT_TRUE(syntax_error.message() == INVALID_SYNTAX);
 }

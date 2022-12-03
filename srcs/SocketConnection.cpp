@@ -3,16 +3,24 @@
 namespace webserv {
 
 SocketConnection::SocketConnection(int fd, SocketAddress addr)
-    : Socket(fd, addr, SOCK_STREAM) {}
+    : Socket(fd, addr, SOCK_STREAM) {
+    FLOG_D("webserv::SocketConnection created a socket");
+}
 
-SocketConnection::SocketConnection() : Socket() {}
+SocketConnection::SocketConnection() : Socket() {
+    FLOG_D("webserv::SocketConnection created a socket");
+}
 
-SocketConnection::~SocketConnection(void) { this->close(); }
+SocketConnection::~SocketConnection(void) {
+    FLOG_D("webserv::SocketConnection destroyed a socket");
+    this->close();
+}
 
-bool SocketConnection::close(void) {
-    if (::close(this->fd) < 0) return (false);
+void SocketConnection::close(void) {
+    if (this->fd == -1) return;
+    if (::close(this->fd) < 0) throw(CloseFailureException());
     this->fd = -1;
-    return (true);
+    FLOG_D("webserv::SocketConnection closed a socket");
 }
 
 // TODO: find smarter ways to get buf
@@ -29,8 +37,20 @@ std::string SocketConnection::recv(void) {
     return (temp);
 }
 
-bool SocketConnection::send(std::string message) {
-    return (::send(fd, message.c_str(), message.size(), 0) > 0);
+void SocketConnection::send(std::string message) {
+    if (::send(fd, message.c_str(), message.size(), 0) < 0)
+        throw(SendFailureException());
 }
 
+char const* SocketConnection::CloseFailureException::what(void) const throw() {
+    return ("webserv::SocketConnection failure in close()");
+}
+
+char const* SocketConnection::SendFailureException::what(void) const throw() {
+    return ("webserv::SocketConnection failure in send()");
+}
+
+char const* SocketConnection::RecvFailureException::what(void) const throw() {
+    return ("webserv::SocketConnection failure in recv()");
+}
 } // namespace webserv
