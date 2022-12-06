@@ -12,8 +12,6 @@ jobs:
     - name: install GMock
       run: sudo apt-get install -y libgmock-dev  && cd /usr/src/googletest/googlemock && sudo mkdir build && sudo cmake .. && sudo make && sudo ln -s /usr/lib/libgmock.a /usr/local/lib/libgmock.a && sudo ln -s /usr/lib/libgmock_main.a /usr/local/lib/libgmock_main.a
     - name: build
-      run: mkdir build && cd build && cmake -D test=ON ..
-    - name: make
-      run: make
+      run: mkdir build && cd build && cmake -D test=ON .. && make
     - name: test
-      run: ./tests/webserv_test
+      run: ./build/tests/webserv_test
