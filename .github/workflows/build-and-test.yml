@@ -1,17 +1,10 @@
 name: Build and test
 run-name: ${{ github.actor }} is trying to push to main 🚀
 
-on:
-  push:
-    branches: [ $default-branch ]
-  pull_request:
-    branches: [ $default-branch ]
-
+on: [push]
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: build
