@@ -14,4 +14,4 @@ jobs:
     - name: build
       run: mkdir build && cd build && cmake -D test=ON .. && make
     - name: test
-      run: ./build/tests/webserv_test
+      run: cd build && ./tests/webserv_test
