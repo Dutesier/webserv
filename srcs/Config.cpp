@@ -91,7 +91,7 @@ char const* Config::impl::InvalidFileException::what(void) const throw() {
 }
 
 char const* Config::impl::InvalidSyntaxException::what(void) const throw() {
-    return ("webser::Config::impl invalid syntax exception");
+    return ("webserv::Config::impl invalid syntax exception");
 }
 
 /* Config::impl Class */

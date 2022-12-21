@@ -2,6 +2,10 @@
 
 namespace webserv {
 
+HTTPHandler::HTTPHandler(): status_code(200), response_file("../404.html") {
+
+}
+
 /* HTTPHandler Class */
 void HTTPHandler::handle(TCPSocket* socket, int fd) {
     HTTPHandler::impl m_impl(socket, fd);
