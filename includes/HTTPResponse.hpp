@@ -19,7 +19,7 @@ private:
 
 public:
 
-	HTTPResponse( void );
+	HTTPResponse void );
 	~HTTPResponse( void ); /* Destructor */
 
 	void	create_response(void);

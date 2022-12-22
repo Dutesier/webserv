@@ -2,7 +2,7 @@
 
 namespace webserv {
 
-HTTPHandler::HTTPHandler(): status_code(200), response_file("../404.html") {
+HTTPHandler::HTTPHandler(): status_code(-1) {
 
 }
 
