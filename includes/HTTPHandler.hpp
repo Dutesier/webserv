@@ -48,12 +48,6 @@ struct HTTPHandler::impl {
         SocketConnection* client;
 };
 
-struct HTTPResponse
-{
-
-};
-
-
 } // namespace webserv
 
 #endif /* HTTP_HANDLER_HPP */

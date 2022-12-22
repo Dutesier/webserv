@@ -13,6 +13,7 @@ add_library(${PROJECT_NAME} STATIC
 	SocketConnection.cpp
 	TCPSocket.cpp
 	ServerSocket.cpp
+	HTTPResponse.cpp
 )
 
 add_library(42::${PROJECT_NAME} ALIAS ${PROJECT_NAME})

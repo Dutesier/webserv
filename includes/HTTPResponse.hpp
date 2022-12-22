@@ -1,5 +1,5 @@
-#ifndef HTTPResponse
-# define HTTPResponse
+#ifndef HTTP_Response
+# define HTTP_Response
 
 # include <map>
 # include <iostream>
@@ -19,7 +19,7 @@ private:
 
 public:
 
-	HTTPResponse void );
+	HTTPResponse(void );
 	~HTTPResponse( void ); /* Destructor */
 
 	void	create_response(void);
@@ -27,9 +27,13 @@ public:
 	void	create_headers(void);
 	void	create_body(void);
 
+	std::map<int, std::string>	create_code_map(void);
+	std::map<std::string, std::string>	create_mime_map(void);
+
+
 };
 
 }
 
-#endif /* HTTPResponse */
+#endif /* HTTP_Response */
 

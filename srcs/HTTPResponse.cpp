@@ -18,7 +18,7 @@ void	HTTPResponse::create_status_line(void) {
 	std::string	code_str;
 
 	this->status_section = "HTTP/1.1 ";
-	for (std::map::iterator it = response_code.begin(); it != response_code.end(); it++) {
+	for (std::map<int, std::string>::const_iterator it = response_code.begin(); it != response_code.end(); it++) {
 		if (this->status_code == it->first) {
 			s << this->status_code;
 			code_str = s.str();
@@ -30,7 +30,7 @@ void	HTTPResponse::create_status_line(void) {
 }
 
 void	HTTPResponse::create_headers( void ) {
-	for (std::map::iterator it = this->headers.begin(); it != this->headers.end(); it++) {
+	for (std::map<std::string, std::string>::iterator it = this->headers.begin(); it != this->headers.end(); it++) {
 		this->header_section = "\n" + it->first + it->second + "\n\n";
 	}
 }
@@ -38,15 +38,15 @@ void	HTTPResponse::create_headers( void ) {
 void	HTTPResponse::create_body(void) {	
 	std::ifstream	file(this->response_file);
 
-	this->body_section << file.rdbuf();
+	this->body_section = std::string((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
 }
 
 
-HTTPResponse::~HTTPResponse( void )
-{
+HTTPResponse::~HTTPResponse( void ) {
+
 }
 
-std::map<int, std::string> create_code_map(void) {
+std::map<int, std::string> HTTPResponse::create_code_map(void) {
 	std::map<int, std::string>	code_map;
 
 	code_map[100] = "Continue";
@@ -114,7 +114,7 @@ std::map<int, std::string> create_code_map(void) {
 	return code_map;
 }
 
-std::map<std::string, std::string> create_mime_map(void) {
+std::map<std::string, std::string> HTTPResponse::create_mime_map(void) {
 	std::map<std::string, std::string>	mime_map;
 	mime_map["3dm"] =  	"x-world/x-3dmfHTTPResponse";
 	mime_map["3dmf"] =  	"x-world/x-3dmf";
