@@ -12,8 +12,8 @@ class Client : webserv::Socket {
         Client(in_port_t port);
         ~Client(void);
 
-        bool        close(void);
-        bool        send_message(std::string message);
+        void        close(void);
+        void        send_message(std::string message);
         smt::shared_ptr<HTTPRequest> receive_message(void);
 
         /* Exceptions */

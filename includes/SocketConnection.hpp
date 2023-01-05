@@ -31,8 +31,7 @@ class SocketConnection : public webserv::Socket {
         /* Other Functions */
         void close(void);
 
-<<<<<<< HEAD
-        std::string recv(void);
+        smt::shared_ptr<HTTPRequest> recv(void);
         void        send(std::string message);
 
         /* Exceptions */
@@ -47,13 +46,9 @@ class SocketConnection : public webserv::Socket {
         struct RecvFailureException : public std::exception {
                 char const* what(void) const throw();
         };
-=======
-        smt::shared_ptr<HTTPRequest> recv(void);
-        bool        send(std::string message);
     
     private:
         HTTPParser parser;
->>>>>>> Dont hate me please
 };
 
 } // namespace webserv

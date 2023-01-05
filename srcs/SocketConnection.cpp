@@ -73,20 +73,24 @@ smt::shared_ptr<HTTPRequest> SocketConnection::recv(void) { // When recv is call
         LOG_I("More than 8k header size");
         return NULL; // but actually return 413 Entity Too Large
     } else {
-        header.insert(eoh_position + 4, "");
+        eoh_position += 4;
+        header.insert(eoh_position, "");
     }
     request = parser.parse_header(header);
 
     // If there is more data to be dealt with
-    if (strlen(buff) > eoh_position + 4) {
+    if (strlen(buff) > eoh_position) {
         // If we have a Content-Lenght
         if (request->headers.find("Content-Length") != request->headers.end()) {
-            int body_size = atoi(request->headers.find("Content-Length")->second.c_str());
+            int body_size = std::min(atoi(request->headers.find("Content-Length")->second.c_str()), static_cast<int>(strlen(buff) - (eoh_position)));
             if (body_size < MAX_BODY_SIZE && body_size) {
                 request->content.reserve(body_size);
                 std::string temp(buff);
-                request->content = temp.substr(eoh_position + 4, std::min(int(temp.size() - eoh_position - 4), body_size));
-                while (body_size > request->content.size()) { // If there's more to the body then what we have
+
+                int restOfBuff = temp.size() - (eoh_position);
+                request->content = temp.substr(eoh_position, std::min(restOfBuff, body_size));
+
+                while (body_size > request->content.size()) { // While there's more to the body then what we have
                     while (true){
                         bytes_read = ::recv(fd, &buff, READING_BUFFER, 0);
                         if (bytes_read < 0) {
@@ -99,17 +103,30 @@ smt::shared_ptr<HTTPRequest> SocketConnection::recv(void) { // When recv is call
                     }
                     temp = buff;
                     // What I want to do here is add what's missing until we are of size: body_size
-                    request->content += temp.substr(0, std::min(temp.size(), body_size - request->content.size()));
+                    int chars_still_missing = body_size - (request->content.length()); // maybe +1 for the NTC?
+                    request->content += temp.substr(0, std::min(static_cast<int>(temp.length()), chars_still_missing));
                 }
             }
         }
+
+        // Clear what we have read from buffer (and store the rest in buff)
+        std::string formatter(buff);
+        std::string formatted(formatter.substr(eoh_position + request->content.length(), strlen(buff)).c_str());
+        const char *writer = formatted.c_str();
+        int index;
+        for (index = 0; writer[index] != '\0'; ++index) {
+            buff[index] = writer[index];
+        }
+        buff[index] = '\0';
+
+        // Ignore the rest of info up until next request
         int next = parser.find_next_request(buff);
         if (next == -1) {
             dataInBuffer = false;
         } else {
             std::string temp(buff);
             std::string store = temp.substr(next);
-            buff_to_data(const_cast<char *>(temp.c_str()), restOfData);
+            buff_to_data(const_cast<char *>(store.c_str()), restOfData);
             dataInBuffer = true;
         }
     }

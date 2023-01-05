@@ -2,7 +2,6 @@
 #include "Logger.hpp"
 #include <sstream>
 #include <cstring>
-#include <cstdlib>
 #include <cmath>
 
 HTTPParser::HTTPParser(){
@@ -171,15 +170,14 @@ smt::shared_ptr<HTTPRequest> HTTPParser::parse_header(std::string& header) {
 
 int HTTPParser::find_next_request(const char* buff) const {
     std::string temp(buff);
-
                 
-    int zg = temp.find("GET", 0, 3);
-    int zp = temp.find("POST", 0, 4);
-    int zd = temp.find("DELETE", 0, 6);   
+    size_t zg = temp.find("GET", 0, 3);
+    size_t zp = temp.find("POST", 0, 4);
+    size_t zd = temp.find("DELETE", 0, 6);   
 
-    int g = temp.find("\r\nGET ");
-    int p = temp.find("\r\nPOST ");
-    int d = temp.find("\r\nDELETE ");
+    size_t g = temp.find("\r\nGET ");
+    size_t p = temp.find("\r\nPOST ");
+    size_t d = temp.find("\r\nDELETE ");
 
     if (g == std::string::npos && p == std::string::npos && d == std::string::npos) {
         if (zg == std::string::npos && zp == std::string::npos && zd == std::string::npos) {
