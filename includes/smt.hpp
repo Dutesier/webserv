@@ -1,6 +1,8 @@
 #ifndef SMT_HPP
 #define SMT_HPP
 
+#include <cstddef>
+
 namespace smt {
 
 template<typename T>
@@ -30,6 +32,8 @@ class unique_ptr {
 template<typename T>
 class shared_ptr {
     public:
+
+		typedef unsigned int uint; // uint was unrecognized, so I added this line
 
         shared_ptr() : pointer(NULL), referenceCount(new uint(0)) {}
 

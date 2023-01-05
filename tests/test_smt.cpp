@@ -1,5 +1,5 @@
-#include "SocketConnection.hpp"
 #include "smt.hpp"
+#include "SocketConnection.hpp"
 
 #include <gtest/gtest.h>
 #include <iostream>

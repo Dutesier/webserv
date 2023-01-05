@@ -16,12 +16,12 @@ void HTTPServer::start(void) {
 
     struct epoll_event event;
     // creating an epoll instance
-    if ((this->epollfd = epoll_create1(0)) < 0) throw(EpollCreateException());
+    if ( (this->epollfd = epoll_create1(0)) < 0 ) throw(EpollCreateException());
 
     // initializing sockets
     std::vector<ServerConfig*> server = config->server_config();
-    for (std::vector<ServerConfig*>::iterator it = server.begin();
-         it != server.end(); it++) {
+    for ( std::vector<ServerConfig*>::iterator it = server.begin();
+          it != server.end(); it++ ) {
         ServerSocket* sock = new ServerSocket(*it);
         this->sockets[sock->sockfd()] = sock;
         epoll_add(sock->sockfd());
@@ -37,22 +37,24 @@ void HTTPServer::run(void) {
     struct epoll_event events[EP_MAX_EVENTS];
     this->state = running;
 
-    while (this->state == running) {
+    while ( this->state == running ) {
 
         int nfds = epoll_wait(this->epollfd, events, EP_MAX_EVENTS, EP_TIMEOUT);
-        if (this->state != running) break;
-        if (nfds < 0) throw(EpollWaitException());
+        if ( this->state != running ) break;
+        if ( nfds < 0 ) throw(EpollWaitException());
 
-        for (int i = 0; i < nfds; i++) {
-            if (this->sockets.find(events[i].data.fd) != this->sockets.end()) {
+        for ( int i = 0; i < nfds; i++ ) {
+            if ( this->sockets.find(events[i].data.fd) !=
+                 this->sockets.end() ) {
                 int fd = this->sockets[events[i].data.fd]->accept();
                 epoll_add(fd);
                 FLOG_D("webserv::HTTPServer ACK()");
-            } else {
+            }
+            else {
                 std::map<int, ServerSocket*>::iterator it;
-                for (it = this->sockets.begin(); it != this->sockets.end();
-                     it++) {
-                    if ((*it).second->has_connection(events[i].data.fd)) {
+                for ( it = this->sockets.begin(); it != this->sockets.end();
+                      it++ ) {
+                    if ( (*it).second->has_connection(events[i].data.fd) ) {
                         FLOG_D("webserv::HTTPServer REQ()");
                         HTTPHandler::handle((*it).second, events[i].data.fd);
                         break;
@@ -69,8 +71,8 @@ void HTTPServer::stop(void) {
     this->state = stoped;
 
     // deleting all sockets
-    for (std::map<int, ServerSocket*>::iterator it = this->sockets.begin();
-         it != this->sockets.end(); it++)
+    for ( std::map<int, ServerSocket*>::iterator it = this->sockets.begin();
+          it != this->sockets.end(); it++ )
         delete (*it).second;
 }
 
@@ -81,7 +83,7 @@ void HTTPServer::epoll_add(int fd) {
     event.events = EPOLLIN | EPOLLET;
     event.data.fd = fd;
 
-    if (epoll_ctl(this->epollfd, EPOLL_CTL_ADD, fd, &event) < 0)
+    if ( epoll_ctl(this->epollfd, EPOLL_CTL_ADD, fd, &event) < 0 )
         throw(EpollAddException());
 }
 

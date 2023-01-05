@@ -17,8 +17,8 @@ SocketConnection::~SocketConnection(void) {
 }
 
 void SocketConnection::close(void) {
-    if (this->fd == -1) return;
-    if (::close(this->fd) < 0) throw(CloseFailureException());
+    if ( this->fd == -1 ) return;
+    if ( ::close(this->fd) < 0 ) throw(CloseFailureException());
     this->fd = -1;
     FLOG_D("webserv::SocketConnection closed a socket");
 }
@@ -30,7 +30,7 @@ std::string SocketConnection::recv(void) {
     std::string temp;
 
     bytes_read = ::recv(fd, &buff, READING_BUFFER, 0);
-    if (bytes_read <= 0) return ("");
+    if ( bytes_read <= 0 ) return ("");
     buff[bytes_read] = '\0';
     temp += buff;
 
@@ -38,7 +38,7 @@ std::string SocketConnection::recv(void) {
 }
 
 void SocketConnection::send(std::string message) {
-    if (::send(fd, message.c_str(), message.size(), 0) < 0)
+    if ( ::send(fd, message.c_str(), message.size(), 0) < 0 )
         throw(SendFailureException());
 }
 

@@ -38,7 +38,7 @@ class test_activeConnection : public ::testing::Test {
         }
 
         void set_options(void) {
-            const int      enable = 1;
+            int const      enable = 1;
             struct timeval timeout;
             timeout.tv_sec = 10;
             timeout.tv_usec = 0;
