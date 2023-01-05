@@ -13,7 +13,7 @@ void webserv::webserv(int argc, char* argv[]) {
         g_webserv->run();
         // webserv::stop(SIGSTOP); // uncomment this when using valgrind
     }
-    catch ( std::exception& e ) {
+    catch (std::exception& e) {
         std::cout << e.what() << std::endl;
     }
 }
@@ -23,7 +23,7 @@ void webserv::stop(int signum) {
         g_webserv->stop();
         delete g_webserv;
     }
-    catch ( std::exception& e ) {
+    catch (std::exception& e) {
         std::cout << e.what() << std::endl;
     }
 }

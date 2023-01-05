@@ -12,7 +12,7 @@ void HTTPHandler::handle(TCPSocket* socket, int fd) {
         impl.execute();
         client->send(impl.response->to_str());
     }
-    catch ( std::exception& e ) {
+    catch (std::exception& e) {
         std::cout << e.what() << std::endl;
     }
 }
@@ -22,8 +22,8 @@ HTTPHandler::m_impl::m_impl(std::string req) : request(new HTTPRequest(req)) {}
 
 HTTPHandler::m_impl::~m_impl(void) {
 
-    if ( this->request ) { delete this->request; }
-    if ( this->response ) { delete this->response; }
+    if (this->request) { delete this->request; }
+    if (this->response) { delete this->response; }
 }
 
 void HTTPHandler::m_impl::execute(void) {

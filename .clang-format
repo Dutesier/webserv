@@ -164,7 +164,7 @@ SpaceInEmptyParentheses: false
 SpacesBeforeTrailingComments: 1
 SpacesInAngles:  Leave
 SpacesInCStyleCastParentheses: false
-SpacesInConditionalStatement: true
+SpacesInConditionalStatement: false
 SpacesInContainerLiterals: false
 SpacesInLineCommentPrefix:
   Minimum:         1

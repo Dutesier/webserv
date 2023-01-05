@@ -7,7 +7,7 @@ Error::Error(std::string msg, error_t type) : msg(msg), type(type) {}
 Error::~Error(void) {}
 
 std::string Error::message(void) const {
-    switch ( this->type ) {
+    switch (this->type) {
         case invalid_file: return ("invalid file: " + this->msg);
         case invalid_syntax: return ("invalid syntax: " + this->msg);
     }

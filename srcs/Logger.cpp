@@ -6,7 +6,7 @@ Logger::~Logger() {}
 
 void Logger::operator()(std::string const& message, char const* function,
                         char const* file, int line) {
-    switch ( level ) {
+    switch (level) {
         case DEBUG:
             std::cout << "[DEBUG]: "
                       << "(" << function << ":" << file << ":" << line << ") "
@@ -64,13 +64,13 @@ Logger& Fatal() {
 FileLogger::FileLogger(LogLevel l) : level(l) { setLogFile(LOGFILENAME); }
 
 FileLogger::~FileLogger() {
-    if ( logFile ) logFile.close();
+    if (logFile) logFile.close();
 }
 
 void FileLogger::setLogFile(std::string filename) {
     remove(filename.c_str());
     logFile.open(filename, std::ios_base::app);
-    if ( !logFile.good() ) {
+    if (!logFile.good()) {
         logFile.close();
         logToFile = false;
     }
@@ -79,12 +79,12 @@ void FileLogger::setLogFile(std::string filename) {
 
 void FileLogger::operator()(std::string const& message, char const* function,
                             char const* file, int line) {
-    if ( !logToFile ) {
+    if (!logToFile) {
         std::cerr << "Failed to open " << LOGFILENAME << " for writing."
                   << std::endl;
         return;
     }
-    switch ( level ) {
+    switch (level) {
         case DEBUG:
             logFile << "[DEBUG]: "
                     << "(" << function << ":" << file << ":" << line << ") "

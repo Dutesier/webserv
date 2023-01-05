@@ -30,7 +30,7 @@ SocketAddress& SocketAddress::operator=(SocketAddress const& rhs) {
     this->ipv4 = rhs.ipv4;
     this->ipv6 = rhs.ipv6;
 
-    if ( this->addr ) delete this->addr;
+    if (this->addr) delete this->addr;
     this->addr = new struct sockaddr_in;
 
     this->addr->sin_port = htons(this->port_nu);
