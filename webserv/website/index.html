@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Professional Website</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+      body {
+        background-color: #fafafa;
+        color: #333;
+        font-family: sans-serif;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: flex;
+        flex-direction: column;
+      }
+      header {
+        background-color: #1a73e8;
+        color: #fafafa;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+      }
+      header h1 {
+        margin: 0;
+        font-size: 32px;
+      }
+      header ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+      }
+      header li {
+        margin-right: 20px;
+      }
+      header a {
+        color: #fafafa;
+        text-decoration: none;
+      }
+      header a:hover {
+        text-decoration: underline;
+      }
+      main {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        text-align: center;
+      }
+      main h2 {
+        margin-top: 0;
+        font-size: 48px;
+      }
+      main p {
+        margin-top: 20px;
+        font-size: 18px;
+      }
+      main .image-container {
+        display: flex;
+             align-items: center;
+      justify-content: center;
+      margin-top: 50px;
+    }
+    img {
+      width: 500px;
+      border-radius: 50%;
+    }
+    footer {
+      background-color: #1a73e8;
+      color: #fafafa;
+      padding: 20px;
+      text-align: center;
+    }
+    footer p {
+      margin: 0;
+      font-size: 14px;
+    }
+    footer a {
+      color: #fafafa;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        align-items: center;
+      }
+      header h1 {
+        margin-bottom: 20px;
+      }
+      header ul {
+        margin-top: 20px;
+      }
+      header li {
+        margin-right: 0;
+        margin-bottom: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>My Professional Website</h1>
+      <ul>
+        <li><a href="/about">About</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </div>
+  </header>
+  <main>
+    <div class="container">
+      <h2>Welcome to My Professional Website</h2>
+      <p>Hello, and welcome to my professional website! My name is John Doe and I am the creator of this site. I hope you find what you're looking for here.</p>
+      <div class="image-container">
+        <img src="https://via.placeholder.com/500x500" alt="Professional image">
+      </div>
+    </div>
+  </main>
+  <footer>
+    <div class="container>
+    <p>Copyright 2021 John Doe</p>
+    <p>
+      <a href="#"><i class="fa fa-facebook"></i></a>
+      <a href="#"><i class="fa fa-twitter"></i></a>
+      <a href="#"><i class="fa fa-linkedin"></i></a>
+    </p>
+  </div>
+</footer>
+</body>
+</html>

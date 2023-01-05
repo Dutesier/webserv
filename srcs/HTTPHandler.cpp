@@ -1,4 +1,5 @@
 #include "HTTPHandler.hpp"
+#include <iterator>
 
 namespace webserv {
 
@@ -13,7 +14,12 @@ HTTPHandler::impl::impl(TCPSocket* socket, int fd)
 
     std::string str = this->client->recv();
     std::cout << str << std::endl;
-    this->client->send(str);
+	
+  	std::ifstream ifs("../webserv/website/dutesier.html");
+	std::string p = std::string((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
+	std::cout << p << std::endl;
+	std::cout << p.size() << std::endl;
+    this->client->send("HTTP/1.1 200 OK\nContent-Type: text/html; charset=utf-8\nContent-Length: 1214\n\n" + p);
 }
 
 // HTTPHandler::impl::impl(TCPSocket* socket, int fd)

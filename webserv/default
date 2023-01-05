@@ -1,9 +1,6 @@
 server {
     listen       8080;
-    server_name  domain1.com;
-}
-
-server {
-	listen 8081;
-	server_name domain2.com;
+	autoindex on;
+	index index.html;
+	root ./website;
 }
