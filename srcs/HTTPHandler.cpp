@@ -45,16 +45,16 @@ namespace webserv {
 /* HTTPHandler Class */
 std::string HTTPHandler::handle_request(std::string request) {
 
-    std::pair<HTTPRequest, HTTPResponse> res =
+    std::pair<HTTPRequest, HTTPResponse> req =
         HTTPHandler::parse_request(request); // Dutesier
-    if (res.second) { return (res.second); } // checking for errors
+    // if (req.second) { return (req.second); } // checking for errors
 
-    std::pair<std::string, HTTPResponse> proc =
-        HTTPHandler::process_request(res.first); // mlanca-c
-    if (proc.second) { return (proc.second); }   // checking for errors
+    std::pair<std::string, HTTPResponse> body =
+        HTTPHandler::process_request(req.first); // mlanca-c
+    // if (body.second) { return (body.second); }   // checking for errors
 
     HTTPResponse res =
-        HTTPHandler::generate_response(res.first, proc.first); // J0Santos
+        HTTPHandler::generate_response(req.first, body.first); // J0Santos
 
     return (res.to_str());
 }
@@ -83,18 +83,29 @@ std::pair<std::string, HTTPResponse>
         // case DELETE:
         // 	return (delete_method(req));
         default:
-            return (result_type(nullptr_t, HTTPHandler::generate_error_response(
+            return (
+                result_type(ft::nullptr_t, HTTPHandler::generate_error_response(
                                                405, "Method Not Allowed")));
     }
 }
 
 /* Takes a valid HTTPRequest and generates a HTTPResponse */
-HTTPResponse HTTPHandler::generate_response(HTTPRequest req) {
+HTTPResponse HTTPHandler::generate_response(HTTPRequest req, std::string body) {
     // based on HTTPRequest and process_request returns an HTTPResponse
 }
 
 /* Creates a HTTPResponse based on code, and reason - error response */
 HTTPResponse HTTPHandler::generate_error_response(int         code,
                                                   std::string reason) {}
+
+/* to get method functions started, I need to study Fast CGI and the methods
+ * themselves */
+std::pair<std::string, HTTPResponse> HTTPHandler::get_method(HTTPRequest req) {}
+
+std::pair<std::string, HTTPResponse> HTTPHandler::post_method(HTTPRequest req) {
+}
+
+std::pair<std::string, HTTPResponse>
+    HTTPHandler::delete_method(HTTPRequest req) {}
 
 } // namespace webserv

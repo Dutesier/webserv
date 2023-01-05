@@ -1,6 +1,8 @@
 #ifndef UTILS_HPP
 #define UTILS_HPP
 
+namespace ft {
+
 // source: https://stackoverflow.com/questions/44517556
 const struct s_nullptr {
 
@@ -23,5 +25,7 @@ const struct s_nullptr {
         void operator&(void) const;
 
 } nullptr_t = {};
+
+} // namespace ft
 
 #endif /* UTILS_HPP */

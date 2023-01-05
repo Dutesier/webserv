@@ -1,2 +1,5 @@
-[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:27) I'm writing to file
-[FATAL]: (TestBody:/home/mlancac/.Cursus/lv5/webserv_pimpl/tests/test_Logger.cpp:34) multiple logs
+[DEBUG]: (TCPSocket:/home/mlancac/.Cursus/lv5/webserv/srcs/TCPSocket.cpp:8) webserv::TCPSocket created a socket
+[DEBUG]: (TCPSocket:/home/mlancac/.Cursus/lv5/webserv/srcs/TCPSocket.cpp:8) webserv::TCPSocket created a socket
+[DEBUG]: (SocketConnection:/home/mlancac/.Cursus/lv5/webserv/srcs/SocketConnection.cpp:7) webserv::SocketConnection created a socket
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv/srcs/HTTPServer.cpp:50) webserv::HTTPServer ACK()
+[DEBUG]: (run:/home/mlancac/.Cursus/lv5/webserv/srcs/HTTPServer.cpp:57) webserv::HTTPServer REQ()

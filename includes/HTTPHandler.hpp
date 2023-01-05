@@ -26,7 +26,18 @@ class HTTPHandler {
             parse_request(std::string request);
         static std::pair<std::string, HTTPResponse>
                             process_request(HTTPRequest req);
-        static HTTPResponse generate_response(HTTPRequest req);
+        static HTTPResponse generate_response(HTTPRequest req,
+                                              std::string body);
+        static HTTPResponse generate_error_response(int         status,
+                                                    std::string reason);
+
+        // TODO: understand what each method needs and pass it directly, not
+        // in HTTPRequest format
+        static std::pair<std::string, HTTPResponse> get_method(HTTPRequest req);
+        static std::pair<std::string, HTTPResponse>
+            post_method(HTTPRequest req);
+        static std::pair<std::string, HTTPResponse>
+            delete_method(HTTPRequest req);
 };
 
 } // namespace webserv
