@@ -38,35 +38,54 @@
  * If either function returns an uninitialize HTTPResponse ( pair.second ),
  * handle_request() continues its proccess, otherwise, it returns the
  * HTTPResponse corresponding to the error.
-*/
+ */
 
 namespace webserv {
 
 /* HTTPHandler Class */
 std::string HTTPHandler::handle_request(std::string request) {
 
-    std::pair<HTTPRequest, HTTPResponse> res = HTTPHandler::parse_request(request);      // Dutesier
-	if ( res.second ) { return ( res.second ); } // checking for errors
+    std::pair<HTTPRequest, HTTPResponse> res =
+        HTTPHandler::parse_request(request); // Dutesier
+    if (res.second) { return (res.second); } // checking for errors
 
-	std::pair<std::string, HTTPResponse> proc = HTTPHandler::process_request(res.first); // mlanca-c
-	if ( proc.second ) { return ( proc.second ); } // checking for errors
+    std::pair<std::string, HTTPResponse> proc =
+        HTTPHandler::process_request(res.first); // mlanca-c
+    if (proc.second) { return (proc.second); }   // checking for errors
 
-    HTTPResponse res = HTTPHandler::generate_response(res.first, proc.first);            // J0Santos
+    HTTPResponse res =
+        HTTPHandler::generate_response(res.first, proc.first); // J0Santos
 
     return (res.to_str());
 }
 
 /* Converts std::string into webserv::HTTPRequest.
  * Should fail gracefully when request is not valid */
-std::pair<HTTPRequest, HTTPResponse> HTTPHandler::parse_request(std::string request) {
-	// creates an HTTPRequest from request
-	// validates that request before returning it
+std::pair<HTTPRequest, HTTPResponse>
+    HTTPHandler::parse_request(std::string request) {
+    // creates an HTTPRequest from request
+    // validates that request before returning it
 }
 
 /* Takes a valid HTTPRequest and processes it */
-std::pair<std::string, HTTPResponse> HTTPHandler::process_request(HTTPRequest req) {
+std::pair<std::string, HTTPResponse>
+    HTTPHandler::process_request(HTTPRequest req) {
+
     // choose method - handle CGI (don't know how yet)
-	// returns the body of the response
+    // returns the body of the response
+    typedef std::pair<std::string, HTTPResponse> result_type;
+
+    switch (req.method) {
+        // case GET:
+        // 	return (get_method(req));
+        // case POST:
+        // 	return (post_method(req));
+        // case DELETE:
+        // 	return (delete_method(req));
+        default:
+            return (result_type(nullptr_t, HTTPHandler::generate_error_response(
+                                               405, "Method Not Allowed")));
+    }
 }
 
 /* Takes a valid HTTPRequest and generates a HTTPResponse */
@@ -75,6 +94,7 @@ HTTPResponse HTTPHandler::generate_response(HTTPRequest req) {
 }
 
 /* Creates a HTTPResponse based on code, and reason - error response */
-HTTPResponse HTTPHandler::generate_error_response(int code, std::string reason) {}
+HTTPResponse HTTPHandler::generate_error_response(int         code,
+                                                  std::string reason) {}
 
 } // namespace webserv

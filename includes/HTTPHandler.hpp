@@ -4,6 +4,7 @@
 #include "HTTPRequest.hpp"
 #include "HTTPResponse.hpp"
 #include "SocketConnection.hpp"
+#include "utils.hpp"
 
 namespace webserv {
 
@@ -21,10 +22,11 @@ class HTTPHandler {
 #endif
 
         /* Static Private Member Functions */
-        static std::pair<HTTPRequest, HTTPResponse> parse_request(std::string request);
-        static std::pair<std::string, HTTPResponse> process_request(HTTPRequest req);
+        static std::pair<HTTPRequest, HTTPResponse>
+            parse_request(std::string request);
+        static std::pair<std::string, HTTPResponse>
+                            process_request(HTTPRequest req);
         static HTTPResponse generate_response(HTTPRequest req);
-
 };
 
 } // namespace webserv
