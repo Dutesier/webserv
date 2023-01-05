@@ -21,12 +21,10 @@ class HTTPHandler {
 #endif
 
         /* Static Private Member Functions */
-        static HTTPRequest  parse_request(std::string request);
-        // TODO: return type could be changed to string - body of response
-        static std::string  process_request(HTTPRequest req);
+        static std::pair<HTTPRequest, HTTPResponse> parse_request(std::string request);
+        static std::pair<std::string, HTTPResponse> process_request(HTTPRequest req);
         static HTTPResponse generate_response(HTTPRequest req);
 
-        /* Exceptions */
 };
 
 } // namespace webserv

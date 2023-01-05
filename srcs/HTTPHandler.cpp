@@ -1,6 +1,8 @@
 #include "HTTPHandler.hpp"
 
-/* This is my proposal of the HTTPHandler.
+/*
+ * This is my proposal of the HTTPHandler.
+ *
  * This is an idea of how we could join our separate jobs.
  * First @dutesier is handling the parsing of the HTTPRequest class. Thats the
  * first step of the Handler, generating and HTTPRequest object from a string.
@@ -23,6 +25,19 @@
  *
  * Let me know what you think of this and if it fits with what youve been doing
  * so far.
+ *
+ * UPDATE:
+ *
+ * Found a solution to the error management. We're not using any
+ * exceptions, we're using std::pair.
+ *
+ * During the execution of parse_request() and process_request(), in case an
+ * HTTP error occurs, second element of the return type of each function
+ * - HTTPResponse - is initialized by calling the function
+ * generate_error_response().
+ * If either function returns an uninitialize HTTPResponse ( pair.second ),
+ * handle_request() continues its proccess, otherwise, it returns the
+ * HTTPResponse corresponding to the error.
 */
 
 namespace webserv {
@@ -30,21 +45,26 @@ namespace webserv {
 /* HTTPHandler Class */
 std::string HTTPHandler::handle_request(std::string request) {
 
-    HTTPRequest req = HTTPHandler::parse_request(request);  // Dutesier
-    HTTPHandler::process_request(req);                      // mlanca-c
-    HTTPResponse res = HTTPHandler::generate_response(req); // josantos
+    std::pair<HTTPRequest, HTTPResponse> res = HTTPHandler::parse_request(request);      // Dutesier
+	if ( res.second ) { return ( res.second ); } // checking for errors
+
+	std::pair<std::string, HTTPResponse> proc = HTTPHandler::process_request(res.first); // mlanca-c
+	if ( proc.second ) { return ( proc.second ); } // checking for errors
+
+    HTTPResponse res = HTTPHandler::generate_response(res.first, proc.first);            // J0Santos
+
     return (res.to_str());
 }
 
 /* Converts std::string into webserv::HTTPRequest.
  * Should fail gracefully when request is not valid */
-HTTPRequest HTTPHandler::parse_request(std::string request) {
+std::pair<HTTPRequest, HTTPResponse> HTTPHandler::parse_request(std::string request) {
 	// creates an HTTPRequest from request
 	// validates that request before returning it
 }
 
 /* Takes a valid HTTPRequest and processes it */
-std::string HTTPHandler::process_request(HTTPRequest req) {
+std::pair<std::string, HTTPResponse> HTTPHandler::process_request(HTTPRequest req) {
     // choose method - handle CGI (don't know how yet)
 	// returns the body of the response
 }
@@ -53,5 +73,8 @@ std::string HTTPHandler::process_request(HTTPRequest req) {
 HTTPResponse HTTPHandler::generate_response(HTTPRequest req) {
     // based on HTTPRequest and process_request returns an HTTPResponse
 }
+
+/* Creates a HTTPResponse based on code, and reason - error response */
+HTTPResponse HTTPHandler::generate_error_response(int code, std::string reason) {}
 
 } // namespace webserv
