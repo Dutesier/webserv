@@ -84,13 +84,13 @@ smt::shared_ptr<HTTPRequest> SocketConnection::recv(void) { // When recv is call
         if (request->headers.find("Content-Length") != request->headers.end()) {
             int body_size = std::min(atoi(request->headers.find("Content-Length")->second.c_str()), static_cast<int>(strlen(buff) - (eoh_position)));
             if (body_size < MAX_BODY_SIZE && body_size) {
-                request->content.reserve(body_size);
+                // request->getContent().reserve(body_size);
                 std::string temp(buff);
 
                 int restOfBuff = temp.size() - (eoh_position);
-                request->content = temp.substr(eoh_position, std::min(restOfBuff, body_size));
+                request->setContent(temp.substr(eoh_position, std::min(restOfBuff, body_size)));
 
-                while (body_size > request->content.size()) { // While there's more to the body then what we have
+                while (body_size > request->getContent().size()) { // While there's more to the body then what we have
                     while (true){
                         bytes_read = ::recv(fd, &buff, READING_BUFFER, 0);
                         if (bytes_read < 0) {
@@ -103,15 +103,15 @@ smt::shared_ptr<HTTPRequest> SocketConnection::recv(void) { // When recv is call
                     }
                     temp = buff;
                     // What I want to do here is add what's missing until we are of size: body_size
-                    int chars_still_missing = body_size - (request->content.length()); // maybe +1 for the NTC?
-                    request->content += temp.substr(0, std::min(static_cast<int>(temp.length()), chars_still_missing));
+                    int chars_still_missing = body_size - (request->getContent().length()); // maybe +1 for the NTC?
+                    request->setContent(request->getContent() + temp.substr(0, std::min(static_cast<int>(temp.length()), chars_still_missing)));
                 }
             }
         }
 
         // Clear what we have read from buffer (and store the rest in buff)
         std::string formatter(buff);
-        std::string formatted(formatter.substr(eoh_position + request->content.length(), strlen(buff)).c_str());
+        std::string formatted(formatter.substr(eoh_position + request->getContent().length(), strlen(buff)).c_str());
         const char *writer = formatted.c_str();
         int index;
         for (index = 0; writer[index] != '\0'; ++index) {

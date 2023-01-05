@@ -13,7 +13,7 @@ HTTPHandler::impl::impl(TCPSocket* socket, int fd)
 
     smt::shared_ptr<HTTPRequest> req = this->client->recv();
     if (req != NULL) {
-        std::cout << req->content << std::endl;
+        std::cout << req->getContent() << std::endl;
         // std::cout << *req << std::endl;
     }
     this->client->send("A string");

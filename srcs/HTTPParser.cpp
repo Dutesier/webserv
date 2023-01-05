@@ -13,9 +13,9 @@ HTTPParser::~HTTPParser(){
 }
 
 // A la golang, parsing functions return a pair of the actual result and a bool of success
-std::pair<unsigned int, bool> HTTPParser::getMethod(std::string& firstLine){
+std::pair<webserv::Method, bool> HTTPParser::getMethod(std::string& firstLine){
     if (firstLine.empty()) {
-        return {0, false};
+        return {webserv::UNDEFINED, false};
     }
 
     // Getting first word from line
@@ -23,10 +23,10 @@ std::pair<unsigned int, bool> HTTPParser::getMethod(std::string& firstLine){
     std::string firstWord;
 
     iss >> firstWord;
-    if (firstWord == "GET") return {1, true};
-    else if (firstWord == "POST") return {2, true};
-    else if (firstWord == "DELETE") return {3, true};
-    else return {0, false};
+    if (firstWord == "GET") return {webserv::GET, true};
+    else if (firstWord == "POST") return {webserv::POST, true};
+    else if (firstWord == "DELETE") return {webserv::DELETE, true};
+    else return {webserv::UNDEFINED, false};
 }
 
 std::pair<std::string, bool> HTTPParser::getResource(std::string& firstLine){
@@ -82,7 +82,7 @@ bool HTTPParser::setHeader(smt::shared_ptr<HTTPRequest> pReq, std::string& heade
         LOG_E("Key didn't match " + mustBe + " (key is ->" + result.first + "<-)");
         return false;
     } else {
-        pReq->headers[result.first] = result.second;
+        pReq->setHeader(result.first, result.second);
     }
     return true;
 }
@@ -92,7 +92,7 @@ bool HTTPParser::setHeader(smt::shared_ptr<HTTPRequest> pReq, std::string& heade
     if (result.first == "") {
         return false;
     } else {
-        pReq->headers[result.first] = result.second;
+        pReq->setHeader(result.first, result.second);
     }
     return true;
 }
@@ -139,17 +139,17 @@ smt::shared_ptr<HTTPRequest> HTTPParser::parse_header(std::string& header) {
     std::string& firstLine = request.at(0);
     std::string& secondLine = request.at(1);
 
-    std::pair<unsigned int, bool> methodANDsuccess = getMethod(firstLine);
+    std::pair<webserv::Method, bool> methodANDsuccess = getMethod(firstLine);
     if (!methodANDsuccess.second) return NULL;
-    pReq->method = methodANDsuccess.first;
+    pReq->setMethod(methodANDsuccess.first);
 
     std::pair<std::string, bool> resourceANDsuccess = getResource(firstLine);
     if (!resourceANDsuccess.second) return NULL;
-    pReq->resource = resourceANDsuccess.first;
+    pReq->setResource(resourceANDsuccess.first);
 
     std::pair<std::string, bool> versionANDsuccess = getVersion(firstLine);
     if (!versionANDsuccess.second) return NULL;
-    pReq->version = versionANDsuccess.first;
+    pReq->setVersion(versionANDsuccess.first);
 
     std::vector<std::string>::iterator it = request.begin();
     for (it = it + 1; it != request.end(); ++it) {
