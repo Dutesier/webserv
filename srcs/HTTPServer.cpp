@@ -55,7 +55,16 @@ void HTTPServer::run(void) {
                      it++) {
                     if ((*it).second->has_connection(events[i].data.fd)) {
                         FLOG_D("webserv::HTTPServer REQ()");
-                        HTTPHandler::handle((*it).second, events[i].data.fd);
+
+                        // the HTTPHandler::handle_request() function will
+                        // receive the resulting string of recv() and will
+                        // return a string that will be then passed as a
+                        // parameter in send()
+                        SocketConnection* client =
+                            ((*it).second)->connection(events[i].data.fd);
+                        std::string req = client->recv();
+                        std::string resp = HTTPHandler::handle_request(req);
+                        client->send(resp);
                         break;
                     }
                 }

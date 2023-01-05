@@ -3,7 +3,7 @@
 
 #include "HTTPRequest.hpp"
 #include "HTTPResponse.hpp"
-#include "TCPSocket.hpp"
+#include "SocketConnection.hpp"
 
 namespace webserv {
 
@@ -11,7 +11,8 @@ class HTTPHandler {
 
     public:
 
-        static void handle(TCPSocket* socket, int fd);
+        /* Static Member Functions */
+        static std::string handle_request(std::string request);
 
 #ifndef GTEST_TESTING
 
@@ -19,22 +20,13 @@ class HTTPHandler {
 
 #endif
 
-        /* PImpl Object */
-        struct m_impl;
-};
+        /* Static Private Member Functions */
+        static HTTPRequest  parse_request(std::string request);
+        // TODO: return type could be changed to string - body of response
+        static std::string  process_request(HTTPRequest req);
+        static HTTPResponse generate_response(HTTPRequest req);
 
-struct HTTPHandler::m_impl {
-
-        /* Constructor */
-        m_impl(std::string req);
-        ~m_impl(void);
-
-        /* Other Methods */
-        void execute(void);
-
-        /* Member Attributes */
-        HTTPRequest*  request;
-        HTTPResponse* response;
+        /* Exceptions */
 };
 
 } // namespace webserv
