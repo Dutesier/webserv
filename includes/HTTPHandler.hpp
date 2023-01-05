@@ -2,6 +2,8 @@
 #define HTTP_HANDLER_HPP
 
 #include "TCPSocket.hpp"
+#include "HTTPRequest.hpp"
+#include "HTTPResponse.hpp"
 
 namespace webserv {
 
@@ -18,14 +20,21 @@ class HTTPHandler {
 #endif
 
         /* PImpl Object */
-        struct impl;
+        struct m_impl;
 };
 
-struct HTTPHandler::impl {
-        impl(TCPSocket* socket, int fd);
+struct HTTPHandler::m_impl {
 
-        TCPSocket*        socket;
-        SocketConnection* client;
+		/* Constructor */
+        m_impl(std::string req);
+        ~m_impl(void);
+
+		/* Other Methods */
+		void execute( void );
+
+		/* Member Attributes */
+		HTTPRequest*  request;
+		HTTPResponse* response;
 };
 
 } // namespace webserv

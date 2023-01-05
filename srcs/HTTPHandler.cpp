@@ -4,22 +4,27 @@ namespace webserv {
 
 /* HTTPHandler Class */
 void HTTPHandler::handle(TCPSocket* socket, int fd) {
-    HTTPHandler::impl m_impl(socket, fd);
+
+	SocketConnection* client = socket->connection( fd );
+	HTTPHandler::m_impl impl( client->recv() );
+
+	try {
+		impl.execute();
+		client->send(impl.response->to_str());
+	}
+    catch (std::exception& e) { std::cout << e.what() << std::endl; }
 }
 
 /* HTTPHandler::impl Class */
-HTTPHandler::impl::impl(TCPSocket* socket, int fd)
-    : socket(socket), client(this->socket->connection(fd)) {
+HTTPHandler::m_impl::m_impl( std::string req )
+	: request( new HTTPRequest(req)) {}
 
-    std::string str = this->client->recv();
-    std::cout << str << std::endl;
-    this->client->send(str);
+HTTPHandler::m_impl::~m_impl(void) {
+
+	if ( this->request ) { delete this->request; }
+	if ( this->response ) { delete this->response; }
 }
 
-// HTTPHandler::impl::impl(TCPSocket* socket, int fd)
-//     : socket(socket), client(this->socket->connection(fd)) {
-// 	HTTPRequest req( this->client->recv() );
-//  	this->client->send(HTTPResponse(req).to_str);
-// }
+void HTTPHandler::m_impl::execute( void ) {}
 
 } // namespace webserv
