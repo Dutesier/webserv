@@ -40,7 +40,7 @@ std::string HTTPRequest::getHeader(const std::string& name) const {
     if (m_headers.find(name) != m_headers.end()) {
         return m_headers.find(name)->second;
     } else {
-        return NULL;
+        return "";
     }
 }
 

@@ -81,8 +81,9 @@ smt::shared_ptr<HTTPRequest> SocketConnection::recv(void) { // When recv is call
     // If there is more data to be dealt with
     if (strlen(buff) > eoh_position) {
         // If we have a Content-Lenght
-        if (request->headers.find("Content-Length") != request->headers.end()) {
-            int body_size = std::min(atoi(request->headers.find("Content-Length")->second.c_str()), static_cast<int>(strlen(buff) - (eoh_position)));
+        std::string lenStr = request->getHeader("Content-Length");
+        if (!lenStr.empty()) {
+            int body_size = std::min(atoi(lenStr.c_str()), static_cast<int>(strlen(buff) - (eoh_position)));
             if (body_size < MAX_BODY_SIZE && body_size) {
                 // request->getContent().reserve(body_size);
                 std::string temp(buff);
