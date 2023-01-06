@@ -1,16 +1,19 @@
 name: Build and test
-run-name: ${{ github.actor }} is trying to push to main 🚀
+run-name: ${{ github.actor }} is trying to pr into main 🚀
 
-on: [push]
+on:
+  pull-request:
+    branches:
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
     - name: install Gtest
-      run: sudo apt-get install -y libgtest-dev  && cd /usr/src/gtest && sudo cmake CMakeLists.txt && sudo make && sudo ln -s /usr/lib/libgtest.a /usr/local/lib/libgtest.a && sudo ln -s /usr/lib/libgtest_main.a /usr/local/lib/libgtest_main.a
+      run: sudo apt-get update && sudo apt-get install -y libgtest-dev  && cd /usr/src/gtest && sudo cmake CMakeLists.txt && sudo make && sudo ln -s /usr/lib/libgtest.a /usr/local/lib/libgtest.a && sudo ln -s /usr/lib/libgtest_main.a /usr/local/lib/libgtest_main.a
     - name: install GMock
-      run: sudo apt-get install -y libgmock-dev  && cd /usr/src/googletest/googlemock && sudo mkdir build && sudo cmake .. && sudo make && sudo ln -s /usr/lib/libgmock.a /usr/local/lib/libgmock.a && sudo ln -s /usr/lib/libgmock_main.a /usr/local/lib/libgmock_main.a
+      run: sudo apt-get update && sudo apt-get install -y libgmock-dev  && cd /usr/src/googletest/googlemock && sudo mkdir build && sudo cmake .. && sudo make && sudo ln -s /usr/lib/libgmock.a /usr/local/lib/libgmock.a && sudo ln -s /usr/lib/libgmock_main.a /usr/local/lib/libgmock_main.a
     - name: build
       run: mkdir build && cd build && cmake -D test=ON .. && make
     - name: test

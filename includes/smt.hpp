@@ -23,6 +23,8 @@ class unique_ptr {
         
         operator bool() const { return (this->pointer != NULL); }
 
+        operator bool() { return (this->pointer != NULL); }
+
     private:
         unique_ptr(const unique_ptr& other);
         unique_ptr& operator=(const unique_ptr& other);
@@ -73,6 +75,11 @@ class shared_ptr {
         T*    pointer;
         unsigned int* referenceCount;
 };
+
+template <typename T, typename... Args>
+shared_ptr<T> make_shared(Args... args) {
+    return shared_ptr<T>(new T(args...));
+}
 
 } // namespace smt
 
