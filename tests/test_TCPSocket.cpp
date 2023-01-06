@@ -22,7 +22,7 @@ class test_TCPSocket : public ::testing::Test {
         void TearDown(void) { delete this->sock; }
 
         void set_options(void) {
-            const int enable = 1;
+            int const enable = 1;
             this->sock->setsockopt(SOL_SOCKET, SO_REUSEADDR, &enable,
                                    sizeof(int));
             this->sock->setsockopt(SOL_SOCKET, SO_REUSEPORT, &enable,
@@ -56,7 +56,7 @@ TEST_F(test_TCPSocket, listen) {
 
 TEST_F(test_TCPSocket, setsockopt) {
     // setting options
-    const int enable = 1;
+    int const enable = 1;
     ASSERT_NO_THROW(
         this->sock->setsockopt(SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)))
         << errno;
@@ -106,7 +106,6 @@ TEST_F(test_TCPSocket, close) {
     ASSERT_NO_THROW(this->sock->close()) << errno;
 }
 
-
 // This test needs to be updated since it now throws an exception (cough cough)
 // TEST_F(test_TCPSocket, recv) {
 //     this->set_options();
@@ -120,7 +119,6 @@ TEST_F(test_TCPSocket, close) {
 //     auto str = this->sock->recv(connection);
 //     ASSERT_NE(str, "") << str;
 // }
-
 
 // Same as above for this one (double cough)
 // TEST_F(test_TCPSocket, send) {

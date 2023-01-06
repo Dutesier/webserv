@@ -1,39 +1,40 @@
-#ifndef HTTP_Response
-# define HTTP_Response
+#ifndef HTTP_RESPONSE_HPP
+#define HTTP_RESPONSE_HPP
 
-# include <map>
-# include <iostream>
-# include <fstream>
-# include <sstream>
+#include <map>
+#include <sstream>
+#include <string>
 
-# include "HTTPHandler.hpp"
+#define SP   std::string(" ")
+#define CRLF std::string("\r\n")
 
 namespace webserv {
 
-class HTTPResponse: protected HTTPHandler {
+struct HTTPResponse {
 
-private:
+        /* Member Types */
+        typedef std::map<std::string, std::string> HTTPHeader;
+        typedef std::pair<int, std::string>        status_t;
 
-	const std::map<std::string, std::string> mime_types;
-	const std::map<int, std::string> response_code;
+        /* Constructor and Destructor */
+        HTTPResponse(void); // init == false
+        HTTPResponse(status_t status, HTTPHeader header, std::string body,
+                     std::string version = "HTTP/1.1"); // init == true
+        ~HTTPResponse(void);
+        // HTTPResponse(HTTPResponse const& src);
+        // HTTPResponse& operator=(HTTPResponse const& rhs);
 
-public:
+        /* Other Methods */
+        std::string to_str(void) const;
 
-	HTTPResponse(void );
-	~HTTPResponse( void ); /* Destructor */
-
-	void	create_response(void);
-	void	create_status_line(void);
-	void	create_headers(void);
-	void	create_body(void);
-
-	std::map<int, std::string>	create_code_map(void);
-	std::map<std::string, std::string>	create_mime_map(void);
-
-
+        /* Member Attributes */
+        bool        init;
+        status_t    status;
+        HTTPHeader  header;
+        std::string body;
+        std::string version;
 };
 
-}
+} // namespace webserv
 
-#endif /* HTTP_Response */
-
+#endif /* HTTP_RESPONSE_HPP */

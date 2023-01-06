@@ -30,7 +30,7 @@ class TCPSocket : public Socket {
         // TODO: understand what should be const and whatnot
         void bind(void);
         void listen(void);
-        void setsockopt(int level, int optname, const void* optval,
+        void setsockopt(int level, int optname, void const* optval,
                         socklen_t optlen);
         // TODO: change return val
         int  accept(void);

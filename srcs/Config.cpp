@@ -121,22 +121,27 @@ Config::impl::impl(int argc, char* argv[]) {
         if (line == "server {") { // beginning of the server block
             this->server.push_back(new ServerConfig());
             in_server = true;
-        } else if (line == "}") { // end of the server block
+        }
+        else if (line == "}") { // end of the server block
             if (!in_server) { error_syntax(filename, line); }
             in_server = false;
-        } else if (in_server && !in_location && server_cmd(line)) { // directive
+        }
+        else if (in_server && !in_location && server_cmd(line)) { // directive
             ;
-        } else if (in_server && // beginning of the location block
-                   line.find("location") != std::string::npos) {
+        }
+        else if (in_server && // beginning of the location block
+                 line.find("location") != std::string::npos) {
             if (in_location) { error_syntax(filename, line); }
             strtok(const_cast<char*>(line.c_str()), " \t");
             this->server.back()->location.push_back(
                 new LocationConfig(strtok(NULL, " \t")));
             in_location = true;
-        } else if (line.find("}") != std::string::npos) { // end of location
+        }
+        else if (line.find("}") != std::string::npos) { // end of location
             if (!in_location) { error_syntax(filename, line); }
             in_location = false;
-        } else if (in_server && in_location && location_cmd(line)) // directive
+        }
+        else if (in_server && in_location && location_cmd(line)) // directive
             continue;
         else { error_syntax(filename, line); }
     }
@@ -207,11 +212,9 @@ bool Config::impl::cmd_listen(std::vector<std::string> cmd) {
         p = cmd[1].substr(n + 1);
         for (size_t i = 0; i < p.size(); i++)
             if (!isdigit(p[i])) return (false);
-    } else if (!flag) {
-        a = cmd[1];
-    } else {
-        p = cmd[1];
     }
+    else if (!flag) { a = cmd[1]; }
+    else { p = cmd[1]; }
     if (!p.empty()) {
         std::stringstream ss(p);
         ss >> this->server.back()->port;

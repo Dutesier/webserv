@@ -22,7 +22,6 @@ TEST(test_Error, destructor) {
     delete syntax_error;
 }
 
-
 // Please fix this test
 // TEST(test_Error, message) {
 //     webserv::Error file_error("../webserv/default: failed to open",

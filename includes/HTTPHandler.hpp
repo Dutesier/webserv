@@ -1,9 +1,10 @@
 #ifndef HTTP_HANDLER_HPP
 #define HTTP_HANDLER_HPP
 
-# include <map>
-
-#include "TCPSocket.hpp"
+#include "HTTPRequest.hpp"
+#include "HTTPResponse.hpp"
+#include "SocketConnection.hpp"
+#include "utils.hpp"
 
 namespace webserv {
 
@@ -27,7 +28,8 @@ class HTTPHandler {
 		~HTTPHandler();
 
 
-        static void handle(TCPSocket* socket, int fd);
+        /* Static Member Functions */
+        static std::string handle_request(std::string request);
 
 
 #ifndef GTEST_TESTING
@@ -36,16 +38,23 @@ class HTTPHandler {
 
 #endif
 
-        /* PImpl Object */
-        struct impl;
+        /* Static Private Member Functions */
+        static std::pair<HTTPRequest, HTTPResponse>
+            parse_request(std::string request);
+        static std::pair<std::string, HTTPResponse>
+                            process_request(HTTPRequest req);
+        static HTTPResponse generate_response(HTTPRequest req,
+                                              std::string body);
+        static HTTPResponse generate_error_response(int         status,
+                                                    std::string reason);
 
-};
-
-struct HTTPHandler::impl {
-        impl(TCPSocket* socket, int fd);
-
-        TCPSocket*        socket;
-        SocketConnection* client;
+        // TODO: understand what each method needs and pass it directly, not
+        // in HTTPRequest format
+        static std::pair<std::string, HTTPResponse> get_method(HTTPRequest req);
+        static std::pair<std::string, HTTPResponse>
+            post_method(HTTPRequest req);
+        static std::pair<std::string, HTTPResponse>
+            delete_method(HTTPRequest req);
 };
 
 } // namespace webserv

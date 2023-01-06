@@ -27,7 +27,7 @@ void TCPSocket::bind(void) {
 }
 
 // This function sets socket's options
-void TCPSocket::setsockopt(int level, int optname, const void* optval,
+void TCPSocket::setsockopt(int level, int optname, void const* optval,
                            socklen_t optlen) {
     if (::setsockopt(this->fd, level, optname, optval, optlen))
         throw(SetOptFailureException());

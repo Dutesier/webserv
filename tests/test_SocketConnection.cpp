@@ -20,7 +20,7 @@ class test_SocketConnection : public ::testing::Test {
 
             this->sock = new webserv::TCPSocket(8080);
             // setting socket options
-            const int e = 1;
+            int const e = 1;
             this->sock->setsockopt(SOL_SOCKET, SO_REUSEADDR, &e, sizeof(int));
             this->sock->setsockopt(SOL_SOCKET, SO_REUSEPORT, &e, sizeof(int));
             struct timeval timeout;

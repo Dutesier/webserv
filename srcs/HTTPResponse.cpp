@@ -2,48 +2,33 @@
 
 namespace webserv {
 
-HTTPResponse::HTTPResponse( void ): response_code(create_code_map()), mime_types(create_mime_map()) {
-	
-}
+HTTPResponse::HTTPResponse(status_t status, HTTPHeader header, std::string body,
+                           std::string version)
+    : status(status), header(header), body(body), version(version) {}
 
-void	HTTPResponse::create_response(void) {
-	create_status_line();
-	create_headers();
-	create_body();
-	this->http_response = this->status_section + this->header_section + this->body_section;
-}
+HTTPResponse::~HTTPResponse(void) {}
 
-void	HTTPResponse::create_status_line(void) {
-	std::ostringstream s;
-	std::string	code_str;
+std::string HTTPResponse::to_str(void) const {
 
-	this->status_section = "HTTP/1.1 ";
-	for (std::map<int, std::string>::const_iterator it = response_code.begin(); it != response_code.end(); it++) {
-		if (this->status_code == it->first) {
-			s << this->status_code;
-			code_str = s.str();
-			this->status_section += code_str;
-			this->status_section += " ";
-			this->status_section += it->second;
-		}
-	}
-}
+    // status line
+    std::stringstream ss;
+    ss << this->status.first;
+    std::string code = ss.str();
+    std::string start_line =
+        std::string(this->version + SP + code + SP + this->status.second);
 
-void	HTTPResponse::create_headers( void ) {
-	for (std::map<std::string, std::string>::iterator it = this->headers.begin(); it != this->headers.end(); it++) {
-		this->header_section = "\n" + it->first + it->second + "\n\n";
-	}
-}
+    // header
+    std::string h = "";
+    for (HTTPHeader::const_iterator it = this->header.begin();
+         it != this->header.end(); it++)
+        h += std::string((*it).first + ": " + (*it).second + CRLF);
 
-void	HTTPResponse::create_body(void) {	
-	std::ifstream	file(this->response_file);
+    return (std::string(start_line + CRLF + h +
+                        (this->body.empty() ? (CRLF) : (CRLF + body))));
 
-	this->body_section = std::string((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-}
-
-
-HTTPResponse::~HTTPResponse( void ) {
-
+    // return (std::string(start_line /* + CRLF + header.to_str() */ +
+    //                     (this->body.empty() ? (CRLF + CRLF) : (CRLF + CRLF +
+    //                     this->body))));
 }
 
 std::map<int, std::string> HTTPResponse::create_code_map(void) {
@@ -703,4 +688,4 @@ std::map<std::string, std::string> HTTPResponse::create_mime_map(void) {
 	return mime_map;
 }
 
-}
+} // namespace webserv
