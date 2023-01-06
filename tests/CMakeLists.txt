@@ -15,6 +15,7 @@ if (test)
     add_test(webserv_gtest webserv_test)
 
     target_link_libraries(webserv_test
+		PRIVATE pthread
         PRIVATE 42::webserv_lib
         PRIVATE gtest
         PRIVATE gmock
