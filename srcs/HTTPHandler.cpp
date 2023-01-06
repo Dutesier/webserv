@@ -51,11 +51,11 @@ std::string HTTPHandler::handle_request(std::string request) {
 
     std::pair<HTTPRequest, HTTPResponse> req =
         HTTPHandler::parse_request(request); // Dutesier
-    // if (req.second) { return (req.second); } // checking for errors
+    // if (req.second) { return (req.second.to_str()); } // checking for errors
 
     std::pair<std::string, HTTPResponse> body =
         HTTPHandler::process_request(req.first); // mlanca-c
-    // if (body.second) { return (body.second); }   // checking for errors
+    // if (body.second) { return (body.second.to_str()); }   // checking for errors
 
     HTTPResponse res =
         HTTPHandler::generate_response(req.first, body.first); // J0Santos
@@ -89,7 +89,7 @@ std::pair<std::string, HTTPResponse>
         default:
             return (
                 result_type(ft::nullptr_t, HTTPHandler::generate_error_response(
-                                               405, "Method Not Allowed")));
+                                               405)));
     }
 }
 
@@ -99,8 +99,9 @@ HTTPResponse HTTPHandler::generate_response(HTTPRequest req, std::string body) {
 }
 
 /* Creates a HTTPResponse based on code, and reason - error response */
-HTTPResponse HTTPHandler::generate_error_response(int         code,
-                                                  std::string reason) {}
+HTTPResponse HTTPHandler::generate_error_response(int code) {
+	return (HTTPResponse(code));
+}
 
 /* to get method functions started, I need to study Fast CGI and the methods
  * themselves */

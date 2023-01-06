@@ -45,8 +45,7 @@ class HTTPHandler {
                             process_request(HTTPRequest req);
         static HTTPResponse generate_response(HTTPRequest req,
                                               std::string body);
-        static HTTPResponse generate_error_response(int         status,
-                                                    std::string reason);
+        static HTTPResponse generate_error_response(int status);
 
         // TODO: understand what each method needs and pass it directly, not
         // in HTTPRequest format
