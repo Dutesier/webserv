@@ -22,6 +22,8 @@ class unique_ptr {
 
         T& operator*() { return *(this->pointer); }
 
+        operator bool() { return (this->pointer != NULL); }
+
     private:
 
         T* pointer;
@@ -31,9 +33,9 @@ template<typename T>
 class shared_ptr {
     public:
 
-        shared_ptr() : pointer(NULL), referenceCount(new uint(0)) {}
+        shared_ptr() : pointer(NULL), referenceCount(new unsigned int(0)) {}
 
-        shared_ptr(T* ptr) : pointer(ptr), referenceCount(new uint(1)) {}
+        shared_ptr(T* ptr) : pointer(ptr), referenceCount(new unsigned int(1)) {}
 
         shared_ptr(const shared_ptr& other) {
             this->pointer = other.pointer;
@@ -55,6 +57,8 @@ class shared_ptr {
 
         T& operator*() { return *(this->pointer); }
 
+        operator bool() const { return (this->pointer != NULL); }
+
     private:
 
         void destroy() {
@@ -66,8 +70,13 @@ class shared_ptr {
         }
 
         T*    pointer;
-        uint* referenceCount;
+        unsigned int* referenceCount;
 };
+
+template <typename T, typename... Args>
+shared_ptr<T> make_shared(Args... args) {
+    return shared_ptr<T>(new T(args...));
+}
 
 } // namespace smt
 
