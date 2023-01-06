@@ -1,11 +1,13 @@
 name: Build and test
-run-name: ${{ github.actor }} is trying to push to main 🚀
+run-name: ${{ github.actor }} is trying to pr into main 🚀
 
-on: [push]
+on:
+  pull-request:
+    branches:
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
     steps:
     - uses: actions/checkout@v3
     - name: install Gtest
