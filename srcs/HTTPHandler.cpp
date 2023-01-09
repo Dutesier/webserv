@@ -51,11 +51,11 @@ std::string HTTPHandler::handle_request(std::string request) {
 
     std::pair<HTTPRequest, HTTPResponse> req =
         HTTPHandler::parse_request(request); // Dutesier
-    // if (req.second) { return (req.second.to_str()); } // checking for errors
+    if (req.second.init == true) { return (req.second.to_str()); } // checking for errors
 
     std::pair<std::string, HTTPResponse> body =
         HTTPHandler::process_request(req.first); // mlanca-c
-    // if (body.second) { return (body.second.to_str()); }   // checking for errors
+    if (body.second.init == true) { return (body.second.to_str()); }   // checking for errors
 
     HTTPResponse res =
         HTTPHandler::generate_response(req.first, body.first); // J0Santos

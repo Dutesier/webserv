@@ -4,36 +4,63 @@ namespace webserv {
 
 HTTPResponse::HTTPResponse(void): init(false) {} 
 
-HTTPResponse::HTTPResponse(int status_code): init(true), status_map(this->create_code_map()) {
+HTTPResponse::HTTPResponse(int status_code): init(true), status_map(this->create_code_map()), version("HTTP/1.1") {
 	//getting status
 	for (StatusMap::const_iterator it = this->status_map.begin(); it != this->status_map.end(); it++) {
 		if (status_code == it->first) {
-			this->status.first == status_code;
-			this->status.second == it->second;
+			this->status.first = status_code;
+			this->status.second = it->second;
 			break;
-			}
+		}
+	}
+	if (this->status.first == 0) {
+		this->status.first = 500;
+		this->status.second = "Internal Server Error";
 	}
 	//getting body
 	std::stringstream ss;
     ss << this->status.first;
     std::string error_code = ss.str();
-	std::string	error_file = "webserv/error_pages/" + error_code + ".html";
+	std::string	error_file = "../webserv/error_pages/" + error_code + ".html";
 	std::ifstream	body_file(error_file);
+	if (body_file.fail()) {
+		body_file.close();
+		body_file.open("../webserv/error_pages/500.html");
+	}
 	this->body = std::string((std::istreambuf_iterator<char>(body_file)), std::istreambuf_iterator<char>());
 	if (!this->header.empty())
 		this->header.clear();
 	//getting headers
-	this->header.insert(std::pair<std::string, std::string>("Content-type: ", "text/html"));
+	this->header.insert(std::pair<std::string, std::string>("Content-type", "text/html"));
 	ss.str("");
 	ss << body.size();
-	this->header.insert(std::pair<std::string, std::string>("Content-length: ", ss.str()));
+	this->header.insert(std::pair<std::string, std::string>("Content-length", ss.str()));
 	
 }
 
-HTTPResponse::HTTPResponse(status_t status, HTTPHeader header, std::string body,
-    std::string version): status(status), header(header), body(body), version(version), init(true) {}
+HTTPResponse::HTTPResponse(int code, HTTPHeader header, std::string body): status_map(this->create_code_map()), header(header), body(body), init(true),
+	version("HTTP/1.1") {
+	StatusMap::const_iterator it = this->status_map.find(code);
+	if (it != this->status_map.end()) {
+		this->status.first = code;
+		this->status.second = it->second;
+	}
+	else {
+		this->status.first = 500;
+		this->status.second = "Internal Server Error";
+		//getting body
+		std::ifstream file("../webserv/error_pages/500.html");
+		this->body = std::string((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+		//getting headers
+		std::stringstream	ss;
+		this->header.insert(std::pair<std::string, std::string>("Content-type", "text/html"));
+		ss << this->body.size();
+		this->header.insert(std::pair<std::string, std::string>("Content-length", ss.str()));
+	}
+}
 
-HTTPResponse::~HTTPResponse(void) {}
+HTTPResponse::~HTTPResponse(void) {
+}
 
 std::string HTTPResponse::to_str(void) const {
 

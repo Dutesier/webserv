@@ -2,6 +2,7 @@
 #define HTTP_RESPONSE_HPP
 
 #include <map>
+#include <iostream>
 #include <sstream>
 #include <string>
 #include <fstream>
@@ -21,9 +22,8 @@ struct HTTPResponse {
         /* Constructor and Destructor */
         HTTPResponse(void); // init == false
 		HTTPResponse(int status_code);
-        HTTPResponse(status_t status, HTTPHeader header, std::string body,
-                     std::string version = "HTTP/1.1"); // init == true
-        ~HTTPResponse(void);
+        HTTPResponse(int code, HTTPHeader header, std::string body); // init == true
+		~HTTPResponse(void);
         // HTTPResponse(HTTPResponse const& src);
         // HTTPResponse& operator=(HTTPResponse const& rhs);
 
@@ -37,7 +37,7 @@ struct HTTPResponse {
         status_t    status;
         HTTPHeader  header;
         std::string body;
-        std::string version;
+        const std::string version;
 };
 
 } // namespace webserv
