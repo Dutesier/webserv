@@ -14,7 +14,7 @@ class Client : webserv::Socket {
 
         void        close(void);
         void        send_message(std::string message);
-        std::string receive_message(void);
+        smt::shared_ptr<HTTPRequest> receive_message(void);
 
         /* Exceptions */
         struct CloseFailureException : public std::exception {

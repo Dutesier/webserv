@@ -4,12 +4,17 @@
 #include "Logger.hpp"
 #include "Socket.hpp"
 #include "SocketAddress.hpp"
+#include "HTTPParser.hpp"
 
 #include <unistd.h>
 #include <vector>
 
 #ifndef READING_BUFFER
-# define READING_BUFFER 1024
+# define READING_BUFFER 8192
+#endif
+
+#ifndef MAX_BODY_SIZE
+# define MAX_BODY_SIZE 2147483648
 #endif
 
 namespace webserv {
@@ -26,7 +31,7 @@ class SocketConnection : public webserv::Socket {
         /* Other Functions */
         void close(void);
 
-        std::string recv(void);
+        smt::shared_ptr<HTTPRequest> recv(void);
         void        send(std::string message);
 
         /* Exceptions */
@@ -41,6 +46,9 @@ class SocketConnection : public webserv::Socket {
         struct RecvFailureException : public std::exception {
                 char const* what(void) const throw();
         };
+    
+    private:
+        HTTPParser parser;
 };
 
 } // namespace webserv

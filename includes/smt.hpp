@@ -1,5 +1,6 @@
 #ifndef SMT_HPP
-#define SMT_HPP
+# define SMT_HPP
+# include <cstddef>
 
 namespace smt {
 
@@ -11,20 +12,22 @@ class unique_ptr {
 
         unique_ptr(T* ptr) : pointer(ptr) {}
 
-        unique_ptr(const unique_ptr& other) = delete;
-        unique_ptr& operator=(const unique_ptr& other) = delete;
 
         ~unique_ptr() {
-            if (pointer != nullptr) delete pointer;
+            if (pointer != NULL) { delete pointer; }
         }
 
         T* operator->() { return this->pointer; }
 
         T& operator*() { return *(this->pointer); }
+        
+        operator bool() const { return (this->pointer != NULL); }
 
         operator bool() { return (this->pointer != NULL); }
 
     private:
+        unique_ptr(const unique_ptr& other);
+        unique_ptr& operator=(const unique_ptr& other);
 
         T* pointer;
 };
@@ -73,9 +76,9 @@ class shared_ptr {
         unsigned int* referenceCount;
 };
 
-template <typename T, typename... Args>
-shared_ptr<T> make_shared(Args... args) {
-    return shared_ptr<T>(new T(args...));
+template <typename T>
+shared_ptr<T> make_shared() {
+    return shared_ptr<T>(new T());
 }
 
 } // namespace smt

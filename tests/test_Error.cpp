@@ -22,13 +22,13 @@ TEST(test_Error, destructor) {
     delete syntax_error;
 }
 
-
-// Please fix this test
-// TEST(test_Error, message) {
-//     webserv::Error file_error("../webserv/default: failed to open",
-//                               webserv::Error::invalid_file);
-//     webserv::Error syntax_error("../webserv/default 12: listen 443;",
-//                                 webserv::Error::invalid_syntax);
-//     ASSERT_STREQ(file_error.message().c_str(), INVALID_FILE.c_str());
-//     ASSERT_TRUE(syntax_error.message() == INVALID_SYNTAX);
-// }
+TEST(test_Error, message) {
+    webserv::Error file_error("../webserv/default: failed to open",
+                              webserv::Error::invalid_file);
+    webserv::Error syntax_error("../webserv/default 12: listen 443;",
+                                webserv::Error::invalid_syntax);
+    ASSERT_STREQ(file_error.message().c_str(),
+                "invalid file: ../webserv/default: failed to open");
+    ASSERT_STREQ(syntax_error.message().c_str(),
+                "invalid syntax: ../webserv/default 12: listen 443;");
+}

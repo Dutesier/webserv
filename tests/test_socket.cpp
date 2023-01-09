@@ -58,14 +58,14 @@ class test_activeConnection : public ::testing::Test {
 
 // The following tests test an already established connection between a listener
 // and a client
-TEST_F(test_activeConnection, CanReadFromConnection) {
-    // ASSERT_NO_THROW(client->send_message(HTTP_REQ));
-    //
-    // ASSERT_STREQ(HTTP_REQ, listener->recv(NULL).c_str());
-}
+// TEST_F(test_activeConnection, CanReadFromConnection) {
+//     EXPECT_TRUE(client->send_message(HTTP_REQ));
 
-TEST_F(test_activeConnection, CanWriteToConnection) {
-    // ASSERT_NO_THROW(listener->send(NULL, HTTP_RES));
-    //
-    // ASSERT_STREQ(HTTP_RES, client->receive_message().c_str());
-}
+//     ASSERT_STREQ(HTTP_REQ, listener->recv(NULL).c_str());
+// }
+
+// TEST_F(test_activeConnection, CanWriteToConnection) {
+//     EXPECT_TRUE(listener->send(NULL, HTTP_RES));
+
+//     ASSERT_STREQ(HTTP_RES, client->receive_message().c_str());
+// }

@@ -4,6 +4,7 @@
 #include "Logger.hpp"
 #include "Socket.hpp"
 #include "SocketConnection.hpp"
+#include "smt.hpp"
 
 #include <map>
 #include <unistd.h>
@@ -37,7 +38,7 @@ class TCPSocket : public Socket {
         void shutdown(int how);
         void close(void);
 
-        std::string recv(SocketConnection* connection);
+        smt::shared_ptr<HTTPRequest> recv(SocketConnection* connection);
         void        send(SocketConnection* connection, std::string response);
 
         // TODO: refactor this to a more safe and smart approach

@@ -2,6 +2,7 @@
 #define LOGGER_HPP
 
 #include <fstream>
+#include <string>
 #include <iostream>
 
 enum LogLevel { DEBUG, INFO, WARNING, ERROR, FATAL };

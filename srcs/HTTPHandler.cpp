@@ -11,9 +11,12 @@ void HTTPHandler::handle(TCPSocket* socket, int fd) {
 HTTPHandler::impl::impl(TCPSocket* socket, int fd)
     : socket(socket), client(this->socket->connection(fd)) {
 
-    std::string str = this->client->recv();
-    std::cout << str << std::endl;
-    this->client->send(str);
+    smt::shared_ptr<HTTPRequest> req = this->client->recv();
+    if (req != NULL) {
+        std::cout << req->getContent() << std::endl;
+        // std::cout << *req << std::endl;
+    }
+    this->client->send("A string");
 }
 
 // HTTPHandler::impl::impl(TCPSocket* socket, int fd)

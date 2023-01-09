@@ -70,10 +70,8 @@ TEST(SmartPointerTests, TestVectorSharedPtrSockets) {
     ASSERT_EQ(vec.at(0)->address(), vec.at(1)->address());
 }
 
-TEST(SmartPointerTests, TestVariadicArgumentsMakeShared) {
+TEST(SmartPointerTests, TestMakeShared) {
     smt::shared_ptr<webserv::SocketAddress> socketAddress = smt::make_shared<webserv::SocketAddress>();
     ASSERT_TRUE(socketAddress);
 
-    smt::shared_ptr<webserv::TCPSocket> tcp = smt::make_shared<webserv::TCPSocket>(8080);
-    ASSERT_TRUE(tcp);
 }
