@@ -69,6 +69,18 @@ std::pair<HTTPRequest, HTTPResponse>
     HTTPHandler::parse_request(std::string request) {
     // creates an HTTPRequest from request
     // validates that request before returning it
+
+
+/* HTTPHandler::impl Class */
+// HTTPHandler::impl::impl(TCPSocket* socket, int fd)
+//     : socket(socket), client(this->socket->connection(fd)) {
+
+//     smt::shared_ptr<HTTPRequest> req = this->client->recv();
+//     if (req != NULL) {
+//         std::cout << req->getContent() << std::endl;
+//         // std::cout << *req << std::endl;
+//     }
+//     this->client->send("A string");
 }
 
 /* Takes a valid HTTPRequest and processes it */
@@ -79,7 +91,7 @@ std::pair<std::string, HTTPResponse>
     // returns the body of the response
     typedef std::pair<std::string, HTTPResponse> result_type;
 
-    switch (req.method) {
+    switch (req.getMethod()) {
         // case GET:
         // 	return (get_method(req));
         // case POST:

@@ -1,5 +1,6 @@
 #ifndef SMT_HPP
-#define SMT_HPP
+# define SMT_HPP
+# include <cstddef>
 
 #include <cstddef>
 
@@ -13,18 +14,21 @@ class unique_ptr {
 
         unique_ptr(T* ptr) : pointer(ptr) {}
 
-        unique_ptr(unique_ptr const& other) = delete;
-        unique_ptr& operator=(unique_ptr const& other) = delete;
-
         ~unique_ptr() {
-            if (pointer != nullptr) delete pointer;
+            if (pointer != NULL) { delete pointer; }
         }
 
         T* operator->() { return this->pointer; }
 
         T& operator*() { return *(this->pointer); }
+        
+        operator bool() const { return (this->pointer != NULL); }
+
+        operator bool() { return (this->pointer != NULL); }
 
     private:
+        unique_ptr(const unique_ptr& other);
+        unique_ptr& operator=(const unique_ptr& other);
 
         T* pointer;
 };
@@ -33,12 +37,9 @@ template<typename T>
 class shared_ptr {
     public:
 
-        typedef unsigned int
-            uint; // uint was unrecognized, so I added this line
+        shared_ptr() : pointer(NULL), referenceCount(new unsigned int(0)) {}
 
-        shared_ptr() : pointer(NULL), referenceCount(new uint(0)) {}
-
-        shared_ptr(T* ptr) : pointer(ptr), referenceCount(new uint(1)) {}
+        shared_ptr(T* ptr) : pointer(ptr), referenceCount(new unsigned int(1)) {}
 
         shared_ptr(shared_ptr const& other) {
             this->pointer = other.pointer;
@@ -60,6 +61,8 @@ class shared_ptr {
 
         T& operator*() { return *(this->pointer); }
 
+        operator bool() const { return (this->pointer != NULL); }
+
     private:
 
         void destroy() {
@@ -71,8 +74,13 @@ class shared_ptr {
         }
 
         T*    pointer;
-        uint* referenceCount;
+        unsigned int* referenceCount;
 };
+
+template <typename T>
+shared_ptr<T> make_shared() {
+    return shared_ptr<T>(new T());
+}
 
 } // namespace smt
 

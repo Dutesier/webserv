@@ -4,8 +4,9 @@ add_library(${PROJECT_NAME} STATIC
 	webserv.cpp
 	HTTPServer.cpp
 	HTTPHandler.cpp
-	HTTPRequest.cpp
 	HTTPResponse.cpp
+	HTTPParser.cpp
+	HTTPRequest.cpp
 	Config.cpp
 	ServerConfig.cpp
 	Logger.cpp

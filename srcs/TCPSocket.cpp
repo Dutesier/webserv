@@ -73,7 +73,13 @@ int TCPSocket::accept(void) {
 
 // TODO: i don't really like this connection == NULL verification. I think this
 // will probably need to do something more specific in the future
-std::string TCPSocket::recv(SocketConnection* connection) {
+smt::shared_ptr<HTTPRequest> TCPSocket::recv(SocketConnection* connection) {
+    /* The following if statement is useful for testing but might also be
+     * useful in prod */
+    if (connection == NULL) {
+        if (connections.size() > 0) connection = connections.at(0);
+        else return NULL;
+    }
 
     if (!this->has_connection(fd)) throw(NoSuchConnectionException());
     return (connection->recv());

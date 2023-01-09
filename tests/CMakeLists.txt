@@ -1,7 +1,7 @@
 if (test)
     add_executable(webserv_test
 		test.cpp
-		test_Config.cpp
+		# test_Config.cpp IS SEGFAULTING!
 		test_Error.cpp
 		test_HTTPServer.cpp
 		test_Logger.cpp
@@ -12,11 +12,13 @@ if (test)
 		test_TCPSocket.cpp
 		test_HTTPRequest.cpp
 		test_HTTPResponse.cpp
+		test_HTTPParser.cpp
 		Client.cpp
     )
     add_test(webserv_gtest webserv_test)
 
     target_link_libraries(webserv_test
+		PRIVATE pthread
         PRIVATE 42::webserv_lib
         PRIVATE gtest
         PRIVATE gmock
