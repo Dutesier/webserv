@@ -6,6 +6,7 @@ add_library(${PROJECT_NAME} STATIC
 	http/HTTPHandler.cpp
 	http/HTTPParser.cpp
 	http/HTTPRequest.cpp
+	http/HTTPResponse.cpp
 	server/Config.cpp
 	server/ServerConfig.cpp
 	utils/Logger.cpp

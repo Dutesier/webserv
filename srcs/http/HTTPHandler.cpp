@@ -35,4 +35,14 @@ void http_handle(TCPSocket* sock, int client_fd) {
 }
 */
 
+HTTPResponse	generate_response(std::pair<int, std::string> resp) {
+
+	ServerConfig	serv_conf;
+
+	if (400 <= resp.first <= 505)
+		return(HTTPResponse(resp.first, serv_conf)); //also need to access ServerConfig to check error page access
+	// else
+	// 	return (HTTPResponse(resp.first, headers, resp.second))
+}
+
 }

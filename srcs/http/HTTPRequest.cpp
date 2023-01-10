@@ -2,9 +2,11 @@
 
 namespace webserv {
 
-HTTPRequest::HTTPRequest(std::string req) {}
 
 } // namespace webserv
+HTTPRequest::HTTPRequest(std::string req) {}
+
+HTTPRequest::HTTPRequest(void) {}
 // Set the request method
 void HTTPRequest::setMethod(webserv::Method method) { m_method = method; }
 

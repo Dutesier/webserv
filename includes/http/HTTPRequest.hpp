@@ -11,6 +11,10 @@ enum Method { UNDEFINED, GET, POST, DELETE };
 class HTTPRequest {
     public:
 
+		//Constructor
+		HTTPRequest(std::string req);
+		HTTPRequest();
+
         // HTTP request methods
 
         // Set the request method
