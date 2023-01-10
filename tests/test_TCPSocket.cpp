@@ -1,8 +1,8 @@
 #include "Client.hpp"
-#include "Socket.hpp"
-#include "SocketAddress.hpp"
-#include "SocketConnection.hpp"
-#include "TCPSocket.hpp"
+#include "socket/Socket.hpp"
+#include "socket/SocketAddress.hpp"
+#include "socket/SocketConnection.hpp"
+#include "socket/TCPSocket.hpp"
 
 #include <chrono>
 #include <cstdio>
@@ -106,7 +106,6 @@ TEST_F(test_TCPSocket, close) {
     ASSERT_NO_THROW(this->sock->close()) << errno;
 }
 
-
 // This test needs to be updated since it now throws an exception (cough cough)
 // TEST_F(test_TCPSocket, recv) {
 //     this->set_options();
@@ -120,7 +119,6 @@ TEST_F(test_TCPSocket, close) {
 //     auto str = this->sock->recv(connection);
 //     ASSERT_NE(str, "") << str;
 // }
-
 
 // Same as above for this one (double cough)
 // TEST_F(test_TCPSocket, send) {

@@ -1,4 +1,4 @@
-#include "Error.hpp"
+#include "utils/Error.hpp"
 
 #include <gtest/gtest.h>
 #include <iostream>
@@ -28,7 +28,7 @@ TEST(test_Error, message) {
     webserv::Error syntax_error("../webserv/default 12: listen 443;",
                                 webserv::Error::invalid_syntax);
     ASSERT_STREQ(file_error.message().c_str(),
-                "invalid file: ../webserv/default: failed to open");
+                 "invalid file: ../webserv/default: failed to open");
     ASSERT_STREQ(syntax_error.message().c_str(),
-                "invalid syntax: ../webserv/default 12: listen 443;");
+                 "invalid syntax: ../webserv/default 12: listen 443;");
 }

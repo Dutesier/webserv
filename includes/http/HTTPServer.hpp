@@ -1,10 +1,10 @@
 #ifndef HTTP_SERVER_HPP
 #define HTTP_SERVER_HPP
 
-#include "Config.hpp"
-#include "HTTPHandler.hpp"
-#include "ServerConfig.hpp"
-#include "ServerSocket.hpp"
+#include "http/HTTPHandler.hpp"
+#include "server/Config.hpp"
+#include "server/ServerConfig.hpp"
+#include "socket/ServerSocket.hpp"
 
 #include <map>
 #include <sys/epoll.h>

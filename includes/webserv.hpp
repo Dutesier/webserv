@@ -1,7 +1,7 @@
 #ifndef WEBSERV_HPP
 #define WEBSERV_HPP
 
-#include "HTTPServer.hpp"
+#include "http/HTTPServer.hpp"
 
 namespace webserv {
 
