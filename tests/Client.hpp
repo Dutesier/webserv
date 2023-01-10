@@ -1,8 +1,8 @@
 #ifndef CLIENT_HPP
 #define CLIENT_HPP
 
-#include "smt.hpp"
-#include "SocketConnection.hpp"
+#include "socket/SocketConnection.hpp"
+#include "utils/smt.hpp"
 
 #include <arpa/inet.h>
 
@@ -12,8 +12,8 @@ class Client : webserv::Socket {
         Client(in_port_t port);
         ~Client(void);
 
-        void        close(void);
-        void        send_message(std::string message);
+        void                         close(void);
+        void                         send_message(std::string message);
         smt::shared_ptr<HTTPRequest> receive_message(void);
 
         /* Exceptions */

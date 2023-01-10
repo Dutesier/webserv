@@ -1,7 +1,6 @@
-#include "SocketConnection.hpp"
-#include "TCPSocket.hpp"
-#include "smt.hpp"
-#include "SocketConnection.hpp"
+#include "socket/SocketConnection.hpp"
+#include "socket/TCPSocket.hpp"
+#include "utils/smt.hpp"
 
 #include <gtest/gtest.h>
 #include <iostream>
@@ -72,7 +71,7 @@ TEST(SmartPointerTests, TestVectorSharedPtrSockets) {
 }
 
 TEST(SmartPointerTests, TestMakeShared) {
-    smt::shared_ptr<webserv::SocketAddress> socketAddress = smt::make_shared<webserv::SocketAddress>();
+    smt::shared_ptr<webserv::SocketAddress> socketAddress =
+        smt::make_shared<webserv::SocketAddress>();
     ASSERT_TRUE(socketAddress);
-
 }

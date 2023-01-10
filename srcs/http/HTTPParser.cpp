@@ -1,26 +1,17 @@
-#include "HTTPParser.hpp"
-#include "Logger.hpp"
-#include <sstream>
-#include <cstring>
-#include <cmath>
+#include "http/HTTPParser.hpp"
 
-HTTPParser::HTTPParser(){
+HTTPParser::HTTPParser() {}
 
-}
+HTTPParser::~HTTPParser() {}
 
-HTTPParser::~HTTPParser(){
-    
-}
-
-// A la golang, parsing functions return a pair of the actual result and a bool of success
-std::pair<webserv::Method, bool> HTTPParser::getMethod(std::string& firstLine){
-    if (firstLine.empty()) {
-        return {webserv::UNDEFINED, false};
-    }
+// A la golang, parsing functions return a pair of the actual result and a bool
+// of success
+std::pair<webserv::Method, bool> HTTPParser::getMethod(std::string& firstLine) {
+    if (firstLine.empty()) { return {webserv::UNDEFINED, false}; }
 
     // Getting first word from line
     std::istringstream iss(firstLine);
-    std::string firstWord;
+    std::string        firstWord;
 
     iss >> firstWord;
     if (firstWord == "GET") return {webserv::GET, true};
@@ -29,9 +20,9 @@ std::pair<webserv::Method, bool> HTTPParser::getMethod(std::string& firstLine){
     else return {webserv::UNDEFINED, false};
 }
 
-std::pair<std::string, bool> HTTPParser::getResource(std::string& firstLine){
+std::pair<std::string, bool> HTTPParser::getResource(std::string& firstLine) {
     std::istringstream iss(firstLine);
-    std::string word;
+    std::string        word;
 
     iss >> word;
     if (!(iss >> word)) {
@@ -42,9 +33,9 @@ std::pair<std::string, bool> HTTPParser::getResource(std::string& firstLine){
     return {word, true};
 }
 
-std::pair<std::string, bool> HTTPParser::getVersion(std::string& firstLine){
+std::pair<std::string, bool> HTTPParser::getVersion(std::string& firstLine) {
     std::istringstream iss(firstLine);
-    std::string word;
+    std::string        word;
 
     iss >> word;
     if (!(iss >> word)) {
@@ -58,28 +49,30 @@ std::pair<std::string, bool> HTTPParser::getVersion(std::string& firstLine){
     return {word, true};
 }
 
-std::pair<std::string, std::string> HTTPParser::getKeyValueHeader(std::string& header) {
+std::pair<std::string, std::string>
+    HTTPParser::getKeyValueHeader(std::string& header) {
     std::string first;
     std::string second;
 
     std::size_t sepIndex = header.find_first_of(":");
     if (sepIndex == std::string::npos) {
         LOG_E("No [key]:[value] found at header string: ->" + header + "<-");
-        return {"",""};
+        return {"", ""};
     } else {
         first = header.substr(0, sepIndex);
         if (sepIndex < header.size())
             second = header.substr(sepIndex + 1, header.size());
-        else
-            second = "";
+        else second = "";
     }
     return {first, second};
 }
 
-bool HTTPParser::setHeader(smt::shared_ptr<HTTPRequest> pReq, std::string& header, std::string mustBe) {
+bool HTTPParser::setHeader(smt::shared_ptr<HTTPRequest> pReq,
+                           std::string& header, std::string mustBe) {
     std::pair<std::string, std::string> result = getKeyValueHeader(header);
     if (result.first != mustBe) {
-        LOG_E("Key didn't match " + mustBe + " (key is ->" + result.first + "<-)");
+        LOG_E("Key didn't match " + mustBe + " (key is ->" + result.first +
+              "<-)");
         return false;
     } else {
         pReq->setHeader(result.first, result.second);
@@ -87,7 +80,8 @@ bool HTTPParser::setHeader(smt::shared_ptr<HTTPRequest> pReq, std::string& heade
     return true;
 }
 
-bool HTTPParser::setHeader(smt::shared_ptr<HTTPRequest> pReq, std::string& header) {
+bool HTTPParser::setHeader(smt::shared_ptr<HTTPRequest> pReq,
+                           std::string&                 header) {
     std::pair<std::string, std::string> result = getKeyValueHeader(header);
     if (result.first == "") {
         return false;
@@ -98,8 +92,8 @@ bool HTTPParser::setHeader(smt::shared_ptr<HTTPRequest> pReq, std::string& heade
 }
 
 std::vector<std::string> HTTPParser::separateByCRLF(std::string& raw) {
-	std::vector<std::string> separated;
-    char crlf[3];
+    std::vector<std::string> separated;
+    char                     crlf[3];
 
     crlf[0] = 13;
     crlf[1] = 10;
@@ -108,7 +102,7 @@ std::vector<std::string> HTTPParser::separateByCRLF(std::string& raw) {
     // Separate by \r\n
     size_t old = 0;
     size_t next = raw.find(crlf, old);
-    int i = 5;
+    int    i = 5;
     while (next != std::string::npos && old <= next) {
         separated.push_back(raw.substr(old, next - old + 2));
         old = next + 2;
@@ -116,23 +110,23 @@ std::vector<std::string> HTTPParser::separateByCRLF(std::string& raw) {
         i--;
     }
     // Remove CRLF
-    for (std::vector<std::string>::iterator it = separated.begin(); it != separated.end(); ++it){
-        if ((*it).size() > 0) {
-            (*it).resize((*it).size() - 2);
-        }
+    for (std::vector<std::string>::iterator it = separated.begin();
+         it != separated.end(); ++it) {
+        if ((*it).size() > 0) { (*it).resize((*it).size() - 2); }
     }
     return separated;
 }
 
 smt::shared_ptr<HTTPRequest> HTTPParser::parse_header(std::string& header) {
     std::vector<std::string> request = separateByCRLF(header);
-	if (request.size() < 2){ // The method line /  and an empty line to signify end of headers
-		LOG_E("HTTP Request has less than 2 lines");
+    if (request.size() <
+        2) { // The method line /  and an empty line to signify end of headers
+        LOG_E("HTTP Request has less than 2 lines");
         return NULL;
     }
 
     // Create a shared ptr -> this will delete itself if we dont return it :)
-    HTTPRequest* dontUse = new HTTPRequest;
+    HTTPRequest*                 dontUse = new HTTPRequest;
     smt::shared_ptr<HTTPRequest> pReq(dontUse);
 
     // Handle lines
@@ -154,12 +148,10 @@ smt::shared_ptr<HTTPRequest> HTTPParser::parse_header(std::string& header) {
     std::vector<std::string>::iterator it = request.begin();
     for (it = it + 1; it != request.end(); ++it) {
         if (*it != "") {
-            if (!setHeader(pReq, *it)) {
-                return NULL;
-            }
+            if (!setHeader(pReq, *it)) { return NULL; }
         } else {
-			break ; // Trying not to have it increment when it's a empty line
-		}
+            break; // Trying not to have it increment when it's a empty line
+        }
     }
     if (it == request.end()) { // Means we didn't find an empty line
         LOG_E("No empty line signifying end of headers");
@@ -170,24 +162,23 @@ smt::shared_ptr<HTTPRequest> HTTPParser::parse_header(std::string& header) {
 
 int HTTPParser::find_next_request(const char* buff) const {
     std::string temp(buff);
-                
+
     size_t zg = temp.find("GET", 0, 3);
     size_t zp = temp.find("POST", 0, 4);
-    size_t zd = temp.find("DELETE", 0, 6);   
+    size_t zd = temp.find("DELETE", 0, 6);
 
     size_t g = temp.find("\r\nGET ");
     size_t p = temp.find("\r\nPOST ");
     size_t d = temp.find("\r\nDELETE ");
 
-    if (g == std::string::npos && p == std::string::npos && d == std::string::npos) {
-        if (zg == std::string::npos && zp == std::string::npos && zd == std::string::npos) {
+    if (g == std::string::npos && p == std::string::npos &&
+        d == std::string::npos) {
+        if (zg == std::string::npos && zp == std::string::npos &&
+            zd == std::string::npos) {
             return -1;
         }
     }
 
-    return (std::min(g,
-                std::min(d,
-                    std::min(p,
-                        std::min(zg,
-                            std::min(zp, zd))))));
+    return (
+        std::min(g, std::min(d, std::min(p, std::min(zg, std::min(zp, zd))))));
 }
