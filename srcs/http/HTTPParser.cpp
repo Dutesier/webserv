@@ -1,8 +1,4 @@
-#include "HTTPParser.hpp"
-#include "Logger.hpp"
-#include <sstream>
-#include <cstring>
-#include <cmath>
+#include "http/HTTPParser.hpp"
 
 HTTPParser::HTTPParser(){
 

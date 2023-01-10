@@ -1,5 +1,6 @@
 #ifndef SMT_HPP
 # define SMT_HPP
+
 # include <cstddef>
 
 namespace smt {
@@ -83,4 +84,4 @@ shared_ptr<T> make_shared() {
 
 } // namespace smt
 
-#endif
+#endif /* SMT_HPP */

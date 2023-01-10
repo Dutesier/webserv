@@ -1,7 +1,4 @@
-#include "SocketConnection.hpp"
-#include <cstring>
-#include <cstdlib>
-#include "Logger.hpp"
+#include "socket/SocketConnection.hpp"
 
 namespace webserv {
 

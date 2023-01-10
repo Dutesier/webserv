@@ -1,6 +1,6 @@
-#include "SocketConnection.hpp"
-#include "TCPSocket.hpp"
-#include "smt.hpp"
+#include "socket/SocketConnection.hpp"
+#include "socket/TCPSocket.hpp"
+#include "utils/smt.hpp"
 
 #include <gtest/gtest.h>
 #include <iostream>

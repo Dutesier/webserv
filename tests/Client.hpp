@@ -1,8 +1,8 @@
 #ifndef CLIENT_HPP
 #define CLIENT_HPP
 
-#include "SocketConnection.hpp"
-#include "smt.hpp"
+#include "socket/SocketConnection.hpp"
+#include "utils/smt.hpp"
 
 #include <arpa/inet.h>
 

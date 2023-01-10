@@ -1,7 +1,7 @@
 #ifndef HTTP_HANDLER_HPP
 #define HTTP_HANDLER_HPP
 
-#include "TCPSocket.hpp"
+#include "socket/TCPSocket.hpp"
 
 namespace webserv {
 

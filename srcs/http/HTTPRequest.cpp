@@ -1,4 +1,4 @@
-#include "HTTPRequest.hpp"
+#include "http/HTTPRequest.hpp"
 
 // Set the request method
 void HTTPRequest::setMethod(webserv::Method method) {

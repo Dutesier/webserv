@@ -1,7 +1,7 @@
 #define GTEST_TESTING 1
 
-#include "Config.hpp"
-#include "ServerConfig.hpp"
+#include "server/Config.hpp"
+#include "server/ServerConfig.hpp"
 
 #include <gtest/gtest.h>
 #include <iostream>

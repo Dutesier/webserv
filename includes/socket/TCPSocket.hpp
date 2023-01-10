@@ -1,10 +1,10 @@
 #ifndef TCP_SOCKET_HPP
 #define TCP_SOCKET_HPP
 
-#include "Logger.hpp"
-#include "Socket.hpp"
-#include "SocketConnection.hpp"
-#include "smt.hpp"
+#include "utils/Logger.hpp"
+#include "socket/Socket.hpp"
+#include "socket/SocketConnection.hpp"
+#include "utils/smt.hpp"
 
 #include <map>
 #include <unistd.h>

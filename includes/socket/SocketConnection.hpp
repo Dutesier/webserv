@@ -1,13 +1,15 @@
 #ifndef SOCKETCONNECTION_HPP
 #define SOCKETCONNECTION_HPP
 
-#include "Logger.hpp"
-#include "Socket.hpp"
-#include "SocketAddress.hpp"
-#include "HTTPParser.hpp"
+#include "utils/Logger.hpp"
+#include "socket/Socket.hpp"
+#include "socket/SocketAddress.hpp"
+#include "http/HTTPParser.hpp"
 
 #include <unistd.h>
 #include <vector>
+#include <cstring>
+#include <cstdlib>
 
 #ifndef READING_BUFFER
 # define READING_BUFFER 8192

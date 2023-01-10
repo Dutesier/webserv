@@ -1,7 +1,7 @@
 
-#include "Socket.hpp"
-#include "SocketAddress.hpp"
-#include "TCPSocket.hpp"
+#include "socket/Socket.hpp"
+#include "socket/SocketAddress.hpp"
+#include "socket/TCPSocket.hpp"
 
 #include <gtest/gtest.h>
 

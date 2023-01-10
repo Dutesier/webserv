@@ -1,8 +1,8 @@
 #ifndef SERVER_SOCKET_HPP
 #define SERVER_SOCKET_HPP
 
-#include "ServerConfig.hpp"
-#include "TCPSocket.hpp"
+#include "server/ServerConfig.hpp"
+#include "socket/TCPSocket.hpp"
 
 namespace webserv {
 

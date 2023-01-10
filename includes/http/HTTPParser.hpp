@@ -1,9 +1,13 @@
 #ifndef HTTPPARSER_HPP
 # define HTTPPARSER_HPP
 
-# include "smt.hpp"
-# include "HTTPRequest.hpp"
+# include "utils/smt.hpp"
+# include "http/HTTPRequest.hpp"
+# include "utils/Logger.hpp"
 
+#include <sstream>
+#include <cstring>
+#include <cmath>
 # include <map>
 # include <string>
 # include <vector>

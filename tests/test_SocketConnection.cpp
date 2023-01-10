@@ -1,8 +1,8 @@
 #include "Client.hpp"
-#include "Socket.hpp"
-#include "SocketAddress.hpp"
-#include "SocketConnection.hpp"
-#include "TCPSocket.hpp"
+#include "socket/Socket.hpp"
+#include "socket/SocketAddress.hpp"
+#include "socket/SocketConnection.hpp"
+#include "socket/TCPSocket.hpp"
 
 #include <cstdio>
 #include <gtest/gtest.h>
