@@ -1,9 +1,9 @@
 #ifndef TCP_SOCKET_HPP
 #define TCP_SOCKET_HPP
 
-#include "utils/Logger.hpp"
 #include "socket/Socket.hpp"
 #include "socket/SocketConnection.hpp"
+#include "utils/Logger.hpp"
 #include "utils/smt.hpp"
 
 #include <map>
@@ -39,7 +39,7 @@ class TCPSocket : public Socket {
         void close(void);
 
         smt::shared_ptr<HTTPRequest> recv(SocketConnection* connection);
-        void        send(SocketConnection* connection, std::string response);
+        void send(SocketConnection* connection, std::string response);
 
         // TODO: refactor this to a more safe and smart approach
         SocketConnection* connection(int fd) const;

@@ -1,9 +1,9 @@
 #ifndef CONFIG_HPP
 #define CONFIG_HPP
 
+#include "server/ServerConfig.hpp"
 #include "utils/Error.hpp"
 #include "utils/Logger.hpp"
-#include "server/ServerConfig.hpp"
 
 #include <cstring>
 #include <map>

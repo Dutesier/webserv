@@ -23,7 +23,7 @@ void SocketConnection::close(void) {
     FLOG_D("webserv::SocketConnection closed a socket");
 }
 
-void data_to_buff(char* data, char *buff) {
+void data_to_buff(char* data, char* buff) {
     for (int i = 0; i < READING_BUFFER; ++i) {
         buff[i] = data[i];
         data[i] = 0;
@@ -32,26 +32,29 @@ void data_to_buff(char* data, char *buff) {
 }
 
 void buff_to_data(char* buff, char* data) {
-    for (int i = 0; buff[i] != '\0'; ++i){
-        data[i] = buff[i];
-    }
+    for (int i = 0; buff[i] != '\0'; ++i) { data[i] = buff[i]; }
 }
+
 // TODO: find smarter ways to get buf
-smt::shared_ptr<HTTPRequest> SocketConnection::recv(void) { // When recv is called it returns an http request
+smt::shared_ptr<HTTPRequest> SocketConnection::recv(
+    void) { // When recv is called it returns an http request
     smt::shared_ptr<HTTPRequest> request;
 
-    char            buff[READING_BUFFER + 1];
-    static char     restOfData[READING_BUFFER + 1]; // Should always start with an HTTP RequestLine
-    static bool     dataInBuffer = false; // Will be true when there was a previous call to recv that got its HTTP request and the beggining of ours
-    size_t          bytes_read = 0;
-    
-    char*       endOfHeaders = "\r\n\r\n";
-    size_t      eoh_position;
-    
+    char        buff[READING_BUFFER + 1];
+    static char restOfData[READING_BUFFER +
+                           1]; // Should always start with an HTTP RequestLine
+    static bool dataInBuffer =
+        false; // Will be true when there was a previous call to recv that got
+               // its HTTP request and the beggining of ours
+    size_t bytes_read = 0;
+
+    char*  endOfHeaders = "\r\n\r\n";
+    size_t eoh_position;
+
     std::string header;
     header.reserve(READING_BUFFER + 1);
 
-    if (!dataInBuffer) { 
+    if (!dataInBuffer) {
         // Get data from FD
         bytes_read = ::recv(fd, &buff, READING_BUFFER, 0);
         if (bytes_read <= 0) {
@@ -80,16 +83,22 @@ smt::shared_ptr<HTTPRequest> SocketConnection::recv(void) { // When recv is call
         // If we have a Content-Lenght
         std::string lenStr = request->getHeader("Content-Length");
         if (!lenStr.empty()) {
-            int body_size = std::min(atoi(lenStr.c_str()), static_cast<int>(strlen(buff) - (eoh_position)));
+            int body_size =
+                std::min(atoi(lenStr.c_str()),
+                         static_cast<int>(strlen(buff) - (eoh_position)));
             if (body_size < MAX_BODY_SIZE && body_size) {
                 // request->getContent().reserve(body_size);
                 std::string temp(buff);
 
                 int restOfBuff = temp.size() - (eoh_position);
-                request->setContent(temp.substr(eoh_position, std::min(restOfBuff, body_size)));
+                request->setContent(
+                    temp.substr(eoh_position, std::min(restOfBuff, body_size)));
 
-                while (body_size > request->getContent().size()) { // While there's more to the body then what we have
-                    while (true){
+                while (
+                    body_size >
+                    request->getContent().size()) { // While there's more to the
+                                                    // body then what we have
+                    while (true) {
                         bytes_read = ::recv(fd, &buff, READING_BUFFER, 0);
                         if (bytes_read < 0) {
                             return NULL;
@@ -100,18 +109,28 @@ smt::shared_ptr<HTTPRequest> SocketConnection::recv(void) { // When recv is call
                         }
                     }
                     temp = buff;
-                    // What I want to do here is add what's missing until we are of size: body_size
-                    int chars_still_missing = body_size - (request->getContent().length()); // maybe +1 for the NTC?
-                    request->setContent(request->getContent() + temp.substr(0, std::min(static_cast<int>(temp.length()), chars_still_missing)));
+                    // What I want to do here is add what's missing until we are
+                    // of size: body_size
+                    int chars_still_missing =
+                        body_size - (request->getContent()
+                                         .length()); // maybe +1 for the NTC?
+                    request->setContent(
+                        request->getContent() +
+                        temp.substr(0, std::min(static_cast<int>(temp.length()),
+                                                chars_still_missing)));
                 }
             }
         }
 
         // Clear what we have read from buffer (and store the rest in buff)
         std::string formatter(buff);
-        std::string formatted(formatter.substr(eoh_position + request->getContent().length(), strlen(buff)).c_str());
-        const char *writer = formatted.c_str();
-        int index;
+        std::string formatted(
+            formatter
+                .substr(eoh_position + request->getContent().length(),
+                        strlen(buff))
+                .c_str());
+        const char* writer = formatted.c_str();
+        int         index;
         for (index = 0; writer[index] != '\0'; ++index) {
             buff[index] = writer[index];
         }
@@ -124,11 +143,11 @@ smt::shared_ptr<HTTPRequest> SocketConnection::recv(void) { // When recv is call
         } else {
             std::string temp(buff);
             std::string store = temp.substr(next);
-            buff_to_data(const_cast<char *>(store.c_str()), restOfData);
+            buff_to_data(const_cast<char*>(store.c_str()), restOfData);
             dataInBuffer = true;
         }
     }
-    
+
     return request;
 }
 

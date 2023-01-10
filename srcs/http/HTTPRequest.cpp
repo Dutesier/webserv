@@ -1,14 +1,10 @@
 #include "http/HTTPRequest.hpp"
 
 // Set the request method
-void HTTPRequest::setMethod(webserv::Method method) {
-    m_method = method;
-}
+void HTTPRequest::setMethod(webserv::Method method) { m_method = method; }
 
 // Get the request method
-webserv::Method HTTPRequest::getMethod() const {
-    return m_method;
-}
+webserv::Method HTTPRequest::getMethod() const { return m_method; }
 
 // Set the request URL
 void HTTPRequest::setResource(const std::string& resource) {
@@ -16,19 +12,15 @@ void HTTPRequest::setResource(const std::string& resource) {
 }
 
 // Get the request URL
-const std::string& HTTPRequest::getResource() const {
-    return m_resource;
-}
+const std::string& HTTPRequest::getResource() const { return m_resource; }
 
 // Set the version
-void HTTPRequest::setVersion(const std::string& version){
+void HTTPRequest::setVersion(const std::string& version) {
     m_version = version;
 }
 
 // Get the version
-const std::string& HTTPRequest::getVersion() const {
-    return m_version;
-}
+const std::string& HTTPRequest::getVersion() const { return m_version; }
 
 // Set a request header
 void HTTPRequest::setHeader(const std::string& name, const std::string& value) {
@@ -50,6 +42,4 @@ void HTTPRequest::setContent(const std::string& content) {
 }
 
 // Get the request body / content
-const std::string& HTTPRequest::getContent() const {
-    return m_content;
-}
+const std::string& HTTPRequest::getContent() const { return m_content; }

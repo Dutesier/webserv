@@ -1,8 +1,8 @@
 #ifndef HTTP_SERVER_HPP
 #define HTTP_SERVER_HPP
 
-#include "server/Config.hpp"
 #include "http/HTTPHandler.hpp"
+#include "server/Config.hpp"
 #include "server/ServerConfig.hpp"
 #include "socket/ServerSocket.hpp"
 

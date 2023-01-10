@@ -1,15 +1,15 @@
 #ifndef SOCKETCONNECTION_HPP
 #define SOCKETCONNECTION_HPP
 
-#include "utils/Logger.hpp"
+#include "http/HTTPParser.hpp"
 #include "socket/Socket.hpp"
 #include "socket/SocketAddress.hpp"
-#include "http/HTTPParser.hpp"
+#include "utils/Logger.hpp"
 
+#include <cstdlib>
+#include <cstring>
 #include <unistd.h>
 #include <vector>
-#include <cstring>
-#include <cstdlib>
 
 #ifndef READING_BUFFER
 # define READING_BUFFER 8192
@@ -34,7 +34,7 @@ class SocketConnection : public webserv::Socket {
         void close(void);
 
         smt::shared_ptr<HTTPRequest> recv(void);
-        void        send(std::string message);
+        void                         send(std::string message);
 
         /* Exceptions */
         struct CloseFailureException : public std::exception {
@@ -48,8 +48,9 @@ class SocketConnection : public webserv::Socket {
         struct RecvFailureException : public std::exception {
                 char const* what(void) const throw();
         };
-    
+
     private:
+
         HTTPParser parser;
 };
 

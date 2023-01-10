@@ -106,7 +106,6 @@ TEST_F(test_TCPSocket, close) {
     ASSERT_NO_THROW(this->sock->close()) << errno;
 }
 
-
 // This test needs to be updated since it now throws an exception (cough cough)
 // TEST_F(test_TCPSocket, recv) {
 //     this->set_options();
@@ -120,7 +119,6 @@ TEST_F(test_TCPSocket, close) {
 //     auto str = this->sock->recv(connection);
 //     ASSERT_NE(str, "") << str;
 // }
-
 
 // Same as above for this one (double cough)
 // TEST_F(test_TCPSocket, send) {
