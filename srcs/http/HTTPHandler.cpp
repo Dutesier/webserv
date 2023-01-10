@@ -3,26 +3,36 @@
 namespace webserv {
 
 /* HTTPHandler Class */
-void HTTPHandler::handle(TCPSocket* socket, int fd) {
-    HTTPHandler::impl m_impl(socket, fd);
+void http_handle(TCPSocket* sock, int client_fd) {
+	LOG("This is not done (yet)");
 }
 
-/* HTTPHandler::impl Class */
-HTTPHandler::impl::impl(TCPSocket* socket, int fd)
-    : socket(socket), client(this->socket->connection(fd)) {
+/* this is how http_handle will look like
+void http_handle(TCPSocket* sock, int client_fd) {
 
-    smt::shared_ptr<HTTPRequest> req = this->client->recv();
-    if (req != NULL) {
-        std::cout << req->getContent() << std::endl;
-        // std::cout << *req << std::endl;
-    }
-    this->client->send("A string");
+	// receiving request string
+	std::string req_str = sock->recv(client_fd);
+
+	// getting the first request from string
+	smt::shared_ptr<HTTPRequest> request = sock->get_next_request(req_str);
+	bool has_next = true;
+	while (has_next) {
+
+		FLOG("Handling request...");
+		// handle request here
+		smt::shared_ptr<HTTPResponse> response;
+
+		// int         -> status code
+		// std::string -> body of response
+		std::pair<int, std::string> resp = process_request(request);
+		response = generate_response(reps); // generating response
+
+		sock->send(client_fd, response.to_str()); // sending response to client
+
+		// checking if there are more requests to handle
+		if (!(request = get_next_request(NULL))) { has_next = false; }
+	}
 }
+*/
 
-// HTTPHandler::impl::impl(TCPSocket* socket, int fd)
-//     : socket(socket), client(this->socket->connection(fd)) {
-// 	HTTPRequest req( this->client->recv() );
-//  	this->client->send(HTTPResponse(req).to_str);
-// }
-
-} // namespace webserv
+}

@@ -2,31 +2,12 @@
 #define HTTP_HANDLER_HPP
 
 #include "socket/TCPSocket.hpp"
+#include "http/HTTPRequest.hpp"
+#include "utils/smt.hpp"
 
 namespace webserv {
 
-class HTTPHandler {
-
-    public:
-
-        static void handle(TCPSocket* socket, int fd);
-
-#ifndef GTEST_TESTING
-
-    private:
-
-#endif
-
-        /* PImpl Object */
-        struct impl;
-};
-
-struct HTTPHandler::impl {
-        impl(TCPSocket* socket, int fd);
-
-        TCPSocket*        socket;
-        SocketConnection* client;
-};
+void http_handle(TCPSocket* sock, int client_fd);
 
 } // namespace webserv
 

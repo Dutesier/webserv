@@ -54,7 +54,7 @@ void HTTPServer::run(void) {
                      it++) {
                     if ((*it).second->has_connection(events[i].data.fd)) {
                         FLOG_D("webserv::HTTPServer REQ()");
-                        HTTPHandler::handle((*it).second, events[i].data.fd);
+                        http_handle((*it).second, events[i].data.fd);
                         break;
                     }
                 }
