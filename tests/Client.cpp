@@ -19,9 +19,7 @@ void Client::close() {
 
 void Client::send_message(std::string message) { connection->send(message); }
 
-smt::shared_ptr<HTTPRequest> Client::receive_message(void) {
-    return (connection->recv());
-}
+std::string Client::receive_message(void) { return (connection->recv()); }
 
 char const* Client::CloseFailureException::what(void) const throw() {
     return ("Client failure in close()");

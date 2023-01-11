@@ -38,8 +38,8 @@ class TCPSocket : public Socket {
         void shutdown(int how);
         void close(void);
 
-        smt::shared_ptr<HTTPRequest> recv(SocketConnection* connection);
-        void send(SocketConnection* connection, std::string response);
+        std::string recv(SocketConnection* connection);
+        void        send(SocketConnection* connection, std::string response);
 
         // TODO: refactor this to a more safe and smart approach
         SocketConnection* connection(int fd) const;

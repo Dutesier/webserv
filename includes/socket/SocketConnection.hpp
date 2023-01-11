@@ -15,10 +15,6 @@
 # define READING_BUFFER 8192
 #endif
 
-#ifndef MAX_BODY_SIZE
-# define MAX_BODY_SIZE 2147483648
-#endif
-
 namespace webserv {
 
 class SocketConnection : public webserv::Socket {
@@ -33,8 +29,8 @@ class SocketConnection : public webserv::Socket {
         /* Other Functions */
         void close(void);
 
-        smt::shared_ptr<HTTPRequest> recv(void);
-        void                         send(std::string message);
+        std::string recv(void);
+        void        send(std::string message);
 
         /* Exceptions */
         struct CloseFailureException : public std::exception {
