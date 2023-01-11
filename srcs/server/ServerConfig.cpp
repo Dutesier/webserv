@@ -5,7 +5,7 @@ namespace webserv {
 /* ServerConfig Class */
 ServerConfig::ServerConfig(void)
     : m_autoindex(false), m_port(80), m_host("localhost"),
-	  m_root("/var/www/html"), m_body_size(8000) {
+      m_root("/var/www/html"), m_body_size(8000) {
 
     std::string arr[2] = {"index", "index.html"};
     m_index.insert(m_index.begin(), arr, arr + 2);

@@ -6,7 +6,8 @@ namespace webserv {
 
 // initializes the Config instance
 HTTPServer::HTTPServer(int argc, char* argv[])
-    : m_state(ready), m_config(smt::shared_ptr<Config>(new Config(argc, argv))) {}
+    : m_state(ready),
+      m_config(smt::shared_ptr<Config>(new Config(argc, argv))) {}
 
 HTTPServer::~HTTPServer(void) {}
 
@@ -20,11 +21,14 @@ void HTTPServer::start(void) {
     if ((m_epollfd = epoll_create1(0)) < 0) { throw(EpollCreateException()); }
 
     // initializing sockets
-    std::vector< smt::shared_ptr<ServerConfig> > server = m_config->server_config();
+    std::vector<smt::shared_ptr<ServerConfig> > server =
+        m_config->server_config();
 
-    for (std::vector< smt::shared_ptr<ServerConfig> >::iterator it = server.begin(); it != server.end(); it++) {
+    for (std::vector<smt::shared_ptr<ServerConfig> >::iterator it =
+             server.begin();
+         it != server.end(); it++) {
 
-		smt::shared_ptr<ServerSocket> sock(new ServerSocket(*it));
+        smt::shared_ptr<ServerSocket> sock(new ServerSocket(*it));
         m_socket[sock->sockfd()] = sock;
         epoll_add(sock->sockfd());
     }
@@ -53,14 +57,14 @@ void HTTPServer::run(void) {
                 FLOG_D("webserv::HTTPServer ACK()");
                 int fd = m_socket[events[i].data.fd]->accept();
                 epoll_add(fd);
-            }
-			else {
+            } else {
 
                 std::map<int, smt::shared_ptr<ServerSocket> >::iterator it;
                 for (it = m_socket.begin(); it != m_socket.end(); it++) {
 
-					smt::shared_ptr<ServerSocket> sock = (*it).second;
-                    if (sock->m_connection.find(events[i].data.fd) != sock->m_connection.end()) {
+                    smt::shared_ptr<ServerSocket> sock = (*it).second;
+                    if (sock->m_connection.find(events[i].data.fd) !=
+                        sock->m_connection.end()) {
 
                         FLOG_D("webserv::HTTPServer REQ()");
                         http_handle(sock, events[i].data.fd);

@@ -21,18 +21,14 @@ class SocketConnection : public webserv::Socket {
 
     public:
 
-        /* Constructors and Destructors */
         SocketConnection(int fd, SocketAddress addr);
         SocketConnection(void);
         ~SocketConnection(void);
 
-        /* Other Functions */
-        void close(void);
-
+        void        close(void);
         std::string recv(void);
         void        send(std::string message);
 
-        /* Exceptions */
         struct CloseFailureException : public std::exception {
                 char const* what(void) const throw();
         };

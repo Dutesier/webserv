@@ -41,9 +41,9 @@ class test_SocketConnection : public ::testing::Test {
 
     protected:
 
-		smt::shared_ptr<Client>                    client;
-		smt::shared_ptr<webserv::TCPSocket>        sock;
-		smt::shared_ptr<webserv::SocketConnection> connection;
+        smt::shared_ptr<Client>                    client;
+        smt::shared_ptr<webserv::TCPSocket>        sock;
+        smt::shared_ptr<webserv::SocketConnection> connection;
 };
 
 TEST_F(test_SocketConnection, constructor) {}

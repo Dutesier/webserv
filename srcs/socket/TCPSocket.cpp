@@ -15,7 +15,7 @@ void TCPSocket::bind(void) {
 
     if (::bind(m_fd, m_addr.address(), m_addr.length()) != 0) {
         throw(BindFailureException());
-	}
+    }
 }
 
 // This function sets socket's options
@@ -24,7 +24,7 @@ void TCPSocket::setsockopt(int level, int optname, const void* optval,
 
     if (::setsockopt(m_fd, level, optname, optval, optlen)) {
         throw(SetOptFailureException());
-	}
+    }
 }
 
 // Sets the port state to LISTEN and sets a BACKLOG max ammount of connections
@@ -50,15 +50,16 @@ void TCPSocket::close(void) {
 // in order to prevent accept from blocking our program
 int TCPSocket::accept(void) {
 
-    SocketAddress     connect_addr;
+    SocketAddress connect_addr;
 
     int connect_fd =
         ::accept(m_fd, connect_addr.address(), connect_addr.length_ptr());
 
     if (connect_fd < 0) { throw(AcceptFailureException()); }
 
-	smt::shared_ptr<SocketConnection> sock_connect(new SocketConnection(connect_fd, connect_addr));
-	m_connection[connect_fd] = sock_connect;
+    smt::shared_ptr<SocketConnection> sock_connect(
+        new SocketConnection(connect_fd, connect_addr));
+    m_connection[connect_fd] = sock_connect;
     return (connect_fd);
 }
 
@@ -66,20 +67,20 @@ int TCPSocket::accept(void) {
 // will probably need to do something more specific in the future
 std::string TCPSocket::recv(int connect_fd) {
 
-	std::map<int, smt::shared_ptr<SocketConnection> >::iterator it;
-	it = m_connection.find(connect_fd);
+    std::map<int, smt::shared_ptr<SocketConnection> >::iterator it;
+    it = m_connection.find(connect_fd);
 
-	if (it == m_connection.end()) { throw (NoSuchConnectionException()); }
+    if (it == m_connection.end()) { throw(NoSuchConnectionException()); }
 
     return (m_connection[connect_fd]->recv());
 }
 
 void TCPSocket::send(int connect_fd, std::string response) {
 
-	std::map<int, smt::shared_ptr<SocketConnection> >::iterator it;
-	it = m_connection.find(connect_fd);
+    std::map<int, smt::shared_ptr<SocketConnection> >::iterator it;
+    it = m_connection.find(connect_fd);
 
-	if (it == m_connection.end()) { throw (NoSuchConnectionException()); }
+    if (it == m_connection.end()) { throw(NoSuchConnectionException()); }
 
     m_connection[connect_fd]->send(response);
 }

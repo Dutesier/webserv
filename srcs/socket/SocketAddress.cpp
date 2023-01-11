@@ -3,12 +3,11 @@
 namespace webserv {
 
 SocketAddress::SocketAddress(void)
-	: m_addr(new sockaddr_in),
-	  m_len(sizeof(*m_addr)) {}
+    : m_addr(new sockaddr_in), m_len(sizeof(*m_addr)) {}
 
 SocketAddress::SocketAddress(int port, std::string host, int family)
     : m_port_nu(port), m_host_addr(host), m_addr_family(family),
-	  m_addr(new sockaddr_in) {
+      m_addr(new sockaddr_in) {
 
     m_addr->sin_family = m_addr_family;
     m_addr->sin_port = htons(m_port_nu);
@@ -20,9 +19,7 @@ SocketAddress::SocketAddress(SocketAddress const& src) : m_addr(NULL) {
     *this = src;
 }
 
-SocketAddress::~SocketAddress(void) {
-	delete m_addr;
-}
+SocketAddress::~SocketAddress(void) { delete m_addr; }
 
 SocketAddress& SocketAddress::operator=(SocketAddress const& rhs) {
 

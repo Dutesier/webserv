@@ -35,11 +35,11 @@ void SocketConnection::close(void) {
 // TODO: find smarter ways to get buf
 std::string SocketConnection::recv(void) {
 
-    char        buff[READING_BUFFER + 1];
-    size_t      bytes_read;
+    char   buff[READING_BUFFER + 1];
+    size_t bytes_read;
 
     bytes_read = ::recv(m_fd, &buff, READING_BUFFER, 0);
-    if (bytes_read < 0) { throw (SendFailureException()); }
+    if (bytes_read < 0) { throw(SendFailureException()); }
     if (bytes_read == 0) { return (""); }
 
     return (std::string(buff, bytes_read));
@@ -49,7 +49,7 @@ void SocketConnection::send(std::string message) {
 
     if (::send(m_fd, message.c_str(), message.size(), 0) < 0) {
         throw(SendFailureException());
-	}
+    }
 }
 
 char const* SocketConnection::CloseFailureException::what(void) const throw() {

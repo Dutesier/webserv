@@ -23,7 +23,7 @@ namespace webserv {
 
 #define error_syntax(M, L)                                                     \
  ERROR_(M + ": " + L, webserv::Error::invalid_syntax);                         \
- m_file.close(); \
+ m_file.close();                                                               \
  throw(InvalidSyntaxException());
 
 class Config {
@@ -33,7 +33,7 @@ class Config {
         Config(int argc, char* argv[]);
         ~Config(void);
 
-        std::vector< smt::shared_ptr<ServerConfig> > server_config(void);
+        std::vector<smt::shared_ptr<ServerConfig> > server_config(void);
 
 #ifndef GTEST_TESTING
 
@@ -42,7 +42,7 @@ class Config {
 #endif
 
         struct impl;
-		smt::shared_ptr<impl> m_impl;
+        smt::shared_ptr<impl> m_impl;
 };
 
 struct Config::impl {
@@ -72,13 +72,12 @@ struct Config::impl {
         bool cmd_fastcgi_pass(std::vector<std::string> cmd);
         bool cmd_request_method(std::vector<std::string> cmd);
 
-        static std::string const                d_path;
-        static std::string const                d_file;
-        static std::string const                d_method;
+        static std::string const d_path;
+        static std::string const d_file;
+        static std::string const d_method;
 
-        std::ifstream m_file;
-
-        std::vector< smt::shared_ptr<ServerConfig> > m_server;
+        std::ifstream                               m_file;
+        std::vector<smt::shared_ptr<ServerConfig> > m_server;
 };
 
 } // namespace webserv

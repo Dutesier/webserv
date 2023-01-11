@@ -18,17 +18,14 @@ class Socket {
         Socket(void);
         virtual ~Socket(void);
 
-        /* Getters and Setters */
-        int sockfd(void) const;
-        int type(void) const;
+        int           sockfd(void) const;
+        int           type(void) const;
         SocketAddress address(void) const;
 
-        /* Other Functions */
         virtual void close(void) = 0;
 
     protected:
 
-        /* Protected Attributes */
         SocketAddress m_addr;
         int           m_fd;
         int           m_socktype;
