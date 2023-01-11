@@ -1,8 +1,8 @@
 #ifndef HTTP_VALIDATOR_HPP
 # define HTTP_VALIDATOR_HPP
 
-# include "HTTPRequest.hpp"
-# include "smt.hpp"
+# include "http/HTTPRequest.hpp"
+# include "utils/smt.hpp"
 // # include "HTTPResponse.cpp"
 
 // In the future we can expand this design pattern to check the valiity
