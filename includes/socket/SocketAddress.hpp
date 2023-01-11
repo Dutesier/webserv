@@ -22,12 +22,12 @@ class SocketAddress {
 
         SocketAddress& operator=(SocketAddress const& rhs);
 
-        sockaddr* address(void) const;
-        socklen_t        length(void) const;
-        socklen_t*       length_ptr(void);
-        std::string      host(void) const;
-        int              port(void) const;
-        int              family(void) const;
+        sockaddr*   address(void) const;
+        socklen_t   length(void) const;
+        socklen_t*  length_ptr(void);
+        std::string host(void) const;
+        int         port(void) const;
+        int         family(void) const;
 
     private:
 

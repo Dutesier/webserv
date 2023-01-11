@@ -1,8 +1,8 @@
 
-#include "utils/smt.hpp"
 #include "socket/Socket.hpp"
 #include "socket/SocketAddress.hpp"
 #include "socket/TCPSocket.hpp"
+#include "utils/smt.hpp"
 
 #include <gtest/gtest.h>
 
@@ -12,14 +12,15 @@ class test_SocketAddress : public ::testing::Test {
 
         void SetUp(void) {
 
-            this->addr = smt::shared_ptr<webserv::SocketAddress>(new webserv::SocketAddress(443));
+            this->addr = smt::shared_ptr<webserv::SocketAddress>(
+                new webserv::SocketAddress(443));
         }
 
         void TearDown(void) {}
 
     protected:
 
-		smt::shared_ptr<webserv::SocketAddress> addr;
+        smt::shared_ptr<webserv::SocketAddress> addr;
 };
 
 TEST_F(test_SocketAddress, default_constructor) {}

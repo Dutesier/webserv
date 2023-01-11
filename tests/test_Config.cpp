@@ -17,14 +17,14 @@
  argv[0] = (char*)"webserv";                                                   \
  argv[1] = (char*)X;                                                           \
  errno = 0;                                                                    \
- webserv::Config::impl* dontUse;                                          \
- dontUse = new webserv::Config::impl(2, argv);                            \
+ webserv::Config::impl* dontUse;                                               \
+ dontUse = new webserv::Config::impl(2, argv);                                 \
  std::shared_ptr<webserv::Config::impl> m_impl(dontUse)
 
 TEST(test_ServerConfig, constructor) {
 
     ARGV("../tests/test_file");
-    webserv::Config* dontUse = new webserv::Config(2, argv);
+    webserv::Config*                 dontUse = new webserv::Config(2, argv);
     std::shared_ptr<webserv::Config> server(dontUse);
 }
 
@@ -45,16 +45,14 @@ TEST(test_ServerConfig, InvalidFileException) {
 TEST(test_impl, constructor) {
 
     ARGV("../tests/test_file");
-    webserv::Config::impl* dontUse =
-        new webserv::Config::impl(2, argv);
+    webserv::Config::impl* dontUse = new webserv::Config::impl(2, argv);
     std::shared_ptr<webserv::Config::impl> m_impl(dontUse);
 }
 
 TEST(test_impl, destructor) {
 
     ARGV("../tests/test_file");
-    webserv::Config::impl* server =
-        new webserv::Config::impl(2, argv);
+    webserv::Config::impl* server = new webserv::Config::impl(2, argv);
     delete server;
 }
 

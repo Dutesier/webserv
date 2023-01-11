@@ -31,7 +31,7 @@ struct ServerBlock {
         std::vector<std::string>   m_srv_name;
         std::map<int, std::string> m_error_page;
 
-        std::vector< smt::shared_ptr<LocationBlock> > m_location;
+        std::vector<smt::shared_ptr<LocationBlock> > m_location;
 };
 
 struct LocationBlock {
@@ -45,7 +45,6 @@ struct LocationBlock {
         std::vector<std::string> m_req_methods;
 };
 
-}
+} // namespace webserv
 
 #endif /* BLOCKS_HPP */
-

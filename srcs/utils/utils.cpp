@@ -107,4 +107,4 @@ std::map<int, std::string> utils::status_codes(void) {
     return (code_map);
 }
 
-}
+} // namespace webserv

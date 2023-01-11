@@ -15,4 +15,4 @@ LocationBlock::LocationBlock(char const* uri)
 
 LocationBlock::~LocationBlock(void) {}
 
-} // namespace server
+} // namespace webserv

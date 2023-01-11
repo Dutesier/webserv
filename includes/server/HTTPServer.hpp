@@ -2,8 +2,8 @@
 #define HTTP_SERVER_HPP
 
 #include "http/HTTPHandler.hpp"
-#include "server/Config.hpp"
 #include "server/Blocks.hpp"
+#include "server/Config.hpp"
 #include "socket/ServerSocket.hpp"
 
 #include <map>

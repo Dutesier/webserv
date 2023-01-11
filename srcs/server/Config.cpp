@@ -10,7 +10,7 @@ Config::Config(int argc, char* argv[])
 
 Config::~Config(void) {}
 
-std::vector< smt::shared_ptr<ServerBlock> > Config::config(void) {
+std::vector<smt::shared_ptr<ServerBlock> > Config::config(void) {
     return (m_impl->m_config);
 }
 
@@ -20,14 +20,16 @@ Config::impl::impl(int argc, char* argv[]) {
     std::string filename;
 
     // checking to see if a filename was provided
-    if (argc > 1) { filename = utils::d_file(argv[1]); }
-    else { filename = utils::d_file(); }
+    if (argc > 1) {
+        filename = utils::d_file(argv[1]);
+    } else {
+        filename = utils::d_file();
+    }
 
     // checking to see if a path for the file was provided
     if (filename.find("/") == std::string::npos) { // user's not provided a path
         filename = utils::d_path() + filename;
-    }
-    else { // user's provided a path
+    } else { // user's provided a path
 
         utils::d_file(filename.substr(filename.find_last_of("/") + 1));
         utils::d_path(filename.substr(0, filename.find_last_of("/") + 1));
@@ -79,8 +81,7 @@ std::string Config::impl::parse(std::string filename) {
 
             if (in_location) {
                 ERROR("location block inside another location block");
-            }
-            else if (!in_server) {
+            } else if (!in_server) {
                 ERROR("location block not inside server block");
             }
 
@@ -99,9 +100,13 @@ std::string Config::impl::parse(std::string filename) {
         // end of a block
         if (line.find("}") != std::string::npos) {
 
-            if (in_location && in_server) { in_location = false; }
-            else if (in_server) { in_server = false; }
-            else { ERROR("invalid closing of bracket"); }
+            if (in_location && in_server) {
+                in_location = false;
+            } else if (in_server) {
+                in_server = false;
+            } else {
+                ERROR("invalid closing of bracket");
+            }
 
             continue;
         }
@@ -114,8 +119,7 @@ std::string Config::impl::parse(std::string filename) {
                 if (!res.first) { return (res.second); }
 
                 continue;
-            }
-            else if (!in_location) {
+            } else if (!in_location) {
 
                 result_type res = server(line);
                 if (!res.first) { ERROR(res.second); }
@@ -141,9 +145,8 @@ void Config::impl::error_file(std::string filename) const {
     throw(InvalidFileException());
 }
 
-std::string Config::impl::generate_error(std::string filename,
-                                               std::string line, int i,
-                                               std::string msg) const {
+std::string Config::impl::generate_error(std::string filename, std::string line,
+                                         int i, std::string msg) const {
 
     // converting line number to std::string
     std::stringstream ss;
@@ -162,8 +165,7 @@ void Config::impl::error_syntax(std::string msg) const {
     throw(InvalidSyntaxException());
 }
 
-typename Config::impl::result_type
-    Config::impl::server(std::string line) {
+typename Config::impl::result_type Config::impl::server(std::string line) {
 
     std::vector<std::string> cmd;
 
@@ -176,11 +178,13 @@ typename Config::impl::result_type
     }
 
     // checking if cmd ends with a comma
-    if (cmd.back() == ";") { cmd.pop_back(); }
-    else if (cmd.back()[cmd.back().size() - 1] == ';') {
+    if (cmd.back() == ";") {
+        cmd.pop_back();
+    } else if (cmd.back()[cmd.back().size() - 1] == ';') {
         cmd.back().resize(cmd.back().size() - 1);
+    } else {
+        return (result_type(false, "invalid end"));
     }
-    else { return (result_type(false, "invalid end")); }
 
     // forwarding cmd to the right function
     if (cmd[0] == "listen") { return (cmd_listen(cmd)); }
@@ -194,8 +198,7 @@ typename Config::impl::result_type
     return (result_type(false, cmd[0] + ": unknown command"));
 }
 
-typename Config::impl::result_type
-    Config::impl::location(std::string line) {
+typename Config::impl::result_type Config::impl::location(std::string line) {
 
     std::vector<std::string> cmd;
 
@@ -208,11 +211,13 @@ typename Config::impl::result_type
     }
 
     // checking if cmd ends with a comma
-    if (cmd.back() == ";") { cmd.pop_back(); }
-    else if (cmd.back()[cmd.back().size() - 1] == ';') {
+    if (cmd.back() == ";") {
+        cmd.pop_back();
+    } else if (cmd.back()[cmd.back().size() - 1] == ';') {
         cmd.back().resize(cmd.back().size() - 1);
+    } else {
+        return (result_type(false, "invalid end"));
     }
-    else { return (result_type(false, "invalid end")); }
 
     // forwarding cmd to the right function
     if (cmd[0] == "root") return (cmd_lroot(cmd));
@@ -249,9 +254,11 @@ typename Config::impl::result_type
                 return (result_type(false, p + ": is not a valid port"));
             }
         }
+    } else if (!flag) {
+        a = cmd[1];
+    } else {
+        p = cmd[1];
     }
-    else if (!flag) { a = cmd[1]; }
-    else { p = cmd[1]; }
     if (!p.empty()) {
 
         std::stringstream ss(p);
@@ -380,9 +387,13 @@ typename Config::impl::result_type
     }
 
     // validating command
-    if (cmd[1] == "off") { m_config.back()->m_autoidx = false; }
-    else if (cmd[1] == "on") { m_config.back()->m_autoidx = true; }
-    else { return (result_type(false, cmd[1] + ": unrecognized syntax")); }
+    if (cmd[1] == "off") {
+        m_config.back()->m_autoidx = false;
+    } else if (cmd[1] == "on") {
+        m_config.back()->m_autoidx = true;
+    } else {
+        return (result_type(false, cmd[1] + ": unrecognized syntax"));
+    }
 
     return (result_type(true, ""));
 }
@@ -459,10 +470,8 @@ char const* Config::impl::InvalidFileException::what(void) const throw() {
     return ("webserv::Config::impl invalid file exception");
 }
 
-char const* Config::impl::InvalidSyntaxException::what(void) const
-    throw() {
+char const* Config::impl::InvalidSyntaxException::what(void) const throw() {
     return ("webser::Config::impl invalid syntax exception");
 }
 
-} // namespace server
-
+} // namespace webserv

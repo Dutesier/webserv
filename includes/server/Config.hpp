@@ -2,9 +2,9 @@
 #define CONFIG_HPP
 
 #include "server/Blocks.hpp"
+#include "utils/Logger.hpp"
 #include "utils/smt.hpp"
 #include "utils/utils.hpp"
-#include "utils/Logger.hpp"
 
 #include <cstring>
 #include <dirent.h>
@@ -22,7 +22,7 @@ class Config {
         Config(int argc, char* argv[]);
         ~Config(void);
 
-        std::vector< smt::shared_ptr<ServerBlock> > config(void);
+        std::vector<smt::shared_ptr<ServerBlock> > config(void);
 
 #ifndef GTEST_TESTING
 
@@ -49,8 +49,8 @@ struct Config::impl {
                 char const* what(void) const throw();
         };
 
-        std::ifstream                               m_file;
-        std::vector< smt::shared_ptr<ServerBlock> > m_config;
+        std::ifstream                              m_file;
+        std::vector<smt::shared_ptr<ServerBlock> > m_config;
 
         std::string parse(std::string filename);
 
@@ -74,7 +74,6 @@ struct Config::impl {
         result_type cmd_request_method(std::vector<std::string> cmd);
 };
 
-} // namespace server
+} // namespace webserv
 
 #endif /* CONFIG_HPP */
-
