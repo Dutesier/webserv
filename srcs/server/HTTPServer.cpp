@@ -1,4 +1,4 @@
-#include "http/HTTPServer.hpp"
+#include "server/HTTPServer.hpp"
 
 #include <sys/epoll.h>
 
@@ -21,10 +21,9 @@ void HTTPServer::start(void) {
     if ((m_epollfd = epoll_create1(0)) < 0) { throw(EpollCreateException()); }
 
     // initializing sockets
-    std::vector<smt::shared_ptr<ServerConfig> > server =
-        m_config->server_config();
+    std::vector<smt::shared_ptr<ServerBlock> > server = m_config->config();
 
-    for (std::vector<smt::shared_ptr<ServerConfig> >::iterator it =
+    for (std::vector<smt::shared_ptr<ServerBlock> >::iterator it =
              server.begin();
          it != server.end(); it++) {
 

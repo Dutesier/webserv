@@ -22,7 +22,7 @@ class SocketAddress {
 
         SocketAddress& operator=(SocketAddress const& rhs);
 
-        struct sockaddr* address(void) const;
+        sockaddr* address(void) const;
         socklen_t        length(void) const;
         socklen_t*       length_ptr(void);
         std::string      host(void) const;

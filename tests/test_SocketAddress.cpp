@@ -1,4 +1,5 @@
 
+#include "utils/smt.hpp"
 #include "socket/Socket.hpp"
 #include "socket/SocketAddress.hpp"
 #include "socket/TCPSocket.hpp"
@@ -10,17 +11,15 @@ class test_SocketAddress : public ::testing::Test {
     public:
 
         void SetUp(void) {
-            // this->addr = new webserv::SocketAddress(443);
-            this->sock = new webserv::TCPSocket(443);
-            this->addr = this->sock->address();
+
+            this->addr = smt::shared_ptr<webserv::SocketAddress>(new webserv::SocketAddress(443));
         }
 
-        void TearDown(void) { delete this->sock; }
+        void TearDown(void) {}
 
     protected:
 
-        webserv::TCPSocket*    sock;
-        webserv::SocketAddress addr;
+		smt::shared_ptr<webserv::SocketAddress> addr;
 };
 
 TEST_F(test_SocketAddress, default_constructor) {}
@@ -29,28 +28,28 @@ TEST_F(test_SocketAddress, destructor) {}
 
 TEST_F(test_SocketAddress, address) {
 
-    struct sockaddr* a = this->addr.address();
+    sockaddr* a = this->addr->address();
     ASSERT_EQ(typeid(a), typeid(struct sockaddr*));
     ASSERT_NE(typeid(a), typeid(struct sockaddr_in*));
-    ASSERT_EQ(a->sa_family, this->addr.family());
+    ASSERT_EQ(a->sa_family, this->addr->family());
     ASSERT_EQ(reinterpret_cast<struct sockaddr_in*>(a)->sin_port,
-              htons(this->addr.port()));
+              htons(this->addr->port()));
     ASSERT_EQ(reinterpret_cast<struct sockaddr_in*>(a)->sin_addr.s_addr,
               INADDR_ANY);
 }
 
 TEST_F(test_SocketAddress, length) {
 
-    struct sockaddr* a = this->addr.address();
-    ASSERT_EQ(typeid(this->addr.length()), typeid(socklen_t));
-    ASSERT_EQ(this->addr.length(),
+    struct sockaddr* a = this->addr->address();
+    ASSERT_EQ(typeid(this->addr->length()), typeid(socklen_t));
+    ASSERT_EQ(this->addr->length(),
               sizeof(*(reinterpret_cast<struct sockaddr_in*>(a))));
-    ASSERT_EQ(this->addr.length(), sizeof(*a));
+    ASSERT_EQ(this->addr->length(), sizeof(*a));
 }
 
 TEST_F(test_SocketAddress, port) {
 
-    ASSERT_EQ(this->addr.port(), 443);
+    ASSERT_EQ(this->addr->port(), 443);
 
     webserv::SocketAddress* a = new webserv::SocketAddress(80);
     webserv::SocketAddress* b = new webserv::SocketAddress(8080);
@@ -69,7 +68,7 @@ TEST_F(test_SocketAddress, port) {
 
 TEST_F(test_SocketAddress, host) {
 
-    ASSERT_EQ(this->addr.host(), "localhost");
+    ASSERT_EQ(this->addr->host(), "localhost");
 
     webserv::SocketAddress* a = new webserv::SocketAddress(80, "example.com");
     webserv::SocketAddress* b =
@@ -84,7 +83,7 @@ TEST_F(test_SocketAddress, host) {
 
 TEST_F(test_SocketAddress, family) {
 
-    ASSERT_EQ(this->addr.family(), AF_INET);
+    ASSERT_EQ(this->addr->family(), AF_INET);
 
     webserv::SocketAddress* a =
         new webserv::SocketAddress(80, "localhost", AF_INET6);

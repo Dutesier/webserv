@@ -2,15 +2,15 @@ project(webserv_lib)
 
 add_library(${PROJECT_NAME} STATIC
 	webserv.cpp
-	http/HTTPServer.cpp
 	http/HTTPHandler.cpp
 	http/HTTPParser.cpp
 	http/HTTPRequest.cpp
 	http/HTTPValidator.cpp
+	server/HTTPServer.cpp
 	server/Config.cpp
-	server/ServerConfig.cpp
+	server/Blocks.cpp
 	utils/Logger.cpp
-	utils/Error.cpp
+	utils/utils.cpp
 	socket/Socket.cpp
 	socket/SocketAddress.cpp
 	socket/SocketConnection.cpp

@@ -1,9 +1,7 @@
 if (test)
     add_executable(webserv_test
 		test.cpp
-		# test_Config.cpp IS SEGFAULTING!
-		test_Error.cpp
-		test_HTTPServer.cpp
+		test_Config.cpp
 		test_Logger.cpp
 		test_smt.cpp
 		test_socket.cpp

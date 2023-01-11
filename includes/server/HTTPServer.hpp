@@ -3,7 +3,7 @@
 
 #include "http/HTTPHandler.hpp"
 #include "server/Config.hpp"
-#include "server/ServerConfig.hpp"
+#include "server/Blocks.hpp"
 #include "socket/ServerSocket.hpp"
 
 #include <map>

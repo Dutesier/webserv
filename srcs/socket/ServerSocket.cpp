@@ -2,7 +2,7 @@
 
 namespace webserv {
 
-ServerSocket::ServerSocket(smt::shared_ptr<ServerConfig> config)
+ServerSocket::ServerSocket(smt::shared_ptr<ServerBlock> config)
     : TCPSocket(config->m_port, config->m_host) {
 
     int            enable = 1;
