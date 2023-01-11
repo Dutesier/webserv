@@ -5,6 +5,9 @@ namespace webserv {
 HTTPResponse::HTTPResponse(void): init(false) {} 
 
 HTTPResponse::HTTPResponse(int status_code, ServerConfig config): init(true), status_map(this->create_code_map()), version("HTTP/1.1") {
+	
+	std::string	error_file;
+	
 	//getting status
 	for (StatusMap::const_iterator it = this->status_map.begin(); it != this->status_map.end(); it++) {
 		if (status_code == it->first) {
@@ -20,10 +23,17 @@ HTTPResponse::HTTPResponse(int status_code, ServerConfig config): init(true), st
 	//getting body
 	/* This will need to change after getting access to server_config but it will
 	be similar */
+
+	// std::map<int, std::string>::const_iterator it = config.error_page.find(this->status.first);
+	// if (it != config.error_page.end())
+	// 	error_file = it->second;
+	// else
+	// 	error_file = "default_path" // get default path
+
 	std::stringstream ss;
     ss << this->status.first;
     std::string error_code = ss.str();
-	std::string	error_file = "../webserv/error_pages/" + error_code + ".html";
+	error_file = "../webserv/error_pages/" + error_code + ".html";
 	std::ifstream	body_file(error_file);
 	if (body_file.fail()) {
 		body_file.close();
@@ -48,7 +58,7 @@ HTTPResponse::HTTPResponse(int code, HTTPHeader header, std::string body): statu
 	if (this->body.size() != 0) {
 		std::stringstream ss;
 		ss << body.size();
-		this->header.insert(std::pair<std::string, std::string>("Content-length", ss.str()));
+		this->header.insert(std::pair<std::string, std::string>("Content-Length", ss.str()));
 	}
 }
 
