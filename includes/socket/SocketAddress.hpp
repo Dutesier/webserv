@@ -1,6 +1,8 @@
 #ifndef SOCKET_ADDRESS_HPP
 #define SOCKET_ADDRESS_HPP
 
+#include "utils/smt.hpp"
+
 #include <iostream>
 #include <netinet/in.h>
 #include <sys/socket.h>
@@ -32,22 +34,16 @@ class SocketAddress {
         int port(void) const;
         int family(void) const;
 
-        bool has_ipv4(void) const;
-        bool has_ipv6(void) const;
-
     private:
 
         /* Private Attributes */
-        struct sockaddr_in* addr;
+		sockaddr_in* m_addr;
 
-        socklen_t   len;
-        std::string host_addr;
+        socklen_t   m_len;
+        std::string m_host_addr;
 
-        bool ipv4;
-        bool ipv6;
-
-        int port_nu;
-        int addr_family;
+        int m_port_nu;
+        int m_addr_family;
 };
 
 } // namespace webserv

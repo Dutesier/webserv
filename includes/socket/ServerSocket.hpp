@@ -11,13 +11,13 @@ class ServerSocket : public TCPSocket {
     public:
 
         /* Constructor and Destructor */
-        ServerSocket(ServerConfig* config);
+        ServerSocket(smt::shared_ptr<ServerConfig> config);
         ~ServerSocket(void);
 
     private:
 
         /* Private Attributes */
-        ServerConfig* configs;
+		smt::shared_ptr<ServerConfig> m_config;
 };
 
 } // namespace webserv

@@ -38,12 +38,8 @@ class TCPSocket : public Socket {
         void shutdown(int how);
         void close(void);
 
-        std::string recv(SocketConnection* connection);
-        void        send(SocketConnection* connection, std::string response);
-
-        // TODO: refactor this to a more safe and smart approach
-        SocketConnection* connection(int fd) const;
-        bool              has_connection(int fd) const;
+        std::string recv(int connect_fd);
+        void        send(int connect_fd, std::string response);
 
         /* Exceptions */
         struct BindFailureException : public std::exception {
@@ -82,10 +78,7 @@ class TCPSocket : public Socket {
                 char const* what(void) const throw();
         };
 
-    protected:
-
-        /* Other Private Functions */
-        std::map<int, SocketConnection*> connections;
+        std::map<int, smt::shared_ptr<SocketConnection> > m_connection;
 };
 
 } // namespace webserv

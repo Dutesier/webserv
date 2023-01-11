@@ -43,17 +43,17 @@ class HTTPServer {
     private:
 
         /* Private Member Types */
-        typedef enum s_state { ready, started, running, stoped } t_state;
+        typedef enum s_state { ready, started, running, stopped } t_state;
 
         /* Other Functions */
         void epoll_add(int fd);
 
         /* Private Attributes */
-        Config*                      config;
-        std::map<int, ServerSocket*> sockets;
+		smt::shared_ptr<Config>                        m_config;
+        std::map< int, smt::shared_ptr<ServerSocket> > m_socket;
 
-        t_state state;
-        int     epollfd;
+        t_state m_state;
+        int     m_epollfd;
 };
 
 } // namespace webserv

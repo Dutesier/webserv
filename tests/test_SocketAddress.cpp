@@ -92,16 +92,3 @@ TEST_F(test_SocketAddress, family) {
 
     delete a;
 }
-
-TEST_F(test_SocketAddress, has_ipv4) {
-
-    ASSERT_TRUE(this->addr.has_ipv4());
-    ASSERT_FALSE(this->addr.has_ipv6());
-
-    webserv::SocketAddress* a =
-        new webserv::SocketAddress(80, "localhost", AF_INET6);
-    ASSERT_TRUE(a->has_ipv4());
-    ASSERT_TRUE(a->has_ipv6());
-
-    delete a;
-}

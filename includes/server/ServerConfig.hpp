@@ -1,6 +1,8 @@
 #ifndef SERVER_CONFIG_HPP
 #define SERVER_CONFIG_HPP
 
+#include "utils/smt.hpp"
+
 #include <map>
 #include <string>
 #include <vector>
@@ -16,16 +18,16 @@ struct ServerConfig {
         ~ServerConfig(void);
 
         /* Attributes */
-        bool        autoindex;
-        unsigned    body_size;
-        unsigned    port;
-        std::string host;
-        std::string root;
+        bool        m_autoindex;
+        unsigned    m_body_size;
+        unsigned    m_port;
+        std::string m_host;
+        std::string m_root;
 
-        std::vector<LocationConfig*> location;
-        std::vector<std::string>     index;
-        std::vector<std::string>     server_name;
-        std::map<int, std::string>   error_page;
+        std::vector< smt::shared_ptr<LocationConfig> > m_location;
+        std::vector<std::string>     m_index;
+        std::vector<std::string>     m_server_name;
+        std::map<int, std::string>   m_error_page;
 };
 
 class LocationConfig {
@@ -36,10 +38,10 @@ class LocationConfig {
         ~LocationConfig(void);
 
         /* Attributes */
-        std::string              uri;
-        std::string              root;
-        std::string              fastcgi_pass;
-        std::vector<std::string> request_method;
+        std::string              m_uri;
+        std::string              m_root;
+        std::string              m_fastcgi_pass;
+        std::vector<std::string> m_request_method;
 };
 
 } // namespace webserv

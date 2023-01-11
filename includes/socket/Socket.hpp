@@ -21,10 +21,7 @@ class Socket {
         /* Getters and Setters */
         int sockfd(void) const;
         int type(void) const;
-
         SocketAddress address(void) const;
-        bool          supportsIPv4(void) const;
-        bool          supportsIPv6(void) const;
 
         /* Other Functions */
         virtual void close(void) = 0;
@@ -32,9 +29,9 @@ class Socket {
     protected:
 
         /* Protected Attributes */
-        SocketAddress addr;
-        int           fd;
-        int           socktype;
+        SocketAddress m_addr;
+        int           m_fd;
+        int           m_socktype;
 };
 
 } // namespace webserv

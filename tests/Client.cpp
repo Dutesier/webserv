@@ -1,21 +1,18 @@
 #include "Client.hpp"
 
 Client::Client(in_port_t port) : webserv::Socket(port) {
-    this->fd = socket(AF_INET, SOCK_STREAM, 0);
+
+    m_fd = socket(AF_INET, SOCK_STREAM, 0);
     connection = smt::shared_ptr<webserv::SocketConnection>(
-        new webserv::SocketConnection(this->fd, this->address()));
+        new webserv::SocketConnection(m_fd, address()));
     if (connect(connection->sockfd(), connection->address().address(),
                 sizeof(*connection->address().address())) < 0)
         perror("Client: Connect");
 }
 
-Client::~Client() { this->close(); }
+Client::~Client() { close(); }
 
-void Client::close() {
-    // if (this->fd == -1) return;
-    // if (::close(this->fd) < 0) ;/* throw(CloseFailureException()); */
-    // this->fd = -1;
-}
+void Client::close() {}
 
 void Client::send_message(std::string message) { connection->send(message); }
 

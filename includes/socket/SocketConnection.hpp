@@ -47,7 +47,7 @@ class SocketConnection : public webserv::Socket {
 
     private:
 
-        HTTPParser parser;
+        HTTPParser m_parser;
 };
 
 } // namespace webserv

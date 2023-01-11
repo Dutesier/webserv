@@ -4,22 +4,20 @@ namespace webserv {
 
 /* ServerConfig Class */
 ServerConfig::ServerConfig(void)
-    : autoindex(false), port(80), host("localhost"), root("/var/www/html"),
-      body_size(8000) {
+    : m_autoindex(false), m_port(80), m_host("localhost"),
+	  m_root("/var/www/html"), m_body_size(8000) {
+
     std::string arr[2] = {"index", "index.html"};
-    this->index.insert(this->index.begin(), arr, arr + 2);
+    m_index.insert(m_index.begin(), arr, arr + 2);
 }
 
-ServerConfig::~ServerConfig(void) {
-    for (std::vector<LocationConfig*>::iterator it = this->location.begin();
-         it != this->location.end(); ++it)
-        delete *it;
-}
+ServerConfig::~ServerConfig(void) {}
 
 /* LocationConfig Class */
-LocationConfig::LocationConfig(std::string uri) : uri(uri) {
+LocationConfig::LocationConfig(std::string uri) : m_uri(uri) {
+
     std::string arr[3] = {"GET", "POST", "DELETE"};
-    this->request_method.insert(this->request_method.begin(), arr, arr + 3);
+    m_request_method.insert(m_request_method.begin(), arr, arr + 3);
 }
 
 LocationConfig::~LocationConfig(void) {}

@@ -4,6 +4,7 @@
 #include "server/ServerConfig.hpp"
 #include "utils/Error.hpp"
 #include "utils/Logger.hpp"
+#include "utils/smt.hpp"
 
 #include <cstring>
 #include <map>
@@ -21,22 +22,18 @@ namespace webserv {
  throw(InvalidFileException());
 
 #define error_syntax(M, L)                                                     \
- for (std::vector<ServerConfig*>::iterator it = this->server.begin();          \
-      it != this->server.end(); ++it)                                          \
-  delete *it;                                                                  \
  ERROR_(M + ": " + L, webserv::Error::invalid_syntax);                         \
+ m_file.close(); \
  throw(InvalidSyntaxException());
 
 class Config {
 
     public:
 
-        /* Constructor and Destructor */
         Config(int argc, char* argv[]);
         ~Config(void);
 
-        /* Getters and Setters */
-        std::vector<ServerConfig*> server_config(void) const;
+        std::vector< smt::shared_ptr<ServerConfig> > server_config(void);
 
 #ifndef GTEST_TESTING
 
@@ -44,18 +41,15 @@ class Config {
 
 #endif
 
-        /* PImpl Object */
         struct impl;
-        impl* m_impl;
+		smt::shared_ptr<impl> m_impl;
 };
 
 struct Config::impl {
 
-        /* Constructor and Destructor */
         impl(int argc, char* argv[]);
         ~impl(void);
 
-        /* Exceptions */
         struct InvalidFileException : public std::exception {
                 char const* what(void) const throw();
         };
@@ -64,7 +58,6 @@ struct Config::impl {
                 char const* what(void) const throw();
         };
 
-        /* Other Functions */
         bool server_cmd(std::string line);
         bool location_cmd(std::string line);
         bool cmd_listen(std::vector<std::string> cmd);
@@ -79,17 +72,13 @@ struct Config::impl {
         bool cmd_fastcgi_pass(std::vector<std::string> cmd);
         bool cmd_request_method(std::vector<std::string> cmd);
 
-        /* Static Members */
         static std::string const                d_path;
         static std::string const                d_file;
-        static std::map<int, std::string> const exit_code;
-        static std::string const                method;
+        static std::string const                d_method;
 
-        static std::map<int, std::string> init_exit_code(void);
+        std::ifstream m_file;
 
-        /* Member Attributes */
-        std::ifstream              file;
-        std::vector<ServerConfig*> server;
+        std::vector< smt::shared_ptr<ServerConfig> > m_server;
 };
 
 } // namespace webserv

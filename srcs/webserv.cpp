@@ -3,21 +3,41 @@
 #include <csignal>
 #include <iostream>
 
-webserv::HTTPServer* g_webserv;
+static smt::shared_ptr<webserv::HTTPServer> get_webserv(int   argc = 0,
+                                                        char* argv[] = NULL);
 
 void webserv::webserv(int argc, char* argv[]) {
+
     try {
+
         signal(SIGINT, webserv::stop);
-        g_webserv = new HTTPServer(argc, argv);
-        g_webserv->start();
-        g_webserv->run();
-        // webserv::stop(SIGSTOP); // uncomment this when using valgrind
+
+        LOG("reading config file...");
+        smt::shared_ptr<webserv::HTTPServer> srv = get_webserv(argc, argv);
+
+        LOG("setting up server...");
+        srv->start();
+
+        LOG("starting server...");
+        srv->run();
+
     } catch (std::exception& e) { std::cout << e.what() << std::endl; }
 }
 
 void webserv::stop(int signum) {
+
     try {
-        g_webserv->stop();
-        delete g_webserv;
+
+        smt::shared_ptr<webserv::HTTPServer> srv = get_webserv();
+        LOG("stoping server...");
+        srv->stop();
     } catch (std::exception& e) { std::cout << e.what() << std::endl; }
+}
+
+static smt::shared_ptr<webserv::HTTPServer> get_webserv(int   argc,
+                                                        char* argv[]) {
+
+    static smt::shared_ptr<webserv::HTTPServer> srv(
+        new webserv::HTTPServer(argc, argv));
+    return (srv);
 }
