@@ -1,8 +1,7 @@
 #ifndef HTTPPARSER_HPP
 # define HTTPPARSER_HPP
 
-# include "utils/smt.hpp"
-# include "utils/Logger.hpp"
+# include "smt.hpp"
 # include "HTTPRequest.hpp"
 
 # include <map>

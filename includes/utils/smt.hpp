@@ -83,6 +83,12 @@ shared_ptr<T> make_shared() {
     return shared_ptr<T>(new T());
 }
 
+template <typename T, typename U>
+shared_ptr<T> make_shared(U u) {
+    return shared_ptr<T>(new T(u));
+}
+
+
 } // namespace smt
 
 #endif /* SMT_HPP */

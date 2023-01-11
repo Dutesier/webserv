@@ -1,7 +1,6 @@
 #ifndef HTTP_REQUEST_HPP
 # define HTTP_REQUEST_HPP
 
-#include <sstream>
 #include <string>
 #include <map>
 
