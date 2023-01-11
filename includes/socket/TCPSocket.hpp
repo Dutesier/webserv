@@ -22,8 +22,9 @@ class TCPSocket : public Socket {
     public:
 
         TCPSocket(int port, std::string host = "localhost",
+				  int family = AF_INET);
+		~TCPSocket(void);
 
-        // TODO: understand what should be const and whatnot
         void bind(void);
         void listen(void);
         void setsockopt(int level, int optname, const void* optval,
