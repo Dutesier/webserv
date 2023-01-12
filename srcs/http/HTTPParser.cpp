@@ -58,7 +58,8 @@ std::pair<std::string, std::string>
     if (sepIndex == std::string::npos) {
         LOG_E("No [key]:[value] found at header string: ->" + header + "<-");
         return {"", ""};
-    } else {
+    }
+    else {
         first = header.substr(0, sepIndex);
         if (sepIndex < header.size())
             second = header.substr(sepIndex + 1, header.size());
@@ -69,29 +70,29 @@ std::pair<std::string, std::string>
 
 bool HTTPParser::setHeader(smt::shared_ptr<HTTPRequest> pReq,
                            std::string& header, std::string mustBe) {
+
     std::pair<std::string, std::string> result = getKeyValueHeader(header);
     if (result.first != mustBe) {
+
         LOG_E("Key didn't match " + mustBe + " (key is ->" + result.first +
               "<-)");
-        return false;
-    } else {
-        pReq->setHeader(result.first, result.second);
+        return (false);
     }
-    return true;
+    else { pReq->setHeader(result.first, result.second); }
+    return (true);
 }
 
 bool HTTPParser::setHeader(smt::shared_ptr<HTTPRequest> pReq,
                            std::string&                 header) {
+
     std::pair<std::string, std::string> result = getKeyValueHeader(header);
-    if (result.first == "") {
-        return false;
-    } else {
-        pReq->setHeader(result.first, result.second);
-    }
-    return true;
+    if (result.first == "") { return (false); }
+    else { pReq->setHeader(result.first, result.second); }
+    return (true);
 }
 
 std::vector<std::string> HTTPParser::separateByCRLF(std::string& raw) {
+
     std::vector<std::string> separated;
     char                     crlf[3];
 
@@ -104,6 +105,7 @@ std::vector<std::string> HTTPParser::separateByCRLF(std::string& raw) {
     size_t next = raw.find(crlf, old);
     int    i = 5;
     while (next != std::string::npos && old <= next) {
+
         separated.push_back(raw.substr(old, next - old + 2));
         old = next + 2;
         next = raw.find(crlf, old);
@@ -111,6 +113,7 @@ std::vector<std::string> HTTPParser::separateByCRLF(std::string& raw) {
     }
     // Remove CRLF
     for (std::vector<std::string>::iterator it = separated.begin();
+
          it != separated.end(); ++it) {
         if ((*it).size() > 0) { (*it).resize((*it).size() - 2); }
     }
@@ -125,9 +128,10 @@ smt::shared_ptr<HTTPRequest> HTTPParser::parse_header(std::string& header) {
     smt::shared_ptr<HTTPRequest> pReq = smt::make_shared<HTTPRequest>();
 
     std::vector<std::string> request = separateByCRLF(header);
-	if (request.size() < 2){ // The method line /  and an empty line to signify end of headers
-		LOG_E("HTTP Request has less than 2 lines");
-        return smt::make_shared<HTTPRequest>(42);
+    if (request.size() < 2) {
+        // The method line /  and an empty line to signify end of headers
+        LOG_E("HTTP Request has less than 2 lines");
+        return (smt::make_shared<HTTPRequest>(42));
     }
 
     // Handle lines
@@ -135,125 +139,149 @@ smt::shared_ptr<HTTPRequest> HTTPParser::parse_header(std::string& header) {
     std::string& secondLine = request.at(1);
 
     std::pair<webserv::Method, bool> methodANDsuccess = getMethod(firstLine);
-    if (!methodANDsuccess.second) return smt::make_shared<HTTPRequest>(42);
+    if (!methodANDsuccess.second) return (smt::make_shared<HTTPRequest>(42));
     pReq->setMethod(methodANDsuccess.first);
 
     std::pair<std::string, bool> resourceANDsuccess = getResource(firstLine);
-    if (!resourceANDsuccess.second) return smt::make_shared<HTTPRequest>(42);
+    if (!resourceANDsuccess.second) return (smt::make_shared<HTTPRequest>(42));
     pReq->setResource(resourceANDsuccess.first);
 
     std::pair<std::string, bool> versionANDsuccess = getVersion(firstLine);
-    if (!versionANDsuccess.second) return smt::make_shared<HTTPRequest>(42);
+    if (!versionANDsuccess.second) return (smt::make_shared<HTTPRequest>(42));
     pReq->setVersion(versionANDsuccess.first);
 
     std::vector<std::string>::iterator it = request.begin();
     for (it = it + 1; it != request.end(); ++it) {
         if (*it != "") {
             if (!setHeader(pReq, *it)) {
-                return smt::make_shared<HTTPRequest>(42);
+                return (smt::make_shared<HTTPRequest>(42));
             }
-        } else {
-            break; // Trying not to have it increment when it's a empty line
+        }
+        else {
+            // Trying not to have it increment when it's a empty line
+            break;
         }
     }
     if (it == request.end()) { // Means we didn't find an empty line
+
         LOG_E("No empty line signifying end of headers");
-        return smt::make_shared<HTTPRequest>(42);
+        return (smt::make_shared<HTTPRequest>(42));
     }
-    return pReq;
+    return (pReq);
 }
 
-// SYSCAL rcv triggers handler -> handler will keep calling getNextRequest() until no request is returned
-smt::shared_ptr<HTTPRequest> HTTPParser::getNextRequest(std::string received) { 
+// SYSCAL rcv triggers handler -> handler will keep calling getNextRequest()
+// until no request is returned
+smt::shared_ptr<HTTPRequest> HTTPParser::getNextRequest(std::string received) {
+
     // When recv is called it returns an HTTP request
     smt::shared_ptr<HTTPRequest> request;
 
     // Declare variables
-    std::string             data;
-    static std::string      restOfData; // Buffer for storing data left over from previous call to recv
-    static bool             dataInBuffer = false; // Flag to indicate whether there is data left over in the restOfData buffer
-    size_t                  bytes_read = 0; // Number of bytes read from the socket
-    
-    const char*       endOfHeaders = "\r\n\r\n"; // String to identify the end of the headers in the request
-    size_t      eoh_position; // Position of the end of the headers in the buffer
-    
+    std::string        data;
+    static std::string restOfData;    // Buffer for storing data left over from
+                                      // previous call to recv
+    static bool dataInBuffer = false; // Flag to indicate whether there is data
+                                      // left over in the restOfData buffer
+    size_t bytes_read = 0;            // Number of bytes read from the socket
+
+    // String to identify the end of the headers in the request
+    char const* endOfHeaders = "\r\n\r\n";
+    // Position of the end of the headers in the buffer
+    size_t eoh_position;
+
     // String to store the request headers
     std::string header;
-    header.reserve(MAX_HEADER_SIZE + 1); // Pre-allocate memory for the string to improve performance
+    // Pre-allocate memory for the string to improve performance
+    header.reserve(MAX_HEADER_SIZE + 1);
 
     // If there is no data left over from a previous call to recv
-    if (!dataInBuffer) { 
-        if (received.empty()) {
-            return smt::make_shared<HTTPRequest>(42);
-        } else {
-            data = received;
-        }
-    } else { // There is still data in buffer
+    if (!dataInBuffer) {
+        if (received.empty()) { return (smt::make_shared<HTTPRequest>(42)); }
+        else { data = received; }
+    }
+    else { // There is still data in buffer
+
         data = restOfData;
-        if (!received.empty()) {
-            data += received;
-        }
+        if (!received.empty()) { data += received; }
         restOfData = "";
         dataInBuffer = false;
     }
 
     // Get headers from data
     // header = data.substr(0, );
-    if ((eoh_position = data.find(endOfHeaders, 0)) == std::string::npos) { // Means we couldn't find the end of headers (Maybe its in another RECV or maybe this is just ill formed)
+    if ((eoh_position = data.find(endOfHeaders, 0)) == std::string::npos) {
+        // Means we couldn't find the end of headers (Maybe
+        // its in another RECV or maybe this is just ill
+        // formed)
         if (data.length() >= MAX_HEADER_SIZE) {
+
             LOG_I("More than 8k header size");
-            return smt::make_shared<HTTPRequest>(413); // but actually return 413 Entity Too Large
+            // but actually return 413 Entity Too Large
+            return (smt::make_shared<HTTPRequest>(413));
         }
         // Store what we've gotten
         restOfData = data;
         dataInBuffer = true;
-        return smt::make_shared<HTTPRequest>(42); // we need more data
-    } else {
+        return (smt::make_shared<HTTPRequest>(42)); // we need more data
+    }
+    else {
+
         eoh_position += 4;
         header = data.substr(0, eoh_position);
         header.insert(eoh_position, "");
     }
     // Pass the headers to the parser and receive a "valid" HTTPRequest
     request = parse_header(header);
-    if (!request->isValid()) {
-        return request;
-    }
+    if (!request->isValid()) { return (request); }
 
     // If there is more data to be dealt with
     if (data.length() > eoh_position) {
+
         // If we have a Content-Length
         std::string lenStr = request->getHeader("Content-Length");
         if (!lenStr.empty()) {
-            int body_size = std::min(atoi(lenStr.c_str()), static_cast<int>(data.length() - (eoh_position)));
-            if (body_size < MAX_BODY_SIZE && body_size) {
-                int restOfBuff = data.length() - (eoh_position);
-                request->setContent(data.substr(eoh_position, std::min(restOfBuff, body_size)));
 
-                if (body_size > request->getContent().size()) { // If there's more to the body then what we have
+            int body_size =
+                std::min(atoi(lenStr.c_str()),
+                         static_cast<int>(data.length() - (eoh_position)));
+
+            if (body_size < MAX_BODY_SIZE && body_size) {
+
+                int restOfBuff = data.length() - (eoh_position);
+                request->setContent(
+                    data.substr(eoh_position, std::min(restOfBuff, body_size)));
+
+                // If there's more to the body then what we have
+                if (body_size > request->getContent().size()) {
                     // Store what we've gotten
                     restOfData = data;
                     dataInBuffer = true;
-                    return smt::make_shared<HTTPRequest>(42); // we need more data
+                    // we need more data
+                    return (smt::make_shared<HTTPRequest>(42));
                 }
             }
         }
 
-        // Ignore the rest of info up until next request (If we've gotten here is because we've successfully parsed a Request)
+        // Ignore the rest of info up until next request (If we've gotten here
+        // is because we've successfully parsed a Request)
         int requestSize = eoh_position + request->getContent().length();
         data = data.substr(requestSize); // From requestSize onwards
         int next = find_next_request(data);
-        if (next == -1) { // No http request in data
-            dataInBuffer = false;
-        } else {
+        // No http request in data
+        if (next == -1) { dataInBuffer = false; }
+        else {
+
             restOfData = data.substr(next);
             dataInBuffer = true;
         }
     }
-    
-    return request;
+
+    return (request);
 }
 
 int HTTPParser::find_next_request(std::string& buff) const {
+
     std::string temp(buff);
 
     size_t zg = temp.find("GET", 0, 3);
@@ -268,7 +296,7 @@ int HTTPParser::find_next_request(std::string& buff) const {
         d == std::string::npos) {
         if (zg == std::string::npos && zp == std::string::npos &&
             zd == std::string::npos) {
-            return -1;
+            return (-1);
         }
     }
 
@@ -276,26 +304,31 @@ int HTTPParser::find_next_request(std::string& buff) const {
         std::min(g, std::min(d, std::min(p, std::min(zg, std::min(zp, zd))))));
 }
 
-// // SYSCAL rcv triggers handler -> handler will keep calling getNextRequest() until no request is returned
-// smt::shared_ptr<HTTPRequest> HTTPParser::getNextRequest(std::string received) { 
+// // SYSCAL rcv triggers handler -> handler will keep calling getNextRequest()
+// until no request is returned smt::shared_ptr<HTTPRequest>
+// HTTPParser::getNextRequest(std::string received) {
 //     // When recv is called it returns an HTTP request
 //     smt::shared_ptr<HTTPRequest> request;
-
+//
 //     // Declare variables
-//     char            buff[READING_BUFFER + 1]; // Buffer for reading data from socket
-//     static char     restOfData[READING_BUFFER + 1]; // Buffer for storing data left over from previous call to recv
-//     static bool     dataInBuffer = false; // Flag to indicate whether there is data left over in the restOfData buffer
-//     size_t          bytes_read = 0; // Number of bytes read from the socket
-    
-//     char*       endOfHeaders = "\r\n\r\n"; // String to identify the end of the headers in the request
-//     size_t      eoh_position; // Position of the end of the headers in the buffer
-    
+//     char            buff[READING_BUFFER + 1]; // Buffer for reading data from
+//     socket static char     restOfData[READING_BUFFER + 1]; // Buffer for
+//     storing data left over from previous call to recv static bool
+//     dataInBuffer = false; // Flag to indicate whether there is data left over
+//     in the restOfData buffer size_t          bytes_read = 0; // Number of
+//     bytes read from the socket
+//
+//     char*       endOfHeaders = "\r\n\r\n"; // String to identify the end of
+//     the headers in the request size_t      eoh_position; // Position of the
+//     end of the headers in the buffer
+//
 //     // String to store the request headers
 //     std::string header;
-//     header.reserve(READING_BUFFER + 1); // Pre-allocate memory for the string to improve performance
-
+//     header.reserve(READING_BUFFER + 1); // Pre-allocate memory for the string
+//     to improve performance
+//
 //     // If there is no data left over from a previous call to recv
-//     if (!dataInBuffer) { 
+//     if (!dataInBuffer) {
 //         // Get data from connection
 //         // bytes_read = ::recv(fd, &buff, READING_BUFFER, 0);
 //         // if (bytes_read <= 0) {
@@ -310,7 +343,7 @@ int HTTPParser::find_next_request(std::string& buff) const {
 //         data_to_buff(restOfData, buff);
 //         dataInBuffer = false;
 //     }
-
+//
 //     // Get headers from data
 //     header = buff;
 //     if ((eoh_position = header.find(endOfHeaders, 0)) == std::string::npos) {
@@ -320,27 +353,30 @@ int HTTPParser::find_next_request(std::string& buff) const {
 //         eoh_position += 4;
 //         header.insert(eoh_position, "");
 //     }
-
+//
 //     // Pass the headers to the parser and receive a "valid" HTTPRequest
 //     request = parser.parse_header(header);
 //     if (!request) {
 //         return NULL;
 //     }
-
+//
 //     // If there is more data to be dealt with
 //     if (strlen(buff) > eoh_position) {
 //         // If we have a Content-Lenght
 //         std::string lenStr = request->getHeader("Content-Length");
 //         if (!lenStr.empty()) {
-//             int body_size = std::min(atoi(lenStr.c_str()), static_cast<int>(strlen(buff) - (eoh_position)));
-//             if (body_size < MAX_BODY_SIZE && body_size) {
+//             int body_size = std::min(atoi(lenStr.c_str()),
+//             static_cast<int>(strlen(buff) - (eoh_position))); if (body_size <
+//             MAX_BODY_SIZE && body_size) {
 //                 // request->getContent().reserve(body_size);
 //                 std::string temp(buff);
-
+//
 //                 int restOfBuff = temp.size() - (eoh_position);
-//                 request->setContent(temp.substr(eoh_position, std::min(restOfBuff, body_size)));
-
-//                 while (body_size > request->getContent().size()) { // While there's more to the body then what we have
+//                 request->setContent(temp.substr(eoh_position,
+//                 std::min(restOfBuff, body_size)));
+//
+//                 while (body_size > request->getContent().size()) { // While
+//                 there's more to the body then what we have
 //                     while (true){
 //                         bytes_read = ::recv(fd, &buff, READING_BUFFER, 0);
 //                         if (bytes_read < 0) {
@@ -352,23 +388,26 @@ int HTTPParser::find_next_request(std::string& buff) const {
 //                         }
 //                     }
 //                     temp = buff;
-//                     // What I want to do here is add what's missing until we are of size: body_size
-//                     int chars_still_missing = body_size - (request->getContent().length()); // maybe +1 for the NTC?
-//                     request->setContent(request->getContent() + temp.substr(0, std::min(static_cast<int>(temp.length()), chars_still_missing)));
+//                     // What I want to do here is add what's missing until we
+//                     are of size: body_size int chars_still_missing =
+//                     body_size - (request->getContent().length()); // maybe +1
+//                     for the NTC? request->setContent(request->getContent() +
+//                     temp.substr(0, std::min(static_cast<int>(temp.length()),
+//                     chars_still_missing)));
 //                 }
 //             }
 //         }
-
+//
 //         // Clear what we have read from buffer (and store the rest in buff)
 //         std::string formatter(buff);
-//         std::string formatted(formatter.substr(eoh_position + request->getContent().length(), strlen(buff)).c_str());
-//         const char *writer = formatted.c_str();
-//         int index;
-//         for (index = 0; writer[index] != '\0'; ++index) {
+//         std::string formatted(formatter.substr(eoh_position +
+//         request->getContent().length(), strlen(buff)).c_str()); const char
+//         *writer = formatted.c_str(); int index; for (index = 0; writer[index]
+//         != '\0'; ++index) {
 //             buff[index] = writer[index];
 //         }
 //         buff[index] = '\0';
-
+//
 //         // Ignore the rest of info up until next request
 //         int next = parser.find_next_request(buff);
 //         if (next == -1) {
@@ -380,6 +419,6 @@ int HTTPParser::find_next_request(std::string& buff) const {
 //             dataInBuffer = true;
 //         }
 //     }
-    
+//
 //     return request;
 // }

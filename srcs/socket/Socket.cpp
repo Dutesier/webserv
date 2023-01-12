@@ -3,23 +3,19 @@
 namespace webserv {
 
 Socket::Socket(int fd, SocketAddress addr, int type)
-    : fd(fd), addr(addr), socktype(type) {}
+    : m_fd(fd), m_addr(addr), m_socktype(type) {}
 
 Socket::Socket(int port, std::string host, int family, int type)
-    : socktype(type), fd(-1), addr(SocketAddress(port, host, family)) {}
+    : m_socktype(type), m_fd(-1), m_addr(SocketAddress(port, host, family)) {}
 
-Socket::Socket() : fd(-1), socktype(SOCK_STREAM), addr(SocketAddress()) {}
+Socket::Socket() : m_fd(-1), m_socktype(SOCK_STREAM), m_addr(SocketAddress()) {}
 
 Socket::~Socket() {}
 
-int Socket::sockfd(void) const { return (this->fd); }
+int Socket::sockfd(void) const { return (m_fd); }
 
-int Socket::type(void) const { return (this->socktype); }
+int Socket::type(void) const { return (m_socktype); }
 
-SocketAddress Socket::address(void) const { return (this->addr); }
-
-bool Socket::supportsIPv4(void) const { return (this->addr.has_ipv4()); }
-
-bool Socket::supportsIPv6(void) const { return (this->addr.has_ipv6()); }
+SocketAddress Socket::address(void) const { return (m_addr); }
 
 } // namespace webserv

@@ -1,4 +1,4 @@
-#include "http/HTTPServer.hpp"
+#include "server/HTTPServer.hpp"
 
 #include <sys/epoll.h>
 
@@ -6,27 +6,31 @@ namespace webserv {
 
 // initializes the Config instance
 HTTPServer::HTTPServer(int argc, char* argv[])
-    : state(ready), config(new Config(argc, argv)) {}
+    : m_state(ready),
+      m_config(smt::shared_ptr<Config>(new Config(argc, argv))) {}
 
-HTTPServer::~HTTPServer(void) { delete this->config; }
+HTTPServer::~HTTPServer(void) {}
 
 // initializes all ServerSockets based on the config file, and adds them to an
 // epoll instance's interest list
 void HTTPServer::start(void) {
 
     struct epoll_event event;
+
     // creating an epoll instance
-    if ((this->epollfd = epoll_create1(0)) < 0) throw(EpollCreateException());
+    if ((m_epollfd = epoll_create1(0)) < 0) { throw(EpollCreateException()); }
 
     // initializing sockets
-    std::vector<ServerConfig*> server = config->server_config();
-    for (std::vector<ServerConfig*>::iterator it = server.begin();
-         it != server.end(); it++) {
-        ServerSocket* sock = new ServerSocket(*it);
-        this->sockets[sock->sockfd()] = sock;
+    std::vector<smt::shared_ptr<ServerBlock> > server = m_config->config();
+
+    std::vector<smt::shared_ptr<ServerBlock> >::iterator it;
+    for (it = server.begin(); it != server.end(); it++) {
+
+        smt::shared_ptr<ServerSocket> sock(new ServerSocket(*it));
+        m_socket[sock->sockfd()] = sock;
         epoll_add(sock->sockfd());
     }
-    this->state = started;
+    m_state = started;
 }
 
 // webserver starts running here. It handles two types of requests: connection
@@ -35,26 +39,34 @@ void HTTPServer::start(void) {
 void HTTPServer::run(void) {
 
     struct epoll_event events[EP_MAX_EVENTS];
-    this->state = running;
+    m_state = running;
 
-    while (this->state == running) {
+    while (m_state == running) {
 
-        int nfds = epoll_wait(this->epollfd, events, EP_MAX_EVENTS, EP_TIMEOUT);
-        if (this->state != running) break;
-        if (nfds < 0) throw(EpollWaitException());
+        int nfds = epoll_wait(m_epollfd, events, EP_MAX_EVENTS, EP_TIMEOUT);
+
+        if (m_state != running) { break; }
+        if (nfds < 0) { throw(EpollWaitException()); }
 
         for (int i = 0; i < nfds; i++) {
-            if (this->sockets.find(events[i].data.fd) != this->sockets.end()) {
-                int fd = this->sockets[events[i].data.fd]->accept();
-                epoll_add(fd);
+
+            if (m_socket.find(events[i].data.fd) != m_socket.end()) {
+
                 FLOG_D("webserv::HTTPServer ACK()");
-            } else {
-                std::map<int, ServerSocket*>::iterator it;
-                for (it = this->sockets.begin(); it != this->sockets.end();
-                     it++) {
-                    if ((*it).second->has_connection(events[i].data.fd)) {
+                int fd = m_socket[events[i].data.fd]->accept();
+                epoll_add(fd);
+            }
+            else {
+
+                std::map<int, smt::shared_ptr<ServerSocket> >::iterator it;
+                for (it = m_socket.begin(); it != m_socket.end(); it++) {
+
+                    smt::shared_ptr<ServerSocket> sock = (*it).second;
+                    if (sock->m_connection.find(events[i].data.fd) !=
+                        sock->m_connection.end()) {
+
                         FLOG_D("webserv::HTTPServer REQ()");
-                        http_handle((*it).second, events[i].data.fd);
+                        http_handle(sock, events[i].data.fd);
                         break;
                     }
                 }
@@ -64,15 +76,7 @@ void HTTPServer::run(void) {
 }
 
 // stops webserver and destroys all ServerSockets
-void HTTPServer::stop(void) {
-
-    this->state = stoped;
-
-    // deleting all sockets
-    for (std::map<int, ServerSocket*>::iterator it = this->sockets.begin();
-         it != this->sockets.end(); it++)
-        delete (*it).second;
-}
+void HTTPServer::stop(void) { m_state = stopped; }
 
 // adds a socket to epoll's interest list
 void HTTPServer::epoll_add(int fd) {
@@ -81,7 +85,7 @@ void HTTPServer::epoll_add(int fd) {
     event.events = EPOLLIN | EPOLLET;
     event.data.fd = fd;
 
-    if (epoll_ctl(this->epollfd, EPOLL_CTL_ADD, fd, &event) < 0)
+    if (epoll_ctl(m_epollfd, EPOLL_CTL_ADD, fd, &event) < 0)
         throw(EpollAddException());
 }
 

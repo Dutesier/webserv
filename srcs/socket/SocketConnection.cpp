@@ -3,24 +3,17 @@
 namespace webserv {
 
 SocketConnection::SocketConnection(int fd, SocketAddress addr)
-    : Socket(fd, addr, SOCK_STREAM) {
-    FLOG_D("webserv::SocketConnection created a socket");
-}
+    : Socket(fd, addr, SOCK_STREAM) {}
 
-SocketConnection::SocketConnection() : Socket() {
-    FLOG_D("webserv::SocketConnection created a socket");
-}
+SocketConnection::SocketConnection() : Socket() {}
 
-SocketConnection::~SocketConnection(void) {
-    FLOG_D("webserv::SocketConnection destroyed a socket");
-    this->close();
-}
+SocketConnection::~SocketConnection(void) { this->close(); }
 
 void SocketConnection::close(void) {
-    if (this->fd == -1) return;
-    if (::close(this->fd) < 0) throw(CloseFailureException());
-    this->fd = -1;
-    FLOG_D("webserv::SocketConnection closed a socket");
+
+    if (m_fd == -1) { return; }
+    if (::close(m_fd) < 0) { throw(CloseFailureException()); }
+    m_fd = -1;
 }
 
 // void data_to_buff(char* data, char *buff) {
@@ -41,21 +34,22 @@ void SocketConnection::close(void) {
 
 // TODO: find smarter ways to get buf
 std::string SocketConnection::recv(void) {
-    char        buff[READING_BUFFER + 1];
-    size_t      bytes_read;
-    std::string temp;
 
-    bytes_read = ::recv(fd, &buff, READING_BUFFER, 0);
-    if (bytes_read <= 0) return ("");
-    buff[bytes_read] = '\0';
-    temp += buff;
+    char   buff[READING_BUFFER + 1];
+    size_t bytes_read;
 
-    return (temp);
+    bytes_read = ::recv(m_fd, &buff, READING_BUFFER, 0);
+    if (bytes_read < 0) { throw(SendFailureException()); }
+    if (bytes_read == 0) { return (""); }
+
+    return (std::string(buff, bytes_read));
 }
 
 void SocketConnection::send(std::string message) {
-    if (::send(fd, message.c_str(), message.size(), 0) < 0)
+
+    if (::send(m_fd, message.c_str(), message.size(), 0) < 0) {
         throw(SendFailureException());
+    }
 }
 
 char const* SocketConnection::CloseFailureException::what(void) const throw() {

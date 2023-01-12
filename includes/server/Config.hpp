@@ -1,42 +1,28 @@
 #ifndef CONFIG_HPP
 #define CONFIG_HPP
 
-#include "server/ServerConfig.hpp"
-#include "utils/Error.hpp"
+#include "server/Blocks.hpp"
 #include "utils/Logger.hpp"
+#include "utils/smt.hpp"
+#include "utils/utils.hpp"
 
 #include <cstring>
-#include <map>
+#include <dirent.h>
+#include <errno.h>
+#include <fstream>
 #include <sstream>
 #include <vector>
 
 namespace webserv {
 
-#define ERROR_(M, T)                                                           \
- webserv::Error err(M, T);                                                     \
- FLOG_E(err.message());
-
-#define error_file(M)                                                          \
- ERROR_(M, webserv::Error::invalid_file);                                      \
- throw(InvalidFileException());
-
-#define error_syntax(M, L)                                                     \
- for (std::vector<ServerConfig*>::iterator it = this->server.begin();          \
-      it != this->server.end(); ++it)                                          \
-  delete *it;                                                                  \
- ERROR_(M + ": " + L, webserv::Error::invalid_syntax);                         \
- throw(InvalidSyntaxException());
-
 class Config {
 
     public:
 
-        /* Constructor and Destructor */
         Config(int argc, char* argv[]);
         ~Config(void);
 
-        /* Getters and Setters */
-        std::vector<ServerConfig*> server_config(void) const;
+        std::vector<smt::shared_ptr<ServerBlock> > config(void);
 
 #ifndef GTEST_TESTING
 
@@ -44,18 +30,17 @@ class Config {
 
 #endif
 
-        /* PImpl Object */
         struct impl;
-        impl* m_impl;
+        smt::shared_ptr<impl> m_impl;
 };
 
 struct Config::impl {
 
-        /* Constructor and Destructor */
+        typedef std::pair<bool, std::string> result_type;
+
         impl(int argc, char* argv[]);
         ~impl(void);
 
-        /* Exceptions */
         struct InvalidFileException : public std::exception {
                 char const* what(void) const throw();
         };
@@ -64,32 +49,29 @@ struct Config::impl {
                 char const* what(void) const throw();
         };
 
-        /* Other Functions */
-        bool server_cmd(std::string line);
-        bool location_cmd(std::string line);
-        bool cmd_listen(std::vector<std::string> cmd);
-        bool cmd_server_name(std::vector<std::string> cmd);
-        bool cmd_error_page(std::vector<std::string> cmd);
-        bool cmd_max_size(std::vector<std::string> cmd);
-        bool cmd_root(std::vector<std::string> cmd);
-        bool cmd_autoindex(std::vector<std::string> cmd);
-        bool cmd_index(std::vector<std::string> cmd);
-        bool cmd_location(std::vector<std::string> cmd);
-        bool cmd_lroot(std::vector<std::string> cmd);
-        bool cmd_fastcgi_pass(std::vector<std::string> cmd);
-        bool cmd_request_method(std::vector<std::string> cmd);
+        std::ifstream                              m_file;
+        std::vector<smt::shared_ptr<ServerBlock> > m_config;
 
-        /* Static Members */
-        static std::string const                d_path;
-        static std::string const                d_file;
-        static std::map<int, std::string> const exit_code;
-        static std::string const                method;
+        std::string parse(std::string filename);
 
-        static std::map<int, std::string> init_exit_code(void);
+        void        error_file(std::string filename) const;
+        std::string generate_error(std::string filename, std::string line,
+                                   int nu, std::string msg) const;
+        void        error_syntax(std::string msg) const;
 
-        /* Member Attributes */
-        std::ifstream              file;
-        std::vector<ServerConfig*> server;
+        result_type server(std::string line);
+        result_type location(std::string line);
+
+        result_type cmd_listen(std::vector<std::string> cmd);
+        result_type cmd_server_name(std::vector<std::string> cmd);
+        result_type cmd_error_page(std::vector<std::string> cmd);
+        result_type cmd_max_size(std::vector<std::string> cmd);
+        result_type cmd_root(std::vector<std::string> cmd);
+        result_type cmd_autoindex(std::vector<std::string> cmd);
+        result_type cmd_index(std::vector<std::string> cmd);
+        result_type cmd_lroot(std::vector<std::string> cmd);
+        result_type cmd_fastcgi_pass(std::vector<std::string> cmd);
+        result_type cmd_request_method(std::vector<std::string> cmd);
 };
 
 } // namespace webserv

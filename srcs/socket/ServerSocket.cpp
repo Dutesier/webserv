@@ -2,21 +2,21 @@
 
 namespace webserv {
 
-ServerSocket::ServerSocket(ServerConfig* config)
-    : TCPSocket(config->port, config->host) {
+ServerSocket::ServerSocket(smt::shared_ptr<ServerBlock> config)
+    : TCPSocket(config->m_port, config->m_host) {
 
     int            enable = 1;
     struct timeval timeout;
     timeout.tv_sec = 10;
     timeout.tv_usec = 0;
     // setting socket options
-    this->setsockopt(SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int));
-    this->setsockopt(SOL_SOCKET, SO_REUSEPORT, &enable, sizeof(int));
-    this->setsockopt(SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(struct timeval));
+    setsockopt(SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int));
+    setsockopt(SOL_SOCKET, SO_REUSEPORT, &enable, sizeof(int));
+    setsockopt(SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(struct timeval));
     // binding socket
-    this->bind();
+    bind();
     // socket is now in listenning mode
-    this->listen();
+    listen();
 }
 
 ServerSocket::~ServerSocket(void) {}

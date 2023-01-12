@@ -21,31 +21,21 @@ class TCPSocket : public Socket {
 
     public:
 
-        /* Constructors and Destructors */
-        // TCPSocket(int domain, in_port_t port);
         TCPSocket(int port, std::string host = "localhost",
                   int family = AF_INET);
         ~TCPSocket(void);
 
-        /* Other Functions */
-        // TODO: understand what should be const and whatnot
         void bind(void);
         void listen(void);
-        void setsockopt(int level, int optname, const void* optval,
+        void setsockopt(int level, int optname, void const* optval,
                         socklen_t optlen);
-        // TODO: change return val
         int  accept(void);
         void shutdown(int how);
         void close(void);
 
-        std::string recv(SocketConnection* connection);
-        void        send(SocketConnection* connection, std::string response);
+        std::string recv(int connect_fd);
+        void        send(int connect_fd, std::string response);
 
-        // TODO: refactor this to a more safe and smart approach
-        SocketConnection* connection(int fd) const;
-        bool              has_connection(int fd) const;
-
-        /* Exceptions */
         struct BindFailureException : public std::exception {
                 char const* what(void) const throw();
         };
@@ -82,10 +72,7 @@ class TCPSocket : public Socket {
                 char const* what(void) const throw();
         };
 
-    protected:
-
-        /* Other Private Functions */
-        std::map<int, SocketConnection*> connections;
+        std::map<int, smt::shared_ptr<SocketConnection> > m_connection;
 };
 
 } // namespace webserv

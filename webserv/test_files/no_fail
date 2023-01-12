@@ -1,0 +1,15 @@
+server {
+
+	listen www.example.com:443;
+
+	server_name www.example.com example.com;
+
+	location uri {
+		request_method GET, POST;
+	}
+
+}
+
+server {
+	listen 8081;
+}
