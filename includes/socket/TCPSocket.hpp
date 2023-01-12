@@ -27,7 +27,7 @@ class TCPSocket : public Socket {
 
         void bind(void);
         void listen(void);
-        void setsockopt(int level, int optname, const void* optval,
+        void setsockopt(int level, int optname, void const* optval,
                         socklen_t optlen);
         int  accept(void);
         void shutdown(int how);

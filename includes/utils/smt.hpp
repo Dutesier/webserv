@@ -27,8 +27,8 @@ class unique_ptr {
 
     private:
 
-        unique_ptr(const unique_ptr& other);
-        unique_ptr& operator=(const unique_ptr& other);
+        unique_ptr(unique_ptr const& other);
+        unique_ptr& operator=(unique_ptr const& other);
 
         T* pointer;
 };
@@ -42,13 +42,13 @@ class shared_ptr {
         shared_ptr(T* ptr)
             : pointer(ptr), referenceCount(new unsigned int(1)) {}
 
-        shared_ptr(const shared_ptr& other) {
+        shared_ptr(shared_ptr const& other) {
             this->pointer = other.pointer;
             this->referenceCount = other.referenceCount;
             if (this->pointer != NULL) (*(this->referenceCount))++;
         }
 
-        shared_ptr& operator=(const shared_ptr& other) {
+        shared_ptr& operator=(shared_ptr const& other) {
             destroy();
             this->pointer = other.pointer;
             this->referenceCount = other.referenceCount;

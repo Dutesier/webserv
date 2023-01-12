@@ -20,8 +20,10 @@ void webserv::webserv(int argc, char* argv[]) {
 
         LOG("starting server...");
         srv->run();
-
-    } catch (std::exception& e) { std::cout << e.what() << std::endl; }
+    }
+    catch (std::exception& e) {
+        std::cout << e.what() << std::endl;
+    }
 }
 
 void webserv::stop(int signum) {
@@ -31,7 +33,10 @@ void webserv::stop(int signum) {
         smt::shared_ptr<webserv::HTTPServer> srv = get_webserv();
         LOG("stoping server...");
         srv->stop();
-    } catch (std::exception& e) { std::cout << e.what() << std::endl; }
+    }
+    catch (std::exception& e) {
+        std::cout << e.what() << std::endl;
+    }
 }
 
 static smt::shared_ptr<webserv::HTTPServer> get_webserv(int   argc,

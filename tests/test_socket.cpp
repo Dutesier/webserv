@@ -37,7 +37,7 @@ class test_activeConnection : public ::testing::Test {
         }
 
         void set_options(void) {
-            const int      enable = 1;
+            int const      enable = 1;
             struct timeval timeout;
             timeout.tv_sec = 10;
             timeout.tv_usec = 0;
@@ -60,11 +60,11 @@ class test_activeConnection : public ::testing::Test {
 // TEST_F(test_activeConnection, CanReadFromConnection) {
 //     EXPECT_TRUE(client->send_message(HTTP_REQ));
 
-//     ASSERT_STREQ(HTTP_REQ, listener->recv(NULL).c_str());
+// ASSERT_STREQ(HTTP_REQ, listener->recv(NULL).c_str());
 // }
 
 // TEST_F(test_activeConnection, CanWriteToConnection) {
 //     EXPECT_TRUE(listener->send(NULL, HTTP_RES));
 
-//     ASSERT_STREQ(HTTP_RES, client->receive_message().c_str());
+// ASSERT_STREQ(HTTP_RES, client->receive_message().c_str());
 // }

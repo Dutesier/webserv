@@ -22,7 +22,7 @@ class test_TCPSocket : public ::testing::Test {
         void TearDown(void) { delete this->sock; }
 
         void set_options(void) {
-            const int enable = 1;
+            int const enable = 1;
             this->sock->setsockopt(SOL_SOCKET, SO_REUSEADDR, &enable,
                                    sizeof(int));
             this->sock->setsockopt(SOL_SOCKET, SO_REUSEPORT, &enable,
@@ -56,7 +56,7 @@ TEST_F(test_TCPSocket, listen) {
 
 TEST_F(test_TCPSocket, setsockopt) {
     // setting options
-    const int enable = 1;
+    int const enable = 1;
     ASSERT_NO_THROW(
         this->sock->setsockopt(SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)))
         << errno;

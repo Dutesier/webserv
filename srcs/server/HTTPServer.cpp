@@ -56,7 +56,8 @@ void HTTPServer::run(void) {
                 FLOG_D("webserv::HTTPServer ACK()");
                 int fd = m_socket[events[i].data.fd]->accept();
                 epoll_add(fd);
-            } else {
+            }
+            else {
 
                 std::map<int, smt::shared_ptr<ServerSocket> >::iterator it;
                 for (it = m_socket.begin(); it != m_socket.end(); it++) {

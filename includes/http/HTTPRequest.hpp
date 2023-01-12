@@ -10,7 +10,7 @@ enum Method { UNDEFINED, GET, POST, DELETE };
 
 } // namespace webserv
 
-std::ostream& operator<<(std::ostream& os, const webserv::Method& me);
+std::ostream& operator<<(std::ostream& os, webserv::Method const& me);
 
 class HTTPRequest {
     public:
@@ -27,31 +27,31 @@ class HTTPRequest {
         webserv::Method getMethod() const;
 
         // Set the request URL
-        void setResource(const std::string& resource);
+        void setResource(std::string const& resource);
 
         // Get the request URL
-        const std::string& getResource() const;
+        std::string const& getResource() const;
 
         // Set the version
-        void setVersion(const std::string& version);
+        void setVersion(std::string const& version);
 
         // Get the version
-        const std::string& getVersion() const;
+        std::string const& getVersion() const;
 
         // Set a request header
-        void setHeader(const std::string& name, const std::string& value);
+        void setHeader(std::string const& name, std::string const& value);
 
         // Get a request header
-        std::string getHeader(const std::string& name) const;
+        std::string getHeader(std::string const& name) const;
 
         // Get all of the request headers as a string
         std::string getAllHeaders() const;
 
         // Set the request body / content
-        void setContent(const std::string& content);
+        void setContent(std::string const& content);
 
         // Get the request body / content
-        const std::string& getContent() const;
+        std::string const& getContent() const;
 
         // Set the status code
         void setStatusCode(int status);
@@ -72,6 +72,6 @@ class HTTPRequest {
         int                                m_statusCode;
 };
 
-std::ostream& operator<<(std::ostream& os, const HTTPRequest& req);
+std::ostream& operator<<(std::ostream& os, HTTPRequest const& req);
 
 #endif
