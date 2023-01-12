@@ -2,34 +2,40 @@
 
 namespace webserv {
 
-std::map<int, std::string> HTTPResponse::s_status_map = HTTPResponse::create_status_map();
+std::map<int, std::string> HTTPResponse::s_status_map =
+    HTTPResponse::create_status_map();
 
-HTTPResponse::HTTPResponse( int status, std::map<std::string, std::string> header, std::string body, std::string version)
-	: m_status(status), m_header(header), m_body(body), m_version(version), m_reason(HTTPResponse::s_status_map[m_status]) {}
+HTTPResponse::HTTPResponse(int                                status,
+                           std::map<std::string, std::string> header,
+                           std::string body, std::string version)
+    : m_status(status), m_header(header), m_body(body), m_version(version),
+      m_reason(HTTPResponse::s_status_map[m_status]) {}
 
-HTTPResponse::~HTTPResponse( void ) {}
+HTTPResponse::~HTTPResponse(void) {}
 
-std::string	HTTPResponse::to_str(void) {
-	std::string	sp(" ");
-	std::string crlf("\r\n");
+std::string HTTPResponse::to_str(void) {
+    std::string sp(" ");
+    std::string crlf("\r\n");
 
-	// converting m_status to string
-	std::stringstream ss;
-	ss << m_status;
-	std::string status = ss.str();
+    // converting m_status to string
+    std::stringstream ss;
+    ss << m_status;
+    std::string status = ss.str();
 
-	// converting m_header to string
-	std::string header;
-	for (std::map<std::string, std::string>::iterator it = m_header.begin(); it != m_header.end(); it++) {
-		header += (*it).first + ": " + (*it).second + crlf;
-	}	
-	return (m_version + sp + status +sp + m_reason + crlf + header + crlf + m_body);
+    // converting m_header to string
+    std::string header;
+    for (std::map<std::string, std::string>::iterator it = m_header.begin();
+         it != m_header.end(); it++) {
+        header += (*it).first + ": " + (*it).second + crlf;
+    }
+    return (m_version + sp + status + sp + m_reason + crlf + header + crlf +
+            m_body);
 }
 
-std::map<int, std::string>	HTTPResponse::create_status_map(void) {
-	std::map<int, std::string>	code_map;
+std::map<int, std::string> HTTPResponse::create_status_map(void) {
+    std::map<int, std::string> code_map;
 
-	code_map[100] = "Continue";
+    code_map[100] = "Continue";
     code_map[101] = "Switching Protocols";
     code_map[102] = "Processing";
     code_map[103] = "Early Hints";
@@ -91,9 +97,7 @@ std::map<int, std::string>	HTTPResponse::create_status_map(void) {
     code_map[508] = "Loop Detected";
     code_map[510] = "Not Extended";
     code_map[511] = "Network Authentication Required";
-	return code_map;
+    return code_map;
 }
 
-
- 
-}
+} // namespace webserv
