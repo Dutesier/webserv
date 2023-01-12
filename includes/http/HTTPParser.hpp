@@ -4,6 +4,7 @@
 #include "HTTPRequest.hpp"
 #include "utils/Logger.hpp"
 #include "utils/smt.hpp"
+#include "utils/utils.hpp"
 
 #include <map>
 #include <string>
@@ -11,10 +12,6 @@
 
 #ifndef MAX_HEADER_SIZE
 # define MAX_HEADER_SIZE 8192
-#endif
-
-#ifndef MAX_BODY_SIZE
-# define MAX_BODY_SIZE 2147483648
 #endif
 
 class HTTPParser {
