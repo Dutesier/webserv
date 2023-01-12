@@ -45,9 +45,8 @@ std::string HTTPRequest::getHeader(std::string const& name) const {
 std::string HTTPRequest::getAllHeaders() const {
     std::string output;
 
-    for (std::map<std::string, std::string>::const_iterator it =
-             m_headers.begin();
-         it != m_headers.end(); ++it) {
+    std::map<std::string, std::string>::const_iterator it;
+    for (it = m_headers.begin(); it != m_headers.end(); ++it) {
         output += it->first + ":" + it->second + "\r\n";
     }
     output += "\r\n";
@@ -56,7 +55,7 @@ std::string HTTPRequest::getAllHeaders() const {
 
 // Set the request body / content
 void HTTPRequest::setContent(std::string const& content) {
-	m_content = content;
+    m_content = content;
 }
 
 // Get the request body / content

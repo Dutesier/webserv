@@ -23,9 +23,8 @@ void HTTPServer::start(void) {
     // initializing sockets
     std::vector<smt::shared_ptr<ServerBlock> > server = m_config->config();
 
-    for (std::vector<smt::shared_ptr<ServerBlock> >::iterator it =
-             server.begin();
-         it != server.end(); it++) {
+    std::vector<smt::shared_ptr<ServerBlock> >::iterator it;
+    for (it = server.begin(); it != server.end(); it++) {
 
         smt::shared_ptr<ServerSocket> sock(new ServerSocket(*it));
         m_socket[sock->sockfd()] = sock;
