@@ -13,8 +13,6 @@ class ServerSocket : public TCPSocket {
         ServerSocket(smt::shared_ptr<ServerBlock> config);
         ~ServerSocket(void);
 
-    private:
-
         smt::shared_ptr<ServerBlock> m_config;
 };
 

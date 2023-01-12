@@ -18,7 +18,7 @@ void http_handle(smt::shared_ptr<ServerSocket> sock, int client_fd) {
         // handle request here
 		smt::shared_ptr<HTTPResponse> response = process_request(request, sock->m_config);
 
-        sock->send(client_fd, response.to_str()); // sending response to client
+        sock->send(client_fd, response->to_str()); // sending response to client
 
         // checking if there are more requests to handle
 		request = parser.getNextRequest("");
@@ -26,7 +26,7 @@ void http_handle(smt::shared_ptr<ServerSocket> sock, int client_fd) {
     }
 }
 
-smt::shared_ptr<HTTPResponse> process_request(smt::shared_ptr<HTTPRequest> request, smt::shared_ptr<ServerBlock> m_config) {
+smt::shared_ptr<HTTPResponse> process_request(smt::shared_ptr<HTTPRequest> request, smt::shared_ptr<ServerBlock> config) {
 
 	(void)request;
 
@@ -38,9 +38,12 @@ smt::shared_ptr<HTTPResponse> process_request(smt::shared_ptr<HTTPRequest> reque
 	return (generate_error_response(405, config));
 }
 
-smt::shared_ptr<HTTPResponse> generate_error_response(int code, smt::shared_ptr<ServerBlock> m_config) {
+smt::shared_ptr<HTTPResponse> generate_error_response(int code, smt::shared_ptr<ServerBlock> config) {
 
-	return (smt::shared_ptr<HTTPResponse>(new Response()));
+	std::string body;
+	std::map<std::string, std::string> header;
+
+	return (smt::shared_ptr<HTTPResponse>(new HTTPResponse(code, header, body)));
 }
 
 } // namespace webserv

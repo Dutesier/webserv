@@ -9,6 +9,7 @@ if (test)
 		test_SocketConnection.cpp
 		test_TCPSocket.cpp
 		test_HTTPParser.cpp
+		test_HTTPResponse.cpp
 		Client.cpp
     )
     add_test(webserv_gtest webserv_test)
