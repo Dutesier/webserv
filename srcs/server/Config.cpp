@@ -20,17 +20,12 @@ Config::impl::impl(int argc, char* argv[]) {
     std::string filename;
 
     // checking to see if a filename was provided
-    if (argc > 1) { filename = utils::d_file(argv[1]); }
-    else { filename = utils::d_file(); }
+    if (argc > 1) { filename = argv[1]; }
+    else { filename = D_CONFIG_FILE; }
 
     // checking to see if a path for the file was provided
     if (filename.find("/") == std::string::npos) { // user's not provided a path
-        filename = utils::d_path() + filename;
-    }
-    else { // user's provided a path
-
-        utils::d_file(filename.substr(filename.find_last_of("/") + 1));
-        utils::d_path(filename.substr(0, filename.find_last_of("/") + 1));
+        filename = D_CONFIG_PATH + filename;
     }
 
     // open file to see if everything is ok
@@ -313,11 +308,6 @@ typename Config::impl::result_type
         int               code;
         ss >> code;
 
-        // validating status code
-        std::map<int, std::string> m = utils::status_codes();
-        if (m.find(code) == m.end()) {
-            return (result_type(false, cmd[i] + ": invalid status code"));
-        }
         // adding status code in m_error_page
         m_config.back()->m_error_page[code] = page;
     }

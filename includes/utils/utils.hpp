@@ -5,20 +5,13 @@
 #include <string>
 #include <vector>
 
-namespace webserv {
+/* Macros of default paths */
+#define D_CONFIG_PATH "./webserv/"
+#define D_CONFIG_FILE "./webserv/default"
+#define D_ROOT_PATH   "./webserv/website/"
 
-class utils {
-
-    public:
-
-        static std::string                d_file(std::string d = "");
-        static std::string                d_path(std::string d = "");
-        static std::string                d_root(std::string d = "");
-        static std::vector<std::string>   index_pages(void);
-        static std::vector<std::string>   allowed_methods(void);
-        static std::map<int, std::string> status_codes(void);
-};
-
-} // namespace webserv
+/* Macro of default methods */
+#define D_METHODS                                                              \
+ { "GET", "POST", "DELETE" }
 
 #endif /* UTILS_HPP */

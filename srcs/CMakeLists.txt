@@ -10,7 +10,6 @@ add_library(${PROJECT_NAME} STATIC
 	server/Config.cpp
 	server/Blocks.cpp
 	utils/Logger.cpp
-	utils/utils.cpp
 	socket/Socket.cpp
 	socket/SocketAddress.cpp
 	socket/SocketConnection.cpp

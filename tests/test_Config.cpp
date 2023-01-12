@@ -344,30 +344,26 @@ TEST(test_ServerConfig, fastcgi_pass) {
 
 TEST(test_ServerConfig, default_values) {
 
-    ASSERT_EQ(webserv::utils::d_file(), "test_file");
-    ASSERT_EQ(webserv::utils::d_path(), "../tests/");
-    ASSERT_EQ(webserv::utils::d_root(), "../tests/website/");
-
-    ASSERT_EQ(webserv::utils::d_file("nginx"), "nginx");
-    ASSERT_EQ(webserv::utils::d_path("./webserv/"), "./webserv/");
-    ASSERT_EQ(webserv::utils::d_root("wordpress/"), "./webserv/wordpress/");
-
-    ASSERT_EQ(webserv::utils::d_file("default"), "default");
-    ASSERT_EQ(webserv::utils::d_path("../webserv/"), "../webserv/");
-    ASSERT_EQ(webserv::utils::d_root("website/"), "../webserv/website/");
-
     webserv::ServerBlock server;
     ASSERT_FALSE(server.m_autoidx);
     ASSERT_EQ(server.m_bsize, 1048576);
     ASSERT_EQ(server.m_port, 80);
     ASSERT_EQ(server.m_host, "localhost");
-    ASSERT_EQ(server.m_root, "../webserv/website/");
-    std::string              arr[2] = {"index", "index.html"};
-    std::vector<std::string> comp(arr, arr + 2);
+    ASSERT_EQ(server.m_root, "./webserv/website/");
+    std::string              arr1[2] = {"index", "index.html"};
+    std::vector<std::string> comp(arr1, arr1 + 2);
     ASSERT_EQ(server.m_idx, comp);
     ASSERT_TRUE(server.m_srv_name.empty());
     ASSERT_TRUE(server.m_error_page.empty());
     ASSERT_TRUE(server.m_location.empty());
+
+    std::string            arr2[3] = {"GET", "POST", "DELETE"};
+	comp.clear(); comp.insert(comp.begin(), arr2, arr2 + 3);
+    webserv::LocationBlock location("uri");
+	ASSERT_EQ(location.m_uri, "uri");
+	ASSERT_EQ(location.m_root, "");
+	ASSERT_EQ(location.m_cgi, "");
+	ASSERT_EQ(location.m_req_methods, comp);
 }
 
 TEST(test_impl, InvalidFileException) {
