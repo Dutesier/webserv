@@ -46,6 +46,47 @@ smt::shared_ptr<HTTPResponse>
 
     std::string                        body;
     std::map<std::string, std::string> header;
+	std::stringstream ss;
+	
+	LOG("OK");
+
+	// getting custom body
+	bool default_body = false;
+	if (config->m_error_page.find(code) != config->m_error_page.end()) {
+		// if something goes wrong
+		// default_body = true;
+	}
+	else { default_body = true; }
+
+	// getting default body
+	if (default_body) {
+
+		//converting code to str
+		ss << code;
+		std::string error_code = ss.str();
+
+		//generating message
+		std::string msg = error_code + " - " + HTTPResponse::s_status_map[code];
+		body = "<!DOCTYPE html>"
+               "<html>"
+               "  <head>"
+               "    <title>" +
+               msg +
+               "</title>"
+               "  </head>"
+               "  <body>"
+               "    <h1>" +
+               msg +
+               "</h1>"
+               "  </body>"
+               "</html>";
+	}
+
+	// converting body.size() to str
+	ss.str("");
+	ss << body.size();
+	// setting headers
+	header["Content-Length"] = ss.str();
 
     return (
         smt::shared_ptr<HTTPResponse>(new HTTPResponse(code, header, body)));

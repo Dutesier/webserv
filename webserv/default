@@ -4,6 +4,6 @@ server {
 }
 
 server {
-	listen 8081;
+	listen server:8081;
 	server_name domain2.com;
 }
