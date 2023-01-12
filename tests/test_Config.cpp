@@ -349,7 +349,7 @@ TEST(test_ServerConfig, default_values) {
     ASSERT_EQ(server.m_bsize, 1048576);
     ASSERT_EQ(server.m_port, 80);
     ASSERT_EQ(server.m_host, "localhost");
-    ASSERT_EQ(server.m_root, "./webserv/website/");
+    ASSERT_EQ(server.m_root, "../webserv/website/");
     std::string              arr1[2] = {"index", "index.html"};
     std::vector<std::string> comp(arr1, arr1 + 2);
     ASSERT_EQ(server.m_idx, comp);
@@ -357,13 +357,14 @@ TEST(test_ServerConfig, default_values) {
     ASSERT_TRUE(server.m_error_page.empty());
     ASSERT_TRUE(server.m_location.empty());
 
-    std::string            arr2[3] = {"GET", "POST", "DELETE"};
-	comp.clear(); comp.insert(comp.begin(), arr2, arr2 + 3);
+    std::string arr2[3] = {"GET", "POST", "DELETE"};
+    comp.clear();
+    comp.insert(comp.begin(), arr2, arr2 + 3);
     webserv::LocationBlock location("uri");
-	ASSERT_EQ(location.m_uri, "uri");
-	ASSERT_EQ(location.m_root, "");
-	ASSERT_EQ(location.m_cgi, "");
-	ASSERT_EQ(location.m_req_methods, comp);
+    ASSERT_EQ(location.m_uri, "uri");
+    ASSERT_EQ(location.m_root, "");
+    ASSERT_EQ(location.m_cgi, "");
+    ASSERT_EQ(location.m_req_methods, comp);
 }
 
 TEST(test_impl, InvalidFileException) {

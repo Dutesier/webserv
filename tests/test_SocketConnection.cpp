@@ -106,8 +106,8 @@ TEST_F(test_SocketConnection, recv) {
 //     ASSERT_FALSE(res2->getHeader("Accept-Language").empty());
 //     EXPECT_STREQ(res2->getHeader("Accept-Language").c_str(), " en-us");
 //     ASSERT_FALSE(res2->getHeader("Accept-Encoding").empty());
-//     EXPECT_STREQ(res2->getHeader("Accept-Encoding").c_str(), " gzip, deflate");
-//     ASSERT_FALSE(res2->getHeader("Connection").empty());
+//     EXPECT_STREQ(res2->getHeader("Accept-Encoding").c_str(), " gzip,
+//     deflate"); ASSERT_FALSE(res2->getHeader("Connection").empty());
 //     EXPECT_STREQ(res2->getHeader("Connection").c_str(), " Keep-Alive");
 //
 //     EXPECT_STREQ(res2->getContent().c_str(),
@@ -154,8 +154,8 @@ TEST_F(test_SocketConnection, recv) {
 //     ASSERT_FALSE(res2->getHeader("Accept-Language").empty());
 //     EXPECT_STREQ(res2->getHeader("Accept-Language").c_str(), " en-us");
 //     ASSERT_FALSE(res2->getHeader("Accept-Encoding").empty());
-//     EXPECT_STREQ(res2->getHeader("Accept-Encoding").c_str(), " gzip, deflate");
-//     ASSERT_FALSE(res2->getHeader("Connection").empty());
+//     EXPECT_STREQ(res2->getHeader("Accept-Encoding").c_str(), " gzip,
+//     deflate"); ASSERT_FALSE(res2->getHeader("Connection").empty());
 //     EXPECT_STREQ(res2->getHeader("Connection").c_str(), " Keep-Alive");
 //
 //     EXPECT_STREQ(res2->getContent().c_str(),
