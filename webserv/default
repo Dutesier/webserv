@@ -5,5 +5,6 @@ server {
 
 server {
 	listen server:8081;
+	error_page 405 ../webserv/website/404.html;
 	server_name domain2.com;
 }
