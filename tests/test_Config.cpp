@@ -180,8 +180,8 @@ TEST(test_ServerConfig, client_max_body_size) {
     cmd.push_back("size");
     ASSERT_EQ(m_impl->cmd_max_size(cmd).second, "size: invalid size");
 
-    cmd[1] = "2097153";
-    ASSERT_EQ(m_impl->cmd_max_size(cmd).second, "2097153: invalid size");
+    cmd[1] = "2147483649";
+    ASSERT_EQ(m_impl->cmd_max_size(cmd).second, "2147483649: invalid size");
 
     cmd[1] = "2097";
     ASSERT_TRUE(m_impl->cmd_max_size(cmd).first)
