@@ -147,8 +147,7 @@ TEST(test_ServerConfig, error_page) {
     ASSERT_EQ(m_impl->cmd_error_page(cmd).second, "wrong number of arguments");
 
     cmd.push_back("501");
-    ASSERT_EQ(m_impl->cmd_error_page(cmd).second,
-              "501: failed to open");
+    ASSERT_EQ(m_impl->cmd_error_page(cmd).second, "501: failed to open");
 
     cmd.push_back("../webserv/website/50X.html");
     ASSERT_EQ(m_impl->cmd_error_page(cmd).second,

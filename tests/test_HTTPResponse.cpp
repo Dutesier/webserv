@@ -45,4 +45,7 @@ TEST(test_HTTPResponse, to_str) {
                                       "se vai dar mais com gajas"));
     ASSERT_EQ(b->to_str(), resp2);
     ASSERT_NO_THROW(delete b);
+
+    // testing to_str with generate_response
+    // webserv::HTTPHandler::generate_response_error(404,);
 }
