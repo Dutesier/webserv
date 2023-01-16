@@ -321,7 +321,7 @@ TEST(test_ServerConfig, fastcgi_pass) {
 TEST(test_ServerConfig, default_values) {
 
     webserv::ServerBlock server;
-    ASSERT_FALSE(server.m_autoidx);
+    ASSERT_TRUE(server.m_autoidx);
     ASSERT_EQ(server.m_bsize, 1048576);
     ASSERT_EQ(server.m_port, 80);
     ASSERT_EQ(server.m_host, "localhost");
