@@ -1,13 +1,16 @@
 #include "http/HTTPHandler.hpp"
-#include "http/HTTPResponse.hpp"
 #include "http/HTTPRequest.hpp"
+#include "http/HTTPResponse.hpp"
 #include "server/Blocks.hpp"
 
 #include <gtest/gtest.h>
 
 #define REQ_DIR "GET / HTTP/1.1\r\nHost: example.com\r\nContent-Type: 0\r\n\r\n"
-#define REQ_FILE1 "GET /index.html HTTP/1.1\r\nHost: example.com\r\nContent-Type: 0\r\n\r\n"
-#define REQ_FILE2 "GET /file/doest/not/exist HTTP/1.1\r\nHost: example.com\r\nContent-Type: 0\r\n\r\n"
+#define REQ_FILE1                                                              \
+ "GET /index.html HTTP/1.1\r\nHost: example.com\r\nContent-Type: 0\r\n\r\n"
+#define REQ_FILE2                                                              \
+ "GET /file/doest/not/exist HTTP/1.1\r\nHost: example.com\r\nContent-Type: "   \
+ "0\r\n\r\n"
 
 TEST(test_HTTPHandler, generate_error_response_default) {
 
@@ -98,33 +101,33 @@ TEST(test_HTTPHandler, generate_error_response_custom_error) {
 
 TEST(test_HTTPHandler, http_get) {
 
-	smt::shared_ptr<webserv::HTTPRequest>  request;
-	smt::shared_ptr<webserv::ServerBlock>  config;
-	smt::shared_ptr<webserv::HTTPResponse> response;
-	webserv::HTTPParser                    parser;
+    smt::shared_ptr<webserv::HTTPRequest>  request;
+    smt::shared_ptr<webserv::ServerBlock>  config;
+    smt::shared_ptr<webserv::HTTPResponse> response;
+    webserv::HTTPParser                    parser;
 
-	config = smt::shared_ptr<webserv::ServerBlock>(new webserv::ServerBlock());
-	config->m_root = "../webserv/website/";
-	request = parser.getNextRequest(REQ_DIR);
+    config = smt::shared_ptr<webserv::ServerBlock>(new webserv::ServerBlock());
+    config->m_root = "../webserv/website/";
+    request = parser.getNextRequest(REQ_DIR);
 
-	// testing get to directory with autoindex off
-	config->m_autoidx = false;
-	response = http_get(request, config);
-	ASSERT_EQ(response->m_status, 404) << response->to_str();
+    // testing get to directory with autoindex off
+    config->m_autoidx = false;
+    response = http_get(request, config);
+    ASSERT_EQ(response->m_status, 404) << response->to_str();
 
-	// testing get to file that doesnt exist
-	request = parser.getNextRequest(REQ_FILE2);
-	response = http_get(request, config);
-	ASSERT_EQ(response->m_status, 404) << response->to_str();
+    // testing get to file that doesnt exist
+    request = parser.getNextRequest(REQ_FILE2);
+    response = http_get(request, config);
+    ASSERT_EQ(response->m_status, 404) << response->to_str();
 
-	// testing get to directory with autoindex on
-	config->m_autoidx = true;
-	request = parser.getNextRequest(REQ_DIR);
-	response = http_get(request, config);
-	ASSERT_EQ(response->m_status, 200) << response->to_str();
+    // testing get to directory with autoindex on
+    config->m_autoidx = true;
+    request = parser.getNextRequest(REQ_DIR);
+    response = http_get(request, config);
+    ASSERT_EQ(response->m_status, 200) << response->to_str();
 
-	// testing get to file
-	request = parser.getNextRequest(REQ_FILE1);
-	response = http_get(request, config);
-	ASSERT_EQ(response->m_status, 200) << response->to_str();
+    // testing get to file
+    request = parser.getNextRequest(REQ_FILE1);
+    response = http_get(request, config);
+    ASSERT_EQ(response->m_status, 200) << response->to_str();
 }

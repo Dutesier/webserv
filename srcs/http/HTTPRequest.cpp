@@ -91,4 +91,4 @@ std::ostream& operator<<(std::ostream& os, HTTPRequest const& req) {
     return os;
 }
 
-}
+} // namespace webserv

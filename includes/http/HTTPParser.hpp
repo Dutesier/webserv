@@ -39,6 +39,6 @@ class HTTPParser {
         int                          find_next_request(std::string& buff) const;
 };
 
-}
+} // namespace webserv
 
 #endif /* HTTPPARSER_HPP */

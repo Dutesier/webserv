@@ -425,4 +425,4 @@ int HTTPParser::find_next_request(std::string& buff) const {
 //     return request;
 // }
 
-}
+} // namespace webserv

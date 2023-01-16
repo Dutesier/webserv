@@ -19,8 +19,8 @@ void http_handle(smt::shared_ptr<ServerSocket> sock, int client_fd) {
             process_request(request, sock->m_config);
 
         sock->send(client_fd, response->to_str()); // sending response to client
-		LOG(log_handler(request, response));
-		FLOG(log_handler(request, response));
+        LOG(log_handler(request, response));
+        FLOG(log_handler(request, response));
 
         // checking if there are more requests to handle
         request = parser.getNextRequest("");
@@ -116,7 +116,7 @@ smt::shared_ptr<HTTPResponse> http_get(smt::shared_ptr<HTTPRequest> request,
     DIR* dir = opendir(filename.c_str());
     if (dir) {
 
-		LOG_I(filename + ": is a directory");
+        LOG_I(filename + ": is a directory");
         // handling dir request
         if (!config->m_autoidx) {
             return (generate_error_response(404, config));
@@ -134,8 +134,8 @@ smt::shared_ptr<HTTPResponse> http_get(smt::shared_ptr<HTTPRequest> request,
         dirent*                  diread;
         std::vector<std::string> filenames;
         while ((diread = readdir(dir))) {
-			// TODO: maybe here we need to check what we want to add.
-			// things like '..' and '.' maybe dont make sense to have
+            // TODO: maybe here we need to check what we want to add.
+            // things like '..' and '.' maybe dont make sense to have
             body += "\t\t<li><a href=" + std::string(diread->d_name) + "> " +
                     std::string(diread->d_name) + "</a></li>\n";
         }
@@ -145,10 +145,10 @@ smt::shared_ptr<HTTPResponse> http_get(smt::shared_ptr<HTTPRequest> request,
                 "</body>\n"
                 "</html>";
     }
-    else if (errno == ENOENT){
+    else if (errno == ENOENT) {
 
-		errno = 0;
-		LOG_I(filename + ": is a file");
+        errno = 0;
+        LOG_I(filename + ": is a file");
         // handling file request
         std::ifstream file(filename.c_str());
         if (!file.good()) { return (generate_error_response(404, config)); }
@@ -168,7 +168,7 @@ smt::shared_ptr<HTTPResponse> http_get(smt::shared_ptr<HTTPRequest> request,
     // getting Content-Type header
     // headers["Content-Type"] = ;
 
-	HTTPResponse* dontUse = new HTTPResponse(200, headers, body);
+    HTTPResponse* dontUse = new HTTPResponse(200, headers, body);
     return (smt::shared_ptr<HTTPResponse>(dontUse));
 }
 
@@ -184,12 +184,18 @@ smt::shared_ptr<HTTPResponse> http_delete(smt::shared_ptr<HTTPRequest> request,
     return (generate_error_response(202, config));
 }
 
-std::string log_handler(smt::shared_ptr<HTTPRequest> request, smt::shared_ptr<HTTPResponse> response) {
+std::string log_handler(smt::shared_ptr<HTTPRequest>  request,
+                        smt::shared_ptr<HTTPResponse> response) {
 
-	std::string method = (request->getMethod() == GET ? "GET" : (request->getMethod() == POST ? "POST" : "DELETE"));
-	std::stringstream ss;
-	ss << response->m_status;
-	return (method + " " + request->getResource() + " " + request->getVersion() + " " + ss.str() + "\n" + response->m_header["Content-Length"]);
+    std::string method =
+        (request->getMethod() == GET
+             ? "GET"
+             : (request->getMethod() == POST ? "POST" : "DELETE"));
+    std::stringstream ss;
+    ss << response->m_status;
+    return (method + " " + request->getResource() + " " +
+            request->getVersion() + " " + ss.str() + "\n" +
+            response->m_header["Content-Length"]);
 }
 
 } // namespace webserv

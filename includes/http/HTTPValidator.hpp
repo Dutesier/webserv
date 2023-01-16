@@ -64,6 +64,6 @@ class hasMethod : public AHTTPValidator {
         }
 };
 
-}
+} // namespace webserv
 
 #endif
