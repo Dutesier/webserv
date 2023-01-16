@@ -114,8 +114,9 @@ smt::shared_ptr<HTTPResponse> http_get(smt::shared_ptr<HTTPRequest> request,
     std::string filename = uri.path_w_root(config->m_root);
 
     DIR* dir = opendir(filename.c_str());
-    if (dir && errno != ENOENT) {
+    if (dir) {
 
+		LOG_I(filename + ": is a directory");
         // handling dir request
         if (!config->m_autoidx) {
             return (generate_error_response(404, config));
@@ -144,8 +145,10 @@ smt::shared_ptr<HTTPResponse> http_get(smt::shared_ptr<HTTPRequest> request,
                 "</body>\n"
                 "</html>";
     }
-    else {
+    else if (errno == ENOENT){
 
+		errno = 0;
+		LOG_I(filename + ": is a file");
         // handling file request
         std::ifstream file(filename.c_str());
         if (!file.good()) { return (generate_error_response(404, config)); }
@@ -153,7 +156,6 @@ smt::shared_ptr<HTTPResponse> http_get(smt::shared_ptr<HTTPRequest> request,
                            std::istreambuf_iterator<char>());
         file.close();
     }
-    errno = 0;
 
     // creating headers of the response
     std::map<std::string, std::string> headers;
