@@ -4,6 +4,8 @@
 #include "http/HTTPParser.hpp"
 #include "http/HTTPRequest.hpp"
 #include "http/HTTPResponse.hpp"
+#include "http/Uri.hpp"
+#include "server/Config.hpp"
 #include "socket/ServerSocket.hpp"
 #include "utils/smt.hpp"
 
@@ -15,6 +17,13 @@ smt::shared_ptr<HTTPResponse>
 smt::shared_ptr<HTTPResponse>
     process_request(smt::shared_ptr<HTTPRequest> request,
                     smt::shared_ptr<ServerBlock> config);
+
+smt::shared_ptr<HTTPResponse> http_get(smt::shared_ptr<HTTPRequest> request,
+                                       smt::shared_ptr<ServerBlock> config);
+smt::shared_ptr<HTTPResponse> http_post(smt::shared_ptr<HTTPRequest> request,
+                                        smt::shared_ptr<ServerBlock> config);
+smt::shared_ptr<HTTPResponse> http_delete(smt::shared_ptr<HTTPRequest> request,
+                                          smt::shared_ptr<ServerBlock> config);
 
 } // namespace webserv
 
