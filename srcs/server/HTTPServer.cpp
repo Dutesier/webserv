@@ -52,7 +52,7 @@ void HTTPServer::run(void) {
 
             if (m_socket.find(events[i].data.fd) != m_socket.end()) {
 
-                FLOG_D("webserv::HTTPServer ACK()");
+                // FLOG_D("webserv::HTTPServer ACK()");
                 int fd = m_socket[events[i].data.fd]->accept();
                 epoll_add(fd);
             }
@@ -65,7 +65,7 @@ void HTTPServer::run(void) {
                     if (sock->m_connection.find(events[i].data.fd) !=
                         sock->m_connection.end()) {
 
-                        FLOG_D("webserv::HTTPServer REQ()");
+                        // FLOG_D("webserv::HTTPServer REQ()");
                         http_handle(sock, events[i].data.fd);
                         break;
                     }

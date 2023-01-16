@@ -14,6 +14,7 @@ HTTPResponse::HTTPResponse(int                                status,
 HTTPResponse::~HTTPResponse(void) {}
 
 std::string HTTPResponse::to_str(void) {
+
     std::string sp(" ");
     std::string crlf("\r\n");
 

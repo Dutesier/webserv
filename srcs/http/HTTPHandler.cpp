@@ -14,12 +14,13 @@ void http_handle(smt::shared_ptr<ServerSocket> sock, int client_fd) {
     bool                         has_next = true;
     while (has_next) {
 
-        FLOG("Handling request...");
         // handle request here
         smt::shared_ptr<HTTPResponse> response =
             process_request(request, sock->m_config);
 
         sock->send(client_fd, response->to_str()); // sending response to client
+		LOG(log_handler(request, response));
+		FLOG(log_handler(request, response));
 
         // checking if there are more requests to handle
         request = parser.getNextRequest("");
@@ -112,7 +113,6 @@ smt::shared_ptr<HTTPResponse> http_get(smt::shared_ptr<HTTPRequest> request,
     Uri         uri(request->getResource());
     std::string filename = uri.path_w_root(config->m_root);
 
-    LOG("filename: " + filename);
     DIR* dir = opendir(filename.c_str());
     if (dir && errno != ENOENT) {
 
@@ -133,6 +133,8 @@ smt::shared_ptr<HTTPResponse> http_get(smt::shared_ptr<HTTPRequest> request,
         dirent*                  diread;
         std::vector<std::string> filenames;
         while ((diread = readdir(dir))) {
+			// TODO: maybe here we need to check what we want to add.
+			// things like '..' and '.' maybe dont make sense to have
             body += "\t\t<li><a href=" + std::string(diread->d_name) + "> " +
                     std::string(diread->d_name) + "</a></li>\n";
         }
@@ -164,7 +166,7 @@ smt::shared_ptr<HTTPResponse> http_get(smt::shared_ptr<HTTPRequest> request,
     // getting Content-Type header
     // headers["Content-Type"] = ;
 
-	HTTPResponse dontUse = new HTTPResponse(200, headers, body);
+	HTTPResponse* dontUse = new HTTPResponse(200, headers, body);
     return (smt::shared_ptr<HTTPResponse>(dontUse));
 }
 
@@ -178,6 +180,14 @@ smt::shared_ptr<HTTPResponse> http_delete(smt::shared_ptr<HTTPRequest> request,
                                           smt::shared_ptr<ServerBlock> config) {
     (void)request;
     return (generate_error_response(202, config));
+}
+
+std::string log_handler(smt::shared_ptr<HTTPRequest> request, smt::shared_ptr<HTTPResponse> response) {
+
+	std::string method = (request->getMethod() == GET ? "GET" : (request->getMethod() == POST ? "POST" : "DELETE"));
+	std::stringstream ss;
+	ss << response->m_status;
+	return (method + " " + request->getResource() + " " + request->getVersion() + " " + ss.str() + "\n" + response->m_header["Content-Length"]);
 }
 
 } // namespace webserv

@@ -25,6 +25,8 @@ smt::shared_ptr<HTTPResponse> http_post(smt::shared_ptr<HTTPRequest> request,
 smt::shared_ptr<HTTPResponse> http_delete(smt::shared_ptr<HTTPRequest> request,
                                           smt::shared_ptr<ServerBlock> config);
 
+std::string log_handler(smt::shared_ptr<HTTPRequest> request, smt::shared_ptr<HTTPResponse> response);
+
 } // namespace webserv
 
 #endif /* HTTP_HANDLER_HPP */

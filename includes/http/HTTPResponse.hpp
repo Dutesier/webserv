@@ -24,6 +24,7 @@ struct HTTPResponse {
         static std::map<int, std::string> s_status_map;
         static std::map<int, std::string> create_status_map(void);
 };
+
 } // namespace webserv
 
 #endif /* HTTP_RESPONSE_HPP */
