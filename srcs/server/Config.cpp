@@ -182,7 +182,6 @@ typename Config::impl::result_type Config::impl::server(std::string line) {
     if (cmd[0] == "client_max_body_size") { return (cmd_max_size(cmd)); }
     if (cmd[0] == "root") { return (cmd_root(cmd)); }
     if (cmd[0] == "autoindex") { return (cmd_autoindex(cmd)); }
-    if (cmd[0] == "index") { return (cmd_index(cmd)); }
 
     return (result_type(false, cmd[0] + ": unknown command"));
 }
@@ -369,24 +368,6 @@ typename Config::impl::result_type
     if (cmd[1] == "off") { m_config.back()->m_autoidx = false; }
     else if (cmd[1] == "on") { m_config.back()->m_autoidx = true; }
     else { return (result_type(false, cmd[1] + ": unrecognized syntax")); }
-
-    return (result_type(true, ""));
-}
-
-typename Config::impl::result_type
-    Config::impl::cmd_index(std::vector<std::string> cmd) {
-
-    // checking if cmd size is valid
-    if (cmd.size() < 2) {
-        return (result_type(false, "wrong number of arguments"));
-    }
-
-    // cleaning default index
-    m_config.back()->m_idx.clear();
-
-    for (size_t i = 0; i < cmd.size(); i++) {
-        m_config.back()->m_idx.push_back(cmd[i]);
-    }
 
     return (result_type(true, ""));
 }

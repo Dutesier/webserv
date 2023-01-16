@@ -234,29 +234,6 @@ TEST(test_ServerConfig, autoindex) {
     ASSERT_FALSE(m_impl->m_config.back()->m_autoidx);
 }
 
-TEST(test_ServerConfig, index) {
-
-    IMPL("../tests/test_file");
-
-    typedef std::pair<bool, std::string> result_type;
-
-    std::vector<std::string> cmd(1, "index");
-
-    std::string              arr[2] = {"index", "index.html"};
-    std::vector<std::string> comp(arr, arr + 2);
-
-    ASSERT_EQ(m_impl->cmd_index(cmd).second, "wrong number of arguments");
-
-    cmd.push_back("index.html");
-    ASSERT_TRUE(m_impl->cmd_index(cmd).first) << m_impl->cmd_index(cmd).second;
-    ASSERT_EQ(m_impl->m_config.back()->m_idx, comp);
-
-    cmd.push_back("index.php");
-    ASSERT_TRUE(m_impl->cmd_index(cmd).first) << m_impl->cmd_index(cmd).second;
-    comp.push_back("index.php");
-    ASSERT_EQ(m_impl->m_config.back()->m_idx, comp);
-}
-
 TEST(test_ServerConfig, lroot) {
 
     IMPL("../tests/test_file");
@@ -351,7 +328,6 @@ TEST(test_ServerConfig, default_values) {
     ASSERT_EQ(server.m_root, "../webserv/website/");
     std::string              arr1[2] = {"index", "index.html"};
     std::vector<std::string> comp(arr1, arr1 + 2);
-    ASSERT_EQ(server.m_idx, comp);
     ASSERT_TRUE(server.m_srv_name.empty());
     ASSERT_TRUE(server.m_error_page.empty());
     ASSERT_TRUE(server.m_location.empty());
@@ -406,9 +382,6 @@ TEST(test_impl, InvalidSyntaxException) {
     ASSERT_THROW(webserv::Config(2, argv),
                  webserv::Config::impl::InvalidSyntaxException);
     argv[1] = (char*)"../webserv/test_files/fail_error_page2";
-    ASSERT_THROW(webserv::Config(2, argv),
-                 webserv::Config::impl::InvalidSyntaxException);
-    argv[1] = (char*)"../webserv/test_files/fail_index0";
     ASSERT_THROW(webserv::Config(2, argv),
                  webserv::Config::impl::InvalidSyntaxException);
     argv[1] = (char*)"../webserv/test_files/fail_listen0";

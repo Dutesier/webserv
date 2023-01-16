@@ -24,7 +24,6 @@ struct ServerBlock {
         std::string m_host;
         std::string m_root;
 
-        std::vector<std::string>   m_idx;
         std::vector<std::string>   m_srv_name;
         std::map<int, std::string> m_error_page;
 

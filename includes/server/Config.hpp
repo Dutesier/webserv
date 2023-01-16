@@ -68,7 +68,6 @@ struct Config::impl {
         result_type cmd_max_size(std::vector<std::string> cmd);
         result_type cmd_root(std::vector<std::string> cmd);
         result_type cmd_autoindex(std::vector<std::string> cmd);
-        result_type cmd_index(std::vector<std::string> cmd);
         result_type cmd_lroot(std::vector<std::string> cmd);
         result_type cmd_fastcgi_pass(std::vector<std::string> cmd);
         result_type cmd_request_method(std::vector<std::string> cmd);
