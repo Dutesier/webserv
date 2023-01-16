@@ -1,6 +1,7 @@
 server {
     listen       8080;
     server_name  domain1.com;
+	autoindex on;
 }
 
 server {
