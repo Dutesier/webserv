@@ -124,9 +124,7 @@ smt::shared_ptr<HTTPResponse> http_get(smt::shared_ptr<HTTPRequest> request,
         body = "<!DOCTYPE html>\n"
                "<html>\n"
                "<head>\n"
-               "\t<title>" +
-               filename +
-               "</title>\n"
+               "\t<title> index.html </title>\n"
                "</head>\n"
                "<body>\n"
                "\t<h1> index: </h1>\n"
