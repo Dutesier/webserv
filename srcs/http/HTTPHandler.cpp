@@ -164,8 +164,8 @@ smt::shared_ptr<HTTPResponse> http_get(smt::shared_ptr<HTTPRequest> request,
     // getting Content-Type header
     // headers["Content-Type"] = ;
 
-    return (
-        smt::shared_ptr<HTTPResponse>(new HTTPResponse(200, headers, body)));
+	HTTPResponse dontUse = new HTTPResponse(200, headers, body);
+    return (smt::shared_ptr<HTTPResponse>(dontUse));
 }
 
 smt::shared_ptr<HTTPResponse> http_post(smt::shared_ptr<HTTPRequest> request,
