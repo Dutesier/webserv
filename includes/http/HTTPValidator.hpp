@@ -9,6 +9,8 @@
 // In the future we can expand this design pattern to check the valiity
 // of HTTP Responses as well. (Pointer Polymorphism)
 
+namespace webserv {
+
 class ok_err {
     public:
 
@@ -61,5 +63,7 @@ class hasMethod : public AHTTPValidator {
             return AHTTPValidator::isValid(req);
         }
 };
+
+}
 
 #endif

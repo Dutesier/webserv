@@ -8,8 +8,6 @@
 namespace webserv {
 enum Method { UNDEFINED, GET, POST, DELETE };
 
-} // namespace webserv
-
 std::ostream& operator<<(std::ostream& os, webserv::Method const& me);
 
 class HTTPRequest {
@@ -73,5 +71,7 @@ class HTTPRequest {
 };
 
 std::ostream& operator<<(std::ostream& os, HTTPRequest const& req);
+
+} // namespace webserv
 
 #endif

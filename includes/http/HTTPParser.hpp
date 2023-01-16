@@ -14,6 +14,8 @@
 # define MAX_HEADER_SIZE 8192
 #endif
 
+namespace webserv {
+
 class HTTPParser {
     public:
 
@@ -36,5 +38,7 @@ class HTTPParser {
         smt::shared_ptr<HTTPRequest> parse_header(std::string& header);
         int                          find_next_request(std::string& buff) const;
 };
+
+}
 
 #endif /* HTTPPARSER_HPP */

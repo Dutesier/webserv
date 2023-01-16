@@ -1,5 +1,7 @@
 #include "http/HTTPRequest.hpp"
 
+namespace webserv {
+
 HTTPRequest::HTTPRequest() : m_statusCode(0) {}
 
 HTTPRequest::HTTPRequest(int statusCode) : m_statusCode(statusCode) {}
@@ -87,4 +89,6 @@ std::ostream& operator<<(std::ostream& os, HTTPRequest const& req) {
     os << req.getAllHeaders();
     os << req.getContent();
     return os;
+}
+
 }

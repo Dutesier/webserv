@@ -1,5 +1,7 @@
 #include "http/HTTPParser.hpp"
 
+namespace webserv {
+
 HTTPParser::HTTPParser() {}
 
 HTTPParser::~HTTPParser() {}
@@ -422,3 +424,5 @@ int HTTPParser::find_next_request(std::string& buff) const {
 //
 //     return request;
 // }
+
+}

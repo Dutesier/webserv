@@ -3,6 +3,8 @@
 #include <gtest/gtest.h>
 #include <iostream>
 
+using namespace webserv;
+
 class test_HTTPParser : public testing::Test {
     public:
 
