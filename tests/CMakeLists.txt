@@ -11,6 +11,7 @@ if (test)
 		test_HTTPParser.cpp
 		test_HTTPResponse.cpp
 		test_HTTPHandler.cpp
+		test_Uri.cpp
 		Client.cpp
     )
     add_test(webserv_gtest webserv_test)
