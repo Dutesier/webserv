@@ -26,9 +26,9 @@ void HTTPServer::start(void) {
     std::vector<smt::shared_ptr<ServerBlock> >::iterator it;
     for (it = server.begin(); it != server.end(); it++) {
 
-        smt::shared_ptr<ServerSocket> sock(new ServerSocket(*it));
-        m_socket[sock->sockfd()] = sock;
-        epoll_add(sock->sockfd());
+        ServerSocket* dontUse = new ServerSocket(*it);
+        m_socket[dontUse->sockfd()] = smt::shared_ptr<ServerSocket>(dontUse);
+        epoll_add(dontUse->sockfd());
     }
     m_state = started;
 }

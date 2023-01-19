@@ -134,9 +134,9 @@ TEST(test_ServerConfig, error_page) {
 
     std::vector<std::string>   cmd(1, "error_page");
     std::map<int, std::string> comp;
-    comp[500] = "50X.html";
-    comp[501] = "50X.html";
-    comp[404] = "404.html";
+    comp[500] = "../webserv/website/50X.html";
+    comp[501] = "../webserv/website/50X.html";
+    comp[404] = "../webserv/website/404.html";
 
     // clearing m_srv_name vector
     m_impl->m_config.back()->m_error_page.clear();
@@ -147,10 +147,9 @@ TEST(test_ServerConfig, error_page) {
     ASSERT_EQ(m_impl->cmd_error_page(cmd).second, "wrong number of arguments");
 
     cmd.push_back("501");
-    ASSERT_EQ(m_impl->cmd_error_page(cmd).second,
-              "../webserv/website/501: failed to open");
+    ASSERT_EQ(m_impl->cmd_error_page(cmd).second, "501: failed to open");
 
-    cmd.push_back("50X.html");
+    cmd.push_back("../webserv/website/50X.html");
     ASSERT_EQ(m_impl->cmd_error_page(cmd).second,
               "status: invalid status code");
 
@@ -159,7 +158,7 @@ TEST(test_ServerConfig, error_page) {
         << m_impl->cmd_error_page(cmd).second;
 
     cmd[1] = "404";
-    cmd[2] = "404.html";
+    cmd[2] = "../webserv/website/404.html";
     cmd.pop_back();
     ASSERT_TRUE(m_impl->cmd_error_page(cmd).first)
         << m_impl->cmd_error_page(cmd).second;
@@ -180,8 +179,8 @@ TEST(test_ServerConfig, client_max_body_size) {
     cmd.push_back("size");
     ASSERT_EQ(m_impl->cmd_max_size(cmd).second, "size: invalid size");
 
-    cmd[1] = "2097153";
-    ASSERT_EQ(m_impl->cmd_max_size(cmd).second, "2097153: invalid size");
+    cmd[1] = "2147483649";
+    ASSERT_EQ(m_impl->cmd_max_size(cmd).second, "2147483649: invalid size");
 
     cmd[1] = "2097";
     ASSERT_TRUE(m_impl->cmd_max_size(cmd).first)

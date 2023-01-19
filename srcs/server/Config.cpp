@@ -282,11 +282,10 @@ typename Config::impl::result_type
     }
 
     // checking if error page exists
-    std::string   filename = m_config.back()->m_root + cmd.back();
-    std::ifstream file(filename.c_str());
+    std::ifstream file(cmd.back().c_str());
 
     if (!file.good()) {
-        return (result_type(false, filename + ": failed to open"));
+        return (result_type(false, cmd.back() + ": failed to open"));
     }
     file.close();
 

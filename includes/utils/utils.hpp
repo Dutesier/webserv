@@ -14,4 +14,8 @@
 #define D_METHODS                                                              \
  { "GET", "POST", "DELETE" }
 
+/* Macro for body size */
+#define MAX_BODY_SIZE 2147483648
+#define BODY_SIZE     1048576 // 1MB
+
 #endif /* UTILS_HPP */

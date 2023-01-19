@@ -9,9 +9,6 @@
 #include <sstream>
 #include <vector>
 
-#define MAX_BODY_SIZE 2097152 // 2MB
-#define BODY_SIZE     1048576 // 1MB
-
 namespace webserv {
 
 struct LocationBlock;

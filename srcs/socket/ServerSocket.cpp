@@ -3,7 +3,7 @@
 namespace webserv {
 
 ServerSocket::ServerSocket(smt::shared_ptr<ServerBlock> config)
-    : TCPSocket(config->m_port, config->m_host) {
+    : TCPSocket(config->m_port, config->m_host), m_config(config) {
 
     int            enable = 1;
     struct timeval timeout;
