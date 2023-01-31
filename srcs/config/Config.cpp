@@ -1,4 +1,4 @@
-#include "server/Config.hpp"
+#include "config/Config.hpp"
 
 namespace webserv {
 

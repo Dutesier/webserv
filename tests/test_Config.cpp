@@ -1,6 +1,6 @@
 #define GTEST_TESTING 1
 
-#include "server/Config.hpp"
+#include "config/Config.hpp"
 
 #include <gtest/gtest.h>
 #include <iostream>

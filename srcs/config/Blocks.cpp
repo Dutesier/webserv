@@ -1,4 +1,4 @@
-#include "server/Blocks.hpp"
+#include "config/Blocks.hpp"
 
 namespace webserv {
 

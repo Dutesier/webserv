@@ -1,7 +1,7 @@
 #ifndef CONFIG_HPP
 #define CONFIG_HPP
 
-#include "server/Blocks.hpp"
+#include "config/Blocks.hpp"
 #include "utils/Logger.hpp"
 #include "utils/smt.hpp"
 #include "utils/utils.hpp"
