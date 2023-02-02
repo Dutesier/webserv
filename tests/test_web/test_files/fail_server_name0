@@ -1,0 +1,11 @@
+server {
+    listen       80;
+    server_name  ;
+	error_page 500 502 503 /500.hmtl;
+}
+
+server {
+	listen localhost:443;
+	server_name domain2.com;
+}
+
