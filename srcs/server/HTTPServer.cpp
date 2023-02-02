@@ -21,7 +21,7 @@ void HTTPServer::start(void) {
     if ((m_epollfd = epoll_create1(0)) < 0) { throw(EpollCreateException()); }
 
     // initializing sockets
-    std::vector<smt::shared_ptr<ServerBlock> > server = m_config->config();
+    std::vector<smt::shared_ptr<ServerBlock> > server = m_config->blocks();
 
     std::vector<smt::shared_ptr<ServerBlock> >::iterator it;
     for (it = server.begin(); it != server.end(); it++) {
