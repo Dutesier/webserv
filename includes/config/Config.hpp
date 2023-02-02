@@ -3,17 +3,23 @@
 
 #include "config/Blocks.hpp"
 #include "utils/Logger.hpp"
-#include "utils/smt.hpp"
-#include "utils/utils.hpp"
 
-#include <cstring>
-#include <dirent.h>
-#include <errno.h>
 #include <fstream>
 #include <sstream>
 #include <vector>
 
 namespace webserv {
+
+#define ERROR_FILE(filename)                                                   \
+ LOG_E(filename + ": failed to open");                                         \
+ throw(InvalidFileException())
+
+#define ERROR_SYNTAX(MSG)                                                      \
+ std::stringstream ss;                                                         \
+ ss << i;                                                                      \
+ LOG_E(m_filename + ":" + ss.str() + ": " + line +                             \
+       "\n(syntax error): " + MSG);                                            \
+ throw(InvalidSyntaxException())
 
 class Config {
 
@@ -22,24 +28,9 @@ class Config {
         Config(int argc, char* argv[]);
         ~Config(void);
 
-        std::vector<smt::shared_ptr<ServerBlock> > config(void);
+        std::vector<std::string> split_line(std::string line);
 
-#ifndef GTEST_TESTING
-
-    private:
-
-#endif
-
-        struct impl;
-        smt::shared_ptr<impl> m_impl;
-};
-
-struct Config::impl {
-
-        typedef std::pair<bool, std::string> result_type;
-
-        impl(int argc, char* argv[]);
-        ~impl(void);
+        std::vector< smt::shared_ptr<ServerBlock> > blocks(void);
 
         struct InvalidFileException : public std::exception {
                 char const* what(void) const throw();
@@ -49,29 +40,15 @@ struct Config::impl {
                 char const* what(void) const throw();
         };
 
-        std::ifstream                              m_file;
-        std::vector<smt::shared_ptr<ServerBlock> > m_config;
+#ifndef GTEST_TESTING
 
-        std::string parse(std::string filename);
+    private:
 
-        void        error_file(std::string filename) const;
-        std::string generate_error(std::string filename, std::string line,
-                                   int nu, std::string msg) const;
-        void        error_syntax(std::string msg) const;
+#endif /* GTEST_TESTING */
 
-        result_type server(std::string line);
-        result_type location(std::string line);
-
-        result_type cmd_listen(std::vector<std::string> cmd);
-        result_type cmd_server_name(std::vector<std::string> cmd);
-        result_type cmd_error_page(std::vector<std::string> cmd);
-        result_type cmd_max_size(std::vector<std::string> cmd);
-        result_type cmd_root(std::vector<std::string> cmd);
-        result_type cmd_autoindex(std::vector<std::string> cmd);
-        result_type cmd_index(std::vector<std::string> cmd);
-        result_type cmd_lroot(std::vector<std::string> cmd);
-        result_type cmd_fastcgi_pass(std::vector<std::string> cmd);
-        result_type cmd_request_method(std::vector<std::string> cmd);
+        std::ifstream                               m_file;
+        std::string                                 m_filename;
+        std::vector< smt::shared_ptr<ServerBlock> > m_blocks;
 };
 
 } // namespace webserv
