@@ -1,7 +1,7 @@
 #ifndef SERVER_SOCKET_HPP
 #define SERVER_SOCKET_HPP
 
-#include "server/Blocks.hpp"
+#include "config/Blocks.hpp"
 #include "socket/TCPSocket.hpp"
 
 namespace webserv {

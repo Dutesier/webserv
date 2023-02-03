@@ -1,0 +1,39 @@
+server {
+
+	listen      128.0.0.1:443;
+	server_name www.example.com;
+	root        ../tests/test_web/;
+	error_page  500 501 502 503 ../tests/test_web/500.html;
+	autoindex   on;
+
+	location two {
+		allowed_method GET POST;
+	}
+
+	location one/two/three {
+
+		fastcgi_pass   true;
+		root           ../tests/test_web/test_files;
+		allowed_method GET;
+	}
+
+}
+
+server {
+
+	listen      8081;
+	root         ../tests/test_web/;
+	error_page   400 401 402 ../tests/test_web/404.html;
+	autoindex    off;
+	index        ../tests/test_web/index.html;
+	max_body_size 8000;
+
+}
+
+server {
+	location target {
+	}
+}
+
+server {
+}

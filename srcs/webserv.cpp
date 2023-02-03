@@ -3,7 +3,7 @@
 #include <csignal>
 #include <iostream>
 
-static smt::shared_ptr<webserv::HTTPServer> get_webserv(int   argc = 0,
+static smt::shared_ptr<webserv::HTTPServer>& get_webserv(int   argc = 0,
                                                         char* argv[] = NULL);
 
 void webserv::webserv(int argc, char* argv[]) {
@@ -39,7 +39,7 @@ void webserv::stop(int signum) {
     }
 }
 
-static smt::shared_ptr<webserv::HTTPServer> get_webserv(int   argc,
+static smt::shared_ptr<webserv::HTTPServer>& get_webserv(int   argc,
                                                         char* argv[]) {
 
     static smt::shared_ptr<webserv::HTTPServer> srv(
