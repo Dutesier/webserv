@@ -4,7 +4,7 @@ add_library(${PROJECT_NAME} STATIC
 	webserv.cpp
 	config/Blocks.cpp
 	config/Config.cpp
-	# config/ConfigSocket.cpp
+	config/ConfigSocket.cpp
 	http/HTTPHandler.cpp
 	http/HTTPParser.cpp
 	http/HTTPRequest.cpp
