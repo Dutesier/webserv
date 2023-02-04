@@ -10,10 +10,10 @@ class ServerSocket : public TCPSocket {
 
     public:
 
-        ServerSocket(smt::shared_ptr<ServerBlock> config);
+        ServerSocket(std::vector< smt::shared_ptr<ServerBlock> > blocks);
         ~ServerSocket(void);
 
-        smt::shared_ptr<ServerBlock> m_config;
+        std::vector< smt::shared_ptr<ServerBlock> > m_blocks;
 };
 
 } // namespace webserv
