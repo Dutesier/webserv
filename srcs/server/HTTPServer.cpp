@@ -32,11 +32,11 @@ void HTTPServer::start(void) {
             socket_init.blocks(*it);
 
         // creating socket
-		smt::shared_ptr<ServerSocket> sock(new ServerSocket(block));
-		m_socket[sock->sockfd()] = sock;
+        smt::shared_ptr<ServerSocket> sock(new ServerSocket(block));
+        m_socket[sock->sockfd()] = sock;
 
         // adding socket to epoll list
-		epoll_add(sock->sockfd());
+        epoll_add(sock->sockfd());
     }
 
     // updating state
