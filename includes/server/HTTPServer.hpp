@@ -1,9 +1,10 @@
 #ifndef HTTP_SERVER_HPP
 #define HTTP_SERVER_HPP
 
-#include "http/HTTPHandler.hpp"
 #include "config/Blocks.hpp"
 #include "config/Config.hpp"
+#include "config/ConfigSocket.hpp"
+#include "http/HTTPHandler.hpp"
 #include "socket/ServerSocket.hpp"
 
 #include <map>
@@ -15,6 +16,10 @@
 namespace webserv {
 
 class HTTPServer {
+
+    private:
+
+        typedef enum s_state { ready, started, running, stopped } t_state;
 
     public:
 
@@ -38,8 +43,6 @@ class HTTPServer {
         };
 
     private:
-
-        typedef enum s_state { ready, started, running, stopped } t_state;
 
         void epoll_add(int fd);
 

@@ -21,15 +21,25 @@ void HTTPServer::start(void) {
     if ((m_epollfd = epoll_create1(0)) < 0) { throw(EpollCreateException()); }
 
     // initializing sockets
-    std::vector<smt::shared_ptr<ServerBlock> > server = m_config->blocks();
+    ConfigSocket socket_init(m_config->blocks());
 
-    std::vector<smt::shared_ptr<ServerBlock> >::iterator it;
-    for (it = server.begin(); it != server.end(); it++) {
+    std::set< std::pair<unsigned, std::string> > specs = socket_init.specs();
+    std::set< std::pair<unsigned, std::string> >::iterator it;
+    for (it = specs.begin(); it != specs.end(); it++) {
 
-        ServerSocket* dontUse = new ServerSocket(*it);
-        m_socket[dontUse->sockfd()] = smt::shared_ptr<ServerSocket>(dontUse);
-        epoll_add(dontUse->sockfd());
+        // getting config block associated to socket
+        std::vector< smt::shared_ptr<ServerBlock> > block =
+            socket_init.blocks(*it);
+
+        // creating socket
+        smt::shared_ptr<ServerSocket> sock(new ServerSocket(block));
+        m_socket[sock->sockfd()] = sock;
+
+        // adding socket to epoll list
+        epoll_add(sock->sockfd());
     }
+
+    // updating state
     m_state = started;
 }
 
@@ -38,8 +48,10 @@ void HTTPServer::start(void) {
 // connected to ServerSocket
 void HTTPServer::run(void) {
 
-    struct epoll_event events[EP_MAX_EVENTS];
+    // updating state
     m_state = running;
+
+    struct epoll_event events[EP_MAX_EVENTS];
 
     while (m_state == running) {
 

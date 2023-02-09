@@ -2,6 +2,7 @@ if (test)
     add_executable(webserv_test
 		test.cpp
 		test_Config.cpp
+		test_ConfigSocket.cpp
 		test_Logger.cpp
 		test_smt.cpp
 		test_socket.cpp

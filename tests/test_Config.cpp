@@ -121,8 +121,9 @@ TEST(test_Config, values) {
     ASSERT_EQ(server->m_error_page, comp1);
     ASSERT_EQ(server->m_location.size(), 2);
 
-    smt::shared_ptr<webserv::LocationBlock> location = server->m_location["two"];
-    std::set<std::string>            comp2;
+    smt::shared_ptr<webserv::LocationBlock> location =
+        server->m_location["two"];
+    std::set<std::string> comp2;
     comp2.insert("GET");
     comp2.insert("POST");
     ASSERT_FALSE(location->m_cgi);

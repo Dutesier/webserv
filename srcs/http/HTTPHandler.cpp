@@ -19,7 +19,8 @@ void http_handle(smt::shared_ptr<ServerSocket> sock, int client_fd) {
         // smt::shared_ptr<HTTPResponse> response =
         //     process_request(request, sock->m_config);
         //
-        // sock->send(client_fd, response->to_str()); // sending response to client
+        // sock->send(client_fd, response->to_str()); // sending response to
+        // client
 
         // checking if there are more requests to handle
         request = parser.getNextRequest("");
@@ -44,9 +45,10 @@ smt::shared_ptr<HTTPResponse>
 smt::shared_ptr<HTTPResponse>
     generate_error_response(int code, smt::shared_ptr<ServerBlock> config) {
 
-	(void)code;
-	(void)config;
-	return (smt::shared_ptr<HTTPResponse>(new HTTPResponse(code, std::map<std::string, std::string>(), "")));
+    (void)code;
+    (void)config;
+    return (smt::shared_ptr<HTTPResponse>(
+        new HTTPResponse(code, std::map<std::string, std::string>(), "")));
 
     // std::string                        body;
     // std::map<std::string, std::string> header;
@@ -78,8 +80,8 @@ smt::shared_ptr<HTTPResponse>
     //     std::string error_code = ss.str();
     //
     //     // generating message
-    //     std::string msg = error_code + " - " + HTTPResponse::s_status_map[code];
-    //     body = "<!DOCTYPE html>"
+    //     std::string msg = error_code + " - " +
+    //     HTTPResponse::s_status_map[code]; body = "<!DOCTYPE html>"
     //            "<html>"
     //            "  <head>"
     //            "    <title>" +

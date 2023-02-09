@@ -57,8 +57,11 @@ Config::Config(int argc, char* argv[]) {
 
             // allocating a new block::location and setting in_location to true
             std::vector<std::string> target = split_line(line);
-            if (target.size() != 3 || target[2] != "{") { ERROR_SYNTAX("FUCK"); }
-            location = smt::shared_ptr<LocationBlock>(new LocationBlock(target[1]));
+            if (target.size() != 3 || target[2] != "{") {
+                ERROR_SYNTAX("unrecognized syntax");
+            }
+            location =
+                smt::shared_ptr<LocationBlock>(new LocationBlock(target[1]));
 
             in_location = true;
 
