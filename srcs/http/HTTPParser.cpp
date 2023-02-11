@@ -125,13 +125,13 @@ smt::shared_ptr<HTTPRequest> HTTPParser::parse_header(std::string& header) {
     // Create a shared ptr -> this will delete itself if we dont return it :)
     // HTTPRequest* dontUse = new HTTPRequest;
     // smt::shared_ptr<HTTPRequest> pReq(dontUse);
-    smt::shared_ptr<HTTPRequest> pReq = smt::make_shared<HTTPRequest>();
+    smt::shared_ptr<HTTPRequest> pReq = smt::make_shared(new HTTPRequest);
 
     std::vector<std::string> request = separateByCRLF(header);
     if (request.size() < 2) {
         // The method line /  and an empty line to signify end of headers
         LOG_E("HTTP Request has less than 2 lines");
-        return (smt::make_shared<HTTPRequest>(42));
+        return (smt::make_shared(new HTTPRequest(42)));
     }
 
     // Handle lines
@@ -139,22 +139,22 @@ smt::shared_ptr<HTTPRequest> HTTPParser::parse_header(std::string& header) {
     std::string& secondLine = request.at(1);
 
     std::pair<webserv::Method, bool> methodANDsuccess = getMethod(firstLine);
-    if (!methodANDsuccess.second) return (smt::make_shared<HTTPRequest>(42));
+    if (!methodANDsuccess.second) return (smt::make_shared(new HTTPRequest(42)));
     pReq->setMethod(methodANDsuccess.first);
 
     std::pair<std::string, bool> resourceANDsuccess = getResource(firstLine);
-    if (!resourceANDsuccess.second) return (smt::make_shared<HTTPRequest>(42));
+    if (!resourceANDsuccess.second) return (smt::make_shared(new HTTPRequest(42)));
     pReq->setResource(resourceANDsuccess.first);
 
     std::pair<std::string, bool> versionANDsuccess = getVersion(firstLine);
-    if (!versionANDsuccess.second) return (smt::make_shared<HTTPRequest>(42));
+    if (!versionANDsuccess.second) return (smt::make_shared(new HTTPRequest(42)));
     pReq->setVersion(versionANDsuccess.first);
 
     std::vector<std::string>::iterator it = request.begin();
     for (it = it + 1; it != request.end(); ++it) {
         if (*it != "") {
             if (!setHeader(pReq, *it)) {
-                return (smt::make_shared<HTTPRequest>(42));
+                return (smt::make_shared(new HTTPRequest(42)));
             }
         }
         else {
@@ -165,7 +165,7 @@ smt::shared_ptr<HTTPRequest> HTTPParser::parse_header(std::string& header) {
     if (it == request.end()) { // Means we didn't find an empty line
 
         LOG_E("No empty line signifying end of headers");
-        return (smt::make_shared<HTTPRequest>(42));
+        return (smt::make_shared(new HTTPRequest(42)));
     }
     return (pReq);
 }
@@ -197,7 +197,7 @@ smt::shared_ptr<HTTPRequest> HTTPParser::getNextRequest(std::string received) {
 
     // If there is no data left over from a previous call to recv
     if (!dataInBuffer) {
-        if (received.empty()) { return (smt::make_shared<HTTPRequest>(42)); }
+        if (received.empty()) { return (smt::make_shared(new HTTPRequest(42))); }
         else { data = received; }
     }
     else { // There is still data in buffer
@@ -218,12 +218,12 @@ smt::shared_ptr<HTTPRequest> HTTPParser::getNextRequest(std::string received) {
 
             LOG_I("More than 8k header size");
             // but actually return 413 Entity Too Large
-            return (smt::make_shared<HTTPRequest>(413));
+            return (smt::make_shared(new HTTPRequest(413)));
         }
         // Store what we've gotten
         restOfData = data;
         dataInBuffer = true;
-        return (smt::make_shared<HTTPRequest>(42)); // we need more data
+        return (smt::make_shared(new HTTPRequest(42))); // we need more data
     }
     else {
 
@@ -258,7 +258,7 @@ smt::shared_ptr<HTTPRequest> HTTPParser::getNextRequest(std::string received) {
                     restOfData = data;
                     dataInBuffer = true;
                     // we need more data
-                    return (smt::make_shared<HTTPRequest>(42));
+                    return (smt::make_shared(new HTTPRequest(42)));
                 }
             }
         }

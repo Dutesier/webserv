@@ -79,13 +79,8 @@ class shared_ptr {
 };
 
 template<typename T>
-shared_ptr<T> make_shared() {
-    return shared_ptr<T>(new T());
-}
-
-template<typename T, typename U>
-shared_ptr<T> make_shared(U u) {
-    return shared_ptr<T>(new T(u));
+shared_ptr<T> make_shared(T* t) {
+	return (shared_ptr<T>(t));
 }
 
 } // namespace smt
