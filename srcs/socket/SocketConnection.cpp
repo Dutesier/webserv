@@ -2,7 +2,7 @@
 
 namespace webserv {
 
-SocketConnection::SocketConnection(int fd, SocketAddress addr)
+SocketConnection::SocketConnection(int fd, smt::shared_ptr<SocketAddress> addr)
     : Socket(fd, addr, SOCK_STREAM) {}
 
 SocketConnection::SocketConnection() : Socket() {}

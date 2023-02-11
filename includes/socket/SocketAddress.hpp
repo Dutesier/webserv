@@ -4,7 +4,9 @@
 #include "utils/smt.hpp"
 
 #include <iostream>
+#include <arpa/inet.h>
 #include <netinet/in.h>
+#include <string>
 #include <sys/socket.h>
 
 namespace webserv {
@@ -14,13 +16,8 @@ class SocketAddress {
     public:
 
         SocketAddress(void);
-        SocketAddress(int port, std::string host = "localhost",
-                      int family = AF_INET);
-        SocketAddress(SocketAddress const& src);
-
+        SocketAddress(int port, std::string host = "*", int family = AF_INET);
         ~SocketAddress(void);
-
-        SocketAddress& operator=(SocketAddress const& rhs);
 
         sockaddr*   address(void) const;
         socklen_t   length(void) const;
@@ -29,13 +26,17 @@ class SocketAddress {
         int         port(void) const;
         int         family(void) const;
 
+        struct InvalidIPAddressException : public std::exception {
+                char const* what(void) const throw();
+        };
+
     private:
 
         sockaddr_in* m_addr;
         socklen_t    m_len;
-        std::string  m_host_addr;
-        int          m_port_nu;
-        int          m_addr_family;
+        std::string  m_host;
+        int          m_port;
+        int          m_family;
 };
 
 } // namespace webserv
