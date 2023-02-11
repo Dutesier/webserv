@@ -50,7 +50,7 @@ void TCPSocket::close(void) {
 // in order to prevent accept from blocking our program
 int TCPSocket::accept(void) {
 
-	smt::shared_ptr<SocketAddress> connect_addr(new SocketAddress());
+    smt::shared_ptr<SocketAddress> connect_addr(new SocketAddress());
 
     int connect_fd =
         ::accept(m_fd, connect_addr->address(), connect_addr->length_ptr());

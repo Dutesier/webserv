@@ -139,15 +139,18 @@ smt::shared_ptr<HTTPRequest> HTTPParser::parse_header(std::string& header) {
     std::string& secondLine = request.at(1);
 
     std::pair<webserv::Method, bool> methodANDsuccess = getMethod(firstLine);
-    if (!methodANDsuccess.second) return (smt::make_shared(new HTTPRequest(42)));
+    if (!methodANDsuccess.second)
+        return (smt::make_shared(new HTTPRequest(42)));
     pReq->setMethod(methodANDsuccess.first);
 
     std::pair<std::string, bool> resourceANDsuccess = getResource(firstLine);
-    if (!resourceANDsuccess.second) return (smt::make_shared(new HTTPRequest(42)));
+    if (!resourceANDsuccess.second)
+        return (smt::make_shared(new HTTPRequest(42)));
     pReq->setResource(resourceANDsuccess.first);
 
     std::pair<std::string, bool> versionANDsuccess = getVersion(firstLine);
-    if (!versionANDsuccess.second) return (smt::make_shared(new HTTPRequest(42)));
+    if (!versionANDsuccess.second)
+        return (smt::make_shared(new HTTPRequest(42)));
     pReq->setVersion(versionANDsuccess.first);
 
     std::vector<std::string>::iterator it = request.begin();
@@ -197,7 +200,9 @@ smt::shared_ptr<HTTPRequest> HTTPParser::getNextRequest(std::string received) {
 
     // If there is no data left over from a previous call to recv
     if (!dataInBuffer) {
-        if (received.empty()) { return (smt::make_shared(new HTTPRequest(42))); }
+        if (received.empty()) {
+            return (smt::make_shared(new HTTPRequest(42)));
+        }
         else { data = received; }
     }
     else { // There is still data in buffer

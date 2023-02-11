@@ -21,8 +21,7 @@ class TCPSocket : public Socket {
 
     public:
 
-        TCPSocket(int port, std::string host = "*",
-                  int family = AF_INET);
+        TCPSocket(int port, std::string host = "*", int family = AF_INET);
         ~TCPSocket(void);
 
         void bind(void);

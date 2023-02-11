@@ -44,7 +44,7 @@ std::string SocketAddress::host(void) const { return (m_host); }
 int SocketAddress::family(void) const { return (m_family); }
 
 char const* SocketAddress::InvalidIPAddressException::what(void) const throw() {
-	return ("SocketAddress: Invalid IP address");
+    return ("SocketAddress: Invalid IP address");
 }
 
 } // namespace webserv

@@ -6,9 +6,11 @@ TEST(test_Address, constructor) {
 
     smt::shared_ptr<webserv::SocketAddress> addr;
 
-    ASSERT_NO_THROW(addr = smt::make_shared(new webserv::SocketAddress(80, "127.0.0.1")));
-    ASSERT_THROW(addr = smt::make_shared(new webserv::SocketAddress(80, "localhost")),
-                 webserv::SocketAddress::InvalidIPAddressException);
+    ASSERT_NO_THROW(
+        addr = smt::make_shared(new webserv::SocketAddress(80, "127.0.0.1")));
+    ASSERT_THROW(
+        addr = smt::make_shared(new webserv::SocketAddress(80, "localhost")),
+        webserv::SocketAddress::InvalidIPAddressException);
 }
 
 TEST(test_Address, destructor) {
@@ -21,7 +23,8 @@ TEST(test_Address, destructor) {
 
 TEST(test_Address, address) {
 
-    smt::shared_ptr<webserv::SocketAddress> addr(new webserv::SocketAddress(8000, "*"));
+    smt::shared_ptr<webserv::SocketAddress> addr(
+        new webserv::SocketAddress(8000, "*"));
 
     struct sockaddr* a = addr->address();
 
@@ -36,8 +39,9 @@ TEST(test_Address, address) {
 
 TEST(test_Address, length) {
 
-    smt::shared_ptr<webserv::SocketAddress> addr(new webserv::SocketAddress(8000));
-    struct sockaddr*              a = addr->address();
+    smt::shared_ptr<webserv::SocketAddress> addr(
+        new webserv::SocketAddress(8000));
+    struct sockaddr* a = addr->address();
 
     ASSERT_EQ(typeid(addr->length()), typeid(socklen_t));
     ASSERT_EQ(addr->length(),
@@ -47,7 +51,8 @@ TEST(test_Address, length) {
 
 TEST(test_Address, port) {
 
-    smt::shared_ptr<webserv::SocketAddress> addr(new webserv::SocketAddress(8000));
+    smt::shared_ptr<webserv::SocketAddress> addr(
+        new webserv::SocketAddress(8000));
 
     ASSERT_EQ(addr->port(), 8000);
     ASSERT_EQ(reinterpret_cast<struct sockaddr_in*>(addr->address())->sin_port,
@@ -56,7 +61,8 @@ TEST(test_Address, port) {
 
 TEST(test_Address, host) {
 
-    smt::shared_ptr<webserv::SocketAddress> addr(new webserv::SocketAddress(8000, "128.0.0.1"));
+    smt::shared_ptr<webserv::SocketAddress> addr(
+        new webserv::SocketAddress(8000, "128.0.0.1"));
 
     ASSERT_EQ(addr->host(), "128.0.0.1");
 }

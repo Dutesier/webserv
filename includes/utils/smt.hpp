@@ -80,7 +80,7 @@ class shared_ptr {
 
 template<typename T>
 shared_ptr<T> make_shared(T* t) {
-	return (shared_ptr<T>(t));
+    return (shared_ptr<T>(t));
 }
 
 } // namespace smt

@@ -3,8 +3,8 @@
 
 #include "utils/smt.hpp"
 
-#include <iostream>
 #include <arpa/inet.h>
+#include <iostream>
 #include <netinet/in.h>
 #include <string>
 #include <sys/socket.h>
