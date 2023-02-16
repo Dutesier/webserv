@@ -13,7 +13,7 @@ TCPSocket::~TCPSocket(void) { close(); }
 // In other words, gives an fd a data structure
 void TCPSocket::bind(void) {
 
-    if (::bind(m_fd, m_addr.address(), m_addr.length()) != 0) {
+    if (::bind(m_fd, m_addr->address(), m_addr->length()) != 0) {
         throw(BindFailureException());
     }
 }
@@ -50,10 +50,10 @@ void TCPSocket::close(void) {
 // in order to prevent accept from blocking our program
 int TCPSocket::accept(void) {
 
-    SocketAddress connect_addr;
+    smt::shared_ptr<SocketAddress> connect_addr(new SocketAddress());
 
     int connect_fd =
-        ::accept(m_fd, connect_addr.address(), connect_addr.length_ptr());
+        ::accept(m_fd, connect_addr->address(), connect_addr->length_ptr());
 
     if (connect_fd < 0) { throw(AcceptFailureException()); }
 

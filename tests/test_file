@@ -1,5 +1,0 @@
-server {
-
-	listen 8081;
-	root ../webserv/website/;
-}

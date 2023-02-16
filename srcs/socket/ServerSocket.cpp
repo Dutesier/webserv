@@ -23,8 +23,8 @@ ServerSocket::ServerSocket(std::vector< smt::shared_ptr<ServerBlock> > blocks)
 
     // debugging message
     std::stringstream ss;
-    ss << m_addr.port();
-    LOG_D("created server socket | " + m_addr.host() + ":" + ss.str());
+    ss << m_addr->port();
+    LOG_D("created server socket | " + m_addr->host() + ":" + ss.str());
 }
 
 ServerSocket::~ServerSocket(void) {}

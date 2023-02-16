@@ -21,7 +21,7 @@ class SocketConnection : public webserv::Socket {
 
     public:
 
-        SocketConnection(int fd, SocketAddress addr);
+        SocketConnection(int fd, smt::shared_ptr<SocketAddress> addr);
         SocketConnection(void);
         ~SocketConnection(void);
 

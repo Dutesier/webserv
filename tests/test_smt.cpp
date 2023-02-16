@@ -72,6 +72,6 @@ TEST(SmartPointerTests, TestVectorSharedPtrSockets) {
 
 TEST(SmartPointerTests, TestMakeShared) {
     smt::shared_ptr<webserv::SocketAddress> socketAddress =
-        smt::make_shared<webserv::SocketAddress>();
+        smt::make_shared(new webserv::SocketAddress);
     ASSERT_TRUE(socketAddress);
 }

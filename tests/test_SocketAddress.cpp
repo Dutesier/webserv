@@ -1,94 +1,76 @@
-
-#include "socket/Socket.hpp"
 #include "socket/SocketAddress.hpp"
-#include "socket/TCPSocket.hpp"
-#include "utils/smt.hpp"
 
 #include <gtest/gtest.h>
 
-class test_SocketAddress : public ::testing::Test {
+TEST(test_Address, constructor) {
 
-    public:
+    smt::shared_ptr<webserv::SocketAddress> addr;
 
-        void SetUp(void) {
+    ASSERT_NO_THROW(
+        addr = smt::make_shared(new webserv::SocketAddress(80, "127.0.0.1")));
+    ASSERT_THROW(
+        addr = smt::make_shared(new webserv::SocketAddress(80, "localhost")),
+        webserv::SocketAddress::InvalidIPAddressException);
+}
 
-            this->addr = smt::shared_ptr<webserv::SocketAddress>(
-                new webserv::SocketAddress(443));
-        }
+TEST(test_Address, destructor) {
 
-        void TearDown(void) {}
+    webserv::SocketAddress* addr;
 
-    protected:
+    ASSERT_NO_THROW(addr = new webserv::SocketAddress(80, "127.0.0.1"));
+    ASSERT_NO_THROW(delete addr);
+}
 
-        smt::shared_ptr<webserv::SocketAddress> addr;
-};
+TEST(test_Address, address) {
 
-TEST_F(test_SocketAddress, default_constructor) {}
+    smt::shared_ptr<webserv::SocketAddress> addr(
+        new webserv::SocketAddress(8000, "*"));
 
-TEST_F(test_SocketAddress, destructor) {}
+    struct sockaddr* a = addr->address();
 
-TEST_F(test_SocketAddress, address) {
-
-    sockaddr* a = this->addr->address();
     ASSERT_EQ(typeid(a), typeid(struct sockaddr*));
     ASSERT_NE(typeid(a), typeid(struct sockaddr_in*));
-    ASSERT_EQ(a->sa_family, this->addr->family());
+    ASSERT_EQ(a->sa_family, addr->family());
     ASSERT_EQ(reinterpret_cast<struct sockaddr_in*>(a)->sin_port,
-              htons(this->addr->port()));
+              htons(addr->port()));
     ASSERT_EQ(reinterpret_cast<struct sockaddr_in*>(a)->sin_addr.s_addr,
               INADDR_ANY);
 }
 
-TEST_F(test_SocketAddress, length) {
+TEST(test_Address, length) {
 
-    struct sockaddr* a = this->addr->address();
-    ASSERT_EQ(typeid(this->addr->length()), typeid(socklen_t));
-    ASSERT_EQ(this->addr->length(),
+    smt::shared_ptr<webserv::SocketAddress> addr(
+        new webserv::SocketAddress(8000));
+    struct sockaddr* a = addr->address();
+
+    ASSERT_EQ(typeid(addr->length()), typeid(socklen_t));
+    ASSERT_EQ(addr->length(),
               sizeof(*(reinterpret_cast<struct sockaddr_in*>(a))));
-    ASSERT_EQ(this->addr->length(), sizeof(*a));
+    ASSERT_EQ(addr->length(), sizeof(*a));
 }
 
-TEST_F(test_SocketAddress, port) {
+TEST(test_Address, port) {
 
-    ASSERT_EQ(this->addr->port(), 443);
+    smt::shared_ptr<webserv::SocketAddress> addr(
+        new webserv::SocketAddress(8000));
 
-    webserv::SocketAddress* a = new webserv::SocketAddress(80);
-    webserv::SocketAddress* b = new webserv::SocketAddress(8080);
-
-    ASSERT_EQ(a->port(), 80);
-    ASSERT_EQ(b->port(), 8080);
-
-    ASSERT_EQ(reinterpret_cast<struct sockaddr_in*>(a->address())->sin_port,
-              htons(a->port()));
-    ASSERT_EQ(reinterpret_cast<struct sockaddr_in*>(b->address())->sin_port,
-              htons(b->port()));
-
-    delete a;
-    delete b;
+    ASSERT_EQ(addr->port(), 8000);
+    ASSERT_EQ(reinterpret_cast<struct sockaddr_in*>(addr->address())->sin_port,
+              htons(addr->port()));
 }
 
-TEST_F(test_SocketAddress, host) {
+TEST(test_Address, host) {
 
-    ASSERT_EQ(this->addr->host(), "localhost");
+    smt::shared_ptr<webserv::SocketAddress> addr(
+        new webserv::SocketAddress(8000, "128.0.0.1"));
 
-    webserv::SocketAddress* a = new webserv::SocketAddress(80, "example.com");
-    webserv::SocketAddress* b =
-        new webserv::SocketAddress(8080, "www.example.com");
-
-    ASSERT_EQ(a->host(), "example.com");
-    ASSERT_EQ(b->host(), "www.example.com");
-
-    delete a;
-    delete b;
+    ASSERT_EQ(addr->host(), "128.0.0.1");
 }
 
-TEST_F(test_SocketAddress, family) {
+TEST(test_Address, family) {
 
-    ASSERT_EQ(this->addr->family(), AF_INET);
+    smt::shared_ptr<webserv::SocketAddress> addr(
+        new webserv::SocketAddress(8000, "128.0.0.1", AF_INET6));
 
-    webserv::SocketAddress* a =
-        new webserv::SocketAddress(80, "localhost", AF_INET6);
-    ASSERT_EQ(a->family(), AF_INET6);
-
-    delete a;
+    ASSERT_EQ(addr->family(), AF_INET6);
 }

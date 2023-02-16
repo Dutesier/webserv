@@ -11,7 +11,6 @@ if (test)
 		test_TCPSocket.cpp
 		test_HTTPParser.cpp
 		test_HTTPResponse.cpp
-		Client.cpp
 		# test_HTTPHandler.cpp # took this out of the way because the config
 		                       # thats going to be received is going to change,
 							   # and so will this in a future commit
