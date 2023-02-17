@@ -17,6 +17,8 @@ add_library(${PROJECT_NAME} STATIC
 	socket/SocketConnection.cpp
 	socket/TCPSocket.cpp
 	socket/ServerSocket.cpp
+	cgi/CGIHandler.cpp
+	cgi/CGIContext.cpp
 )
 
 add_library(42::${PROJECT_NAME} ALIAS ${PROJECT_NAME})

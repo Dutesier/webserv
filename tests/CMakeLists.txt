@@ -11,6 +11,8 @@ if (test)
 		test_TCPSocket.cpp
 		test_HTTPParser.cpp
 		test_HTTPResponse.cpp
+		test_CGIHandler.cpp
+		test_CGIContext.cpp
 		# test_HTTPHandler.cpp # took this out of the way because the config
 		                       # thats going to be received is going to change,
 							   # and so will this in a future commit
@@ -23,5 +25,13 @@ if (test)
         PRIVATE gtest
         PRIVATE gmock
     )
+
+	SET(CGI_PATH        	${CMAKE_CURRENT_SOURCE_DIR}/../cgi)
+	SET(CGI_TEST   			${CMAKE_CURRENT_BINARY_DIR})
+
+	EXECUTE_PROCESS( 
+		COMMAND "${CMAKE_COMMAND}" -E make_directory "${CGI_TEST}"
+		COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CGI_PATH}" "${CGI_TEST}"
+	)
 
 endif()
