@@ -181,6 +181,49 @@ std::string ServerBlock::error_page(std::vector<std::string> command) {
     return ("");
 }
 
+smt::shared_ptr<LocationBlock> ServerBlock::getLocationBlockForRequest(smt::shared_ptr<HTTPRequest>& request) {
+    smt::shared_ptr<webserv::LocationBlock> loc;
+    std::string uri = request->getRefinedResource();
+    
+    // Looking for a perfect match
+    if (m_location.find(uri) != m_location.end()) {
+        loc = (m_location.find(uri))->second;
+        return loc;
+    } else {
+        // Looking for parent matches
+        std::vector<std::string> parentDirectories;
+        char* word = strtok(const_cast<char*>(uri.c_str()), "/");
+        while (word) {
+            parentDirectories.push_back(word);
+            word = strtok(NULL, "/");
+        }
+
+        // iterate over first directory and see if location matches
+        // If none matches, iterate over first + second directory (and so on)
+        // We should remove ./ as these dont add any information
+        // This algo isnt fool proof (test_py/../test_php/you.php) causes an error
+        std::string uri;
+        for (std::vector<std::string>::iterator it = parentDirectories.begin(); it != parentDirectories.end(); it++) {
+            // if (it == parentDirectories.begin())
+            //     continue;
+            if (*it != ".") {
+                uri = uri + "/" + *it;
+                if (m_location.find(uri) != m_location.end()) {
+                    loc = (m_location.find(uri))->second;
+                    return loc;
+                }
+            }
+        }
+        LOG_D("No location block found that entertains given request: " + uri);
+        for (std::map<std::string, smt::shared_ptr<webserv::LocationBlock>>::iterator ma = m_location.begin(); ma != m_location.end(); ma++) {
+            std::cout << ma->first << std::endl;
+        }
+        loc = NULL;
+    }
+    return loc;
+}
+
+
 LocationBlock::LocationBlock(std::string target)
     : m_cgi_enabled(false), m_target(target) {
 

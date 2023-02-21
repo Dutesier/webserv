@@ -35,12 +35,8 @@ smt::shared_ptr<HTTPResponse>
                     smt::shared_ptr<ServerBlock> config,
                     int client_fd) {
 
-    smt::shared_ptr<webserv::LocationBlock> loc;
-    if (config->m_location.find(request->getRefinedResource()) != config->m_location.end()) {
-        loc = (config->m_location.find(request->getRefinedResource()))->second;
-    } else {
-        loc = NULL;
-    }
+    smt::shared_ptr<webserv::LocationBlock> loc = config->getLocationBlockForRequest(request);
+
     bool runCGI = (loc != NULL) && (loc->m_cgi_enabled) && (loc->m_cgi->isValid());
     bool isCGI = request->isCGIRequest();
     if (isCGI && runCGI) {

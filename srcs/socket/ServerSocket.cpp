@@ -38,7 +38,8 @@ int ServerSocket::bestServerBlockForRequest(smt::shared_ptr<HTTPRequest>& reques
     int ret = -1;
 
     int i1, i2, i3, i4, p1;
-    char* s1, s2;
+    char* s1;
+    char* s2;
 
     // Check if resource is of type 127.0.0.0:8080
     int matched = sscanf(uri.c_str(), "%d.%d.%d.%d:%d", &i1, &i2, &i3, &i4, &p1);
@@ -47,7 +48,7 @@ int ServerSocket::bestServerBlockForRequest(smt::shared_ptr<HTTPRequest>& reques
         matched = sscanf(uri.c_str(), "%d.%d.%d.%d", &i1, &i2, &i3, &i4);
         if (matched != 4) {
             // Check if resource is of type something.com
-            matched = sscanf(uri.c_str(), "%s.%s", &s1, &s2);
+            matched = sscanf(uri.c_str(), "%s.%s", s1, s2);
             if (matched == 2) {
               serverName = std::string(s1) + "." + std::string(s2);
             }
@@ -73,7 +74,7 @@ int ServerSocket::bestServerBlockForRequest(smt::shared_ptr<HTTPRequest>& reques
 int ServerSocket::bestServerBlockByIPAndPort(std::string& ipAndPort) {
     char* tempIP;
     char* tempPort;
-    sscanf(ipAndPort.c_str(), "%s:%s", &tempIP, &tempPort);
+    sscanf(ipAndPort.c_str(), "%s:%s", tempIP, tempPort);
 
     std::string IP(tempIP);
     std::string port(tempPort);

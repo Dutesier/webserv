@@ -26,7 +26,7 @@ if (test)
         PRIVATE gmock
     )
 
-	SET(CGI_PATH        	${CMAKE_CURRENT_SOURCE_DIR}/../cgi)
+	SET(CGI_PATH        	${CMAKE_CURRENT_SOURCE_DIR}/../webserv/website/cgi)
 	SET(CGI_TEST   			${CMAKE_CURRENT_BINARY_DIR})
 
 	EXECUTE_PROCESS( 

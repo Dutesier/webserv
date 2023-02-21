@@ -49,6 +49,7 @@ struct ServerBlock {
         std::string root(std::vector<std::string> command);
         std::string server_name(std::vector<std::string> command);
         std::string error_page(std::vector<std::string> command);
+        smt::shared_ptr<LocationBlock> getLocationBlockForRequest(smt::shared_ptr<HTTPRequest>& request);
 
         bool                                                   m_autoindex;
         unsigned                                               m_body_size;
