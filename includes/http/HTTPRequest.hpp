@@ -67,6 +67,9 @@ class HTTPRequest {
         // Get the resource without query params
         std::string getRefinedResource();
 
+        // Check if the request is a CGI attempt
+        bool isCGIRequest();
+
         // Check if there isnt a status code -> Valid
         bool isValid() const;
 

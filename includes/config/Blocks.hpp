@@ -4,6 +4,8 @@
 #include "utils/smt.hpp"
 #include "utils/utils.hpp"
 
+#include "cgi/CGIHandler.hpp"
+
 #include <cstring>
 #include <dirent.h>
 #include <fstream>
@@ -28,10 +30,11 @@ struct LocationBlock {
                 char const* what(void) const throw();
         };
 
-        bool                  m_cgi;
-        std::string           m_target;
-        std::string           m_root;
-        std::set<std::string> m_allowed_methods;
+        bool                                    m_cgi_enabled;
+        smt::shared_ptr<cgi::CGIHandler>        m_cgi;
+        std::string                             m_target;
+        std::string                             m_root;
+        std::set<std::string>                   m_allowed_methods;
 };
 
 struct ServerBlock {

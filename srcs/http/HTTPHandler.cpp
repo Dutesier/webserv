@@ -15,12 +15,14 @@ void http_handle(smt::shared_ptr<ServerSocket> sock, int client_fd) {
     while (has_next) {
 
         FLOG("Handling request...");
-        // // handle request here
-        // smt::shared_ptr<HTTPResponse> response =
-        //     process_request(request, sock->m_config);
-        //
-        // sock->send(client_fd, response->to_str()); // sending response to
-        // client
+        // Find the appropriate ServerBlock
+        int serverBlockIdx = sock->bestServerBlockForRequest(request);
+        serverBlockIdx = (serverBlockIdx == -1 ? 0 : serverBlockIdx);
+        // handle request here
+        smt::shared_ptr<HTTPResponse> response = process_request(request, sock->m_blocks[serverBlockIdx], client_fd); // TODO: This obviously needs to be fixed, just using the first block here so that rest of code can run
+
+        // sending response to client
+        sock->send(client_fd, response->to_str());
 
         // checking if there are more requests to handle
         request = parser.getNextRequest("");
@@ -30,10 +32,20 @@ void http_handle(smt::shared_ptr<ServerSocket> sock, int client_fd) {
 
 smt::shared_ptr<HTTPResponse>
     process_request(smt::shared_ptr<HTTPRequest> request,
-                    smt::shared_ptr<ServerBlock> config) {
+                    smt::shared_ptr<ServerBlock> config,
+                    int client_fd) {
 
-    (void)request;
-
+    smt::shared_ptr<webserv::LocationBlock> loc;
+    if (config->m_location.find(request->getRefinedResource()) != config->m_location.end()) {
+        loc = (config->m_location.find(request->getRefinedResource()))->second;
+    } else {
+        loc = NULL;
+    }
+    bool runCGI = (loc != NULL) && (loc->m_cgi_enabled) && (loc->m_cgi->isValid());
+    bool isCGI = request->isCGIRequest();
+    if (isCGI && runCGI) {
+        return (loc->m_cgi->run(request, client_fd));
+    }
     // getting method
     // if (request->getMethod == "GET") { return (Method::get(request)); }
     // if (request->getMethod == "POST") { return (Method::post(request)); }

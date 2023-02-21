@@ -96,6 +96,22 @@ std::string HTTPRequest::getRefinedResource() {
     }
 }
 
+bool HTTPRequest::isCGIRequest(){
+    std::string parsedURI = this->getRefinedResource();
+
+    if (!parsedURI.empty()) {
+        if (parsedURI.find(".py") == (parsedURI.length() - 3)) {
+            return (true);
+        }
+        else if (parsedURI.find(".cgi") == (parsedURI.length() - 4)) {
+            return (true);
+        }
+        else if (parsedURI.find(".php") == (parsedURI.length() - 3)) {
+            return (true);
+        }
+    }
+    return (false);
+}
 
 bool HTTPRequest::isValid() const { return (!m_statusCode); }
 
