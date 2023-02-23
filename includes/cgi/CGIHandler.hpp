@@ -32,12 +32,13 @@ public:
     smt::shared_ptr<webserv::HTTPResponse> run(smt::shared_ptr<HTTPRequest>& request, int writeToFD);
 
     bool isValid();
+    void updateScriptDirectory(std::string dir);
 
 private:
     CGI_TYPE    m_type;
     std::string m_directory;
 
-    bool runAsChildProcess(int fd, smt::shared_ptr<CGIContext>& context);
+    smt::shared_ptr<webserv::HTTPResponse> runAsChildProcess(int fd, smt::shared_ptr<CGIContext>& context);
     bool fileExists(std::string pathInDir);
     bool isCrawler(std::string pathInDir);
 

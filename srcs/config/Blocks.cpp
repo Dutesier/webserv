@@ -215,6 +215,7 @@ smt::shared_ptr<LocationBlock> ServerBlock::getLocationBlockForRequest(smt::shar
             }
         }
         LOG_D("No location block found that entertains given request: " + uri);
+        LOG_D("Possible Location blocks:");
         for (std::map<std::string, smt::shared_ptr<webserv::LocationBlock>>::iterator ma = m_location.begin(); ma != m_location.end(); ma++) {
             std::cout << ma->first << std::endl;
         }
@@ -249,7 +250,7 @@ std::string LocationBlock::cgi(std::vector<std::string> command) {
         m_cgi_enabled = true;
         // TODO: Check scripting language
         // TODO: Check for the presence of a Script directory
-        m_cgi = smt::make_shared<cgi::CGIHandler>(new cgi::CGIHandler(cgi::PYTHON, ""));
+        m_cgi = smt::make_shared<cgi::CGIHandler>(new cgi::CGIHandler(cgi::PYTHON, D_ROOT_PATH));
     }
     else { return (command[1] + ": unrecognized syntax"); }
 
@@ -267,6 +268,8 @@ std::string LocationBlock::root(std::vector<std::string> command) {
     closedir(dir);
 
     m_root = command[1];
+    if (m_cgi_enabled && m_cgi->isValid())
+        m_cgi->updateScriptDirectory(m_root);
     return ("");
 }
 

@@ -1,5 +1,6 @@
 #include "socket/ServerSocket.hpp"
 #include <cstring>
+#include <regex>
 
 
 namespace webserv {
@@ -32,43 +33,17 @@ ServerSocket::ServerSocket(std::vector< smt::shared_ptr<ServerBlock> > blocks)
 ServerSocket::~ServerSocket(void) {}
 
 int ServerSocket::bestServerBlockForRequest(smt::shared_ptr<HTTPRequest>& request){
-    std::string uri = request->getRefinedResource();
-    std::string ipAndPort = "";
-    std::string serverName = "";
-    int ret = -1;
+    std::string uri = request->getHeader("Host");
 
-    int i1, i2, i3, i4, p1;
-    char* s1;
-    char* s2;
-
-    // Check if resource is of type 127.0.0.0:8080
-    int matched = sscanf(uri.c_str(), "%d.%d.%d.%d:%d", &i1, &i2, &i3, &i4, &p1);
-    if (matched != 5) {
-        // Check if resource is of type 127.0.0.0
-        matched = sscanf(uri.c_str(), "%d.%d.%d.%d", &i1, &i2, &i3, &i4);
-        if (matched != 4) {
-            // Check if resource is of type something.com
-            matched = sscanf(uri.c_str(), "%s.%s", s1, s2);
-            if (matched == 2) {
-              serverName = std::string(s1) + "." + std::string(s2);
-            }
-        }
-        else {
-            ipAndPort = std::to_string(i1) + "." + std::to_string(i2) + "." + std::to_string(i3) + "." + std::to_string(i4) + ":8080";
-        }
-    } else {
-        ipAndPort = std::to_string(i1) + "." + std::to_string(i2) + "." + std::to_string(i3) + "." + std::to_string(i4) + ":" + std::to_string(p1);
-    }
-
-    if (!ipAndPort.empty()) {
-        ret = bestServerBlockByIPAndPort(ipAndPort);
-    }
-
-    if (ret == -1 && !serverName.empty()) {
-        ret = bestServerBlockByServerName(serverName);
-    }
-
-    return (ret);
+    if (uri.empty())
+        return (-1);
+    if (startsWithIpAndPort(uri))
+        return bestServerBlockByIPAndPort(uri);
+    if (startsWithIP(uri))
+        return bestServerBlockByIPAndPort(uri);
+    if (startsWithServerName(uri))
+        return bestServerBlockByServerName(uri);
+    return (-1);
 }
 
 int ServerSocket::bestServerBlockByIPAndPort(std::string& ipAndPort) {
@@ -87,6 +62,7 @@ int ServerSocket::bestServerBlockByIPAndPort(std::string& ipAndPort) {
         }
         index++;
     }
+    LOG_D("No match found for ideal server block");
     return -1;
 }
 
@@ -100,8 +76,66 @@ int ServerSocket::bestServerBlockByServerName(std::string& serverName) {
         }
         index++;
     }
+    LOG_D("No match found for ideal server block");
     return -1;
-}  
+}
+
+bool ServerSocket::startsWithServerName(const std::string& str) {
+    const std::string validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-";
+    const int maxLabelLen = 63;
+
+    size_t pos = str.find_first_not_of(validChars);  // Find first non-valid character
+    if (pos == std::string::npos) {
+        // Cant start or end with a hyphen.
+        if (str.front() == '-' || str.back() == '-') {
+            return false;
+        }
+        return true;
+    } else {
+        size_t labelStart = 0;
+        while (pos != std::string::npos) {
+            size_t labelLen = pos - labelStart;
+            if (labelLen == 0 || labelLen > maxLabelLen || str[labelStart] == '-' || str[pos - 1] == '-') {
+                return false;
+            }
+            labelStart = pos + 1;
+            pos = str.find('.', labelStart);
+        }
+        // Check the last label (after the last '.').
+        size_t lastLabelLen = str.length() - labelStart;
+        if (lastLabelLen == 0 || lastLabelLen > maxLabelLen || str[labelStart] == '-' || str.back() == '-') {
+            return false;
+        }
+        return true;
+    }
+}
+
+bool ServerSocket::startsWithIP(const std::string& str) {
+    std::regex pattern(R"(^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})");
+    return std::regex_match(str, pattern);
+}
+
+bool ServerSocket::startsWithIpAndPort(const std::string& str) {
+    std::regex pattern("(\\d{1,3}\\.){3}\\d{1,3}:\\d+"); // Matches an IPv4 address with a port number
+    return std::regex_match(str, pattern);
+}
+
+std::string ServerSocket::extractResource(std::string uri) {
+    // Check if the string starts with "http://" or "https://"
+    if (uri.compare(0, 7, "http://") == 0) {
+        uri = uri.substr(7);
+    } else if (uri.compare(0, 8, "https://") == 0) {
+        uri = uri.substr(8);
+    }
+
+    // Extract the server name
+    size_t pos = uri.find('/');
+    if (pos == std::string::npos) {
+        return uri;
+    } else {
+        return "";
+    }
+}
 
 
 } // namespace webserv

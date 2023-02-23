@@ -1,4 +1,6 @@
 #include "cgi/CGIHandler.hpp"
+#include <sys/wait.h>
+#include <cstdlib>
 
 namespace cgi {
 
@@ -16,39 +18,84 @@ bool CGIHandler::isValid(){
 }
 
 smt::shared_ptr<webserv::HTTPResponse> CGIHandler::run(smt::shared_ptr<HTTPRequest>& request, int writeToFD){
-    if (isCrawler(request->getRefinedResource()) || !fileExists(request->getRefinedResource()))
+    if (isCrawler(request->getRefinedResource()) || !fileExists(request->getRefinedResource())) {
+        LOG_W("CGI wont run - Invalid permissions for " + request->getRefinedResource());
         return NULL;
-
-    smt::shared_ptr<CGIContext> ctx = smt::make_shared(new CGIContext(request->getQueriesFromResource(), std::string(m_directory + request->getRefinedResource())));
-    bool success = runAsChildProcess(writeToFD, ctx);
-    if (success) {
-        return (smt::make_shared(new webserv::HTTPResponse(200, std::map<std::string, std::string>())));
     }
 
-    return NULL;
+    smt::shared_ptr<CGIContext> ctx = smt::make_shared(new CGIContext(request->getQueriesFromResource(), std::string(m_directory + request->getRefinedResource())));
+    return (runAsChildProcess(writeToFD, ctx));
 }
 
-bool CGIHandler::runAsChildProcess(int fd, smt::shared_ptr<CGIContext>& context){
+smt::shared_ptr<webserv::HTTPResponse> CGIHandler::runAsChildProcess(int fd, smt::shared_ptr<CGIContext>& context){
     
+    LOG_D("running child process");
+    FILE* input = tmpfile();
+    int input_fd = fileno(input);
+
+    FILE* output = tmpfile();
+    int output_fd = fileno(output);
+
+    int stdin_reference = dup(STDIN_FILENO);
+    int stdout_reference = dup(STDOUT_FILENO);
+
     pid_t pid = fork();
     if (pid < 0) {
         LOG_E("Failed to spawn child process");
     } else if (pid > 0){
         // Parent process
     } else {
-        // Direct output from STDOUT to connection
-        dup2(fd, STDOUT_FILENO);
+        // Direct I/O to temporary file;
+        dup2(input_fd, STDIN_FILENO);
+		dup2(output_fd, STDOUT_FILENO);
         execve(context->getPath(), context->getArgv(), context->getEnvp());
         perror("execve() failed");
         // Child process
         LOG_E("Failed call to execve in child process");
-        return false;
+        exit(500);
     }
-    return true;
+
+    // From here on out we are always in parent cause child either executed or exited
+    int status;
+    smt::shared_ptr<webserv::HTTPResponse> resp;
+    waitpid(pid, &status, 0);
+    if (!WIFEXITED(status)) {
+        resp = smt::make_shared(new webserv::HTTPResponse(500, std::map<std::string, std::string>()));
+    } else {
+        int bytesRead = 0;
+        char buf[2049];
+        lseek(output_fd, 0, SEEK_SET);
+        while ((bytesRead = read(output_fd, buf, 2048)) > 0) {
+            buf[bytesRead] = '\0';
+        }
+        std::string body(buf);
+        LOG_D("read [" + body + "] from file");
+        std::map<std::string, std::string> headers;
+        // headers["Content-Length:"] = std::to_string(body.size());
+        resp = smt::make_shared<webserv::HTTPResponse>(new webserv::HTTPResponse(200, headers, body));
+    }
+
+    // Reset STDIN and STDOUT
+    dup2(stdin_reference, STDIN_FILENO);
+	dup2(stdout_reference, STDOUT_FILENO);
+
+    // Close temporary files
+	fclose(input);
+	fclose(output);
+
+    
+    return resp;
+}
+
+void CGIHandler::updateScriptDirectory(std::string dir) {
+    m_directory = dir;
 }
 
 bool CGIHandler::fileExists(std::string pathInDir){
-    std::ifstream f((m_directory + pathInDir).c_str()); // Lets make sure that we dont have /cgi/python//fu.py
+    std::string filepath = m_directory + pathInDir;
+    LOG_D("Checking if file exists " + filepath);
+    std::ifstream f(filepath.c_str()); // Lets make sure that we dont have /cgi/python//fu.py
+    
     return f.good();
 }
 
