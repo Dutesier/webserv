@@ -7,7 +7,6 @@ void http_handle(smt::shared_ptr<ServerSocket> sock, int client_fd) {
 
     // receiving request string
     std::string req_str = sock->recv(client_fd);
-    LOG_D("Got [" + req_str + "] from sock->recv");
 
     // getting the first request from string
     HTTPParser                   parser;

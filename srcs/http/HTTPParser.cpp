@@ -176,7 +176,6 @@ smt::shared_ptr<HTTPRequest> HTTPParser::parse_header(std::string& header) {
 // SYSCAL rcv triggers handler -> handler will keep calling getNextRequest()
 // until no request is returned
 smt::shared_ptr<HTTPRequest> HTTPParser::getNextRequest(std::string received) {
-    LOG_D("Get next request called");
     // When recv is called it returns an HTTP request
     smt::shared_ptr<HTTPRequest> request;
 
@@ -201,7 +200,6 @@ smt::shared_ptr<HTTPRequest> HTTPParser::getNextRequest(std::string received) {
     // If there is no data left over from a previous call to recv
     if (!dataInBuffer) {
         if (received.empty()) {
-            LOG_W("No data in received and no data in buffer");
             return (smt::make_shared(new HTTPRequest(42)));
         }
         else { data = received; }

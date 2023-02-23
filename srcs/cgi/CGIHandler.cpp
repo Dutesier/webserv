@@ -69,7 +69,6 @@ smt::shared_ptr<webserv::HTTPResponse> CGIHandler::runAsChildProcess(int fd, smt
             buf[bytesRead] = '\0';
         }
         std::string body(buf);
-        LOG_D("read [" + body + "] from file");
         std::map<std::string, std::string> headers;
         // headers["Content-Length:"] = std::to_string(body.size());
         resp = smt::make_shared<webserv::HTTPResponse>(new webserv::HTTPResponse(200, headers, body));

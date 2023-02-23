@@ -214,11 +214,6 @@ smt::shared_ptr<LocationBlock> ServerBlock::getLocationBlockForRequest(smt::shar
                 }
             }
         }
-        LOG_D("No location block found that entertains given request: " + uri);
-        LOG_D("Possible Location blocks:");
-        for (std::map<std::string, smt::shared_ptr<webserv::LocationBlock>>::iterator ma = m_location.begin(); ma != m_location.end(); ma++) {
-            std::cout << ma->first << std::endl;
-        }
         loc = NULL;
     }
     return loc;

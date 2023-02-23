@@ -38,11 +38,9 @@ CGIContext::CGIContext(std::vector<std::string> queryValues, std::string scriptP
 
     c_path = new char[path.size() + 1];
     cgi::strcpy(c_path, path.c_str());
-    LOG_D("Created context");
 }
 
 CGIContext::~CGIContext(){
-    LOG_D("Deleting context");
     int envpIndex = 0;
     if (c_envp) {
         for (std::vector<std::string>::iterator it = envp.begin(); it != envp.end(); ++it) {
