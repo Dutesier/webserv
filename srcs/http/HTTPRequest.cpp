@@ -67,6 +67,52 @@ void HTTPRequest::setStatusCode(int status) { m_statusCode = status; }
 // Get the status code
 int HTTPRequest::getStatusCode() const { return m_statusCode; }
 
+// Get the "key=value" query values from URI
+std::vector<std::string> HTTPRequest::getQueriesFromResource(){
+    std::vector<std::string> queries;
+    std::size_t queryStart = m_resource.find('?');
+
+    if (queryStart == std::string::npos) {
+        return queries;
+    }
+
+    std::string queryString = m_resource.substr(queryStart+1);
+    // splitting line into vector of strings
+    char* keyValuePair = strtok(const_cast<char*>(queryString.c_str()), "&");
+    while (keyValuePair) {
+        queries.push_back(keyValuePair);
+        keyValuePair = strtok(NULL, "/");
+    }
+
+    return queries;
+}
+
+std::string HTTPRequest::getRefinedResource() {
+    std::size_t queryStart = m_resource.find('?');
+    if (queryStart == std::string::npos) {
+        return m_resource;
+    } else {
+        return m_resource.substr(0, queryStart);
+    }
+}
+
+bool HTTPRequest::isCGIRequest(){
+    std::string parsedURI = this->getRefinedResource();
+
+    if (!parsedURI.empty()) {
+        if (parsedURI.find(".py") == (parsedURI.length() - 3)) {
+            return (true);
+        }
+        else if (parsedURI.find(".cgi") == (parsedURI.length() - 4)) {
+            return (true);
+        }
+        else if (parsedURI.find(".php") == (parsedURI.length() - 3)) {
+            return (true);
+        }
+    }
+    return (false);
+}
+
 bool HTTPRequest::isValid() const { return (!m_statusCode); }
 
 std::ostream& operator<<(std::ostream& os, webserv::Method const& me) {

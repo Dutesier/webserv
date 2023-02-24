@@ -4,6 +4,8 @@
 #include <map>
 #include <sstream>
 #include <string>
+#include <vector>
+#include <cstring>
 
 namespace webserv {
 enum Method { UNDEFINED, GET, POST, DELETE };
@@ -58,6 +60,15 @@ class HTTPRequest {
 
         // Get the status code
         int getStatusCode() const;
+
+        // Get the "key=value" query values from URI
+        std::vector<std::string> getQueriesFromResource();
+
+        // Get the resource without query params
+        std::string getRefinedResource();
+
+        // Check if the request is a CGI attempt
+        bool isCGIRequest();
 
         // Check if there isnt a status code -> Valid
         bool isValid() const;

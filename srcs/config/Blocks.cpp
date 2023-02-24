@@ -181,8 +181,47 @@ std::string ServerBlock::error_page(std::vector<std::string> command) {
     return ("");
 }
 
+smt::shared_ptr<LocationBlock> ServerBlock::getLocationBlockForRequest(smt::shared_ptr<HTTPRequest>& request) {
+    smt::shared_ptr<webserv::LocationBlock> loc;
+    std::string uri = request->getRefinedResource();
+    
+    // Looking for a perfect match
+    if (m_location.find(uri) != m_location.end()) {
+        loc = (m_location.find(uri))->second;
+        return loc;
+    } else {
+        // Looking for parent matches
+        std::vector<std::string> parentDirectories;
+        char* word = strtok(const_cast<char*>(uri.c_str()), "/");
+        while (word) {
+            parentDirectories.push_back(word);
+            word = strtok(NULL, "/");
+        }
+
+        // iterate over first directory and see if location matches
+        // If none matches, iterate over first + second directory (and so on)
+        // We should remove ./ as these dont add any information
+        // This algo isnt fool proof (test_py/../test_php/you.php) causes an error
+        std::string uri;
+        for (std::vector<std::string>::iterator it = parentDirectories.begin(); it != parentDirectories.end(); it++) {
+            // if (it == parentDirectories.begin())
+            //     continue;
+            if (*it != ".") {
+                uri = uri + "/" + *it;
+                if (m_location.find(uri) != m_location.end()) {
+                    loc = (m_location.find(uri))->second;
+                    return loc;
+                }
+            }
+        }
+        loc = NULL;
+    }
+    return loc;
+}
+
+
 LocationBlock::LocationBlock(std::string target)
-    : m_cgi(false), m_target(target) {
+    : m_cgi_enabled(false), m_target(target) {
 
     // setting up allowed method
     std::string arr[3] = {"GET", "POST", "DELETE"};
@@ -201,8 +240,13 @@ std::string LocationBlock::cgi(std::vector<std::string> command) {
     if (command.size() != 2) { return ("wrong number of arguments"); }
 
     // validating command[1]
-    if (command[1] == "false") { m_cgi = false; }
-    else if (command[1] == "true") { m_cgi = true; }
+    if (command[1] == "false") { m_cgi_enabled = false; }
+    else if (command[1] == "true") {
+        m_cgi_enabled = true;
+        // TODO: Check scripting language
+        // TODO: Check for the presence of a Script directory
+        m_cgi = smt::make_shared<cgi::CGIHandler>(new cgi::CGIHandler(cgi::PYTHON, D_ROOT_PATH));
+    }
     else { return (command[1] + ": unrecognized syntax"); }
 
     return ("");
@@ -219,6 +263,8 @@ std::string LocationBlock::root(std::vector<std::string> command) {
     closedir(dir);
 
     m_root = command[1];
+    if (m_cgi_enabled && m_cgi->isValid())
+        m_cgi->updateScriptDirectory(m_root);
     return ("");
 }
 
@@ -238,9 +284,10 @@ std::string LocationBlock::allowed_methods(std::vector<std::string> command) {
 
 bool operator==(LocationBlock const& lhs, LocationBlock const& rhs) {
 
-    return (lhs.m_cgi == rhs.m_cgi && lhs.m_target == rhs.m_target &&
+    return (lhs.m_cgi_enabled == rhs.m_cgi_enabled && lhs.m_target == rhs.m_target &&
             lhs.m_root == rhs.m_root &&
-            lhs.m_allowed_methods == rhs.m_allowed_methods);
+            lhs.m_allowed_methods == rhs.m_allowed_methods &&
+            lhs.m_cgi == rhs.m_cgi);
 }
 
 bool operator==(ServerBlock const& lhs, ServerBlock const& rhs) {
