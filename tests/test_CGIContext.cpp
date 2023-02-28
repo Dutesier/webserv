@@ -6,5 +6,5 @@ TEST(CGIContext, DoesntLeak) {
     HTTPRequest req;
 
     req.setResource("/home?key=value");
-    cgi::CGIContext ctx(req.getQueriesFromResource(), req.getRefinedResource());
+    cgi::CGIContext ctx(req, req.getRefinedResource());
 }

@@ -23,7 +23,8 @@ smt::shared_ptr<webserv::HTTPResponse> CGIHandler::run(smt::shared_ptr<HTTPReque
         return NULL;
     }
 
-    smt::shared_ptr<CGIContext> ctx = smt::make_shared(new CGIContext(request->getQueriesFromResource(), std::string(m_directory + request->getRefinedResource())));
+    // smt::shared_ptr<CGIContext> ctx = smt::make_shared(new CGIContext(request->getQueriesFromResource(), std::string(m_directory + request->getRefinedResource())));
+    smt::shared_ptr<CGIContext> ctx = smt::make_shared(new CGIContext(request, std::string(m_directory + request->getRefinedResource())));
     return (runAsChildProcess(writeToFD, ctx));
 }
 

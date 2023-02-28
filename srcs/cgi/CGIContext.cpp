@@ -13,23 +13,47 @@ void strcpy(char* me, const char* other){
     me[i] = '\0';
 }
 
-CGIContext::CGIContext(std::vector<std::string> queryValues, std::string scriptPath){
-    path = scriptPath;
-    envp = queryValues;
+void    CGIContext::fill_envp(std::string name, std::string val) {
+    if (!name.empty() && !val.empty()) {
+        envp.push_back(name + "=" + val);
+    }    
+
+}
+
+CGIContext::CGIContext(smt::shared_ptr<HTTPRequest> request, std::string scriptPath): path(scriptPath) {
+    std::stringstream ss;
+    
+    ss << request->getContent().length();
+    fill_envp("CONTENT_LENGTH", ss.str());
+    fill_envp("CONTENT_TYPE", request->getHeader("Content-Type"));
+    if (request->getMethod() == webserv::GET)
+        fill_envp("REQUEST_METHOD", "GET");
+    else if (request->getMethod() == webserv::POST)
+        fill_envp("REQUEST_METHOD", "POST");
+    fill_envp("SERVER_PROTOCOL", "HTTP/1.1");
+    fill_envp("PATH_INFO", request->getPathInfo());
+    fill_envp("SCRIPT_NAME", request->getScriptName());
+    fill_envp("QUERY_STRING", request->getQueriesFromResource());
+    fill_envp("CONTENT_LENGTH", ss.str());
+    fill_envp("CONTENT_LENGTH", ss.str());
+    fill_envp("CONTENT_LENGTH", ss.str());
+    fill_envp("CONTENT_LENGTH", ss.str());
+
+    // envp = queryValues;
     c_envp = NULL;
 
-    if (!queryValues.empty()) {
-        c_envp = new char*[queryValues.size() + 1];
-        int envpIndex = 0;
-        for (std::vector<std::string>::iterator it = envp.begin(); it != envp.end(); ++it) {
-            c_envp[envpIndex] = new char[it->size() + 1];
-            cgi::strcpy(c_envp[envpIndex++], it->c_str()); 
-        }
-        c_envp[envpIndex] = NULL;
-    } else {
-        c_envp = new char*[1];
-        c_envp[0] = NULL;
-    }
+    // if (!queryValues.empty()) {
+    //     c_envp = new char*[queryValues.size() + 1];
+    //     int envpIndex = 0;
+    //     for (std::vector<std::string>::iterator it = envp.begin(); it != envp.end(); ++it) {
+    //         c_envp[envpIndex] = new char[it->size() + 1];
+    //         cgi::strcpy(c_envp[envpIndex++], it->c_str()); 
+    //     }
+    //     c_envp[envpIndex] = NULL;
+    // } else {
+    //     c_envp = new char*[1];
+    //     c_envp[0] = NULL;
+    // }
 
     c_argv = new char*[2];
     c_argv[0] = new char[path.size() + 1];
