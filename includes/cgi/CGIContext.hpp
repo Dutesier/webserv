@@ -14,7 +14,7 @@ namespace cgi
 class CGIContext {
 public:
     // CGIContext(std::vector<std::string> queryValues, std::string scriptPath);
-    CGIContext(smt::shared_ptr<HTTPRequest> request, std::string scriptPath);
+    CGIContext(smt::shared_ptr<HTTPRequest> request, std::string root_directory);
     ~CGIContext();
 
     void    fill_envp(std::string name, std::string val);
@@ -22,7 +22,7 @@ public:
     char**          getEnvp() const;
     char**          getArgv() const;
 private:
-    std::string                         path;
+    std::string                         directory;
     std::vector<std::string>            envp;
 
 

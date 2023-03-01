@@ -24,11 +24,11 @@ smt::shared_ptr<webserv::HTTPResponse> CGIHandler::run(smt::shared_ptr<HTTPReque
     }
 
     // smt::shared_ptr<CGIContext> ctx = smt::make_shared(new CGIContext(request->getQueriesFromResource(), std::string(m_directory + request->getRefinedResource())));
-    smt::shared_ptr<CGIContext> ctx = smt::make_shared(new CGIContext(request, std::string(m_directory + request->getRefinedResource())));
-    return (runAsChildProcess(writeToFD, ctx));
+    smt::shared_ptr<CGIContext> ctx = smt::make_shared(new CGIContext(request, m_directory));
+    return (runAsChildProcess(writeToFD, ctx, request->getContent()));
 }
 
-smt::shared_ptr<webserv::HTTPResponse> CGIHandler::runAsChildProcess(int fd, smt::shared_ptr<CGIContext>& context){
+smt::shared_ptr<webserv::HTTPResponse> CGIHandler::runAsChildProcess(int fd, smt::shared_ptr<CGIContext>& context, std::string req_content){
     
     LOG_D("running child process");
     FILE* input = tmpfile();
@@ -40,12 +40,16 @@ smt::shared_ptr<webserv::HTTPResponse> CGIHandler::runAsChildProcess(int fd, smt
     int stdin_reference = dup(STDIN_FILENO);
     int stdout_reference = dup(STDOUT_FILENO);
 
+    if (!input || !output || stdin_reference < 0)
+        LOG_E("Failed to create tmp files");
+    if (input_fd < 0)
+        LOG_E("Failed to get temporary infile fd");
+    write(input_fd, req_content.c_str(), req_content.size());
+    rewind(input);
     pid_t pid = fork();
     if (pid < 0) {
         LOG_E("Failed to spawn child process");
-    } else if (pid > 0){
-        // Parent process
-    } else {
+    } else if (pid == 0){
         // Direct I/O to temporary file;
         dup2(input_fd, STDIN_FILENO);
 		dup2(output_fd, STDOUT_FILENO);
@@ -55,7 +59,6 @@ smt::shared_ptr<webserv::HTTPResponse> CGIHandler::runAsChildProcess(int fd, smt
         LOG_E("Failed call to execve in child process");
         exit(500);
     }
-
     // From here on out we are always in parent cause child either executed or exited
     int status;
     smt::shared_ptr<webserv::HTTPResponse> resp;

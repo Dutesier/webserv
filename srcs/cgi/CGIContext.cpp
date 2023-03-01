@@ -20,8 +20,9 @@ void    CGIContext::fill_envp(std::string name, std::string val) {
 
 }
 
-CGIContext::CGIContext(smt::shared_ptr<HTTPRequest> request, std::string scriptPath): path(scriptPath) {
+CGIContext::CGIContext(smt::shared_ptr<HTTPRequest> request, std::string root_directory): directory(root_directory) {
     std::stringstream ss;
+    c_envp = NULL;
     
     ss << request->getContent().length();
     fill_envp("CONTENT_LENGTH", ss.str());
@@ -34,34 +35,29 @@ CGIContext::CGIContext(smt::shared_ptr<HTTPRequest> request, std::string scriptP
     fill_envp("PATH_INFO", request->getPathInfo());
     fill_envp("SCRIPT_NAME", request->getScriptName());
     fill_envp("QUERY_STRING", request->getQueriesFromResource());
-    fill_envp("CONTENT_LENGTH", ss.str());
-    fill_envp("CONTENT_LENGTH", ss.str());
-    fill_envp("CONTENT_LENGTH", ss.str());
-    fill_envp("CONTENT_LENGTH", ss.str());
+    fill_envp("USER_AGENT", request->getHeader("User-Agent"));
+    fill_envp("PATH_TRANSLATED", std::string(directory + request->getScriptName()));
+    fill_envp("DOCUMENT_ROOT", directory);
+    // ss.str(std::string());
+    // ss << port; Need a way to get server port
+    // fill_envp("SERVER_PORT", ss.str());
 
-    // envp = queryValues;
-    c_envp = NULL;
 
-    // if (!queryValues.empty()) {
-    //     c_envp = new char*[queryValues.size() + 1];
-    //     int envpIndex = 0;
-    //     for (std::vector<std::string>::iterator it = envp.begin(); it != envp.end(); ++it) {
-    //         c_envp[envpIndex] = new char[it->size() + 1];
-    //         cgi::strcpy(c_envp[envpIndex++], it->c_str()); 
-    //     }
-    //     c_envp[envpIndex] = NULL;
-    // } else {
-    //     c_envp = new char*[1];
-    //     c_envp[0] = NULL;
-    // }
+        c_envp = new char*[envp.size() + 1];
+        int envpIndex = 0;
+        for (std::vector<std::string>::iterator it = envp.begin(); it != envp.end(); ++it) {
+            c_envp[envpIndex] = new char[it->size() + 1];
+            cgi::strcpy(c_envp[envpIndex++], it->c_str()); 
+        }
+        c_envp[envpIndex] = NULL;
 
     c_argv = new char*[2];
-    c_argv[0] = new char[path.size() + 1];
-    cgi::strcpy(c_argv[0], path.c_str());
+    c_argv[0] = new char[directory.size() + 1];
+    cgi::strcpy(c_argv[0], directory.c_str());
     c_argv[1] = NULL;
 
-    c_path = new char[path.size() + 1];
-    cgi::strcpy(c_path, path.c_str());
+    c_path = new char[directory.size() + 1];
+    cgi::strcpy(c_path, directory.c_str());
 }
 
 CGIContext::~CGIContext(){
