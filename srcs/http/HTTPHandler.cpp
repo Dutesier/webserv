@@ -46,7 +46,19 @@ smt::shared_ptr<HTTPResponse>
     // getting method
     // if (request->getMethod == "GET") { return (Method::get(request)); }
     // if (request->getMethod == "POST") { return (Method::post(request)); }
-    // if (request->getMethod == "DELETE") { return (Method::delete(request)); }
+    
+    // I think we can deal with GET and POST like this, on the CGI, and thats that,
+    // then all we need is DELETE. I'm not sure how to deal with that
+
+
+    // if (request->getMethod == "DELETE") { 
+        // int status = remove(request->getResource().c_str());
+
+        // if (status == 0)
+        //     return (200);
+        // else
+        //     return (404);
+        // return (Method::delete(request)); }
 
     return (generate_error_response(405, config));
 }
