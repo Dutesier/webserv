@@ -2,10 +2,13 @@
 #define HTTP_REQUEST_HPP
 
 #include <map>
+#include <iostream>
 #include <sstream>
 #include <string>
 #include <vector>
 #include <cstring>
+
+#include "utils/Logger.hpp"
 
 namespace webserv {
 enum Method { UNDEFINED, GET, POST, DELETE };

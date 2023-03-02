@@ -144,7 +144,7 @@ bool HTTPRequest::isCGIRequest(){
         else if (parsedURI.find(".cgi") == (parsedURI.length() - 4)) {
             return (true);
         }
-        else if (parsedURI.find(".php") == (parsedURI.length() - 3)) {
+        else if (parsedURI.find(".php") == (parsedURI.length() - 4)) {
             return (true);
         }
     }
