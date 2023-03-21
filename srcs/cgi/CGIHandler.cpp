@@ -50,6 +50,7 @@ smt::shared_ptr<webserv::HTTPResponse> CGIHandler::runAsChildProcess(int fd, smt
         LOG_E("Failed to spawn child process");
     } else if (pid == 0){
         // Direct I/O to temporary file;
+        // std::cout << context << std::endl;
         dup2(input_fd, STDIN_FILENO);
 		dup2(output_fd, STDOUT_FILENO);
         execve(context->getPath(), context->getArgv(), context->getEnvp());

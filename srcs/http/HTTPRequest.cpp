@@ -103,6 +103,7 @@ std::string HTTPRequest::getScriptName() {
             return (m_resource.substr(0, pos + 4));
         }
     }
+    return "";
 }
 
 std::string HTTPRequest::getPathInfo() {
@@ -111,17 +112,18 @@ std::string HTTPRequest::getPathInfo() {
         size_t start;
         size_t finish;
 
-        finish = parsedURI.find('?');
+        finish = parsedURI.length();
         if ((start = parsedURI.find(".py")) != std::string::npos){
-            return (m_resource.substr(start + 3, finish - start - 1));
+            return (m_resource.substr(start + 3, finish - (start + 3)));
         }
         else if ((start = parsedURI.find(".cgi")) != std::string::npos) {
-            return (m_resource.substr(start + 4, finish - start - 1));
+            return (m_resource.substr(start + 4, finish - (start + 4)));
         }
         else if ((start = parsedURI.find(".php")) != std::string::npos) {
-            return (m_resource.substr(start + 4, finish - start - 1));
+            return (m_resource.substr(start + 4, finish - (start + 4)));
         }
     }
+    return "";
 }
 
 
@@ -136,6 +138,7 @@ std::string HTTPRequest::getRefinedResource() {
 
 bool HTTPRequest::isCGIRequest(){
     std::string parsedURI = this->getRefinedResource();
+    int pos;
 
     if (!parsedURI.empty()) {
         if (parsedURI.find(".py") == (parsedURI.length() - 3)) {
@@ -145,6 +148,15 @@ bool HTTPRequest::isCGIRequest(){
             return (true);
         }
         else if (parsedURI.find(".php") == (parsedURI.length() - 4)) {
+            return (true);
+        }
+        else if ((pos = parsedURI.find(".cgi/")) != std::string::npos) {
+            return (true);
+        }
+        else if ((pos = parsedURI.find(".py/")) != std::string::npos) {
+            return (true);
+        }
+        else if ((pos = parsedURI.find(".php/")) != std::string::npos) {
             return (true);
         }
     }
