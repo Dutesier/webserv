@@ -52,12 +52,13 @@ CGIContext::CGIContext(smt::shared_ptr<HTTPRequest> request, std::string root_di
         c_envp[envpIndex] = NULL;
 
     c_argv = new char*[2];
-    c_argv[0] = new char[directory.size() + 1];
-    cgi::strcpy(c_argv[0], directory.c_str());
+    std::string path = directory.substr(0, directory.size() - 1) + request->getScriptName();
+    c_argv[0] = new char[path.size() + 1];
+    cgi::strcpy(c_argv[0], path.c_str());
     c_argv[1] = NULL;
 
-    c_path = new char[directory.size() + 1];
-    cgi::strcpy(c_path, directory.c_str());
+    c_path = new char[path.size() + 1];
+    cgi::strcpy(c_path, path.c_str());
 }
 
 CGIContext::~CGIContext(){
