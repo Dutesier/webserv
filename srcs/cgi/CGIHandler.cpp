@@ -43,14 +43,15 @@ smt::shared_ptr<webserv::HTTPResponse> CGIHandler::runAsChildProcess(int fd, smt
         LOG_E("Failed to create tmp files");
     if (input_fd < 0)
         LOG_E("Failed to get temporary infile fd");
-    write(input_fd, req_content.c_str(), req_content.size());
-    rewind(input);
+    // check if request type is POST {
+    // write(input_fd, req_content.c_str(), req_content.size());
+    // rewind(input);
+    // }
     pid_t pid = fork();
     if (pid < 0) {
         LOG_E("Failed to spawn child process");
     } else if (pid == 0){
         // Direct I/O to temporary file;
-        // std::cout << context << std::endl;
         dup2(input_fd, STDIN_FILENO);
 		dup2(output_fd, STDOUT_FILENO);
         execve(context->getPath(), context->getArgv(), context->getEnvp());
@@ -85,7 +86,6 @@ smt::shared_ptr<webserv::HTTPResponse> CGIHandler::runAsChildProcess(int fd, smt
     // Close temporary files
 	fclose(input);
 	fclose(output);
-
     
     return resp;
 }
