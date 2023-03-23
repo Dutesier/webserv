@@ -2,8 +2,8 @@
 #define SERVER_SOCKET_HPP
 
 #include "config/Blocks.hpp"
-#include "socket/TCPSocket.hpp"
 #include "http/HTTPRequest.hpp"
+#include "socket/TCPSocket.hpp"
 
 namespace webserv {
 
@@ -16,18 +16,19 @@ class ServerSocket : public TCPSocket {
 
         int bestServerBlockForRequest(smt::shared_ptr<HTTPRequest>& request);
         std::vector< smt::shared_ptr<ServerBlock> > m_blocks;
-    
-    private:
-        int bestServerBlockByIPAndPort(std::string& ipAndPort);
-        int bestServerBlockByServerName(std::string& serverName);
-        std::string extractResource(std::string uri);
-        bool startsWithServerName(const std::string& str);
-        bool startsWithIP(const std::string& str);
-        bool startsWithIpAndPort(const std::string& str);
 
+    private:
+
+        int         bestServerBlockByIPAndPort(std::string& ipAndPort);
+        int         bestServerBlockByServerName(std::string& serverName);
+        std::string extractResource(std::string uri);
+        bool        startsWithServerName(std::string const& str);
+        bool        startsWithIP(std::string const& str);
+        bool        startsWithIpAndPort(std::string const& str);
 };
 
-// Parse HTTP Request -> look for URI -> check URI against listen or port server name from server blocks
+// Parse HTTP Request -> look for URI -> check URI against listen or port server
+// name from server blocks
 
 } // namespace webserv
 

@@ -68,16 +68,14 @@ void HTTPRequest::setStatusCode(int status) { m_statusCode = status; }
 int HTTPRequest::getStatusCode() const { return m_statusCode; }
 
 // Get the "key=value" query values from URI
-std::string HTTPRequest::getQueriesFromResource(){
+std::string HTTPRequest::getQueriesFromResource() {
     // std::vector<std::string> queries;
     std::string queryString;
     std::size_t queryStart = m_resource.find('?');
 
-    if (queryStart == std::string::npos) {
-        return queryString;
-    }
+    if (queryStart == std::string::npos) { return queryString; }
 
-    queryString = m_resource.substr(queryStart+1);
+    queryString = m_resource.substr(queryStart + 1);
     // splitting line into vector of strings
     // char* keyValuePair = strtok(const_cast<char*>(queryString.c_str()), "&");
     // while (keyValuePair) {
@@ -91,9 +89,9 @@ std::string HTTPRequest::getQueriesFromResource(){
 std::string HTTPRequest::getScriptName() {
     if (this->isCGIRequest()) {
         std::string parsedURI = this->getRefinedResource();
-        size_t pos;
+        size_t      pos;
 
-        if ((pos = parsedURI.find(".py")) != std::string::npos){
+        if ((pos = parsedURI.find(".py")) != std::string::npos) {
             return (m_resource.substr(0, pos + 3));
         }
         else if ((pos = parsedURI.find(".cgi")) != std::string::npos) {
@@ -109,11 +107,11 @@ std::string HTTPRequest::getScriptName() {
 std::string HTTPRequest::getPathInfo() {
     if (this->isCGIRequest()) {
         std::string parsedURI = this->getRefinedResource();
-        size_t start;
-        size_t finish;
+        size_t      start;
+        size_t      finish;
 
         finish = parsedURI.length();
-        if ((start = parsedURI.find(".py")) != std::string::npos){
+        if ((start = parsedURI.find(".py")) != std::string::npos) {
             return (m_resource.substr(start + 3, finish - (start + 3)));
         }
         else if ((start = parsedURI.find(".cgi")) != std::string::npos) {
@@ -126,19 +124,15 @@ std::string HTTPRequest::getPathInfo() {
     return "";
 }
 
-
 std::string HTTPRequest::getRefinedResource() {
     std::size_t queryStart = m_resource.find('?');
-    if (queryStart == std::string::npos) {
-        return m_resource;
-    } else {
-        return m_resource.substr(0, queryStart);
-    }
+    if (queryStart == std::string::npos) { return m_resource; }
+    else { return m_resource.substr(0, queryStart); }
 }
 
-bool HTTPRequest::isCGIRequest(){
+bool HTTPRequest::isCGIRequest() {
     std::string parsedURI = this->getRefinedResource();
-    int pos;
+    int         pos;
 
     if (!parsedURI.empty()) {
         if (parsedURI.find(".py") == (parsedURI.length() - 3)) {
