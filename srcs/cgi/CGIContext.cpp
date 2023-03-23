@@ -52,7 +52,7 @@ CGIContext::CGIContext(smt::shared_ptr<HTTPRequest> request, std::string root_di
         c_envp[envpIndex] = NULL;
 
     c_argv = new char*[2];
-    std::string path = directory.substr(0, directory.size() - 1) + request->getScriptName();
+    std::string path = directory.substr(0, directory.size()) + request->getScriptName();
     c_argv[0] = new char[path.size() + 1];
     cgi::strcpy(c_argv[0], path.c_str());
     c_argv[1] = NULL;
@@ -104,17 +104,17 @@ std::ostream& operator<<(std::ostream& os, cgi::CGIContext const& ctx) {
     if (argv != NULL) {
         os << "Printing argv." << std::endl;
         for (int i = 0; argv[i] != NULL; ++i) {
-            os << argv[i];
+            os << argv[i] << std::endl;
         }
     }
     if (envp != NULL) {
         os << "Printing envp." << std::endl;
         for (int i = 0; envp[i] != NULL; ++i) {
-            os << envp[i];
+            os << envp[i] << std::endl;
         }
     }
     if (path != NULL) {
-        os << "Path: " << path;
+        os << "Path: " << path << std::endl;
     }
     return os;
 }
