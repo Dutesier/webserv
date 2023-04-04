@@ -1,11 +1,14 @@
 #ifndef HTTP_REQUEST_HPP
 #define HTTP_REQUEST_HPP
 
+#include "utils/Logger.hpp"
+
+#include <cstring>
+#include <iostream>
 #include <map>
 #include <sstream>
 #include <string>
 #include <vector>
-#include <cstring>
 
 namespace webserv {
 enum Method { UNDEFINED, GET, POST, DELETE };
@@ -62,10 +65,16 @@ class HTTPRequest {
         int getStatusCode() const;
 
         // Get the "key=value" query values from URI
-        std::vector<std::string> getQueriesFromResource();
+        std::string getQueriesFromResource();
 
         // Get the resource without query params
         std::string getRefinedResource();
+
+        // Get the name of the script
+        std::string getScriptName();
+
+        // Get the extra info after the script name
+        std::string getPathInfo();
 
         // Check if the request is a CGI attempt
         bool isCGIRequest();

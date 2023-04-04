@@ -1,8 +1,9 @@
 #include "cgi/CGIHandler.hpp"
+
 #include <gtest/gtest.h>
 
-TEST(CGIHandler, FileValidity){
-    cgi::CGIHandler cgi(cgi::PYTHON, "tests");
+TEST(CGIHandler, FileValidity) {
+    cgi::CGIHandler              cgi(cgi::PYTHON, "tests");
     smt::shared_ptr<HTTPRequest> req = smt::make_shared(new HTTPRequest());
     req->setResource("../tests");
     EXPECT_FALSE(cgi.run(req, 3));

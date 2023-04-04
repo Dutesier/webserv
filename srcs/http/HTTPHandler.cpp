@@ -19,11 +19,13 @@ void http_handle(smt::shared_ptr<ServerSocket> sock, int client_fd) {
         int serverBlockIdx = sock->bestServerBlockForRequest(request);
         serverBlockIdx = (serverBlockIdx == -1 ? 0 : serverBlockIdx);
         // handle request here
-        smt::shared_ptr<HTTPResponse> response = process_request(request, sock->m_blocks[serverBlockIdx], client_fd); // TODO: This obviously needs to be fixed, just using the first block here so that rest of code can run
+        smt::shared_ptr<HTTPResponse> response = process_request(
+            request, sock->m_blocks[serverBlockIdx],
+            client_fd); // TODO: This obviously needs to be fixed, just using
+                        // the first block here so that rest of code can run
 
         // sending response to client
-        if (response != NULL)
-            sock->send(client_fd, response->to_str());
+        if (response != NULL) sock->send(client_fd, response->to_str());
 
         // checking if there are more requests to handle
         request = parser.getNextRequest("");
@@ -32,12 +34,13 @@ void http_handle(smt::shared_ptr<ServerSocket> sock, int client_fd) {
 
 smt::shared_ptr<HTTPResponse>
     process_request(smt::shared_ptr<HTTPRequest> request,
-                    smt::shared_ptr<ServerBlock> config,
-                    int client_fd) {
+                    smt::shared_ptr<ServerBlock> config, int client_fd) {
 
-    smt::shared_ptr<webserv::LocationBlock> loc = config->getLocationBlockForRequest(request);
+    smt::shared_ptr<webserv::LocationBlock> loc =
+        config->getLocationBlockForRequest(request);
 
-    bool runCGI = (loc != NULL) && (loc->m_cgi_enabled) && (loc->m_cgi->isValid());
+    bool runCGI =
+        (loc != NULL) && (loc->m_cgi_enabled) && (loc->m_cgi->isValid());
     bool isCGI = request->isCGIRequest();
     if (isCGI && runCGI) {
         LOG_D("Running CGI script");
@@ -46,7 +49,18 @@ smt::shared_ptr<HTTPResponse>
     // getting method
     // if (request->getMethod == "GET") { return (Method::get(request)); }
     // if (request->getMethod == "POST") { return (Method::post(request)); }
-    // if (request->getMethod == "DELETE") { return (Method::delete(request)); }
+
+    // I think we can deal with GET and POST like this, on the CGI, and thats
+    // that, then all we need is DELETE. I'm not sure how to deal with that
+
+    // if (request->getMethod == "DELETE") {
+    // int status = remove(request->getResource().c_str());
+
+    // if (status == 0)
+    //     return (200);
+    // else
+    //     return (404);
+    // return (Method::delete(request)); }
 
     return (generate_error_response(405, config));
 }
