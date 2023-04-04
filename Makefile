@@ -79,7 +79,7 @@ endif
 
 # Compiler flags
 CFLAGS := -Wall -Wextra -Werror
-CFLAGS += -std=c++98
+# CFLAGS += -std=c++98
 
 # Pedantic flags
 ifeq (${PEDANTIC},true)
