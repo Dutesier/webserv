@@ -15,8 +15,6 @@ HTTPServer::~HTTPServer(void) {}
 // epoll instance's interest list
 void HTTPServer::start(void) {
 
-    struct epoll_event event;
-
     // creating an epoll instance
     if ((m_epollfd = epoll_create1(0)) < 0) { throw(EpollCreateException()); }
 

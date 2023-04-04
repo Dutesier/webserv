@@ -25,7 +25,7 @@ void http_handle(smt::shared_ptr<ServerSocket> sock, int client_fd) {
                         // the first block here so that rest of code can run
 
         // sending response to client
-        if (response != NULL) sock->send(client_fd, response->to_str());
+        if (response) sock->send(client_fd, response->to_str());
 
         // checking if there are more requests to handle
         request = parser.getNextRequest("");
@@ -40,7 +40,7 @@ smt::shared_ptr<HTTPResponse>
         config->getLocationBlockForRequest(request);
 
     bool runCGI =
-        (loc != NULL) && (loc->m_cgi_enabled) && (loc->m_cgi->isValid());
+        (loc) && (loc->m_cgi_enabled) && (loc->m_cgi->isValid());
     bool isCGI = request->isCGIRequest();
     if (isCGI && runCGI) {
         LOG_D("Running CGI script");

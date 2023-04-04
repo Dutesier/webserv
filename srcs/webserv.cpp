@@ -28,6 +28,8 @@ void webserv::webserv(int argc, char* argv[]) {
 
 void webserv::stop(int signum) {
 
+	(void)signum;
+
     try {
 
         smt::shared_ptr<webserv::HTTPServer> srv = get_webserv();

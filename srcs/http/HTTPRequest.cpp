@@ -132,7 +132,6 @@ std::string HTTPRequest::getRefinedResource() {
 
 bool HTTPRequest::isCGIRequest() {
     std::string parsedURI = this->getRefinedResource();
-    int         pos;
 
     if (!parsedURI.empty()) {
         if (parsedURI.find(".py") == (parsedURI.length() - 3)) {
@@ -144,13 +143,13 @@ bool HTTPRequest::isCGIRequest() {
         else if (parsedURI.find(".php") == (parsedURI.length() - 4)) {
             return (true);
         }
-        else if ((pos = parsedURI.find(".cgi/")) != std::string::npos) {
+        else if (parsedURI.find(".cgi/") != std::string::npos) {
             return (true);
         }
-        else if ((pos = parsedURI.find(".py/")) != std::string::npos) {
+        else if (parsedURI.find(".py/") != std::string::npos) {
             return (true);
         }
-        else if ((pos = parsedURI.find(".php/")) != std::string::npos) {
+        else if (parsedURI.find(".php/") != std::string::npos) {
             return (true);
         }
     }

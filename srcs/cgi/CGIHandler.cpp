@@ -29,6 +29,8 @@ smt::shared_ptr<webserv::HTTPResponse>
 smt::shared_ptr<webserv::HTTPResponse>
     CGIHandler::runAsChildProcess(int fd, smt::shared_ptr<CGIContext>& context,
                                   std::string req_content) {
+	(void) fd;
+	(void) req_content;
 
     LOG_D("running child process");
     FILE* input = tmpfile();

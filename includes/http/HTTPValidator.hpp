@@ -12,12 +12,16 @@
 class ok_err {
     public:
 
-        bool ok = true;
-        int  err = 0;
+        ok_err(void);
+        ~ok_err(void);
+        bool ok;
+        int  err;
 };
 
 class IHTTPValidator {
     public:
+
+        virtual ~IHTTPValidator(void) {}
 
         virtual ok_err isValid(smt::shared_ptr<HTTPRequest>& req) = 0;
         virtual smt::shared_ptr<IHTTPValidator>
@@ -38,7 +42,7 @@ class AHTTPValidator {
 
         ok_err isValid(smt::shared_ptr<HTTPRequest>& req) {
             if (this->m_next) { return this->m_next->isValid(req); }
-            return {};
+            return ok_err();
         }
 
     private:

@@ -6,12 +6,13 @@ Socket::Socket(int fd, smt::shared_ptr<SocketAddress> addr, int type)
     : m_fd(fd), m_addr(addr), m_socktype(type) {}
 
 Socket::Socket(int port, std::string host, int family, int type)
-    : m_socktype(type), m_fd(-1), m_addr(smt::shared_ptr<SocketAddress>(
-                                      new SocketAddress(port, host, family))) {}
+    : m_fd(-1), m_addr(smt::shared_ptr<SocketAddress>(
+                    new SocketAddress(port, host, family))),
+      m_socktype(type) {}
 
 Socket::Socket()
-    : m_fd(-1), m_socktype(SOCK_STREAM),
-      m_addr(smt::shared_ptr<SocketAddress>(new SocketAddress())) {}
+    : m_fd(-1), m_addr(smt::shared_ptr<SocketAddress>(new SocketAddress())),
+      m_socktype(SOCK_STREAM) {}
 
 Socket::~Socket() {}
 

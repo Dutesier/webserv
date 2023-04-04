@@ -7,17 +7,18 @@ HTTPParser::~HTTPParser() {}
 // A la golang, parsing functions return a pair of the actual result and a bool
 // of success
 std::pair<webserv::Method, bool> HTTPParser::getMethod(std::string& firstLine) {
-    if (firstLine.empty()) { return {webserv::UNDEFINED, false}; }
+    if (firstLine.empty()) { return std::make_pair(webserv::UNDEFINED, false); }
 
     // Getting first word from line
     std::istringstream iss(firstLine);
     std::string        firstWord;
 
     iss >> firstWord;
-    if (firstWord == "GET") return {webserv::GET, true};
-    else if (firstWord == "POST") return {webserv::POST, true};
-    else if (firstWord == "DELETE") return {webserv::DELETE, true};
-    else return {webserv::UNDEFINED, false};
+    if (firstWord == "GET") return std::make_pair(webserv::GET, true);
+    else if (firstWord == "POST") return std::make_pair(webserv::POST, true);
+    else if (firstWord == "DELETE")
+        return std::make_pair(webserv::DELETE, true);
+    else return std::make_pair(webserv::UNDEFINED, false);
 }
 
 std::pair<std::string, bool> HTTPParser::getResource(std::string& firstLine) {
@@ -27,10 +28,10 @@ std::pair<std::string, bool> HTTPParser::getResource(std::string& firstLine) {
     iss >> word;
     if (!(iss >> word)) {
         LOG_E("Only one word in first line of http request");
-        return {"", false};
+        return std::make_pair("", false);
     }
 
-    return {word, true};
+    return std::make_pair(word, true);
 }
 
 std::pair<std::string, bool> HTTPParser::getVersion(std::string& firstLine) {
@@ -40,13 +41,13 @@ std::pair<std::string, bool> HTTPParser::getVersion(std::string& firstLine) {
     iss >> word;
     if (!(iss >> word)) {
         LOG_E("Only one word in first line of http request");
-        return {"", false};
+        return std::make_pair("", false);
     }
     if (!(iss >> word)) {
         LOG_E("Only two words in first line of http request");
-        return {"", false};
+        return std::make_pair("", false);
     }
-    return {word, true};
+    return std::make_pair(word, true);
 }
 
 std::pair<std::string, std::string>
@@ -57,7 +58,7 @@ std::pair<std::string, std::string>
     std::size_t sepIndex = header.find_first_of(":");
     if (sepIndex == std::string::npos) {
         LOG_E("No [key]:[value] found at header string: ->" + header + "<-");
-        return {"", ""};
+        return std::make_pair("", "");
     }
     else {
         first = header.substr(0, sepIndex);
@@ -65,7 +66,7 @@ std::pair<std::string, std::string>
             second = header.substr(sepIndex + 1, header.size());
         else second = "";
     }
-    return {first, second};
+    return std::make_pair(first, second);
 }
 
 bool HTTPParser::setHeader(smt::shared_ptr<HTTPRequest> pReq,
@@ -136,7 +137,7 @@ smt::shared_ptr<HTTPRequest> HTTPParser::parse_header(std::string& header) {
 
     // Handle lines
     std::string& firstLine = request.at(0);
-    std::string& secondLine = request.at(1);
+    // std::string& secondLine = request.at(1); // unused var
 
     std::pair<webserv::Method, bool> methodANDsuccess = getMethod(firstLine);
     if (!methodANDsuccess.second)
@@ -185,7 +186,7 @@ smt::shared_ptr<HTTPRequest> HTTPParser::getNextRequest(std::string received) {
                                       // previous call to recv
     static bool dataInBuffer = false; // Flag to indicate whether there is data
                                       // left over in the restOfData buffer
-    size_t bytes_read = 0;            // Number of bytes read from the socket
+    // size_t bytes_read = 0;            // Number of bytes read from the socket UNUSED
 
     // String to identify the end of the headers in the request
     char const* endOfHeaders = "\r\n\r\n";
@@ -247,13 +248,16 @@ smt::shared_ptr<HTTPRequest> HTTPParser::getNextRequest(std::string received) {
         std::string lenStr = request->getHeader("Content-Length");
         if (!lenStr.empty()) {
 
-            int body_size =
-                std::min(atoi(lenStr.c_str()),
-                         static_cast<int>(data.length() - (eoh_position)));
+            long unsigned          size;
+            std::stringstream ss(lenStr);
+            ss >> size;
+
+            long unsigned body_size = std::min(
+                size, static_cast<long unsigned>(data.length() - (eoh_position)));
 
             if (body_size < MAX_BODY_SIZE && body_size) {
 
-                int restOfBuff = data.length() - (eoh_position);
+                long unsigned restOfBuff = data.length() - (eoh_position);
                 request->setContent(
                     data.substr(eoh_position, std::min(restOfBuff, body_size)));
 

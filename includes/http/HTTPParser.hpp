@@ -8,6 +8,7 @@
 
 #include <map>
 #include <string>
+#include <sstream>
 #include <vector>
 
 #ifndef MAX_HEADER_SIZE

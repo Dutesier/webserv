@@ -44,18 +44,18 @@ int ServerSocket::bestServerBlockForRequest(
 }
 
 int ServerSocket::bestServerBlockByIPAndPort(std::string& ipAndPort) {
-    char* tempIP;
-    char* tempPort;
+    char* tempIP = 0;
+    char* tempPort = 0;
     sscanf(ipAndPort.c_str(), "%s:%s", tempIP, tempPort);
 
     std::string IP(tempIP);
     std::string port(tempPort);
     int         index = 0;
 
-    for (std::vector<smt::shared_ptr<ServerBlock>>::iterator it =
+    for (std::vector< smt::shared_ptr<ServerBlock> >::iterator it =
              m_blocks.begin();
          it != m_blocks.end(); it++) {
-        if ((*it)->m_port == atoi(port.c_str()) &&
+        if ((*it)->m_port == static_cast<unsigned>(atoi(port.c_str())) &&
             ((*it)->m_host == IP || (*it)->m_host == "*")) {
             return index;
         }
