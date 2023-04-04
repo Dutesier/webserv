@@ -19,5 +19,5 @@ set(CMAKE_CXX_FLAGS "-g -Wall -Werror -Wextra -std=c++98")
 
 include_directories(${CMAKE_SOURCE_DIR}/includes)
 
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME} srcs/main.cpp)
 target_link_libraries(${PROJECT_NAME} 42::webserv_lib)
