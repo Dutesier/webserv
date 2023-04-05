@@ -1,13 +1,14 @@
 #ifndef SOCKETCONNECTION_HPP
 #define SOCKETCONNECTION_HPP
 
-#include "http/HTTPParser.hpp"
+// #include "http/HTTPParser.hpp"
 #include "socket/Socket.hpp"
 #include "socket/SocketAddress.hpp"
 #include "utils/Logger.hpp"
 
 #include <cstdlib>
 #include <cstring>
+#include <sstream>
 #include <unistd.h>
 #include <vector>
 
@@ -43,9 +44,9 @@ class SocketConnection : public webserv::Socket {
                 char const* what(void) const throw();
         };
 
-    private:
+    // private:
 
-        HTTPParser m_parser;
+    //     HTTPParser m_parser;
 };
 
 } // namespace webserv
