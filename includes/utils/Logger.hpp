@@ -7,11 +7,10 @@
 #include <iostream>
 #include <string>
 
-
 class Logger {
     public:
 
-		enum LogLevel { DEBUG, INFO, WARNING, ERROR, FATAL };
+        enum LogLevel { DEBUG, INFO, WARNING, ERROR, FATAL };
 
         Logger(LogLevel l);
         ~Logger(void);
@@ -45,7 +44,7 @@ smt::shared_ptr<Logger>& Fatal();
 class FileLogger {
     public:
 
-		enum FLogLevel { DEBUG, INFO, WARNING, ERROR, FATAL };
+        enum FLogLevel { DEBUG, INFO, WARNING, ERROR, FATAL };
 
         FileLogger(FLogLevel l);
         ~FileLogger(void);
@@ -58,7 +57,7 @@ class FileLogger {
 
         std::ofstream logFile;
         bool          logToFile;
-        FLogLevel      level;
+        FLogLevel     level;
 };
 
 #define FLOGGER(FileLogger_, Message_)                                         \

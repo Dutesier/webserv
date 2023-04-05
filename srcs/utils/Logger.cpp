@@ -114,26 +114,31 @@ void FileLogger::operator()(std::string const& message, char const* function,
 }
 
 smt::shared_ptr<FileLogger>& FileDebug() {
-    static smt::shared_ptr<FileLogger> fileLogger(new FileLogger(FileLogger::DEBUG));
+    static smt::shared_ptr<FileLogger> fileLogger(
+        new FileLogger(FileLogger::DEBUG));
     return (fileLogger);
 }
 
 smt::shared_ptr<FileLogger>& FileInfo() {
-    static smt::shared_ptr<FileLogger> fileLogger(new FileLogger(FileLogger::INFO));
+    static smt::shared_ptr<FileLogger> fileLogger(
+        new FileLogger(FileLogger::INFO));
     return (fileLogger);
 }
 
 smt::shared_ptr<FileLogger>& FileWarning() {
-    static smt::shared_ptr<FileLogger> fileLogger(new FileLogger(FileLogger::WARNING));
+    static smt::shared_ptr<FileLogger> fileLogger(
+        new FileLogger(FileLogger::WARNING));
     return (fileLogger);
 }
 
 smt::shared_ptr<FileLogger>& FileError() {
-    static smt::shared_ptr<FileLogger> fileLogger(new FileLogger(FileLogger::ERROR));
+    static smt::shared_ptr<FileLogger> fileLogger(
+        new FileLogger(FileLogger::ERROR));
     return (fileLogger);
 }
 
 smt::shared_ptr<FileLogger>& FileFatal() {
-    static smt::shared_ptr<FileLogger> fileLogger(new FileLogger(FileLogger::FATAL));
+    static smt::shared_ptr<FileLogger> fileLogger(
+        new FileLogger(FileLogger::FATAL));
     return (fileLogger);
 }

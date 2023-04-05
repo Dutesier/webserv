@@ -1,6 +1,7 @@
 #include "socket/ServerSocket.hpp"
 
 #include <cstring>
+
 // #include <regex>
 
 namespace webserv {
@@ -80,7 +81,7 @@ smt::shared_ptr<ServerBlock>
 
     if (n != std::string::npos) {
         a = host_header.substr(0, n);
-		if (a == "localhost") { a = "127.0.0.1"; }
+        if (a == "localhost") { a = "127.0.0.1"; }
         p = host_header.substr(n + 1);
     }
     else { p = host_header; }
@@ -91,13 +92,13 @@ smt::shared_ptr<ServerBlock>
 
     std::vector< smt::shared_ptr<webserv::ServerBlock> >::iterator it;
     for (it = m_blocks.begin(); it != m_blocks.end(); it++) {
-		FLOG_D("iterating " + a + " != " + (*it)->m_host);
+        FLOG_D("iterating " + a + " != " + (*it)->m_host);
         if ((*it)->m_port == port && (a.empty() || (*it)->m_host == a)) {
-			FLOG_D("Getting server block corresponding to " + a + ":" + p);
-			return (*it);
-		}
+            FLOG_D("Getting server block corresponding to " + a + ":" + p);
+            return (*it);
+        }
     }
-	FLOG_D("Getting default server block for host " + host_header);
+    FLOG_D("Getting default server block for host " + host_header);
     return (m_blocks[0]);
 }
 
@@ -105,11 +106,11 @@ smt::shared_ptr<ServerBlock>
 //     smt::shared_ptr<HTTPRequest>& request) {
 //     std::string uri = request->getHeader("Host");
 
-//     if (uri.empty()) return (-1);
-//     if (startsWithIpAndPort(uri)) return bestServerBlockByIPAndPort(uri);
-//     if (startsWithIP(uri)) return bestServerBlockByIPAndPort(uri);
-//     if (startsWithServerName(uri)) return bestServerBlockByServerName(uri);
-//     return (-1);
+// if (uri.empty()) return (-1);
+// if (startsWithIpAndPort(uri)) return bestServerBlockByIPAndPort(uri);
+// if (startsWithIP(uri)) return bestServerBlockByIPAndPort(uri);
+// if (startsWithServerName(uri)) return bestServerBlockByServerName(uri);
+// return (-1);
 // }
 
 // int ServerSocket::bestServerBlockByIPAndPort(std::string& ipAndPort) {
@@ -117,34 +118,34 @@ smt::shared_ptr<ServerBlock>
 //     char* tempPort = 0;
 //     sscanf(ipAndPort.c_str(), "%s:%s", tempIP, tempPort);
 
-//     std::string IP(tempIP);
-//     std::string port(tempPort);
-//     int         index = 0;
+// std::string IP(tempIP);
+// std::string port(tempPort);
+// int         index = 0;
 
-//     for (std::vector< smt::shared_ptr<ServerBlock> >::iterator it =
-//              m_blocks.begin();
-//          it != m_blocks.end(); it++) {
-//         if ((*it)->m_port == static_cast<unsigned>(atoi(port.c_str())) &&
-//             ((*it)->m_host == IP || (*it)->m_host == "*")) {
-//             return index;
-//         }
-//         index++;
+// for (std::vector< smt::shared_ptr<ServerBlock> >::iterator it =
+//          m_blocks.begin();
+//      it != m_blocks.end(); it++) {
+//     if ((*it)->m_port == static_cast<unsigned>(atoi(port.c_str())) &&
+//         ((*it)->m_host == IP || (*it)->m_host == "*")) {
+//         return index;
 //     }
-//     LOG_D("No match found for ideal server block");
-//     return -1;
+//     index++;
+// }
+// LOG_D("No match found for ideal server block");
+// return -1;
 // }
 
 // int ServerSocket::bestServerBlockByServerName(std::string& serverName) {
 //     int index = 0;
 
-//     for (std::vector<smt::shared_ptr<ServerBlock>>::iterator it =
-//              m_blocks.begin();
-//          it != m_blocks.end(); it++) {
-//         if ((*it)->m_server_name == serverName) { return index; }
-//         index++;
-//     }
-//     LOG_D("No match found for ideal server block");
-//     return -1;
+// for (std::vector<smt::shared_ptr<ServerBlock>>::iterator it =
+//          m_blocks.begin();
+//      it != m_blocks.end(); it++) {
+//     if ((*it)->m_server_name == serverName) { return index; }
+//     index++;
+// }
+// LOG_D("No match found for ideal server block");
+// return -1;
 // }
 
 // bool ServerSocket::startsWithServerName(std::string const& str) {
@@ -152,32 +153,32 @@ smt::shared_ptr<ServerBlock>
 //         "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-";
 //     int const maxLabelLen = 63;
 
-//     size_t pos =
-//         str.find_first_not_of(validChars); // Find first non-valid character
-//     if (pos == std::string::npos) {
-//         // Cant start or end with a hyphen.
-//         if (str.front() == '-' || str.back() == '-') { return false; }
-//         return true;
-//     }
-//     else {
-//         size_t labelStart = 0;
-//         while (pos != std::string::npos) {
-//             size_t labelLen = pos - labelStart;
-//             if (labelLen == 0 || labelLen > maxLabelLen ||
-//                 str[labelStart] == '-' || str[pos - 1] == '-') {
-//                 return false;
-//             }
-//             labelStart = pos + 1;
-//             pos = str.find('.', labelStart);
-//         }
-//         // Check the last label (after the last '.').
-//         size_t lastLabelLen = str.length() - labelStart;
-//         if (lastLabelLen == 0 || lastLabelLen > maxLabelLen ||
-//             str[labelStart] == '-' || str.back() == '-') {
+// size_t pos =
+//     str.find_first_not_of(validChars); // Find first non-valid character
+// if (pos == std::string::npos) {
+//     // Cant start or end with a hyphen.
+//     if (str.front() == '-' || str.back() == '-') { return false; }
+//     return true;
+// }
+// else {
+//     size_t labelStart = 0;
+//     while (pos != std::string::npos) {
+//         size_t labelLen = pos - labelStart;
+//         if (labelLen == 0 || labelLen > maxLabelLen ||
+//             str[labelStart] == '-' || str[pos - 1] == '-') {
 //             return false;
 //         }
-//         return true;
+//         labelStart = pos + 1;
+//         pos = str.find('.', labelStart);
 //     }
+//     // Check the last label (after the last '.').
+//     size_t lastLabelLen = str.length() - labelStart;
+//     if (lastLabelLen == 0 || lastLabelLen > maxLabelLen ||
+//         str[labelStart] == '-' || str.back() == '-') {
+//         return false;
+//     }
+//     return true;
+// }
 // }
 
 // bool ServerSocket::startsWithIP(std::string const& str) {
@@ -187,7 +188,8 @@ smt::shared_ptr<ServerBlock>
 
 // bool ServerSocket::startsWithIpAndPort(std::string const& str) {
 //     std::regex pattern(
-//         "(\\d{1,3}\\.){3}\\d{1,3}:\\d+"); // Matches an IPv4 address with a port
+//         "(\\d{1,3}\\.){3}\\d{1,3}:\\d+"); // Matches an IPv4 address with a
+//         port
 //                                           // number
 //     return std::regex_match(str, pattern);
 // }
@@ -197,10 +199,10 @@ smt::shared_ptr<ServerBlock>
 //     if (uri.compare(0, 7, "http://") == 0) { uri = uri.substr(7); }
 //     else if (uri.compare(0, 8, "https://") == 0) { uri = uri.substr(8); }
 
-//     // Extract the server name
-//     size_t pos = uri.find('/');
-//     if (pos == std::string::npos) { return uri; }
-//     else { return ""; }
+// // Extract the server name
+// size_t pos = uri.find('/');
+// if (pos == std::string::npos) { return uri; }
+// else { return ""; }
 // }
 
 } // namespace webserv

@@ -68,7 +68,9 @@ HTTPRequest::~HTTPRequest() {}
 std::string HTTPRequest::toStr(void) const { return (m_req_str); }
 
 // Set the request method
-void HTTPRequest::setMethod(webserv::HTTPRequest::Method method) { m_method = method; }
+void HTTPRequest::setMethod(webserv::HTTPRequest::Method method) {
+    m_method = method;
+}
 
 // Get the request method
 webserv::HTTPRequest::Method HTTPRequest::getMethod() const { return m_method; }
@@ -217,10 +219,12 @@ bool HTTPRequest::isCGIRequest() {
 
 bool HTTPRequest::isValid() const { return (!m_statusCode); }
 
-std::ostream& operator<<(std::ostream& os, webserv::HTTPRequest::Method const& me) {
+std::ostream& operator<<(std::ostream&                       os,
+                         webserv::HTTPRequest::Method const& me) {
 
     switch (me) {
-        case webserv::HTTPRequest::UNDEFINED: return (os << std::string("UNDEFINED"));
+        case webserv::HTTPRequest::UNDEFINED:
+            return (os << std::string("UNDEFINED"));
         case webserv::HTTPRequest::GET: return (os << std::string("GET"));
         case webserv::HTTPRequest::POST: return (os << std::string("POST"));
         case webserv::HTTPRequest::DELETE: return (os << std::string("DELETE"));
