@@ -129,12 +129,12 @@ void HTTPServer::handle_client_req(smt::shared_ptr<ServerSocket> sock,
     int ret = http_handle(sock, connection_fd);
     if (ret == 0) {
         epoll_remove(connection_fd);
-        // sock->close(connection_fd);
+        sock->close(connection_fd);
         FLOG_D("webserv::HTTPServer CLOSE()");
     }
     else if (ret == -1) {
         epoll_remove(connection_fd);
-        // sock->close(connection_fd);
+        sock->close(connection_fd);
         FLOG_D("webserv::HTTPServer ERROR()");
     }
     FLOG_D("webserv::HTTPServer REQ() complete");

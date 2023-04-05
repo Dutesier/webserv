@@ -45,6 +45,22 @@ void TCPSocket::close(void) {
     m_fd = -1;
 }
 
+// Closes a specific connection and removes it from connections list
+void TCPSocket::close(int connect_fd) {
+
+	// getting connection from map
+    std::map<int, smt::shared_ptr<SocketConnection> >::iterator it;
+    it = m_connection.find(connect_fd);
+
+    if (it == m_connection.end()) { throw(NoSuchConnectionException()); }
+
+	// closing connection
+    m_connection[connect_fd]->close();
+
+	// removing connection from map
+	m_connection.erase(it);
+}
+
 // Starts accepting connections. Accept is a blocking call that will wait for
 // an incoming connection we can set a RCVTIMEO (timeout) value for the socket
 // in order to prevent accept from blocking our program

@@ -31,6 +31,7 @@ class TCPSocket : public Socket {
         int  accept(void);
         void shutdown(int how);
         void close(void);
+        void close(int connect_fd);
 
         std::string recv(int connect_fd);
         void        send(int connect_fd, std::string response);
