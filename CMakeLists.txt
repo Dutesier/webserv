@@ -15,7 +15,10 @@ if (test)
     pkg_check_modules(GMOCK "gmock" REQUIRED)
 endif()
 
-set(CMAKE_CXX_FLAGS "-g -Wall -Werror -Wextra -std=c++98")
+set(CMAKE_CXX_STANDARD 98)
+set(CMAKE_CXX_STANDARD_REQUIRED on)
+
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++98 -Wall -Werror -Wextra" FORCE)
 
 include_directories(${CMAKE_SOURCE_DIR}/includes)
 

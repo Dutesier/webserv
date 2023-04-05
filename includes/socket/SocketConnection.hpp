@@ -41,9 +41,8 @@ class SocketConnection : public webserv::Socket {
                 char const* what(void) const throw();
         };
 
-    private:
-
-        HTTPParser m_parser;
+        // Every instance of a socket connection point to a different parser (stores incomplete requests)
+        smt::shared_ptr<HTTPParser> m_parser;
 };
 
 } // namespace webserv

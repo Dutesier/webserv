@@ -36,6 +36,16 @@ class HTTPParser {
         std::vector<std::string>     separateByCRLF(std::string& raw);
         smt::shared_ptr<HTTPRequest> parse_header(std::string& header);
         int                          find_next_request(std::string& buff) const;
+
+    private:
+        // Buffer for storing data left over from
+        // previous call to recv
+        std::string restOfData;
+
+        // Flag to indicate whether there is data
+        // left over in the restOfData buffer
+        bool dataInBuffer;
+
 };
 
 #endif /* HTTPPARSER_HPP */
