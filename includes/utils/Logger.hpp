@@ -1,14 +1,17 @@
 #ifndef LOGGER_HPP
 #define LOGGER_HPP
 
+#include "utils/smt.hpp"
+
 #include <fstream>
 #include <iostream>
 #include <string>
 
-enum LogLevel { DEBUG, INFO, WARNING, ERROR, FATAL };
 
 class Logger {
     public:
+
+		enum LogLevel { DEBUG, INFO, WARNING, ERROR, FATAL };
 
         Logger(LogLevel l);
         ~Logger(void);
@@ -22,13 +25,13 @@ class Logger {
 };
 
 #define LOGGER(Logger_, Message_)                                              \
- Logger_(Message_, __FUNCTION__, __FILE__, __LINE__);
+ (*Logger_)(Message_, __FUNCTION__, __FILE__, __LINE__);
 
-Logger& Debug();
-Logger& Info();
-Logger& Warning();
-Logger& Error();
-Logger& Fatal();
+smt::shared_ptr<Logger>& Debug();
+smt::shared_ptr<Logger>& Info();
+smt::shared_ptr<Logger>& Warning();
+smt::shared_ptr<Logger>& Error();
+smt::shared_ptr<Logger>& Fatal();
 
 #define LOG(Message_)   LOGGER(Debug(), Message_)
 #define LOG_D(Message_) LOGGER(Debug(), Message_)
@@ -42,7 +45,9 @@ Logger& Fatal();
 class FileLogger {
     public:
 
-        FileLogger(LogLevel l);
+		enum FLogLevel { DEBUG, INFO, WARNING, ERROR, FATAL };
+
+        FileLogger(FLogLevel l);
         ~FileLogger(void);
 
         void operator()(std::string const& message, char const* function,
@@ -53,17 +58,17 @@ class FileLogger {
 
         std::ofstream logFile;
         bool          logToFile;
-        LogLevel      level;
+        FLogLevel      level;
 };
 
 #define FLOGGER(FileLogger_, Message_)                                         \
- FileLogger_(Message_, __FUNCTION__, __FILE__, __LINE__);
+ (*FileLogger_)(Message_, __FUNCTION__, __FILE__, __LINE__);
 
-FileLogger& FileDebug();
-FileLogger& FileInfo();
-FileLogger& FileWarning();
-FileLogger& FileError();
-FileLogger& FileFatal();
+smt::shared_ptr<FileLogger>& FileDebug();
+smt::shared_ptr<FileLogger>& FileInfo();
+smt::shared_ptr<FileLogger>& FileWarning();
+smt::shared_ptr<FileLogger>& FileError();
+smt::shared_ptr<FileLogger>& FileFatal();
 
 #define FLOG(Message_)   FLOGGER(FileDebug(), Message_)
 #define FLOG_D(Message_) FLOGGER(FileDebug(), Message_)

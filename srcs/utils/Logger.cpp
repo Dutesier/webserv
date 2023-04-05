@@ -35,33 +35,33 @@ void Logger::operator()(std::string const& message, char const* function,
     }
 }
 
-Logger& Debug() {
-    static Logger logger(LogLevel::DEBUG);
+smt::shared_ptr<Logger>& Debug() {
+    static smt::shared_ptr<Logger> logger(new Logger(Logger::DEBUG));
     return logger;
 }
 
-Logger& Info() {
-    static Logger logger(LogLevel::INFO);
+smt::shared_ptr<Logger>& Info() {
+    static smt::shared_ptr<Logger> logger(new Logger(Logger::INFO));
     return logger;
 }
 
-Logger& Warning() {
-    static Logger logger(LogLevel::WARNING);
+smt::shared_ptr<Logger>& Warning() {
+    static smt::shared_ptr<Logger> logger(new Logger(Logger::WARNING));
     return logger;
 }
 
-Logger& Error() {
-    static Logger logger(LogLevel::ERROR);
+smt::shared_ptr<Logger>& Error() {
+    static smt::shared_ptr<Logger> logger(new Logger(Logger::ERROR));
     return logger;
 }
 
-Logger& Fatal() {
-    static Logger logger(LogLevel::FATAL);
+smt::shared_ptr<Logger>& Fatal() {
+    static smt::shared_ptr<Logger> logger(new Logger(Logger::Logger::FATAL));
     return logger;
 }
 
 // File Logger - FLOG
-FileLogger::FileLogger(LogLevel l) : level(l) { setLogFile(LOGFILENAME); }
+FileLogger::FileLogger(FLogLevel l) : level(l) { setLogFile(LOGFILENAME); }
 
 FileLogger::~FileLogger() {
     if (logFile) logFile.close();
@@ -69,7 +69,7 @@ FileLogger::~FileLogger() {
 
 void FileLogger::setLogFile(std::string filename) {
     remove(filename.c_str());
-    logFile.open(filename, std::ios_base::app);
+    logFile.open(filename.c_str(), std::ios_base::app);
     if (!logFile.good()) {
         logFile.close();
         logToFile = false;
@@ -113,27 +113,27 @@ void FileLogger::operator()(std::string const& message, char const* function,
     }
 }
 
-FileLogger& FileDebug() {
-    static FileLogger fileLogger(LogLevel::DEBUG);
-    return fileLogger;
+smt::shared_ptr<FileLogger>& FileDebug() {
+    static smt::shared_ptr<FileLogger> fileLogger(new FileLogger(FileLogger::DEBUG));
+    return (fileLogger);
 }
 
-FileLogger& FileInfo() {
-    static FileLogger fileLogger(LogLevel::INFO);
-    return fileLogger;
+smt::shared_ptr<FileLogger>& FileInfo() {
+    static smt::shared_ptr<FileLogger> fileLogger(new FileLogger(FileLogger::INFO));
+    return (fileLogger);
 }
 
-FileLogger& FileWarning() {
-    static FileLogger fileLogger(LogLevel::WARNING);
-    return fileLogger;
+smt::shared_ptr<FileLogger>& FileWarning() {
+    static smt::shared_ptr<FileLogger> fileLogger(new FileLogger(FileLogger::WARNING));
+    return (fileLogger);
 }
 
-FileLogger& FileError() {
-    static FileLogger fileLogger(LogLevel::ERROR);
-    return fileLogger;
+smt::shared_ptr<FileLogger>& FileError() {
+    static smt::shared_ptr<FileLogger> fileLogger(new FileLogger(FileLogger::ERROR));
+    return (fileLogger);
 }
 
-FileLogger& FileFatal() {
-    static FileLogger fileLogger(LogLevel::FATAL);
-    return fileLogger;
+smt::shared_ptr<FileLogger>& FileFatal() {
+    static smt::shared_ptr<FileLogger> fileLogger(new FileLogger(FileLogger::FATAL));
+    return (fileLogger);
 }
