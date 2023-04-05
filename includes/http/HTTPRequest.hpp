@@ -18,12 +18,17 @@ enum Method { UNDEFINED, GET, POST, DELETE };
 std::ostream& operator<<(std::ostream& os, webserv::Method const& me);
 
 class HTTPRequest {
+
     public:
 
         // HTTP request methods
-        HTTPRequest();
+        HTTPRequest(void);
+        HTTPRequest(std::string req_str);
         HTTPRequest(int statusCode);
-        ~HTTPRequest();
+        ~HTTPRequest(void);
+
+        // returns request in string format
+        std::string toStr(void) const;
 
         // Set the request method
         void setMethod(webserv::Method method);
@@ -82,6 +87,11 @@ class HTTPRequest {
         // Check if there isnt a status code -> Valid
         bool isValid() const;
 
+        // MalformedRequestException exception
+        struct MalformedRequestException : std::exception {
+                char const* what(void) const throw();
+        };
+
     private:
 
         webserv::Method                    m_method;
@@ -90,6 +100,7 @@ class HTTPRequest {
         std::map<std::string, std::string> m_headers;
         std::string                        m_content;
         int                                m_statusCode;
+        std::string                        m_req_str;
 };
 
 std::ostream& operator<<(std::ostream& os, HTTPRequest const& req);

@@ -2,9 +2,68 @@
 
 HTTPRequest::HTTPRequest() : m_statusCode(0) {}
 
+HTTPRequest::HTTPRequest(std::string req_str) : m_statusCode(0), m_req_str(req_str) {
+    char*  buf;
+    size_t end_pos = req_str.find("\r\n\r\n");
+    if (end_pos == std::string::npos) { throw(MalformedRequestException()); }
+
+    std::istringstream iss(req_str);
+    std::string        start_line;
+    getline(iss, start_line); // getting first line
+
+    // handle headers
+    std::string line;
+    while (getline(iss, line) && line != "\r") {
+
+        size_t pos = line.find(':');
+        if (pos != std::string::npos) {
+
+            if (!(buf = strtok(const_cast<char*>(line.c_str()), ":"))) {
+                throw(MalformedRequestException());
+            }
+            std::string key(buf);
+            if (!(buf = strtok(NULL, " \r"))) {
+                throw(MalformedRequestException());
+            }
+            std::string val(buf);
+            m_headers[key] = val;
+        }
+    }
+
+    // handle start line
+    if (!(buf = strtok(const_cast<char*>(start_line.c_str()), " "))) {
+        throw(MalformedRequestException());
+    }
+
+    std::string method = std::string(buf);
+    if (method == "GET") { m_method = webserv::Method::GET; }
+    else if (method == "POST") { m_method = webserv::Method::POST; }
+    else if (method == "DELETE") { m_method = webserv::Method::DELETE; }
+    else { m_method = webserv::Method::UNDEFINED; }
+
+    if (!(buf = strtok(NULL, " "))) { throw(MalformedRequestException()); }
+    // m_uri = smt::shared_ptr<Uri>(new Uri(std::string(buf)));
+    m_resource = std::string(buf);
+
+    if (!(buf = strtok(NULL, "\r"))) { throw(MalformedRequestException()); }
+    m_version = std::string(buf);
+
+    if ((buf = strtok(NULL, "\n"))) { throw(MalformedRequestException()); }
+
+    // handle body
+    if (req_str.size() > end_pos + 4) {
+        m_content = req_str.substr(end_pos + 4);
+    }
+}
+
 HTTPRequest::HTTPRequest(int statusCode) : m_statusCode(statusCode) {}
 
 HTTPRequest::~HTTPRequest() {}
+
+// returns string representation of request
+std::string HTTPRequest::toStr(void) const {
+	return (m_req_str);
+}
 
 // Set the request method
 void HTTPRequest::setMethod(webserv::Method method) { m_method = method; }
@@ -174,4 +233,8 @@ std::ostream& operator<<(std::ostream& os, HTTPRequest const& req) {
     os << req.getAllHeaders();
     os << req.getContent();
     return os;
+}
+
+char const* HTTPRequest::MalformedRequestException::what(void) const throw() {
+	return ("HTTPRequest: malformed request");
 }

@@ -6,14 +6,15 @@ std::map<int, std::string> HTTPResponse::s_status_map =
     HTTPResponse::create_status_map();
 
 HTTPResponse::HTTPResponse(int                                status,
-                           std::map<std::string, std::string> header,
+                           std::map<std::string, std::string> headers,
                            std::string body, std::string version)
-    : m_status(status), m_header(header), m_body(body), m_version(version),
+    : m_status(status), m_headers(headers), m_content(body), m_version(version),
       m_reason(HTTPResponse::s_status_map[m_status]) {}
 
 HTTPResponse::~HTTPResponse(void) {}
 
-std::string HTTPResponse::to_str(void) {
+std::string HTTPResponse::toStr(void) {
+
     std::string sp(" ");
     std::string crlf("\r\n");
 
@@ -22,14 +23,14 @@ std::string HTTPResponse::to_str(void) {
     ss << m_status;
     std::string status = ss.str();
 
-    // converting m_header to string
+    // converting m_headers to string
     std::string header;
-    for (std::map<std::string, std::string>::iterator it = m_header.begin();
-         it != m_header.end(); it++) {
+    for (std::map<std::string, std::string>::iterator it = m_headers.begin();
+         it != m_headers.end(); it++) {
         header += (*it).first + ": " + (*it).second + crlf;
     }
     return (m_version + sp + status + sp + m_reason + crlf + header + crlf +
-            m_body);
+            m_content);
 }
 
 std::map<int, std::string> HTTPResponse::create_status_map(void) {

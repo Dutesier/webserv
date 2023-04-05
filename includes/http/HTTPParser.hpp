@@ -15,6 +15,7 @@
 # define MAX_HEADER_SIZE 8192
 #endif
 
+//TODO: delete this as its all done
 class HTTPParser {
     public:
 

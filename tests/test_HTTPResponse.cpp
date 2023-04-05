@@ -20,7 +20,7 @@ TEST(test_HTTPResponse, destructor) {
     ASSERT_NO_THROW(delete a);
 }
 
-TEST(test_HTTPResponse, to_str) {
+TEST(test_HTTPResponse, toStr) {
 
     // testing without body
     std::string resp1 = "HTTP/1.1 200 OK\r\nDuarte: gaja\r\nMaria: "
@@ -31,7 +31,7 @@ TEST(test_HTTPResponse, to_str) {
     header["Duarte"] = "gaja";
     webserv::HTTPResponse* a;
     ASSERT_NO_THROW(a = new webserv::HTTPResponse(200, header, ""));
-    ASSERT_EQ(a->to_str(), resp1);
+    ASSERT_EQ(a->toStr(), resp1);
     ASSERT_NO_THROW(delete a);
 
     // testing with body
@@ -43,9 +43,9 @@ TEST(test_HTTPResponse, to_str) {
         b = new webserv::HTTPResponse(200, header,
                                       "Depois disto a Maria decidiu que ja nao "
                                       "se vai dar mais com gajas"));
-    ASSERT_EQ(b->to_str(), resp2);
+    ASSERT_EQ(b->toStr(), resp2);
     ASSERT_NO_THROW(delete b);
 
-    // testing to_str with generate_response
+    // testing toStr with generate_response
     // webserv::HTTPHandler::generate_response_error(404,);
 }

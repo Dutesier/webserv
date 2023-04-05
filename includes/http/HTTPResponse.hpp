@@ -9,15 +9,15 @@ namespace webserv {
 
 struct HTTPResponse {
 
-        HTTPResponse(int code, std::map<std::string, std::string> header,
+        HTTPResponse(int code, std::map<std::string, std::string> headers,
                      std::string body = "", std::string version = "HTTP/1.1");
         ~HTTPResponse(void);
 
-        std::string to_str(void);
+        std::string toStr(void);
 
         int                                m_status;
-        std::map<std::string, std::string> m_header;
-        std::string                        m_body;
+        std::map<std::string, std::string> m_headers;
+        std::string                        m_content;
         std::string                        m_version;
         std::string                        m_reason;
 

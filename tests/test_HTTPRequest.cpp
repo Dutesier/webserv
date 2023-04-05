@@ -69,3 +69,30 @@ TEST_F(test_HTTPRequest, Validity) {
     ASSERT_TRUE(req->isCGIRequest());
     ASSERT_TRUE(req->isValid());
 }
+
+
+// TODO: test to_str() methods
+TEST(test_Request, constructor) {
+	ASSERT_NO_THROW(HTTPRequest("GET / HTTP/1.1\r\nHost: x\r\nContent-Length: 15\r\n\r\nThis is a body"));
+}
+
+
+TEST(test_Request, error) {
+
+    // wrong start line
+    std::string req0 =
+        "GET HTTP/1.1\r\nHost: x\r\nContent-Length: 15\r\n\r\nThis is a body";
+    // wrong header
+    std::string req1 =
+        "GET / HTTP/1.1\r\nHost:\r\nContent-Length: 15\r\n\r\nThis is a body";
+    // wrong body
+    std::string req2 = "GET / HTTP/1.1\r\nHost:x\r\nContent-Length: 15\r\n\r\n";
+
+    ASSERT_THROW(HTTPRequest a(req0),
+                 HTTPRequest::MalformedRequestException);
+
+    ASSERT_THROW(HTTPRequest a(req1),
+                 HTTPRequest::MalformedRequestException);
+
+    ASSERT_NO_THROW(HTTPRequest a(req2));
+}
