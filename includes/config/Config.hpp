@@ -28,7 +28,7 @@ class Config {
         Config(int argc, char* argv[]);
         ~Config(void);
 
-        std::vector<std::string> split_line(std::string line);
+        std::vector<std::string> splitLine(std::string line);
 
         std::vector< smt::shared_ptr<ServerBlock> > blocks(void);
 

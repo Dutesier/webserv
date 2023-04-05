@@ -15,7 +15,7 @@ class ServerSocket : public TCPSocket {
         ServerSocket(int port, std::string host = "*");
         ~ServerSocket(void);
 
-        std::string getNextRequest(int connection_fd, std::string req_str = "");
+        std::string getNextRequest(int connectionFd, std::string reqStr = "");
         smt::shared_ptr<ServerBlock>
             getConfigFromRequest(smt::shared_ptr<HTTPRequest>& req);
 

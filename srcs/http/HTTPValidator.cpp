@@ -1,9 +1,9 @@
 #include "http/HTTPValidator.hpp"
 
-ok_err::ok_err(void) : ok(true), err(0) {}
+okErr::okErr(void) : ok(true), err(0) {}
 
-ok_err::~ok_err(void) {}
+okErr::~okErr(void) {}
 
-// ok_err HTTPValidator::isValid(smt::shared_ptr<HTTPRequest>& request) {
+// okErr HTTPValidator::isValid(smt::shared_ptr<HTTPRequest>& request) {
 
 // }

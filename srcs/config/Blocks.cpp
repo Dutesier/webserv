@@ -3,7 +3,7 @@
 namespace webserv {
 
 ServerBlock::ServerBlock(void)
-    : m_autoindex(true), m_body_size(BODY_SIZE), m_port(80), m_host("*"),
+    : m_autoindex(true), m_bodySize(BODY_SIZE), m_port(80), m_host("*"),
       m_index(std::string(D_ROOT_PATH) + "index.html"), m_root(D_ROOT_PATH) {}
 
 ServerBlock::~ServerBlock(void) {}
@@ -21,7 +21,7 @@ std::string ServerBlock::autoindex(std::vector<std::string> command) {
     return ("");
 }
 
-std::string ServerBlock::body_size(std::vector<std::string> command) {
+std::string ServerBlock::bodySize(std::vector<std::string> command) {
 
     // checking if command size is valid
     if (command.size() != 2) { return ("wrong number of arguments"); }
@@ -38,12 +38,12 @@ std::string ServerBlock::body_size(std::vector<std::string> command) {
     std::stringstream ss(command[1]);
     ss >> size;
 
-    // checking if m_body_size is whithin valid limits
+    // checking if m_bodySize is whithin valid limits
     if (size > MAX_BODY_SIZE) {
         return (command[1] + ": invalid max body size");
     }
 
-    m_body_size = size;
+    m_bodySize = size;
 
     return ("");
 }
@@ -138,16 +138,16 @@ std::string ServerBlock::root(std::vector<std::string> command) {
     return ("");
 }
 
-std::string ServerBlock::server_name(std::vector<std::string> command) {
+std::string ServerBlock::serverName(std::vector<std::string> command) {
 
     // checking if command size is valid
     if (command.size() != 2) { return ("wrong number of arguments"); }
 
-    m_server_name = command[1];
+    m_serverName = command[1];
     return ("");
 }
 
-std::string ServerBlock::error_page(std::vector<std::string> command) {
+std::string ServerBlock::errorPage(std::vector<std::string> command) {
 
     // checking if command size is valid
     if (command.size() < 3) { return ("wrong number of arguments"); }
@@ -175,8 +175,8 @@ std::string ServerBlock::error_page(std::vector<std::string> command) {
         int               code;
         ss >> code;
 
-        // adding status code in m_error_page
-        m_error_page[code] = page;
+        // adding status code in m_errorPage
+        m_errorPage[code] = page;
     }
     return ("");
 }
@@ -224,11 +224,11 @@ smt::shared_ptr<LocationBlock> ServerBlock::getLocationBlockForRequest(
 }
 
 LocationBlock::LocationBlock(std::string target)
-    : m_cgi_enabled(false), m_target(target) {
+    : m_cgiEnabled(false), m_target(target) {
 
     // setting up allowed method
     std::string arr[3] = {"GET", "POST", "DELETE"};
-    m_allowed_methods = std::set<std::string>(arr, arr + 3);
+    m_allowedMethods = std::set<std::string>(arr, arr + 3);
 }
 
 LocationBlock::~LocationBlock(void) {}
@@ -243,9 +243,9 @@ std::string LocationBlock::cgi(std::vector<std::string> command) {
     if (command.size() != 2) { return ("wrong number of arguments"); }
 
     // validating command[1]
-    if (command[1] == "false") { m_cgi_enabled = false; }
+    if (command[1] == "false") { m_cgiEnabled = false; }
     else if (command[1] == "true") {
-        m_cgi_enabled = true;
+        m_cgiEnabled = true;
         // TODO: Check scripting language
         // TODO: Check for the presence of a Script directory
         m_cgi = smt::make_shared<cgi::CGIHandler>(
@@ -267,19 +267,19 @@ std::string LocationBlock::root(std::vector<std::string> command) {
     closedir(dir);
 
     m_root = command[1];
-    if (m_cgi_enabled && m_cgi->isValid()) m_cgi->updateScriptDirectory(m_root);
+    if (m_cgiEnabled && m_cgi->isValid()) m_cgi->updateScriptDirectory(m_root);
     return ("");
 }
 
-std::string LocationBlock::allowed_methods(std::vector<std::string> command) {
+std::string LocationBlock::allowedMethods(std::vector<std::string> command) {
 
     // checking if command size is valid
     if (command.size() < 2) { return ("wrong number of arguments"); }
 
     // cleaning default methods
-    m_allowed_methods.clear();
+    m_allowedMethods.clear();
     for (size_t i = 1; i < command.size(); i++) {
-        m_allowed_methods.insert(command[i]);
+        m_allowedMethods.insert(command[i]);
     }
 
     return ("");
@@ -287,20 +287,20 @@ std::string LocationBlock::allowed_methods(std::vector<std::string> command) {
 
 bool operator==(LocationBlock const& lhs, LocationBlock const& rhs) {
 
-    return (lhs.m_cgi_enabled == rhs.m_cgi_enabled &&
+    return (lhs.m_cgiEnabled == rhs.m_cgiEnabled &&
             lhs.m_target == rhs.m_target && lhs.m_root == rhs.m_root &&
-            lhs.m_allowed_methods == rhs.m_allowed_methods &&
+            lhs.m_allowedMethods == rhs.m_allowedMethods &&
             lhs.m_cgi == rhs.m_cgi);
 }
 
 bool operator==(ServerBlock const& lhs, ServerBlock const& rhs) {
 
     return (lhs.m_autoindex == rhs.m_autoindex &&
-            lhs.m_body_size == rhs.m_body_size && lhs.m_port == rhs.m_port &&
+            lhs.m_bodySize == rhs.m_bodySize && lhs.m_port == rhs.m_port &&
             lhs.m_host == rhs.m_host && lhs.m_index == rhs.m_index &&
             lhs.m_root == rhs.m_root &&
-            lhs.m_server_name == rhs.m_server_name &&
-            lhs.m_error_page == rhs.m_error_page &&
+            lhs.m_serverName == rhs.m_serverName &&
+            lhs.m_errorPage == rhs.m_errorPage &&
             lhs.m_location == rhs.m_location);
 }
 

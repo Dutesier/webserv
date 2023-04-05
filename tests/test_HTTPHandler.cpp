@@ -18,9 +18,9 @@ TEST(test_HTTPHandler, generate_error_response_default) {
         new webserv::HTTPResponse(404, header, body));
     smt::shared_ptr<webserv::ServerBlock> config(new webserv::ServerBlock);
 
-    // calling generate_error_response()
+    // calling generateErrorResponse()
     smt::shared_ptr<webserv::HTTPResponse> err =
-        webserv::generate_error_response(404, config);
+        webserv::generateErrorResponse(404, config);
 
     // checking if responses are equal
     ASSERT_EQ(err->m_status, resp->m_status);
@@ -48,11 +48,11 @@ TEST(test_HTTPHandler, generate_error_response_custom) {
     smt::shared_ptr<webserv::HTTPResponse> resp(
         new webserv::HTTPResponse(500, header, body));
     smt::shared_ptr<webserv::ServerBlock> config(new webserv::ServerBlock);
-    config->m_error_page[500] = "../webserv/website/50X.html";
+    config->m_errorPage[500] = "../webserv/website/50X.html";
 
-    // calling generate_error_response()
+    // calling generateErrorResponse()
     smt::shared_ptr<webserv::HTTPResponse> err =
-        webserv::generate_error_response(500, config);
+        webserv::generateErrorResponse(500, config);
 
     // checking if responses are equal
     ASSERT_EQ(err->m_status, resp->m_status);
@@ -76,11 +76,11 @@ TEST(test_HTTPHandler, generate_error_response_custom_error) {
     smt::shared_ptr<webserv::HTTPResponse> resp(
         new webserv::HTTPResponse(500, header, body));
     smt::shared_ptr<webserv::ServerBlock> config(new webserv::ServerBlock);
-    config->m_error_page[500] = "../webserv/website/doesnt/exist";
+    config->m_errorPage[500] = "../webserv/website/doesnt/exist";
 
-    // calling generate_error_response()
+    // calling generateErrorResponse()
     smt::shared_ptr<webserv::HTTPResponse> err =
-        webserv::generate_error_response(500, config);
+        webserv::generateErrorResponse(500, config);
 
     // checking if responses are equal
     ASSERT_EQ(err->m_status, resp->m_status);

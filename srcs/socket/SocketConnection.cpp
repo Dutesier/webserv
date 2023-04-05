@@ -35,13 +35,13 @@ void SocketConnection::send(std::string message) {
     }
 }
 
-std::string SocketConnection::getNextRequest(std::string req_str) {
+std::string SocketConnection::getNextRequest(std::string reqStr) {
 
     static std::string buff;
     std::string        ret;
 
-    // adding req_str to buff
-    if (req_str != "") { buff += req_str; }
+    // adding reqStr to buff
+    if (reqStr != "") { buff += reqStr; }
 
     size_t end_headers = buff.find("\r\n\r\n");
     // Request is incomplete

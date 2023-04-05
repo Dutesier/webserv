@@ -19,8 +19,8 @@ Config::Config(int argc, char* argv[]) {
 
     // parsing file and checking for errors
     std::string line;
-    bool        in_server = false;
-    bool        in_location = false;
+    bool        inServer = false;
+    bool        inLocation = false;
     int         i = 0;
 
     smt::shared_ptr<ServerBlock>   server;
@@ -34,13 +34,13 @@ Config::Config(int argc, char* argv[]) {
         // beggining of a server block
         if (line.find("server {") != std::string::npos) {
 
-            if (in_server) {
+            if (inServer) {
                 ERROR_SYNTAX("server block inside another server block");
             }
 
-            // allocating a new block::server and setting in_server to true
+            // allocating a new block::server and setting inServer to true
             server = smt::shared_ptr<ServerBlock>(new ServerBlock());
-            in_server = true;
+            inServer = true;
 
             continue;
         }
@@ -48,22 +48,22 @@ Config::Config(int argc, char* argv[]) {
         // beggining of a location block
         if (line.find("location") != std::string::npos) {
 
-            if (in_location) {
+            if (inLocation) {
                 ERROR_SYNTAX("location block inside another location block");
             }
-            else if (!in_server) {
+            else if (!inServer) {
                 ERROR_SYNTAX("location block not inside server block");
             }
 
-            // allocating a new block::location and setting in_location to true
-            std::vector<std::string> target = split_line(line);
+            // allocating a new block::location and setting inLocation to true
+            std::vector<std::string> target = splitLine(line);
             if (target.size() != 3 || target[2] != "{") {
                 ERROR_SYNTAX("unrecognized syntax");
             }
             location =
                 smt::shared_ptr<LocationBlock>(new LocationBlock(target[1]));
 
-            in_location = true;
+            inLocation = true;
 
             continue;
         }
@@ -71,19 +71,19 @@ Config::Config(int argc, char* argv[]) {
         // end of a block
         if (line.find("}") != std::string::npos) {
 
-            if (in_location && in_server) {
+            if (inLocation && inServer) {
 
                 // end of location block
-                in_location = false;
+                inLocation = false;
 
                 // adding location to m_blocks
                 server->m_location.insert(
                     std::make_pair(location->m_target, location));
             }
-            else if (in_server) {
+            else if (inServer) {
 
                 // end of server block
-                in_server = false;
+                inServer = false;
 
                 // adding server to m_blocks
                 m_blocks.push_back(server);
@@ -94,14 +94,14 @@ Config::Config(int argc, char* argv[]) {
         }
 
         // directives
-        if (in_server) {
+        if (inServer) {
 
-            if (in_location) {
+            if (inLocation) {
 
                 // parsing location block directives
 
                 // splitting line
-                std::vector<std::string> command = split_line(line);
+                std::vector<std::string> command = splitLine(line);
                 if (command.empty()) { ERROR_SYNTAX("invalid directory"); }
 
                 // checking if command ends with a comma
@@ -118,7 +118,7 @@ Config::Config(int argc, char* argv[]) {
                     err = location->cgi(command);
                 }
                 else if (command[0] == "allowed_method") {
-                    err = location->allowed_methods(command);
+                    err = location->allowedMethods(command);
                 }
                 else { ERROR_SYNTAX(command[0] + ": unrecognized command"); }
 
@@ -126,13 +126,13 @@ Config::Config(int argc, char* argv[]) {
 
                 continue;
             }
-            else if (!in_location) {
+            else if (!inLocation) {
 
                 // parsing server block directives
 
                 // splitting line
                 bool                     f = false;
-                std::vector<std::string> command = split_line(line);
+                std::vector<std::string> command = splitLine(line);
                 if (command.empty()) { ERROR_SYNTAX("invalid directory"); }
 
                 // checking if command ends with a comma
@@ -148,7 +148,7 @@ Config::Config(int argc, char* argv[]) {
                     err = server->autoindex(command);
                 }
                 else if (command[0] == "max_body_size") {
-                    err = server->body_size(command);
+                    err = server->bodySize(command);
                 }
                 else if (command[0] == "listen" && !f) {
                     f = true;
@@ -159,10 +159,10 @@ Config::Config(int argc, char* argv[]) {
                 }
                 else if (command[0] == "root") { err = server->root(command); }
                 else if (command[0] == "server_name") {
-                    err = server->server_name(command);
+                    err = server->serverName(command);
                 }
                 else if (command[0] == "error_page") {
-                    err = server->error_page(command);
+                    err = server->errorPage(command);
                 }
                 else { ERROR_SYNTAX(command[0] + ": unrecognized command"); }
 
@@ -174,14 +174,14 @@ Config::Config(int argc, char* argv[]) {
 
         ERROR_SYNTAX("directive outside server block");
     }
-    if (in_server) { ERROR_SYNTAX("unclosed bracket"); }
+    if (inServer) { ERROR_SYNTAX("unclosed bracket"); }
 
     m_file.close();
 }
 
 Config::~Config(void) {}
 
-std::vector<std::string> Config::split_line(std::string line) {
+std::vector<std::string> Config::splitLine(std::string line) {
 
     std::vector<std::string> command;
 

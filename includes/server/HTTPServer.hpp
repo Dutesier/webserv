@@ -53,7 +53,7 @@ class HTTPServer {
 
         void handle_client_ack(int fd);
         void handle_client_req(smt::shared_ptr<ServerSocket> sock,
-                               int                           connection_fd);
+                               int                           connectionFd);
 
         t_state                                       m_state;
         smt::shared_ptr<Config>                       m_config;

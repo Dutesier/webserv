@@ -13,79 +13,79 @@ void strcpy(char* me, char const* other) {
     me[i] = '\0';
 }
 
-void CGIContext::fill_envp(std::string name, std::string val) {
+void CGIContext::fillEnvp(std::string name, std::string val) {
     if (!name.empty() && !val.empty()) { envp.push_back(name + "=" + val); }
 }
 
 CGIContext::CGIContext(smt::shared_ptr<webserv::HTTPRequest> request,
-                       std::string                           root_directory)
-    : directory(root_directory) {
+                       std::string                           rootDirectory)
+    : directory(rootDirectory) {
     std::stringstream ss;
-    c_envp = NULL;
+    m_envp = NULL;
 
     ss << request->getContent().length();
-    fill_envp("CONTENT_LENGTH", ss.str());
-    fill_envp("CONTENT_TYPE", request->getHeader("Content-Type"));
+    fillEnvp("CONTENT_LENGTH", ss.str());
+    fillEnvp("CONTENT_TYPE", request->getHeader("Content-Type"));
     if (request->getMethod() == webserv::HTTPRequest::GET)
-        fill_envp("REQUEST_METHOD", "GET");
+        fillEnvp("REQUEST_METHOD", "GET");
     else if (request->getMethod() == webserv::HTTPRequest::POST)
-        fill_envp("REQUEST_METHOD", "POST");
-    fill_envp("SERVER_PROTOCOL", "HTTP/1.1");
-    fill_envp("PATH_INFO", request->getPathInfo());
-    fill_envp("SCRIPT_NAME", request->getScriptName());
-    fill_envp("QUERY_STRING", request->getQueriesFromResource());
-    fill_envp("USER_AGENT", request->getHeader("User-Agent"));
-    fill_envp("PATH_TRANSLATED",
+        fillEnvp("REQUEST_METHOD", "POST");
+    fillEnvp("SERVER_PROTOCOL", "HTTP/1.1");
+    fillEnvp("PATH_INFO", request->getPathInfo());
+    fillEnvp("SCRIPT_NAME", request->getScriptName());
+    fillEnvp("QUERY_STRING", request->getQueriesFromResource());
+    fillEnvp("USER_AGENT", request->getHeader("User-Agent"));
+    fillEnvp("PATH_TRANSLATED",
               std::string(directory + request->getScriptName()));
-    fill_envp("DOCUMENT_ROOT", directory);
+    fillEnvp("DOCUMENT_ROOT", directory);
     // ss.str(std::string());
     // ss << port; Need a way to get server port
-    // fill_envp("SERVER_PORT", ss.str());
+    // fillEnvp("SERVER_PORT", ss.str());
 
-    c_envp = new char*[envp.size() + 1];
+    m_envp = new char*[envp.size() + 1];
     int envpIndex = 0;
     for (std::vector<std::string>::iterator it = envp.begin(); it != envp.end();
          ++it) {
-        c_envp[envpIndex] = new char[it->size() + 1];
-        cgi::strcpy(c_envp[envpIndex++], it->c_str());
+        m_envp[envpIndex] = new char[it->size() + 1];
+        cgi::strcpy(m_envp[envpIndex++], it->c_str());
     }
-    c_envp[envpIndex] = NULL;
+    m_envp[envpIndex] = NULL;
 
-    c_argv = new char*[2];
+    m_argv = new char*[2];
     std::string path =
         directory.substr(0, directory.size()) + request->getScriptName();
-    c_argv[0] = new char[path.size() + 1];
-    cgi::strcpy(c_argv[0], path.c_str());
-    c_argv[1] = NULL;
+    m_argv[0] = new char[path.size() + 1];
+    cgi::strcpy(m_argv[0], path.c_str());
+    m_argv[1] = NULL;
 
-    c_path = new char[path.size() + 1];
-    cgi::strcpy(c_path, path.c_str());
+    m_path = new char[path.size() + 1];
+    cgi::strcpy(m_path, path.c_str());
 }
 
 CGIContext::~CGIContext() {
     int envpIndex = 0;
-    if (c_envp) {
+    if (m_envp) {
         for (std::vector<std::string>::iterator it = envp.begin();
              it != envp.end(); ++it) {
-            delete c_envp[envpIndex++];
+            delete m_envp[envpIndex++];
         }
-        delete[] c_envp;
+        delete[] m_envp;
     }
 
     // Argv is a null terminated Char**
-    if (c_argv) {
-        delete c_argv[0];
-        delete[] c_argv;
+    if (m_argv) {
+        delete m_argv[0];
+        delete[] m_argv;
     }
 
-    if (c_path) { delete c_path; }
+    if (m_path) { delete m_path; }
 }
 
-char* CGIContext::getPath() const { return c_path; }
+char* CGIContext::getPath() const { return m_path; }
 
-char** CGIContext::getEnvp() const { return c_envp; }
+char** CGIContext::getEnvp() const { return m_envp; }
 
-char** CGIContext::getArgv() const { return c_argv; }
+char** CGIContext::getArgv() const { return m_argv; }
 
 } // namespace cgi
 

@@ -15,23 +15,24 @@ class CGIContext {
         // CGIContext(std::vector<std::string> queryValues, std::string
         // scriptPath);
         CGIContext(smt::shared_ptr<webserv::HTTPRequest> request,
-                   std::string                           root_directory);
-        ~CGIContext();
+                   std::string                           rootDirectory);
+        ~CGIContext(void);
 
-        void   fill_envp(std::string name, std::string val);
-        char*  getPath() const;
-        char** getEnvp() const;
-        char** getArgv() const;
+        void   fillEnvp(std::string name, std::string val);
+        char*  getPath(void) const;
+        char** getEnvp(void) const;
+        char** getArgv(void) const;
 
     private:
 
         std::string              directory;
         std::vector<std::string> envp;
 
-        char** c_envp;
-        char** c_argv;
-        char*  c_path;
+        char** m_envp;
+        char** m_argv;
+        char*  m_path;
 };
+
 } // namespace cgi
 
 std::ostream& operator<<(std::ostream& os, cgi::CGIContext const& ctx);

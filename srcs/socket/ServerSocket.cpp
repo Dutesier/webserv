@@ -56,15 +56,15 @@ ServerSocket::ServerSocket(int port, std::string host) : TCPSocket(port, host) {
 
 ServerSocket::~ServerSocket(void) {}
 
-std::string ServerSocket::getNextRequest(int         connection_fd,
-                                         std::string req_str) {
+std::string ServerSocket::getNextRequest(int         connectionFd,
+                                         std::string reqStr) {
     typedef std::map< int, smt::shared_ptr<SocketConnection> >::iterator
         iterator;
 
-    iterator it = m_connection.find(connection_fd);
+    iterator it = m_connection.find(connectionFd);
     if (it == m_connection.end()) { throw(NoSuchConnectionException()); }
 
-    return ((*it).second->getNextRequest(req_str));
+    return ((*it).second->getNextRequest(reqStr));
 }
 
 // Chooses the right server block from the config file for the request type
@@ -141,7 +141,7 @@ smt::shared_ptr<ServerBlock>
 // for (std::vector<smt::shared_ptr<ServerBlock>>::iterator it =
 //          m_blocks.begin();
 //      it != m_blocks.end(); it++) {
-//     if ((*it)->m_server_name == serverName) { return index; }
+//     if ((*it)->m_serverName == serverName) { return index; }
 //     index++;
 // }
 // LOG_D("No match found for ideal server block");

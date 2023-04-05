@@ -2,14 +2,14 @@
 
 namespace webserv {
 
-std::map<int, std::string> HTTPResponse::s_status_map =
-    HTTPResponse::create_status_map();
+std::map<int, std::string> HTTPResponse::s_statusMap =
+    HTTPResponse::createStatusMap();
 
 HTTPResponse::HTTPResponse(int                                status,
                            std::map<std::string, std::string> headers,
                            std::string body, std::string version)
     : m_status(status), m_headers(headers), m_content(body), m_version(version),
-      m_reason(HTTPResponse::s_status_map[m_status]) {}
+      m_reason(HTTPResponse::s_statusMap[m_status]) {}
 
 HTTPResponse::~HTTPResponse(void) {}
 
@@ -33,7 +33,7 @@ std::string HTTPResponse::toStr(void) {
             m_content);
 }
 
-std::map<int, std::string> HTTPResponse::create_status_map(void) {
+std::map<int, std::string> HTTPResponse::createStatusMap(void) {
     std::map<int, std::string> code_map;
 
     code_map[100] = "Continue";

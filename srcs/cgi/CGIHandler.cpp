@@ -29,33 +29,33 @@ smt::shared_ptr<webserv::HTTPResponse>
 
 smt::shared_ptr<webserv::HTTPResponse>
     CGIHandler::runAsChildProcess(int fd, smt::shared_ptr<CGIContext>& context,
-                                  std::string req_content) {
+                                  std::string reqContent) {
     (void)fd;
-    (void)req_content;
+    (void)reqContent;
 
     LOG_D("running child process");
     FILE* input = tmpfile();
-    int   input_fd = fileno(input);
+    int   inputFd = fileno(input);
 
     FILE* output = tmpfile();
-    int   output_fd = fileno(output);
+    int   outputFd = fileno(output);
 
-    int stdin_reference = dup(STDIN_FILENO);
-    int stdout_reference = dup(STDOUT_FILENO);
+    int stdinRef = dup(STDIN_FILENO);
+    int stdoutRef = dup(STDOUT_FILENO);
 
-    if (!input || !output || stdin_reference < 0)
+    if (!input || !output || stdinRef < 0)
         LOG_E("Failed to create tmp files");
-    if (input_fd < 0) LOG_E("Failed to get temporary infile fd");
+    if (inputFd < 0) LOG_E("Failed to get temporary infile fd");
     // check if request type is POST {
-    // write(input_fd, req_content.c_str(), req_content.size());
+    // write(inputFd, reqContent.c_str(), reqContent.size());
     // rewind(input);
     // }
     pid_t pid = fork();
     if (pid < 0) { LOG_E("Failed to spawn child process"); }
     else if (pid == 0) {
         // Direct I/O to temporary file;
-        dup2(input_fd, STDIN_FILENO);
-        dup2(output_fd, STDOUT_FILENO);
+        dup2(inputFd, STDIN_FILENO);
+        dup2(outputFd, STDOUT_FILENO);
         execve(context->getPath(), context->getArgv(), context->getEnvp());
         perror("execve() failed");
         // Child process
@@ -74,8 +74,8 @@ smt::shared_ptr<webserv::HTTPResponse>
     else {
         int  bytesRead = 0;
         char buf[2049];
-        lseek(output_fd, 0, SEEK_SET);
-        while ((bytesRead = read(output_fd, buf, 2048)) > 0) {
+        lseek(outputFd, 0, SEEK_SET);
+        while ((bytesRead = read(outputFd, buf, 2048)) > 0) {
             buf[bytesRead] = '\0';
         }
         std::string                        body(buf);
@@ -86,8 +86,8 @@ smt::shared_ptr<webserv::HTTPResponse>
     }
 
     // Reset STDIN and STDOUT
-    dup2(stdin_reference, STDIN_FILENO);
-    dup2(stdout_reference, STDOUT_FILENO);
+    dup2(stdinRef, STDIN_FILENO);
+    dup2(stdoutRef, STDOUT_FILENO);
 
     // Close temporary files
     fclose(input);

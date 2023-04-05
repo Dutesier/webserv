@@ -112,13 +112,13 @@ TEST(test_Config, values) {
 
     smt::shared_ptr<webserv::ServerBlock> server = config->m_blocks[0];
     ASSERT_TRUE(server->m_autoindex);
-    ASSERT_EQ(server->m_body_size, BODY_SIZE);
+    ASSERT_EQ(server->m_bodySize, BODY_SIZE);
     ASSERT_EQ(server->m_port, 443);
     ASSERT_EQ(server->m_host, "128.0.0.1");
     ASSERT_EQ(server->m_index, std::string(D_ROOT_PATH) + "index.html");
     ASSERT_EQ(server->m_root, "../tests/test_web/");
-    ASSERT_EQ(server->m_server_name, "www.example.com");
-    ASSERT_EQ(server->m_error_page, comp1);
+    ASSERT_EQ(server->m_serverName, "www.example.com");
+    ASSERT_EQ(server->m_errorPage, comp1);
     ASSERT_EQ(server->m_location.size(), 2);
 
     smt::shared_ptr<webserv::LocationBlock> location =
@@ -126,17 +126,17 @@ TEST(test_Config, values) {
     std::set<std::string> comp2;
     comp2.insert("GET");
     comp2.insert("POST");
-    ASSERT_FALSE(location->m_cgi_enabled);
+    ASSERT_FALSE(location->m_cgiEnabled);
     ASSERT_EQ(location->m_target, "two");
     ASSERT_EQ(location->m_root, "");
-    ASSERT_EQ(location->m_allowed_methods, comp2);
+    ASSERT_EQ(location->m_allowedMethods, comp2);
 
     comp2.erase(comp2.find("POST"));
     location = server->m_location["one/two/three"];
-    ASSERT_TRUE(location->m_cgi_enabled);
+    ASSERT_TRUE(location->m_cgiEnabled);
     ASSERT_EQ(location->m_target, "one/two/three");
     ASSERT_EQ(location->m_root, "../tests/test_web/test_files");
-    ASSERT_EQ(location->m_allowed_methods, comp2);
+    ASSERT_EQ(location->m_allowedMethods, comp2);
 
     // testing second server block
     std::map<int, std::string> comp3;
@@ -145,46 +145,46 @@ TEST(test_Config, values) {
     comp3[402] = "../tests/test_web/404.html";
     server = config->m_blocks[1];
     ASSERT_FALSE(server->m_autoindex);
-    ASSERT_EQ(server->m_body_size, 8000);
+    ASSERT_EQ(server->m_bodySize, 8000);
     ASSERT_EQ(server->m_port, 8081);
     ASSERT_EQ(server->m_host, "*");
     ASSERT_EQ(server->m_index, "../tests/test_web/index.html");
     ASSERT_EQ(server->m_root, "../tests/test_web/");
-    ASSERT_EQ(server->m_server_name, "");
-    ASSERT_EQ(server->m_error_page, comp3);
+    ASSERT_EQ(server->m_serverName, "");
+    ASSERT_EQ(server->m_errorPage, comp3);
     ASSERT_TRUE(server->m_location.empty());
 
     // testing third server block
     server = config->m_blocks[2];
     comp3.clear();
     ASSERT_TRUE(server->m_autoindex);
-    ASSERT_EQ(server->m_body_size, BODY_SIZE);
+    ASSERT_EQ(server->m_bodySize, BODY_SIZE);
     ASSERT_EQ(server->m_port, 80);
     ASSERT_EQ(server->m_host, "*");
     ASSERT_EQ(server->m_index, std::string(D_ROOT_PATH) + "index.html");
     ASSERT_EQ(server->m_root, D_ROOT_PATH);
-    ASSERT_EQ(server->m_server_name, "");
-    ASSERT_EQ(server->m_error_page, comp3);
+    ASSERT_EQ(server->m_serverName, "");
+    ASSERT_EQ(server->m_errorPage, comp3);
     ASSERT_EQ(server->m_location.size(), 1);
 
     comp2.insert("GET");
     comp2.insert("POST");
     comp2.insert("DELETE");
     location = server->m_location["target"];
-    ASSERT_FALSE(location->m_cgi_enabled);
+    ASSERT_FALSE(location->m_cgiEnabled);
     ASSERT_EQ(location->m_target, "target");
     ASSERT_EQ(location->m_root, "");
-    ASSERT_EQ(location->m_allowed_methods, comp2);
+    ASSERT_EQ(location->m_allowedMethods, comp2);
 
     // testing forth server block
     server = config->m_blocks[3];
     ASSERT_TRUE(server->m_autoindex);
-    ASSERT_EQ(server->m_body_size, BODY_SIZE);
+    ASSERT_EQ(server->m_bodySize, BODY_SIZE);
     ASSERT_EQ(server->m_port, 80);
     ASSERT_EQ(server->m_host, "*");
     ASSERT_EQ(server->m_index, std::string(D_ROOT_PATH) + "index.html");
     ASSERT_EQ(server->m_root, D_ROOT_PATH);
-    ASSERT_EQ(server->m_server_name, "");
-    ASSERT_EQ(server->m_error_page, comp3);
+    ASSERT_EQ(server->m_serverName, "");
+    ASSERT_EQ(server->m_errorPage, comp3);
     ASSERT_TRUE(server->m_location.empty());
 }

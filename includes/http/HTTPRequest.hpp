@@ -20,7 +20,7 @@ class HTTPRequest {
 
         // HTTP request methods
         HTTPRequest(void);
-        HTTPRequest(std::string req_str);
+        HTTPRequest(std::string reqStr);
         HTTPRequest(int statusCode);
         ~HTTPRequest(void);
 
@@ -97,7 +97,7 @@ class HTTPRequest {
         std::map<std::string, std::string> m_headers;
         std::string                        m_content;
         int                                m_statusCode;
-        std::string                        m_req_str;
+        std::string                        m_reqStr;
 };
 
 } // namespace webserv

@@ -34,8 +34,8 @@ class HTTPResponse {
         void        setReason(std::string reason);
         std::string getReason(void) const;
 
-        static std::map<int, std::string> s_status_map;
-        static std::map<int, std::string> create_status_map(void);
+        static std::map<int, std::string> s_statusMap;
+        static std::map<int, std::string> createStatusMap(void);
 
     private:
 

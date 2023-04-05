@@ -9,12 +9,12 @@
 
 namespace webserv {
 
-int http_handle(smt::shared_ptr<ServerSocket> sock, int client_fd);
+int httpHandle(smt::shared_ptr<ServerSocket> sock, int connectionFd);
 smt::shared_ptr<HTTPResponse>
-    generate_error_response(int code, smt::shared_ptr<ServerBlock> config);
+    generateErrorResponse(int code, smt::shared_ptr<ServerBlock> config);
 smt::shared_ptr<HTTPResponse>
-    process_request(smt::shared_ptr<HTTPRequest> request,
-                    smt::shared_ptr<ServerBlock> config, int client_fd);
+    processRequest(smt::shared_ptr<HTTPRequest> request,
+                    smt::shared_ptr<ServerBlock> config, int connectionFd);
 
 } // namespace webserv
 

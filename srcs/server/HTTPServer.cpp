@@ -19,15 +19,15 @@ void HTTPServer::start(void) {
     if ((m_epollfd = epoll_create1(0)) < 0) { throw(EpollCreateException()); }
 
     // initializing sockets
-    ConfigSocket socket_init(m_config->blocks());
+    ConfigSocket socketInit(m_config->blocks());
 
-    std::set< std::pair<unsigned, std::string> > specs = socket_init.specs();
+    std::set< std::pair<unsigned, std::string> > specs = socketInit.specs();
     std::set< std::pair<unsigned, std::string> >::iterator it;
     for (it = specs.begin(); it != specs.end(); it++) {
 
         // getting config block associated to socket
         std::vector< smt::shared_ptr<ServerBlock> > block =
-            socket_init.blocks(*it);
+            socketInit.blocks(*it);
 
         // creating socket
         smt::shared_ptr<ServerSocket> sock(new ServerSocket(block));
@@ -117,24 +117,24 @@ void HTTPServer::epoll_remove(int fd) {
 void HTTPServer::handle_client_ack(int fd) {
 
     FLOG_D("webserv::HTTPServer ACK()");
-    int connection_fd = m_socket[fd]->accept();
-    epoll_add(connection_fd);
+    int connectionFd = m_socket[fd]->accept();
+    epoll_add(connectionFd);
 }
 
 // handles a client request by calling the HTTPHandler
 void HTTPServer::handle_client_req(smt::shared_ptr<ServerSocket> sock,
-                                   int connection_fd) {
+                                   int connectionFd) {
 
     FLOG_D("webserv::HTTPServer REQ()");
-    int ret = http_handle(sock, connection_fd);
+    int ret = httpHandle(sock, connectionFd);
     if (ret == 0) {
-        epoll_remove(connection_fd);
-        sock->close(connection_fd);
+        epoll_remove(connectionFd);
+        sock->close(connectionFd);
         FLOG_D("webserv::HTTPServer CLOSE()");
     }
     else if (ret == -1) {
-        epoll_remove(connection_fd);
-        sock->close(connection_fd);
+        epoll_remove(connectionFd);
+        sock->close(connectionFd);
         FLOG_D("webserv::HTTPServer ERROR()");
     }
     FLOG_D("webserv::HTTPServer REQ() complete");

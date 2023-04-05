@@ -31,27 +31,27 @@ TEST(test_block, body_size) {
     smt::shared_ptr<webserv::ServerBlock> server(new webserv::ServerBlock());
 
     // checking default values
-    ASSERT_EQ(server->m_body_size, D_BODY_SIZE);
+    ASSERT_EQ(server->m_bodySize, D_BODY_SIZE);
 
     // checking all possible error messages
     std::vector<std::string> command(1, "max_body_size");
-    ASSERT_EQ(server->body_size(command), "wrong number of arguments");
-    ASSERT_EQ(server->m_body_size, D_BODY_SIZE);
+    ASSERT_EQ(server->bodySize(command), "wrong number of arguments");
+    ASSERT_EQ(server->m_bodySize, D_BODY_SIZE);
 
     command.push_back("asad");
-    ASSERT_EQ(server->body_size(command), "asad: invalid max body size");
-    ASSERT_EQ(server->m_body_size, D_BODY_SIZE);
+    ASSERT_EQ(server->bodySize(command), "asad: invalid max body size");
+    ASSERT_EQ(server->m_bodySize, D_BODY_SIZE);
 
     command[1] = "32516983297";
-    ASSERT_EQ(server->body_size(command), "32516983297: invalid max body size");
-    ASSERT_EQ(server->m_body_size, D_BODY_SIZE);
+    ASSERT_EQ(server->bodySize(command), "32516983297: invalid max body size");
+    ASSERT_EQ(server->m_bodySize, D_BODY_SIZE);
 
     // checking success
     command[1] = "3251";
-    ASSERT_EQ(server->body_size(command), "");
+    ASSERT_EQ(server->bodySize(command), "");
 
     // checking values
-    ASSERT_EQ(server->m_body_size, 3251);
+    ASSERT_EQ(server->m_bodySize, 3251);
 }
 
 TEST(test_block, listen) {
@@ -168,19 +168,19 @@ TEST(test_block, server_name) {
     smt::shared_ptr<webserv::ServerBlock> server(new webserv::ServerBlock());
 
     // checking default values
-    ASSERT_EQ(server->m_server_name.empty(), true);
+    ASSERT_EQ(server->m_serverName.empty(), true);
 
     // checking all possible error messages
     std::vector<std::string> command(1, "server_name");
-    ASSERT_EQ(server->server_name(command), "wrong number of arguments");
-    ASSERT_EQ(server->m_server_name.empty(), true);
+    ASSERT_EQ(server->serverName(command), "wrong number of arguments");
+    ASSERT_EQ(server->m_serverName.empty(), true);
 
     // checking success
     command.push_back("example.com");
-    ASSERT_EQ(server->server_name(command), "");
+    ASSERT_EQ(server->serverName(command), "");
 
     // checking values
-    ASSERT_EQ(server->m_server_name, "example.com");
+    ASSERT_EQ(server->m_serverName, "example.com");
 }
 
 TEST(test_block, error_page) {
@@ -188,7 +188,7 @@ TEST(test_block, error_page) {
     smt::shared_ptr<webserv::ServerBlock> server(new webserv::ServerBlock());
 
     // checking default values
-    ASSERT_EQ(server->m_error_page.empty(), true);
+    ASSERT_EQ(server->m_errorPage.empty(), true);
 
     std::map<int, std::string> comp;
     comp[500] = "../tests/test_web/500.html";
@@ -197,28 +197,28 @@ TEST(test_block, error_page) {
 
     // checking all possible error messages
     std::vector<std::string> command(1, "error_page");
-    ASSERT_EQ(server->error_page(command), "wrong number of arguments");
+    ASSERT_EQ(server->errorPage(command), "wrong number of arguments");
 
     command.push_back("status");
-    ASSERT_EQ(server->error_page(command), "wrong number of arguments");
+    ASSERT_EQ(server->errorPage(command), "wrong number of arguments");
 
     command.push_back("501");
-    ASSERT_EQ(server->error_page(command), "501: failed to open");
+    ASSERT_EQ(server->errorPage(command), "501: failed to open");
 
     command.push_back("../tests/test_web/500.html");
-    ASSERT_EQ(server->error_page(command), "status: invalid status code");
+    ASSERT_EQ(server->errorPage(command), "status: invalid status code");
 
     // checking success
     command[1] = "500";
-    ASSERT_EQ(server->error_page(command), "");
+    ASSERT_EQ(server->errorPage(command), "");
 
     command[1] = "404";
     command[2] = "../tests/test_web/404.html";
     command.pop_back();
-    ASSERT_EQ(server->error_page(command), "");
+    ASSERT_EQ(server->errorPage(command), "");
 
     // checking values
-    ASSERT_EQ(server->m_error_page, comp);
+    ASSERT_EQ(server->m_errorPage, comp);
 }
 
 TEST(test_block, location) {
@@ -232,13 +232,13 @@ TEST(test_block, location) {
     smt::shared_ptr<webserv::LocationBlock> location(
         new webserv::LocationBlock("/www/block"));
 
-    ASSERT_EQ(location->m_cgi_enabled, false);
+    ASSERT_EQ(location->m_cgiEnabled, false);
     ASSERT_EQ(location->m_target, "/www/block");
     ASSERT_EQ(location->m_root, "");
 
     std::string           arr[3] = {"GET", "POST", "DELETE"};
     std::set<std::string> comp(arr, arr + 3);
-    ASSERT_EQ(location->m_allowed_methods, comp);
+    ASSERT_EQ(location->m_allowedMethods, comp);
 }
 
 TEST(test_block, fastcgi_pass) {
@@ -247,7 +247,7 @@ TEST(test_block, fastcgi_pass) {
         new webserv::LocationBlock("/www/block"));
 
     // checking default values
-    ASSERT_EQ(location->m_cgi_enabled, false);
+    ASSERT_EQ(location->m_cgiEnabled, false);
 
     // checking all possible error messages
     std::vector<std::string> command(1, "fastcgi_pass");
@@ -255,18 +255,18 @@ TEST(test_block, fastcgi_pass) {
 
     command.push_back("oon");
     ASSERT_EQ(location->cgi(command), "oon: unrecognized syntax");
-    ASSERT_EQ(location->m_cgi_enabled, false);
+    ASSERT_EQ(location->m_cgiEnabled, false);
 
     // checking success
     command[1] = "true";
     ASSERT_EQ(location->cgi(command), "");
-    ASSERT_EQ(location->m_cgi_enabled, true);
+    ASSERT_EQ(location->m_cgiEnabled, true);
     command[1] = "false";
     ASSERT_EQ(location->cgi(command), "");
-    ASSERT_EQ(location->m_cgi_enabled, false);
+    ASSERT_EQ(location->m_cgiEnabled, false);
 }
 
-TEST(test_block, allowed_methods) {
+TEST(test_block, allowedMethods) {
 
     smt::shared_ptr<webserv::LocationBlock> location(
         new webserv::LocationBlock("/www/block"));
@@ -275,18 +275,18 @@ TEST(test_block, allowed_methods) {
     std::set<std::string> comp(arr, arr + 3);
 
     // checking default values
-    ASSERT_EQ(location->m_allowed_methods, comp);
+    ASSERT_EQ(location->m_allowedMethods, comp);
 
     // checking all possible error messages
-    std::vector<std::string> command(1, "allowed_methods");
-    ASSERT_EQ(location->allowed_methods(command), "wrong number of arguments");
+    std::vector<std::string> command(1, "allowedMethods");
+    ASSERT_EQ(location->allowedMethods(command), "wrong number of arguments");
 
     // checking success
     command.push_back("GET");
     command.push_back("DELETE");
-    ASSERT_EQ(location->allowed_methods(command), "");
+    ASSERT_EQ(location->allowedMethods(command), "");
 
     // checking values
     comp.erase(comp.find("POST"));
-    ASSERT_EQ(location->m_allowed_methods, comp);
+    ASSERT_EQ(location->m_allowedMethods, comp);
 }

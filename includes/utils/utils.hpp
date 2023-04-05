@@ -6,9 +6,9 @@
 #include <vector>
 
 /* Macros of default paths */
-#define D_CONFIG_PATH "../webserv/"
-#define D_CONFIG_FILE "../webserv/default"
-#define D_ROOT_PATH   "../webserv/website/"
+#define D_CONFIG_PATH "../configs/"
+#define D_CONFIG_FILE "../configs/default"
+#define D_ROOT_PATH   "../configs/website/"
 
 /* Macro of default methods */
 #define D_METHODS                                                              \

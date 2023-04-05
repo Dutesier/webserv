@@ -4,13 +4,13 @@ namespace webserv {
 
 HTTPRequest::HTTPRequest() : m_statusCode(0) {}
 
-HTTPRequest::HTTPRequest(std::string req_str)
-    : m_statusCode(0), m_req_str(req_str) {
+HTTPRequest::HTTPRequest(std::string reqStr)
+    : m_statusCode(0), m_reqStr(reqStr) {
     char*  buf;
-    size_t end_pos = req_str.find("\r\n\r\n");
+    size_t end_pos = reqStr.find("\r\n\r\n");
     if (end_pos == std::string::npos) { throw(MalformedRequestException()); }
 
-    std::istringstream iss(req_str);
+    std::istringstream iss(reqStr);
     std::string        start_line;
     getline(iss, start_line); // getting first line
 
@@ -55,8 +55,8 @@ HTTPRequest::HTTPRequest(std::string req_str)
     if ((buf = strtok(NULL, "\n"))) { throw(MalformedRequestException()); }
 
     // handle body
-    if (req_str.size() > end_pos + 4) {
-        m_content = req_str.substr(end_pos + 4);
+    if (reqStr.size() > end_pos + 4) {
+        m_content = reqStr.substr(end_pos + 4);
     }
 }
 
@@ -65,7 +65,7 @@ HTTPRequest::HTTPRequest(int statusCode) : m_statusCode(statusCode) {}
 HTTPRequest::~HTTPRequest() {}
 
 // returns string representation of request
-std::string HTTPRequest::toStr(void) const { return (m_req_str); }
+std::string HTTPRequest::toStr(void) const { return (m_reqStr); }
 
 // Set the request method
 void HTTPRequest::setMethod(webserv::HTTPRequest::Method method) {

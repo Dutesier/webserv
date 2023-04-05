@@ -9,11 +9,11 @@
 // In the future we can expand this design pattern to check the valiity
 // of HTTP Responses as well. (Pointer Polymorphism)
 
-class ok_err {
+class okErr {
     public:
 
-        ok_err(void);
-        ~ok_err(void);
+        okErr(void);
+        ~okErr(void);
         bool ok;
         int  err;
 };
@@ -23,7 +23,7 @@ class IHTTPValidator {
 
         virtual ~IHTTPValidator(void) {}
 
-        virtual ok_err isValid(smt::shared_ptr<webserv::HTTPRequest>& req) = 0;
+        virtual okErr isValid(smt::shared_ptr<webserv::HTTPRequest>& req) = 0;
         virtual smt::shared_ptr<IHTTPValidator>
             setNext(smt::shared_ptr<IHTTPValidator> validator) = 0;
 };
@@ -40,9 +40,9 @@ class AHTTPValidator {
                               // setNext(hasMethod)->setNext(hasVersion) etc.
         }
 
-        ok_err isValid(smt::shared_ptr<webserv::HTTPRequest>& req) {
+        okErr isValid(smt::shared_ptr<webserv::HTTPRequest>& req) {
             if (this->m_next) { return this->m_next->isValid(req); }
-            return ok_err();
+            return okErr();
         }
 
     private:
@@ -53,9 +53,9 @@ class AHTTPValidator {
 class hasMethod : public AHTTPValidator {
     public:
 
-        ok_err isValid(smt::shared_ptr<webserv::HTTPRequest>& req) {
+        okErr isValid(smt::shared_ptr<webserv::HTTPRequest>& req) {
             webserv::HTTPRequest::Method method = req->getMethod();
-            ok_err                       ret;
+            okErr                       ret;
 
             if (method == webserv::HTTPRequest::UNDEFINED) {
                 ret.ok = false;

@@ -30,7 +30,7 @@ class test_ConfigSocket : public testing::Test {
                 smt::shared_ptr<webserv::ServerBlock>(new webserv::ServerBlock);
             m_srv3->m_port = 8080;
             m_srv3->m_host = "127.0.0.1";
-            m_srv3->m_server_name = "example1.com";
+            m_srv3->m_serverName = "example1.com";
             m_blocks.push_back(m_srv3);
 
             // making forth webserv::ServerBlock
@@ -38,7 +38,7 @@ class test_ConfigSocket : public testing::Test {
                 smt::shared_ptr<webserv::ServerBlock>(new webserv::ServerBlock);
             m_srv4->m_port = 8080;
             m_srv4->m_host = "127.0.0.1";
-            m_srv4->m_server_name = "example2.com";
+            m_srv4->m_serverName = "example2.com";
             m_blocks.push_back(m_srv4);
 
             // making fifth webserv::ServerBlock
@@ -46,7 +46,7 @@ class test_ConfigSocket : public testing::Test {
                 smt::shared_ptr<webserv::ServerBlock>(new webserv::ServerBlock);
             m_srv5->m_port = 8080;
             m_srv5->m_host = "*";
-            m_srv5->m_server_name = "example1.com";
+            m_srv5->m_serverName = "example1.com";
             m_blocks.push_back(m_srv5);
 
             // making sixth webserv::ServerBlock
@@ -54,7 +54,7 @@ class test_ConfigSocket : public testing::Test {
                 smt::shared_ptr<webserv::ServerBlock>(new webserv::ServerBlock);
             m_srv6->m_port = 8081;
             m_srv6->m_host = "*";
-            m_srv6->m_server_name = "example3.com";
+            m_srv6->m_serverName = "example3.com";
             m_blocks.push_back(m_srv6);
 
             // making seventh webserv::ServerBlock
