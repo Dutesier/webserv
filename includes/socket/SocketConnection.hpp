@@ -44,9 +44,9 @@ class SocketConnection : public webserv::Socket {
                 char const* what(void) const throw();
         };
 
-    // private:
+        // private:
 
-    //     HTTPParser m_parser;
+        // HTTPParser m_parser;
 };
 
 } // namespace webserv

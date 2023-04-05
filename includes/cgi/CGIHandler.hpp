@@ -39,7 +39,8 @@ class CGIHandler {
         bool fileExists(std::string pathInDir);
         bool isCrawler(std::string pathInDir);
 
-        CGIContext createContext(smt::shared_ptr<webserv::HTTPRequest>& request);
+        CGIContext
+            createContext(smt::shared_ptr<webserv::HTTPRequest>& request);
 };
 
 } // namespace cgi

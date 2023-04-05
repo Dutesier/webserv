@@ -52,7 +52,8 @@ TEST_F(test_HTTPRequest, getters) {
         "/cgi-bin/myscript.cgi/path/to/script?param1=value1&param2=value2");
     ASSERT_EQ(req->getMethod(), webserv::GET);
     ASSERT_EQ(req->getVersion(), "HTTP/1.1");
-    // ASSERT_EQ(req->getAllHeaders(), headers); I have a bug with white space here.
+    // ASSERT_EQ(req->getAllHeaders(), headers); I have a bug with white space
+    // here.
     ASSERT_EQ(req->getHeader("Content-Type"), "");
     ASSERT_EQ(req->getStatusCode(), 0);
 }

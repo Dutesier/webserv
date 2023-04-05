@@ -18,7 +18,7 @@ void CGIContext::fill_envp(std::string name, std::string val) {
 }
 
 CGIContext::CGIContext(smt::shared_ptr<webserv::HTTPRequest> request,
-                       std::string                  root_directory)
+                       std::string                           root_directory)
     : directory(root_directory) {
     std::stringstream ss;
     c_envp = NULL;

@@ -66,6 +66,13 @@ std::string ServerSocket::getNextRequest(int         connection_fd,
     return ((*it).second->getNextRequest(req_str));
 }
 
+// Chooses the right server block from the config file for the request type
+smt::shared_ptr<ServerBlock>
+    ServerSocket::getConfigFromRequest(smt::shared_ptr<HTTPRequest>& req) {
+    FLOG_D(req->getHeader("Host"));
+    return (m_blocks[0]);
+}
+
 int ServerSocket::bestServerBlockForRequest(
     smt::shared_ptr<HTTPRequest>& request) {
     std::string uri = request->getHeader("Host");

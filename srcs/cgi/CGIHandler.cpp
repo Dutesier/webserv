@@ -13,7 +13,8 @@ CGIHandler::~CGIHandler() {}
 bool CGIHandler::isValid() { return m_type != UNDEFINED; }
 
 smt::shared_ptr<webserv::HTTPResponse>
-    CGIHandler::run(smt::shared_ptr<webserv::HTTPRequest>& request, int writeToFD) {
+    CGIHandler::run(smt::shared_ptr<webserv::HTTPRequest>& request,
+                    int                                    writeToFD) {
     if (isCrawler(request->getRefinedResource()) ||
         !fileExists(request->getRefinedResource())) {
         LOG_W("CGI wont run - Invalid permissions for " +

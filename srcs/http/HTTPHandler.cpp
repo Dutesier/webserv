@@ -3,13 +3,14 @@
 namespace webserv {
 
 /* HTTPHandler Class */
+// TODO: make sure there are no more requests in GetNextRequest
 int http_handle(smt::shared_ptr<ServerSocket> sock, int client_fd) {
 
     try {
         // receiving request string
         std::string msg = sock->recv(client_fd);
         if (msg.empty()) { return (0); }
-        LOG_D("Received " + msg + " from client");
+        FLOG_D("Received " + msg + " from client");
 
         // getting first request from string (there can be more than one
         // request, or request can be incomplete)
@@ -20,19 +21,18 @@ int http_handle(smt::shared_ptr<ServerSocket> sock, int client_fd) {
         // handling all requests
         while (!req_str.empty()) {
 
-            LOG_D("Received a full request from client");
-            // // creating request object
-            // smt::shared_ptr<HTTPRequest> req(new HTTPRequest(req_str));
-            // // getting the correct configuration block according to request
-            // smt::shared_ptr<ServerBlock> config_block =
-            // sock->getConfigFromRequest(req);
-            // // generating a response
-            // smt::shared_ptr<HTTPResponse> resp = process_request(req,
-            // config_block, client_fd);
-            // // sending response to client
-            // if (resp) {
-            // 	sock->send(client_fd, resp->to_str());
-            // }
+            FLOG_D("Received a full request from client");
+            // creating request object
+            smt::shared_ptr<HTTPRequest> req(new HTTPRequest(req_str));
+            // getting the correct configuration block according to request
+            smt::shared_ptr<ServerBlock> config_block =
+                sock->getConfigFromRequest(req);
+            // generating a response
+            smt::shared_ptr<HTTPResponse> resp =
+                process_request(req, config_block, client_fd);
+            FLOG_D("sending response " + resp->toStr() + "to client");
+            // sending response to client
+            if (resp) { sock->send(client_fd, resp->toStr()); }
 
             // checking for more requests
             req_str = sock->getNextRequest(client_fd);
@@ -42,8 +42,6 @@ int http_handle(smt::shared_ptr<ServerSocket> sock, int client_fd) {
         LOG_E(e.what());
         return (-1);
     }
-    return (0);
-
     return (0);
 }
 
@@ -82,65 +80,63 @@ smt::shared_ptr<HTTPResponse>
 smt::shared_ptr<HTTPResponse>
     generate_error_response(int code, smt::shared_ptr<ServerBlock> config) {
 
-    (void)code;
-    (void)config;
-    return (smt::shared_ptr<HTTPResponse>(
-        new HTTPResponse(code, std::map<std::string, std::string>(), "")));
+    std::string                        body;
+    std::map<std::string, std::string> headers;
 
-    // std::string                        body;
-    // std::map<std::string, std::string> header;
-    // std::stringstream                  ss;
-    //
-    // // getting custom body
-    // bool default_body = false;
-    // if (config->m_error_page.find(code) != config->m_error_page.end()) {
-    //     std::ifstream file(config->m_error_page[code]);
-    //     if (!file.good()) {
-    //         FLOG_I("Fail to open " + config->m_error_page[code]);
-    //         default_body = true;
-    //     }
-    //     else {
-    //         body = std::string((std::istreambuf_iterator<char>(file)),
-    //                            std::istreambuf_iterator<char>());
-    //     }
-    //     file.close();
-    //     // if something goes wrong
-    //     // default_body = true;
-    // }
-    // else { default_body = true; }
-    //
-    // // getting default body
-    // if (default_body) {
-    //
-    //     // converting code to str
-    //     ss << code;
-    //     std::string error_code = ss.str();
-    //
-    //     // generating message
-    //     std::string msg = error_code + " - " +
-    //     HTTPResponse::s_status_map[code]; body = "<!DOCTYPE html>"
-    //            "<html>"
-    //            "  <head>"
-    //            "    <title>" +
-    //            msg +
-    //            "</title>"
-    //            "  </head>"
-    //            "  <body>"
-    //            "    <h1>" +
-    //            msg +
-    //            "</h1>"
-    //            "  </body>"
-    //            "</html>";
-    // }
-    //
-    // // converting body.size() to str
-    // ss.str("");
-    // ss << body.size();
-    // // setting headers
-    // header["Content-Length"] = ss.str();
-    //
-    // return (
-    //     smt::shared_ptr<HTTPResponse>(new HTTPResponse(code, header, body)));
+    bool default_body = false;
+    if (config->m_error_page.find(code) != config->m_error_page.end()) {
+        // getting custom body and headers
+
+        std::ifstream file(config->m_error_page[code].c_str());
+        if (!file.good()) {
+
+            LOG_I("generate_error_response(): failed to open " +
+                  config->m_error_page[code]);
+            default_body = true;
+        }
+        else {
+            body = std::string(std::istreambuf_iterator<char>(file),
+                               std::istreambuf_iterator<char>());
+        }
+        file.close();
+    }
+    else { default_body = true; }
+
+    if (default_body) { // getting default body and headers
+
+        // converting code to str
+        std::stringstream ssa;
+        ssa << code;
+        std::string status = ssa.str();
+        std::string msg = status + " - " + HTTPResponse::s_status_map[code];
+
+        // generating body
+        body = "<!DOCTYPE html>"
+               "<html>"
+               "  <head>"
+               "    <title>" +
+               msg +
+               "</title>"
+               "  </head>"
+               "  <body>"
+               "    <h1>" +
+               msg +
+               "</h1>"
+               "  </body>"
+               "</html>";
+    }
+
+    // getting body length in str
+    std::stringstream ssb;
+    ssb << body.size();
+    std::string body_size = ssb.str();
+
+    // generating necessary headers
+    headers["Content-Length"] = body_size;
+    headers["Content-Type"] = "text/html";
+
+    return (
+        smt::shared_ptr<HTTPResponse>(new HTTPResponse(code, headers, body)));
 }
 
 } // namespace webserv
