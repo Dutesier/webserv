@@ -4,7 +4,7 @@
 
 TEST(CGIHandler, FileValidity) {
     cgi::CGIHandler              cgi(cgi::PYTHON, "tests");
-    smt::shared_ptr<HTTPRequest> req = smt::make_shared(new HTTPRequest());
+    smt::shared_ptr<webserv::HTTPRequest> req = smt::make_shared(new webserv::HTTPRequest());
     req->setResource("../tests");
     EXPECT_FALSE(cgi.run(req, 3));
     req->setResource("/../tests");

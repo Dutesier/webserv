@@ -14,7 +14,7 @@ class CGIContext {
 
         // CGIContext(std::vector<std::string> queryValues, std::string
         // scriptPath);
-        CGIContext(smt::shared_ptr<HTTPRequest> request,
+        CGIContext(smt::shared_ptr<webserv::HTTPRequest> request,
                    std::string                  root_directory);
         ~CGIContext();
 

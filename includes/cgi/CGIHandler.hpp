@@ -23,7 +23,7 @@ class CGIHandler {
         ~CGIHandler();
 
         smt::shared_ptr<webserv::HTTPResponse>
-            run(smt::shared_ptr<HTTPRequest>& request, int writeToFD);
+            run(smt::shared_ptr<webserv::HTTPRequest>& request, int writeToFD);
 
         bool isValid();
         void updateScriptDirectory(std::string dir);
@@ -39,7 +39,7 @@ class CGIHandler {
         bool fileExists(std::string pathInDir);
         bool isCrawler(std::string pathInDir);
 
-        CGIContext createContext(smt::shared_ptr<HTTPRequest>& request);
+        CGIContext createContext(smt::shared_ptr<webserv::HTTPRequest>& request);
 };
 
 } // namespace cgi

@@ -17,7 +17,7 @@ void CGIContext::fill_envp(std::string name, std::string val) {
     if (!name.empty() && !val.empty()) { envp.push_back(name + "=" + val); }
 }
 
-CGIContext::CGIContext(smt::shared_ptr<HTTPRequest> request,
+CGIContext::CGIContext(smt::shared_ptr<webserv::HTTPRequest> request,
                        std::string                  root_directory)
     : directory(root_directory) {
     std::stringstream ss;

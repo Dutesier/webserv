@@ -23,7 +23,7 @@ class IHTTPValidator {
 
         virtual ~IHTTPValidator(void) {}
 
-        virtual ok_err isValid(smt::shared_ptr<HTTPRequest>& req) = 0;
+        virtual ok_err isValid(smt::shared_ptr<webserv::HTTPRequest>& req) = 0;
         virtual smt::shared_ptr<IHTTPValidator>
             setNext(smt::shared_ptr<IHTTPValidator> validator) = 0;
 };
@@ -40,7 +40,7 @@ class AHTTPValidator {
                               // setNext(hasMethod)->setNext(hasVersion) etc.
         }
 
-        ok_err isValid(smt::shared_ptr<HTTPRequest>& req) {
+        ok_err isValid(smt::shared_ptr<webserv::HTTPRequest>& req) {
             if (this->m_next) { return this->m_next->isValid(req); }
             return ok_err();
         }
@@ -53,7 +53,7 @@ class AHTTPValidator {
 class hasMethod : public AHTTPValidator {
     public:
 
-        ok_err isValid(smt::shared_ptr<HTTPRequest>& req) {
+        ok_err isValid(smt::shared_ptr<webserv::HTTPRequest>& req) {
             webserv::Method method = req->getMethod();
             ok_err          ret;
 

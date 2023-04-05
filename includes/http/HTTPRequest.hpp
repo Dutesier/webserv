@@ -11,9 +11,8 @@
 #include <vector>
 
 namespace webserv {
-enum Method { UNDEFINED, GET, POST, DELETE };
 
-} // namespace webserv
+enum Method { UNDEFINED, GET, POST, DELETE };
 
 std::ostream& operator<<(std::ostream& os, webserv::Method const& me);
 
@@ -103,6 +102,8 @@ class HTTPRequest {
         std::string                        m_req_str;
 };
 
-std::ostream& operator<<(std::ostream& os, HTTPRequest const& req);
+} // namespace webserv
+
+std::ostream& operator<<(std::ostream& os, webserv::HTTPRequest const& req);
 
 #endif

@@ -6,13 +6,13 @@
 class test_CGIContext : public testing::Test {
     public:
 
-        void SetUp(void) { this->parser = new HTTPParser(); }
+        // void SetUp(void) { this->parser = new HTTPParser(); }
 
-        void TearDown(void) { delete this->parser; }
+        // void TearDown(void) { delete this->parser; }
 
     protected:
 
-        HTTPParser* parser;
+        // HTTPParser* parser;
         std::string req1 =
             "GET /cgi//myscript.py/path/to/script?param1=value1&param2=value2 "
             "HTTP/1.1\r\n"
@@ -30,7 +30,7 @@ class test_CGIContext : public testing::Test {
 };
 
 TEST_F(test_CGIContext, memb_var) {
-    smt::shared_ptr<HTTPRequest> req = parser->getNextRequest(req1);
+    smt::shared_ptr<webserv::HTTPRequest> req(new webserv::HTTPRequest(req1));
 
     // req->setResource("/home?key=value");
     // cgi::CGIContext ctx(req, "../webserv/website/cgi/test.py");

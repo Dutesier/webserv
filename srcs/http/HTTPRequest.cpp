@@ -1,8 +1,11 @@
 #include "http/HTTPRequest.hpp"
 
+namespace webserv {
+
 HTTPRequest::HTTPRequest() : m_statusCode(0) {}
 
-HTTPRequest::HTTPRequest(std::string req_str) : m_statusCode(0), m_req_str(req_str) {
+HTTPRequest::HTTPRequest(std::string req_str)
+    : m_statusCode(0), m_req_str(req_str) {
     char*  buf;
     size_t end_pos = req_str.find("\r\n\r\n");
     if (end_pos == std::string::npos) { throw(MalformedRequestException()); }
@@ -26,6 +29,9 @@ HTTPRequest::HTTPRequest(std::string req_str) : m_statusCode(0), m_req_str(req_s
                 throw(MalformedRequestException());
             }
             std::string val(buf);
+			while (buf = strtok(NULL, "\r")) {
+				val += std::string(buf);
+			}
             m_headers[key] = val;
         }
     }
@@ -61,9 +67,7 @@ HTTPRequest::HTTPRequest(int statusCode) : m_statusCode(statusCode) {}
 HTTPRequest::~HTTPRequest() {}
 
 // returns string representation of request
-std::string HTTPRequest::toStr(void) const {
-	return (m_req_str);
-}
+std::string HTTPRequest::toStr(void) const { return (m_req_str); }
 
 // Set the request method
 void HTTPRequest::setMethod(webserv::Method method) { m_method = method; }
@@ -106,7 +110,7 @@ std::string HTTPRequest::getAllHeaders() const {
 
     std::map<std::string, std::string>::const_iterator it;
     for (it = m_headers.begin(); it != m_headers.end(); ++it) {
-        output += it->first + ":" + it->second + "\r\n";
+        output += it->first + ": " + it->second + "\r\n";
     }
     output += "\r\n";
     return output;
@@ -236,5 +240,7 @@ std::ostream& operator<<(std::ostream& os, HTTPRequest const& req) {
 }
 
 char const* HTTPRequest::MalformedRequestException::what(void) const throw() {
-	return ("HTTPRequest: malformed request");
+    return ("HTTPRequest: malformed request");
 }
+
+} // namespace webserv
