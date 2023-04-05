@@ -40,10 +40,10 @@ HTTPRequest::HTTPRequest(std::string req_str)
     }
 
     std::string method = std::string(buf);
-    if (method == "GET") { m_method = webserv::Method::GET; }
-    else if (method == "POST") { m_method = webserv::Method::POST; }
-    else if (method == "DELETE") { m_method = webserv::Method::DELETE; }
-    else { m_method = webserv::Method::UNDEFINED; }
+    if (method == "GET") { m_method = webserv::HTTPRequest::GET; }
+    else if (method == "POST") { m_method = webserv::HTTPRequest::POST; }
+    else if (method == "DELETE") { m_method = webserv::HTTPRequest::DELETE; }
+    else { m_method = webserv::HTTPRequest::UNDEFINED; }
 
     if (!(buf = strtok(NULL, " "))) { throw(MalformedRequestException()); }
     // m_uri = smt::shared_ptr<Uri>(new Uri(std::string(buf)));
@@ -68,10 +68,10 @@ HTTPRequest::~HTTPRequest() {}
 std::string HTTPRequest::toStr(void) const { return (m_req_str); }
 
 // Set the request method
-void HTTPRequest::setMethod(webserv::Method method) { m_method = method; }
+void HTTPRequest::setMethod(webserv::HTTPRequest::Method method) { m_method = method; }
 
 // Get the request method
-webserv::Method HTTPRequest::getMethod() const { return m_method; }
+webserv::HTTPRequest::Method HTTPRequest::getMethod() const { return m_method; }
 
 // Set the request URL
 void HTTPRequest::setResource(std::string const& resource) {
@@ -217,13 +217,13 @@ bool HTTPRequest::isCGIRequest() {
 
 bool HTTPRequest::isValid() const { return (!m_statusCode); }
 
-std::ostream& operator<<(std::ostream& os, webserv::Method const& me) {
+std::ostream& operator<<(std::ostream& os, webserv::HTTPRequest::Method const& me) {
 
     switch (me) {
-        case webserv::UNDEFINED: return (os << std::string("UNDEFINED"));
-        case webserv::GET: return (os << std::string("GET"));
-        case webserv::POST: return (os << std::string("POST"));
-        case webserv::DELETE: return (os << std::string("DELETE"));
+        case webserv::HTTPRequest::UNDEFINED: return (os << std::string("UNDEFINED"));
+        case webserv::HTTPRequest::GET: return (os << std::string("GET"));
+        case webserv::HTTPRequest::POST: return (os << std::string("POST"));
+        case webserv::HTTPRequest::DELETE: return (os << std::string("DELETE"));
     }
     return os;
 }

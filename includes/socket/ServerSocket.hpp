@@ -19,17 +19,17 @@ class ServerSocket : public TCPSocket {
         smt::shared_ptr<ServerBlock>
             getConfigFromRequest(smt::shared_ptr<HTTPRequest>& req);
 
-        int bestServerBlockForRequest(smt::shared_ptr<HTTPRequest>& request);
+        // int bestServerBlockForRequest(smt::shared_ptr<HTTPRequest>& request);
         std::vector< smt::shared_ptr<ServerBlock> > m_blocks;
 
     private:
 
-        int         bestServerBlockByIPAndPort(std::string& ipAndPort);
-        int         bestServerBlockByServerName(std::string& serverName);
-        std::string extractResource(std::string uri);
-        bool        startsWithServerName(std::string const& str);
-        bool        startsWithIP(std::string const& str);
-        bool        startsWithIpAndPort(std::string const& str);
+        // int         bestServerBlockByIPAndPort(std::string& ipAndPort);
+        // int         bestServerBlockByServerName(std::string& serverName);
+        // std::string extractResource(std::string uri);
+        // bool        startsWithServerName(std::string const& str);
+        // bool        startsWithIP(std::string const& str);
+        // bool        startsWithIpAndPort(std::string const& str);
 };
 
 // Parse HTTP Request -> look for URI -> check URI against listen or port server

@@ -26,9 +26,9 @@ CGIContext::CGIContext(smt::shared_ptr<webserv::HTTPRequest> request,
     ss << request->getContent().length();
     fill_envp("CONTENT_LENGTH", ss.str());
     fill_envp("CONTENT_TYPE", request->getHeader("Content-Type"));
-    if (request->getMethod() == webserv::GET)
+    if (request->getMethod() == webserv::HTTPRequest::GET)
         fill_envp("REQUEST_METHOD", "GET");
-    else if (request->getMethod() == webserv::POST)
+    else if (request->getMethod() == webserv::HTTPRequest::POST)
         fill_envp("REQUEST_METHOD", "POST");
     fill_envp("SERVER_PROTOCOL", "HTTP/1.1");
     fill_envp("PATH_INFO", request->getPathInfo());

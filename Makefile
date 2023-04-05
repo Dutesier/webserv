@@ -79,7 +79,7 @@ endif
 
 # Compiler flags
 CFLAGS := -Wall -Wextra -Werror
-# CFLAGS += -std=c++98
+CFLAGS += -std=c++98
 
 # Pedantic flags
 ifeq (${PEDANTIC},true)
@@ -265,7 +265,7 @@ ${BIN_ROOT}${NAME1}: $$(call get_files,$${@F},$${OBJS_LIST})
 		$(call get_files,${@F},${OBJS_LIST}) ${LIBS} -o $@ ${BLOCK}
 
 # **************************************************************************** #
-# Test Targets     
+# Test Targets
 # **************************************************************************** #
 
 test_run: ${FORCE}
@@ -330,7 +330,7 @@ debug_msan_re: fclean debug_msan
 # Utility Targets
 # **************************************************************************** #
 
-folders:	
+folders:
 	${AT}${MKDIR} ${SRC_ROOT} ${BLOCK}
 	${AT}${MKDIR} ${INC_ROOT} ${BLOCK}
 	${AT}${PRINT} "${_INFO} ${PROJECT}: folder structure created\n" ${BLOCK}

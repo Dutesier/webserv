@@ -12,13 +12,10 @@
 
 namespace webserv {
 
-enum Method { UNDEFINED, GET, POST, DELETE };
-
-std::ostream& operator<<(std::ostream& os, webserv::Method const& me);
-
 class HTTPRequest {
 
     public:
+		typedef enum e_Method { UNDEFINED, GET, POST, DELETE } Method;
 
         // HTTP request methods
         HTTPRequest(void);
@@ -30,10 +27,10 @@ class HTTPRequest {
         std::string toStr(void) const;
 
         // Set the request method
-        void setMethod(webserv::Method method);
+        void setMethod(webserv::HTTPRequest::Method method);
 
         // Get the request method
-        webserv::Method getMethod() const;
+        webserv::HTTPRequest::Method getMethod() const;
 
         // Set the request URL
         void setResource(std::string const& resource);
@@ -93,7 +90,7 @@ class HTTPRequest {
 
     private:
 
-        webserv::Method                    m_method;
+        webserv::HTTPRequest::Method                    m_method;
         std::string                        m_resource;
         std::string                        m_version;
         std::map<std::string, std::string> m_headers;
@@ -104,6 +101,7 @@ class HTTPRequest {
 
 } // namespace webserv
 
+std::ostream& operator<<(std::ostream& os, webserv::HTTPRequest::Method const& me);
 std::ostream& operator<<(std::ostream& os, webserv::HTTPRequest const& req);
 
 #endif
