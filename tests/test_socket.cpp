@@ -1,5 +1,7 @@
 #include "Client.hpp"
 #include "socket/TCPSocket.hpp"
+#include "socket/ServerSocket.hpp"
+#include "socket/SocketConnection.hpp"
 
 #include <arpa/inet.h>
 #include <cerrno>
@@ -68,3 +70,164 @@ class test_activeConnection : public ::testing::Test {
 
 // ASSERT_STREQ(HTTP_RES, client->receive_message().c_str());
 // }
+
+
+TEST(test_socket, recv_many_req) {
+
+    std::string req0 =
+        "HTTP/1.1 404\r\nContent-Length: "
+        "120\r\n\r\n..........................................................."
+        "............................................................";
+
+    std::string req1 =
+        "GET /hello.htm HTTP/1.1\r\nUser-Agent: Mozilla/4.0 (compatible; "
+        "MSIE5.01; Windows NT)\r\nHost: "
+        "www.tutorialspoint.com\r\nAccept-Language: en-us\r\nAccept-Encoding: "
+        "gzip, deflate\r\nConnection: Keep-Alive\r\n\r\n";
+
+    std::string req2 = "POST /cgi-bin/process.cgi HTTP/1.1\r\nUser-Agent: "
+                       "Mozilla/4.0 (compatible; MSIE5.01; Windows "
+                       "NT)\r\nHost: www.tutorialspoint.com\r\nContent-Type: "
+                       "text/xml; charset=utf-8\r\nContent-Length: "
+                       "95\r\nAccept-Language: en-us\r\nAccept-Encoding: gzip, "
+                       "deflate\r\nConnection: Keep-Alive\r\n\r\n<?xml "
+                       "version=\"1.0\" encoding=\"utf-8\"?>\r\n<string "
+                       "xmlns=\"http://clearforest.com/\">string</string>";
+
+    std::string req3 =
+        "GET /hello.htm HTTP/1.0\r\nUser-Agent: Mozilla/4.0 (compatible; "
+        "MSIE5.01; Windows NT)\r\nAccept-Language: en-us\r\nAccept-Encoding: "
+        "gzip, deflate\nConnection: Keep-Alive\r\n\r\n";
+
+    webserv::ServerSocket tmp(8080);
+    Client            client(8080);
+    int               fd;
+
+    ASSERT_NO_THROW(fd = tmp.accept()) << errno;
+    auto it = tmp.m_connection.find(fd);
+    ASSERT_NE(it, tmp.m_connection.end());
+    smt::shared_ptr<webserv::SocketConnection> sock = (*it).second;
+
+    client.send_message(req0);
+    ASSERT_EQ(sock->recv(), req0);
+
+    client.send_message(req1);
+    ASSERT_EQ(sock->recv(), req1);
+
+    client.send_message(req2);
+    client.send_message(req3);
+    ASSERT_EQ(sock->recv(), req2 + req3);
+}
+
+TEST(test_socket, get_request_imcomplete) {
+
+    std::string req1 = "POST /cgi-bin/process.cgi HTTP/1.1\r\nUser-Agent: "
+                       "Mozilla/4.0 (compatible; MSIE5.01; Windows "
+                       "NT)\r\nHost: www.tutorialspoint.com\r\nContent-Type: "
+                       "text/xml; charset=utf-8\r\n";
+
+    std::string req2 =
+        "Content-Length: 95\r\nAccept-Language: en-us\r\nAccept-Encoding: "
+        "gzip, deflate\r\nConnection: Keep-Alive\r\n\r\n<?xml version=\"1.0\" "
+        "encoding=\"utf-8\"?>\r\n<string "
+        "xmlns=\"http://clearforest.com/\">string</string>";
+
+    webserv::ServerSocket tmp(8080);
+    Client            client(8080);
+    int               fd;
+
+    ASSERT_NO_THROW(fd = tmp.accept()) << errno;
+    auto it = tmp.m_connection.find(fd);
+    ASSERT_NE(it, tmp.m_connection.end());
+    smt::shared_ptr<webserv::SocketConnection> sock = (*it).second;
+
+    // receiving req1 - incomplete
+    ASSERT_EQ(sock->getNextRequest(req1), "");
+    // receiving req2 - completes req1
+    ASSERT_EQ(sock->getNextRequest(req2), req1 + req2);
+    // checking if there's any request left
+    ASSERT_EQ(sock->getNextRequest(), "");
+}
+
+TEST(test_socket, get_request_more_than_one) {
+
+    std::string req1 =
+        "GET /hello.htm HTTP/1.1\r\nUser-Agent: Mozilla/4.0 (compatible; "
+        "MSIE5.01; Windows NT)\r\nHost: "
+        "www.tutorialspoint.com\r\nAccept-Language: en-us\r\nAccept-Encoding: "
+        "gzip, deflate\r\nConnection: Keep-Alive\r\n\r\n";
+
+    std::string req2 =
+        "GET /hello.htm HTTP/1.0\r\nUser-Agent: Mozilla/4.0 (compatible; "
+        "MSIE5.01; Windows NT)\r\nAccept-Language: en-us\r\nAccept-Encoding: "
+        "gzip, deflate\nConnection: Keep-Alive\r\n\r\n";
+
+    webserv::ServerSocket tmp(8080);
+    Client            client(8080);
+    int               fd;
+
+    ASSERT_NO_THROW(fd = tmp.accept()) << errno;
+    auto it = tmp.m_connection.find(fd);
+    ASSERT_NE(it, tmp.m_connection.end());
+    smt::shared_ptr<webserv::SocketConnection> sock = (*it).second;
+
+    // receiving req1 - req2 stays in buffer
+    ASSERT_EQ(sock->getNextRequest(req1 + req2), req1);
+    // receiving req2 - buffer is empty
+    ASSERT_EQ(sock->getNextRequest(), req2);
+    // checking if there's any request left
+    ASSERT_EQ(sock->getNextRequest(), "");
+}
+
+TEST(test_socket, get_next_request_extreme) {
+
+    std::string req1 =
+        "GET /hello.htm HTTP/1.1\r\nUser-Agent: Mozilla/4.0 (compatible; "
+        "MSIE5.01; Windows NT)\r\nHost: "
+        "www.tutorialspoint.com\r\nAccept-Language: en-us\r\nAccept-Encoding: "
+        "gzip, deflate\r\nConnection: Keep-Alive\r\n\r\n";
+
+    std::string req2 =
+        "GET /hello.htm HTTP/1.0\r\nUser-Agent: Mozilla/4.0 (compatible; "
+        "MSIE5.01; Windows NT)\r\nAccept-Language: en-us\r\nAccept-Encoding: "
+        "gzip, deflate\nConnection: Keep-Alive\r\n\r\n";
+
+    std::string req3 = "POST /cgi-bin/process.cgi HTTP/1.1\r\nUser-Agent: "
+                       "Mozilla/4.0 (compatible; MSIE5.01; Windows "
+                       "NT)\r\nHost: www.tutorialspoint.com\r\nContent-Type: "
+                       "text/xml; charset=utf-8\r\n";
+
+    std::string req4 =
+        "Content-Length: 95\r\nAccept-Language: en-us\r\nAccept-Encoding: "
+        "gzip, deflate\r\nConnection: Keep-Alive\r\n\r\n<?xml version=\"1.0\" "
+        "encoding=\"utf-8\"?>\r\n<string "
+        "xmlns=\"http://clearforest.com/\">string</string>";
+
+    std::string req5 =
+        "GET /hello.htm HTTP/1.0\r\nUser-Agent: Mozilla/4.0 (compatible; "
+        "MSIE5.01; Windows NT)\r\nAccept-Language: en-us\r\nAccept-Encoding: "
+        "gzip, deflate\nConnection: Keep-Alive\r\n\r\n";
+
+    webserv::ServerSocket tmp(8080);
+    Client            client(8080);
+    int               fd;
+
+    ASSERT_NO_THROW(fd = tmp.accept()) << errno;
+    auto it = tmp.m_connection.find(fd);
+    ASSERT_NE(it, tmp.m_connection.end());
+    smt::shared_ptr<webserv::SocketConnection> sock = (*it).second;
+
+    // receiving req1 - req2 is complete and stays in buffer, req3 is incomplete
+    // and also stays in buffer
+    ASSERT_EQ(sock->getNextRequest(req1 + req2 + req3), req1);
+    // receiving req2 - buffer stays with req3 - incomplete
+    ASSERT_EQ(sock->getNextRequest(), req2);
+    // checking if there's any request left
+    ASSERT_EQ(sock->getNextRequest(), "");
+    // receiving req3 + req4 - buffer stays with req5
+    ASSERT_EQ(sock->getNextRequest(req4 + req5), req3 + req4);
+    // receiving req5 - buffer is clean
+    ASSERT_EQ(sock->getNextRequest(), req5);
+    // checking if there's any request left
+    ASSERT_EQ(sock->getNextRequest(), "");
+}

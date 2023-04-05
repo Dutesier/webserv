@@ -12,9 +12,10 @@ class ServerSocket : public TCPSocket {
     public:
 
         ServerSocket(std::vector< smt::shared_ptr<ServerBlock> > blocks);
+		ServerSocket(int port, std::string host = "*");
         ~ServerSocket(void);
 
-		std::string getNextRequest(int connection_fd, std::string req_str);
+        std::string getNextRequest(int connection_fd, std::string req_str = "");
 
         int bestServerBlockForRequest(smt::shared_ptr<HTTPRequest>& request);
         std::vector< smt::shared_ptr<ServerBlock> > m_blocks;

@@ -30,10 +30,34 @@ ServerSocket::ServerSocket(std::vector< smt::shared_ptr<ServerBlock> > blocks)
     LOG_D("created server socket | " + m_addr->host() + ":" + ss.str());
 }
 
+ServerSocket::ServerSocket(int port, std::string host) : TCPSocket(port, host) {
+
+    // setting socket options
+    int            enable = 1;
+    struct timeval timeout;
+    timeout.tv_sec = 10;
+    timeout.tv_usec = 0;
+    setsockopt(SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int));
+    setsockopt(SOL_SOCKET, SO_REUSEPORT, &enable, sizeof(int));
+    setsockopt(SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(struct timeval));
+
+    // binding socket
+    bind();
+
+    // make socket start listening to requests
+    listen();
+
+    // debugging message
+    std::stringstream ss;
+    ss << m_addr->port();
+    LOG_D("created server socket | " + m_addr->host() + ":" + ss.str());
+}
+
 ServerSocket::~ServerSocket(void) {}
 
-std::string ServerSocket::getNextRequest(int connection_fd, std::string req_str) {
-	typedef std::map< int, smt::shared_ptr<SocketConnection> >::iterator
+std::string ServerSocket::getNextRequest(int         connection_fd,
+                                         std::string req_str) {
+    typedef std::map< int, smt::shared_ptr<SocketConnection> >::iterator
         iterator;
 
     iterator it = m_connection.find(connection_fd);

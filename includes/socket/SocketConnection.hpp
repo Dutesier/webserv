@@ -29,7 +29,7 @@ class SocketConnection : public webserv::Socket {
         std::string recv(void);
         void        send(std::string message);
 
-		std::string getNextRequest(std::string req_str);
+		std::string getNextRequest(std::string req_str = "");
 
         struct CloseFailureException : public std::exception {
                 char const* what(void) const throw();
