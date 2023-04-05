@@ -5,41 +5,44 @@ namespace webserv {
 /* HTTPHandler Class */
 int http_handle(smt::shared_ptr<ServerSocket> sock, int client_fd) {
 
-	try {
-    	// receiving request string
-    	std::string msg = sock->recv(client_fd);
-		if (msg.empty()) { return (0); }
-		LOG_D("Received " + msg + " from client");
+    try {
+        // receiving request string
+        std::string msg = sock->recv(client_fd);
+        if (msg.empty()) { return (0); }
+        LOG_D("Received " + msg + " from client");
 
-		// getting first request from string (there can be more than one request, or request can be incomplete)
-		std::string req_str = sock->getNextRequest(client_fd, msg);
-		// if request is incomplete, return 1
-		if (req_str.empty()) { return (1); }
+        // getting first request from string (there can be more than one
+        // request, or request can be incomplete)
+        std::string req_str = sock->getNextRequest(client_fd, msg);
+        // if request is incomplete, return 1
+        if (req_str.empty()) { return (1); }
 
-		// handling all requests
-		while (!req_str.empty()) {
+        // handling all requests
+        while (!req_str.empty()) {
 
-			LOG_D("Received a full request from client");
-			// // creating request object
-			// smt::shared_ptr<HTTPRequest> req(new HTTPRequest(req_str));
-			// // getting the correct configuration block according to request
-			// smt::shared_ptr<ServerBlock> config_block = sock->getConfigFromRequest(req);
-			// // generating a response
-			// smt::shared_ptr<HTTPResponse> resp = process_request(req, config_block, client_fd);
-			// // sending response to client
-			// if (resp) {
-			// 	sock->send(client_fd, resp->to_str());
-			// }
+            LOG_D("Received a full request from client");
+            // // creating request object
+            // smt::shared_ptr<HTTPRequest> req(new HTTPRequest(req_str));
+            // // getting the correct configuration block according to request
+            // smt::shared_ptr<ServerBlock> config_block =
+            // sock->getConfigFromRequest(req);
+            // // generating a response
+            // smt::shared_ptr<HTTPResponse> resp = process_request(req,
+            // config_block, client_fd);
+            // // sending response to client
+            // if (resp) {
+            // 	sock->send(client_fd, resp->to_str());
+            // }
 
-			// checking for more requests
-			req_str = sock->getNextRequest(client_fd);
-		}
-	}
-	catch(std::exception const& e) {
-		LOG_E(e.what());
-		return (-1);
-	}
-	return (0);
+            // checking for more requests
+            req_str = sock->getNextRequest(client_fd);
+        }
+    }
+    catch (std::exception const& e) {
+        LOG_E(e.what());
+        return (-1);
+    }
+    return (0);
 
     return (0);
 }

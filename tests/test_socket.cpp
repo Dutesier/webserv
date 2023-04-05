@@ -1,7 +1,7 @@
 #include "Client.hpp"
-#include "socket/TCPSocket.hpp"
 #include "socket/ServerSocket.hpp"
 #include "socket/SocketConnection.hpp"
+#include "socket/TCPSocket.hpp"
 
 #include <arpa/inet.h>
 #include <cerrno>
@@ -71,7 +71,6 @@ class test_activeConnection : public ::testing::Test {
 // ASSERT_STREQ(HTTP_RES, client->receive_message().c_str());
 // }
 
-
 TEST(test_socket, recv_many_req) {
 
     std::string req0 =
@@ -100,8 +99,8 @@ TEST(test_socket, recv_many_req) {
         "gzip, deflate\nConnection: Keep-Alive\r\n\r\n";
 
     webserv::ServerSocket tmp(8080);
-    Client            client(8080);
-    int               fd;
+    Client                client(8080);
+    int                   fd;
 
     ASSERT_NO_THROW(fd = tmp.accept()) << errno;
     auto it = tmp.m_connection.find(fd);
@@ -133,8 +132,8 @@ TEST(test_socket, get_request_imcomplete) {
         "xmlns=\"http://clearforest.com/\">string</string>";
 
     webserv::ServerSocket tmp(8080);
-    Client            client(8080);
-    int               fd;
+    Client                client(8080);
+    int                   fd;
 
     ASSERT_NO_THROW(fd = tmp.accept()) << errno;
     auto it = tmp.m_connection.find(fd);
@@ -163,8 +162,8 @@ TEST(test_socket, get_request_more_than_one) {
         "gzip, deflate\nConnection: Keep-Alive\r\n\r\n";
 
     webserv::ServerSocket tmp(8080);
-    Client            client(8080);
-    int               fd;
+    Client                client(8080);
+    int                   fd;
 
     ASSERT_NO_THROW(fd = tmp.accept()) << errno;
     auto it = tmp.m_connection.find(fd);
@@ -209,8 +208,8 @@ TEST(test_socket, get_next_request_extreme) {
         "gzip, deflate\nConnection: Keep-Alive\r\n\r\n";
 
     webserv::ServerSocket tmp(8080);
-    Client            client(8080);
-    int               fd;
+    Client                client(8080);
+    int                   fd;
 
     ASSERT_NO_THROW(fd = tmp.accept()) << errno;
     auto it = tmp.m_connection.find(fd);
