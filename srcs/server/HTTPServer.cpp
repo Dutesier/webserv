@@ -56,18 +56,23 @@ void HTTPServer::run(void) {
         int nfds = epoll_wait(m_epollfd, events, EP_MAX_EVENTS, EP_TIMEOUT);
 
         if (m_state != running) { break; }
+
         if (nfds < 0) { throw(EpollWaitException()); }
 
         for (int i = 0; i < nfds; i++) {
 
+            // checking if socket is a TCPSocket or a SocketConnection
             if (m_socket.find(events[i].data.fd) != m_socket.end()) {
 
-                FLOG_D("webserv::HTTPServer ACK()");
-                int fd = m_socket[events[i].data.fd]->accept();
-                epoll_add(fd);
+                // if socket is a TCPSockets, then accept() needs to be
+                // called and a new SocketConnection is added to TCPSocket's
+                // list, and also added to the interest list.
+                handle_client_ack(events[i].data.fd);
             }
             else {
 
+                // if socket is a SocketConnection, then it needs to be
+                // handled by the HTTPHandler.
                 std::map<int, smt::shared_ptr<ServerSocket> >::iterator it;
                 for (it = m_socket.begin(); it != m_socket.end(); it++) {
 
@@ -75,9 +80,7 @@ void HTTPServer::run(void) {
                     if (sock->m_connection.find(events[i].data.fd) !=
                         sock->m_connection.end()) {
 
-                        FLOG_D("webserv::HTTPServer REQ()");
-                        http_handle(sock, events[i].data.fd);
-                        break;
+                        handle_client_req(sock, events[i].data.fd);
                     }
                 }
             }
@@ -97,6 +100,44 @@ void HTTPServer::epoll_add(int fd) {
 
     if (epoll_ctl(m_epollfd, EPOLL_CTL_ADD, fd, &event) < 0)
         throw(EpollAddException());
+}
+
+// removes a socket from epoll's interest list
+void HTTPServer::epoll_remove(int fd) {
+
+    struct epoll_event event;
+    event.events = EPOLLIN | EPOLLET;
+    event.data.fd = fd;
+
+    if (epoll_ctl(m_epollfd, EPOLL_CTL_DEL, fd, &event) < 0)
+        throw(EpollRemoveException());
+}
+
+// handles a client request by creating a new SocketConnection instance
+void HTTPServer::handle_client_ack(int fd) {
+
+    FLOG_D("webserv::HTTPServer ACK()");
+    int connection_fd = m_socket[fd]->accept();
+    epoll_add(connection_fd);
+}
+
+// handles a client request by calling the HTTPHandler
+void HTTPServer::handle_client_req(smt::shared_ptr<ServerSocket> sock,
+                                   int connection_fd) {
+
+    FLOG_D("webserv::HTTPServer REQ()");
+    int ret = http_handle(sock, connection_fd);
+    if (ret == 0) {
+        epoll_remove(connection_fd);
+        // sock->close(connection_fd);
+        FLOG_D("webserv::HTTPServer CLOSE()");
+    }
+    else if (ret == -1) {
+        epoll_remove(connection_fd);
+        // sock->close(connection_fd);
+        FLOG_D("webserv::HTTPServer ERROR()");
+    }
+    FLOG_D("webserv::HTTPServer REQ() complete");
 }
 
 // Exceptions

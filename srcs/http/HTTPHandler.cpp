@@ -3,7 +3,7 @@
 namespace webserv {
 
 /* HTTPHandler Class */
-void http_handle(smt::shared_ptr<ServerSocket> sock, int client_fd) {
+int http_handle(smt::shared_ptr<ServerSocket> sock, int client_fd) {
 
     // receiving request string
     std::string req_str = sock->recv(client_fd);
@@ -30,6 +30,7 @@ void http_handle(smt::shared_ptr<ServerSocket> sock, int client_fd) {
         // checking if there are more requests to handle
         request = parser.getNextRequest("");
     }
+	return (0);
 }
 
 smt::shared_ptr<HTTPResponse>
