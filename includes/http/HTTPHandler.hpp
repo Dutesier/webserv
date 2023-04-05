@@ -14,7 +14,7 @@ smt::shared_ptr<HTTPResponse>
     generateErrorResponse(int code, smt::shared_ptr<ServerBlock> config);
 smt::shared_ptr<HTTPResponse>
     processRequest(smt::shared_ptr<HTTPRequest> request,
-                    smt::shared_ptr<ServerBlock> config, int connectionFd);
+                   smt::shared_ptr<ServerBlock> config, int connectionFd);
 
 } // namespace webserv
 

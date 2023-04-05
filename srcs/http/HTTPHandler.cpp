@@ -47,7 +47,7 @@ int httpHandle(smt::shared_ptr<ServerSocket> sock, int connectionFd) {
 
 smt::shared_ptr<HTTPResponse>
     processRequest(smt::shared_ptr<HTTPRequest> request,
-                    smt::shared_ptr<ServerBlock> config, int connectionFd) {
+                   smt::shared_ptr<ServerBlock> config, int connectionFd) {
 
     smt::shared_ptr<webserv::LocationBlock> loc =
         config->getLocationBlockForRequest(request);

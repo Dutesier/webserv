@@ -55,7 +55,7 @@ class hasMethod : public AHTTPValidator {
 
         okErr isValid(smt::shared_ptr<webserv::HTTPRequest>& req) {
             webserv::HTTPRequest::Method method = req->getMethod();
-            okErr                       ret;
+            okErr                        ret;
 
             if (method == webserv::HTTPRequest::UNDEFINED) {
                 ret.ok = false;

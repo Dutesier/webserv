@@ -36,7 +36,7 @@ CGIContext::CGIContext(smt::shared_ptr<webserv::HTTPRequest> request,
     fillEnvp("QUERY_STRING", request->getQueriesFromResource());
     fillEnvp("USER_AGENT", request->getHeader("User-Agent"));
     fillEnvp("PATH_TRANSLATED",
-              std::string(directory + request->getScriptName()));
+             std::string(directory + request->getScriptName()));
     fillEnvp("DOCUMENT_ROOT", directory);
     // ss.str(std::string());
     // ss << port; Need a way to get server port

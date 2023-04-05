@@ -43,8 +43,7 @@ smt::shared_ptr<webserv::HTTPResponse>
     int stdinRef = dup(STDIN_FILENO);
     int stdoutRef = dup(STDOUT_FILENO);
 
-    if (!input || !output || stdinRef < 0)
-        LOG_E("Failed to create tmp files");
+    if (!input || !output || stdinRef < 0) LOG_E("Failed to create tmp files");
     if (inputFd < 0) LOG_E("Failed to get temporary infile fd");
     // check if request type is POST {
     // write(inputFd, reqContent.c_str(), reqContent.size());

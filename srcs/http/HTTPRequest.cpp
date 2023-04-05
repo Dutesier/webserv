@@ -55,9 +55,7 @@ HTTPRequest::HTTPRequest(std::string reqStr)
     if ((buf = strtok(NULL, "\n"))) { throw(MalformedRequestException()); }
 
     // handle body
-    if (reqStr.size() > end_pos + 4) {
-        m_content = reqStr.substr(end_pos + 4);
-    }
+    if (reqStr.size() > end_pos + 4) { m_content = reqStr.substr(end_pos + 4); }
 }
 
 HTTPRequest::HTTPRequest(int statusCode) : m_statusCode(statusCode) {}

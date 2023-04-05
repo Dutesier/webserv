@@ -298,8 +298,7 @@ bool operator==(ServerBlock const& lhs, ServerBlock const& rhs) {
     return (lhs.m_autoindex == rhs.m_autoindex &&
             lhs.m_bodySize == rhs.m_bodySize && lhs.m_port == rhs.m_port &&
             lhs.m_host == rhs.m_host && lhs.m_index == rhs.m_index &&
-            lhs.m_root == rhs.m_root &&
-            lhs.m_serverName == rhs.m_serverName &&
+            lhs.m_root == rhs.m_root && lhs.m_serverName == rhs.m_serverName &&
             lhs.m_errorPage == rhs.m_errorPage &&
             lhs.m_location == rhs.m_location);
 }

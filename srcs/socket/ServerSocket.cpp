@@ -56,8 +56,7 @@ ServerSocket::ServerSocket(int port, std::string host) : TCPSocket(port, host) {
 
 ServerSocket::~ServerSocket(void) {}
 
-std::string ServerSocket::getNextRequest(int         connectionFd,
-                                         std::string reqStr) {
+std::string ServerSocket::getNextRequest(int connectionFd, std::string reqStr) {
     typedef std::map< int, smt::shared_ptr<SocketConnection> >::iterator
         iterator;
 

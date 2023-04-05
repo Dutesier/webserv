@@ -123,7 +123,7 @@ void HTTPServer::handle_client_ack(int fd) {
 
 // handles a client request by calling the HTTPHandler
 void HTTPServer::handle_client_req(smt::shared_ptr<ServerSocket> sock,
-                                   int connectionFd) {
+                                   int                           connectionFd) {
 
     FLOG_D("webserv::HTTPServer REQ()");
     int ret = httpHandle(sock, connectionFd);
