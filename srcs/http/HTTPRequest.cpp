@@ -146,9 +146,7 @@ bool HTTPRequest::isCGIRequest() {
         else if (parsedURI.find(".cgi/") != std::string::npos) {
             return (true);
         }
-        else if (parsedURI.find(".py/") != std::string::npos) {
-            return (true);
-        }
+        else if (parsedURI.find(".py/") != std::string::npos) { return (true); }
         else if (parsedURI.find(".php/") != std::string::npos) {
             return (true);
         }

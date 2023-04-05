@@ -15,7 +15,7 @@ class CGIContext {
         // CGIContext(std::vector<std::string> queryValues, std::string
         // scriptPath);
         CGIContext(smt::shared_ptr<HTTPRequest> request,
-                   std::string root_directory);
+                   std::string                  root_directory);
         ~CGIContext();
 
         void   fill_envp(std::string name, std::string val);

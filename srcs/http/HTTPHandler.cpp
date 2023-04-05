@@ -30,7 +30,7 @@ int http_handle(smt::shared_ptr<ServerSocket> sock, int client_fd) {
         // checking if there are more requests to handle
         request = parser.getNextRequest("");
     }
-	return (0);
+    return (0);
 }
 
 smt::shared_ptr<HTTPResponse>
@@ -40,8 +40,7 @@ smt::shared_ptr<HTTPResponse>
     smt::shared_ptr<webserv::LocationBlock> loc =
         config->getLocationBlockForRequest(request);
 
-    bool runCGI =
-        (loc) && (loc->m_cgi_enabled) && (loc->m_cgi->isValid());
+    bool runCGI = (loc) && (loc->m_cgi_enabled) && (loc->m_cgi->isValid());
     bool isCGI = request->isCGIRequest();
     if (isCGI && runCGI) {
         LOG_D("Running CGI script");

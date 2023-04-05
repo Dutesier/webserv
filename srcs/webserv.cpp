@@ -28,7 +28,7 @@ void webserv::webserv(int argc, char* argv[]) {
 
 void webserv::stop(int signum) {
 
-	(void)signum;
+    (void)signum;
 
     try {
 

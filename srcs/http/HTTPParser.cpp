@@ -186,7 +186,8 @@ smt::shared_ptr<HTTPRequest> HTTPParser::getNextRequest(std::string received) {
                                       // previous call to recv
     static bool dataInBuffer = false; // Flag to indicate whether there is data
                                       // left over in the restOfData buffer
-    // size_t bytes_read = 0;            // Number of bytes read from the socket UNUSED
+    // size_t bytes_read = 0;            // Number of bytes read from the socket
+    // UNUSED
 
     // String to identify the end of the headers in the request
     char const* endOfHeaders = "\r\n\r\n";
@@ -248,12 +249,13 @@ smt::shared_ptr<HTTPRequest> HTTPParser::getNextRequest(std::string received) {
         std::string lenStr = request->getHeader("Content-Length");
         if (!lenStr.empty()) {
 
-            long unsigned          size;
+            long unsigned     size;
             std::stringstream ss(lenStr);
             ss >> size;
 
-            long unsigned body_size = std::min(
-                size, static_cast<long unsigned>(data.length() - (eoh_position)));
+            long unsigned body_size =
+                std::min(size, static_cast<long unsigned>(data.length() -
+                                                          (eoh_position)));
 
             if (body_size < MAX_BODY_SIZE && body_size) {
 
