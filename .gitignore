@@ -3,3 +3,8 @@ build/
 *.vscode
 .vscode/
 */*.log
+dep/
+obj/
+bin/
+*.o
+*.d

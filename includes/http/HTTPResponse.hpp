@@ -16,10 +16,10 @@ struct HTTPResponse {
         std::string to_str(void);
 
         int                                m_status;
-        std::string                        m_reason;
         std::map<std::string, std::string> m_header;
         std::string                        m_body;
         std::string                        m_version;
+        std::string                        m_reason;
 
         static std::map<int, std::string> s_status_map;
         static std::map<int, std::string> create_status_map(void);

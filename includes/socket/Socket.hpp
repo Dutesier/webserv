@@ -27,8 +27,8 @@ class Socket {
 
     protected:
 
-        smt::shared_ptr<SocketAddress> m_addr;
         int                            m_fd;
+        smt::shared_ptr<SocketAddress> m_addr;
         int                            m_socktype;
 };
 

@@ -35,8 +35,8 @@ void SocketConnection::close(void) {
 // TODO: find smarter ways to get buf
 std::string SocketConnection::recv(void) {
 
-    char   buff[READING_BUFFER + 1];
-    size_t bytes_read;
+    char buff[READING_BUFFER + 1];
+    int  bytes_read;
 
     bytes_read = ::recv(m_fd, &buff, READING_BUFFER, 0);
     if (bytes_read < 0) { throw(SendFailureException()); }
