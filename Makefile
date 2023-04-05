@@ -148,7 +148,7 @@ tab		:= $(empty)	$(empty)
 # Root Folders
 # **************************************************************************** #
 
-BIN_ROOT	:= bin/
+BIN_ROOT	:= ./
 DEP_ROOT	:= dep/
 INC_ROOT	:= includes/
 LIB_ROOT	:= lib/
