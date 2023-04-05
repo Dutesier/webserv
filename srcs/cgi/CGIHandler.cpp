@@ -82,7 +82,6 @@ smt::shared_ptr<webserv::HTTPResponse> CGIHandler::runAsChildProcess(int fd, smt
 	fclose(input);
 	fclose(output);
 
-    
     return resp;
 }
 
@@ -94,7 +93,7 @@ bool CGIHandler::fileExists(std::string pathInDir){
     std::string filepath = m_directory + pathInDir;
     LOG_D("Checking if file exists " + filepath);
     std::ifstream f(filepath.c_str()); // Lets make sure that we dont have /cgi/python//fu.py
-    
+
     return f.good();
 }
 
