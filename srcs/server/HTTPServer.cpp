@@ -149,6 +149,10 @@ char const* HTTPServer::EpollAddException::what(void) const throw() {
     return ("webserv::HTTPServer epoll_ctl (add) system call failure");
 }
 
+char const* HTTPServer::EpollRemoveException::what(void) const throw() {
+	return ("webserv::HTTPServer epoll_ctl (remove) system call failure");
+}
+
 char const* HTTPServer::EpollWaitException::what(void) const throw() {
     return ("webserv::HTTPServer epoll_wait system call failure");
 }
