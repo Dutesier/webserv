@@ -16,23 +16,6 @@ void SocketConnection::close(void) {
     m_fd = -1;
 }
 
-// void data_to_buff(char* data, char *buff) {
-//     for (int i = 0; i < READING_BUFFER; ++i) {
-//         buff[i] = data[i];
-//         data[i] = 0;
-//     }
-//     buff[READING_BUFFER] = '\0';
-// }
-
-// void buff_to_data(char* buff, char* data) {
-//     for (int i = 0; buff[i] != '\0'; ++i){
-//         data[i] = buff[i];
-//     }
-// }
-
-// Handle incomplete (even when just first word)
-
-// TODO: find smarter ways to get buf
 std::string SocketConnection::recv(void) {
 
     char buff[READING_BUFFER + 1];
@@ -50,6 +33,44 @@ void SocketConnection::send(std::string message) {
     if (::send(m_fd, message.c_str(), message.size(), 0) < 0) {
         throw(SendFailureException());
     }
+}
+
+std::string SocketConnection::getNextRequest(std::string req_str) {
+
+    static std::string buff;
+    std::string        ret;
+
+    // adding req_str to buff
+    if (req_str != "") { buff += req_str; }
+
+    size_t end_headers = buff.find("\r\n\r\n");
+    // Request is incomplete
+    if (end_headers == std::string::npos) { return (""); }
+
+    // getting request until the end of headers
+    ret = buff.substr(0, end_headers + 4);
+
+    // getting Content-Length
+    size_t pos;
+    if ((pos = ret.find("Content-Length: ")) != std::string::npos) {
+
+        // getting Content-Length
+        std::string        l;
+        std::istringstream iss(buff.substr(pos + 16));
+        iss >> l;
+
+        // converting to int
+        int               len;
+        std::stringstream ss(l);
+        ss >> len;
+
+        // adding body to ret
+        if (len) { ret += buff.substr(end_headers + 4, len); }
+    }
+
+    buff = buff.substr(ret.size());
+
+    return (ret);
 }
 
 char const* SocketConnection::CloseFailureException::what(void) const throw() {

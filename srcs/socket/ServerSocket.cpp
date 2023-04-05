@@ -32,6 +32,16 @@ ServerSocket::ServerSocket(std::vector< smt::shared_ptr<ServerBlock> > blocks)
 
 ServerSocket::~ServerSocket(void) {}
 
+std::string ServerSocket::getNextRequest(int connection_fd, std::string req_str) {
+	typedef std::map< int, smt::shared_ptr<SocketConnection> >::iterator
+        iterator;
+
+    iterator it = m_connection.find(connection_fd);
+    if (it == m_connection.end()) { throw(NoSuchConnectionException()); }
+
+    return ((*it).second->getNextRequest(req_str));
+}
+
 int ServerSocket::bestServerBlockForRequest(
     smt::shared_ptr<HTTPRequest>& request) {
     std::string uri = request->getHeader("Host");
