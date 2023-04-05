@@ -8,29 +8,18 @@ HTTPParser::~HTTPParser() {}
 // A la golang, parsing functions return a pair of the actual result and a bool
 // of success
 std::pair<webserv::Method, bool> HTTPParser::getMethod(std::string& firstLine) {
-<<<<<<< HEAD
     if (firstLine.empty()) { return std::make_pair(webserv::UNDEFINED, false); }
-=======
-    if (firstLine.empty()) { return std::pair<webserv::Method, bool>(webserv::UNDEFINED, false); }
->>>>>>> One get_next_request per connection. closing connection on send
 
     // Getting first word from line
     std::istringstream iss(firstLine);
     std::string        firstWord;
 
     iss >> firstWord;
-<<<<<<< HEAD
     if (firstWord == "GET") return std::make_pair(webserv::GET, true);
     else if (firstWord == "POST") return std::make_pair(webserv::POST, true);
     else if (firstWord == "DELETE")
         return std::make_pair(webserv::DELETE, true);
     else return std::make_pair(webserv::UNDEFINED, false);
-=======
-    if (firstWord == "GET") return std::pair<webserv::Method, bool>(webserv::GET, true);
-    else if (firstWord == "POST") return std::pair<webserv::Method, bool>(webserv::POST, true);
-    else if (firstWord == "DELETE") return std::pair<webserv::Method, bool>(webserv::DELETE, true);
-    else return std::pair<webserv::Method, bool>(webserv::UNDEFINED, false);
->>>>>>> One get_next_request per connection. closing connection on send
 }
 
 std::pair<std::string, bool> HTTPParser::getResource(std::string& firstLine) {
@@ -40,17 +29,10 @@ std::pair<std::string, bool> HTTPParser::getResource(std::string& firstLine) {
     iss >> word;
     if (!(iss >> word)) {
         LOG_E("Only one word in first line of http request");
-<<<<<<< HEAD
         return std::make_pair("", false);
     }
 
     return std::make_pair(word, true);
-=======
-        return std::pair<std::string, bool> ("", false);
-    }
-
-    return std::pair<std::string, bool>(word, true);
->>>>>>> One get_next_request per connection. closing connection on send
 }
 
 std::pair<std::string, bool> HTTPParser::getVersion(std::string& firstLine) {
@@ -60,7 +42,6 @@ std::pair<std::string, bool> HTTPParser::getVersion(std::string& firstLine) {
     iss >> word;
     if (!(iss >> word)) {
         LOG_E("Only one word in first line of http request");
-<<<<<<< HEAD
         return std::make_pair("", false);
     }
     if (!(iss >> word)) {
@@ -68,15 +49,6 @@ std::pair<std::string, bool> HTTPParser::getVersion(std::string& firstLine) {
         return std::make_pair("", false);
     }
     return std::make_pair(word, true);
-=======
-        return std::pair<std::string, bool> ("", false);
-    }
-    if (!(iss >> word)) {
-        LOG_E("Only two words in first line of http request");
-        return std::pair<std::string, bool> ("", false);
-    }
-    return std::pair<std::string, bool> (word, true);
->>>>>>> One get_next_request per connection. closing connection on send
 }
 
 std::pair<std::string, std::string>
@@ -87,11 +59,7 @@ std::pair<std::string, std::string>
     std::size_t sepIndex = header.find_first_of(":");
     if (sepIndex == std::string::npos) {
         LOG_E("No [key]:[value] found at header string: ->" + header + "<-");
-<<<<<<< HEAD
         return std::make_pair("", "");
-=======
-        return std::pair<std::string, std::string>("", "");
->>>>>>> One get_next_request per connection. closing connection on send
     }
     else {
         first = header.substr(0, sepIndex);
@@ -99,11 +67,7 @@ std::pair<std::string, std::string>
             second = header.substr(sepIndex + 1, header.size());
         else second = "";
     }
-<<<<<<< HEAD
     return std::make_pair(first, second);
-=======
-    return std::pair<std::string, std::string>(first, second);
->>>>>>> One get_next_request per connection. closing connection on send
 }
 
 bool HTTPParser::setHeader(smt::shared_ptr<HTTPRequest> pReq,
@@ -174,10 +138,6 @@ smt::shared_ptr<HTTPRequest> HTTPParser::parse_header(std::string& header) {
 
     // Handle lines
     std::string& firstLine = request.at(0);
-<<<<<<< HEAD
-    // std::string& secondLine = request.at(1); // unused var
-=======
->>>>>>> One get_next_request per connection. closing connection on send
 
     std::pair<webserv::Method, bool> methodANDsuccess = getMethod(firstLine);
     if (!methodANDsuccess.second)

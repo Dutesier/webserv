@@ -68,7 +68,7 @@ int ServerSocket::bestServerBlockByIPAndPort(std::string& ipAndPort) {
 int ServerSocket::bestServerBlockByServerName(std::string& serverName) {
     int index = 0;
 
-    for (std::vector<smt::shared_ptr<ServerBlock>>::iterator it =
+    for (std::vector<smt::shared_ptr<ServerBlock> >::iterator it =
              m_blocks.begin();
          it != m_blocks.end(); it++) {
         if ((*it)->m_server_name == serverName) { return index; }
