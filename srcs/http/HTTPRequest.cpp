@@ -29,7 +29,7 @@ HTTPRequest::HTTPRequest(std::string req_str)
                 throw(MalformedRequestException());
             }
             std::string val(buf);
-            while (buf = strtok(NULL, "\r")) { val += std::string(buf); }
+            while ((buf = strtok(NULL, "\r"))) { val += std::string(buf); }
             m_headers[key] = val;
         }
     }
