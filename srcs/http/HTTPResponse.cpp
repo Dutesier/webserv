@@ -33,6 +33,38 @@ std::string HTTPResponse::toStr(void) {
             m_content);
 }
 
+void HTTPResponse::setStatus(int status) { m_status = status; }
+
+int HTTPResponse::getStatus(void) const { return (m_status); }
+
+void HTTPResponse::setHeader(std::string key, std::string value) {
+    m_headers.insert(std::make_pair(key, value));
+}
+
+void HTTPResponse::setHeaders(std::map<std::string, std::string> headers) {
+    m_headers = headers;
+}
+
+std::string HTTPResponse::getHeader(std::string key) const {
+    return (m_headers.at(key));
+}
+
+std::map<std::string, std::string> HTTPResponse::getHeaders(void) const {
+    return (m_headers);
+}
+
+void HTTPResponse::setContent(std::string content) { m_content = content; }
+
+std::string HTTPResponse::getContent(void) const { return (m_content); }
+
+void HTTPResponse::setVersion(std::string version) { m_version = version; }
+
+std::string HTTPResponse::getVersion(void) const { return (m_version); }
+
+void HTTPResponse::setReason(std::string reason) { m_reason = reason; }
+
+std::string HTTPResponse::getReason(void) const { return (m_reason); }
+
 std::map<int, std::string> HTTPResponse::createStatusMap(void) {
     std::map<int, std::string> code_map;
 

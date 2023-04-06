@@ -53,6 +53,9 @@ smt::shared_ptr<HTTPResponse>
         config->getLocationBlockForRequest(request);
 
     bool runCGI = (loc) && (loc->m_cgiEnabled) && (loc->m_cgi->isValid());
+    // FIXME: this needs to check if the cgi is enabled in the config file
+    // if the cgi isn't enabled in this part, then the regular methods are
+    // called instead
     bool isCGI = request->isCGIRequest();
     if (isCGI && runCGI) {
         LOG_D("Running CGI script");
@@ -85,12 +88,12 @@ smt::shared_ptr<HTTPResponse>
 
     bool default_body = false;
     if (config->m_errorPage.find(code) != config->m_errorPage.end()) {
-        // getting custom body and headers
 
+        // getting custom body and headers
         std::ifstream file(config->m_errorPage[code].c_str());
         if (!file.good()) {
 
-            LOG_I("generateErrorResponse(): failed to open " +
+            LOG_E("generateErrorResponse(): failed to open " +
                   config->m_errorPage[code]);
             default_body = true;
         }
