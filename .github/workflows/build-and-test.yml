@@ -20,4 +20,6 @@ jobs:
     - name: build
       run: mkdir build && cd build && cmake -D test=ON .. && make
     - name: test
+      run: make fclean clean_dep all
+    - name: test
       run: cd build && ./tests/webserv_test
