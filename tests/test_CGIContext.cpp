@@ -37,6 +37,6 @@ TEST_F(test_CGIContext, memb_var) {
     // std::cout << ctx << std::endl;
     req->setResource(
         "/cgi-bin/myscript.cgi/path/to/script?param1=value1&param2=value2");
-    cgi::CGIContext ctx(req, "../webserv/website/cgi/test_py");
+    cgi::CGIContext ctx(req, "../configs/website/cgi/test_py");
     std::cout << ctx << std::endl;
 }
