@@ -48,7 +48,7 @@ TEST(test_HTTPHandler, generate_error_response_custom) {
     smt::shared_ptr<webserv::HTTPResponse> resp(
         new webserv::HTTPResponse(500, header, body));
     smt::shared_ptr<webserv::ServerBlock> config(new webserv::ServerBlock);
-    config->m_errorPage[500] = "../webserv/website/50X.html";
+    config->m_errorPage[500] = "..//website/50X.html";
 
     // calling generateErrorResponse()
     smt::shared_ptr<webserv::HTTPResponse> err =

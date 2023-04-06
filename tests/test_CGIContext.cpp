@@ -33,7 +33,7 @@ TEST_F(test_CGIContext, memb_var) {
     smt::shared_ptr<webserv::HTTPRequest> req(new webserv::HTTPRequest(req1));
 
     // req->setResource("/home?key=value");
-    // cgi::CGIContext ctx(req, "../webserv/website/cgi/test.py");
+    // cgi::CGIContext ctx(req, "../configs/website/cgi/test.py");
     // std::cout << ctx << std::endl;
     req->setResource(
         "/cgi-bin/myscript.cgi/path/to/script?param1=value1&param2=value2");
