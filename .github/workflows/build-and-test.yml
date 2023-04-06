@@ -21,5 +21,3 @@ jobs:
       run: mkdir build && cd build && cmake -D test=ON .. && make
     - name: test
       run: cd build && ./tests/webserv_test
-      name: makefile and flags
-      run: make fclean clean_dep all
