@@ -37,13 +37,14 @@ GET(smt::shared_ptr<HTTPRequest>& request,
         std::ifstream file(filepath.c_str());
         std::string line;
         std::stringstream ss;
-        std::string str = ss.str();
         if (file.good()) {
             while(std::getline(file, line)) {
                 resp->m_body += line;
             }
-            ss << resp->m_body.size();
+            ss << (resp->m_body.size() + 1);
             resp->m_header["Content-Length:"] = ss.str();
+            LOG_D("Setting Content-Length: " + ss.str() + "=>" + resp->m_header["Content-Length:"]);
+            file.close();
             return resp;
         } else {
             resp->m_status = 500;
@@ -58,13 +59,59 @@ GET(smt::shared_ptr<HTTPRequest>& request,
     // Return HTTPResponse
 }
 
-// smt::shared_ptr<HTTPResponse>
-// POST(smt::shared_ptr<HTTPRequest>& request,
-//                     smt::shared_ptr<LocationBlock>& location) {
-//     // Check if method is allowed
-//     bool allowed = location->m_allowed_methods.find("POST") != location->m_allowed_methods.end();
+smt::shared_ptr<HTTPResponse>
+POST(smt::shared_ptr<HTTPRequest>& request,
+                    smt::shared_ptr<LocationBlock>& location) {
+    LOG_D("POST method called");
+    std::string                        body;
+    std::map<std::string, std::string> headers;
+    smt::shared_ptr<webserv::HTTPResponse> resp;
+    resp = smt::make_shared<webserv::HTTPResponse>(
+        new webserv::HTTPResponse(200, headers, body));
 
-// }
+    // Check if method is allowed
+    bool allowed = location->m_allowed_methods.find("POST") != location->m_allowed_methods.end();
+    if (!allowed) {
+        resp->m_status = 403; // Need to check this
+        LOG_D("Returning error");
+        return resp;
+    }
+
+    // Check if file in path and access is allowed (This logic is common to CGI)
+    std::string refined = request->getRefinedResource();
+    std::string directory = location->m_root; // FIXME: Shouldn't we have different roots for different methods
+
+    LOG_D("Checking requested resource: " + directory +refined);
+    if (!webserv::path::isCrawler(refined)) {
+        std::string filepath = directory + refined;
+
+        if (webserv::path::fileExists(directory, refined)) {
+            std::ofstream file(filepath.c_str(), std::ios_base::app);
+            if (!file.good()) {
+                resp->m_status = 500; // replace by generate error response
+                return resp;
+            } else {
+                file << request->getContent();
+                file.close();
+                return resp;
+            }
+        } else {
+            std::ofstream file(filepath.c_str(), std::ofstream::out | std::ofstream::trunc);
+            if (!file.good()) {
+                resp->m_status = 403; // replace by generate error response
+                return resp;
+            } else {
+                file << request->getContent();
+                file.close();
+                return resp;
+            }
+        }
+    } else {
+        resp->m_status = 403; // Need to check this
+        return resp;
+    }
+
+}
 
 // smt::shared_ptr<HTTPResponse>
 // HEAD(smt::shared_ptr<HTTPRequest>& request,

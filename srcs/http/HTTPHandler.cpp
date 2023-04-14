@@ -56,7 +56,7 @@ smt::shared_ptr<HTTPResponse>
     }
     // getting method
     if (request->getMethod() == webserv::GET) { return (webserv::methods::GET(request, location)); }
-    // if (request->getMethod == "POST") { return (Method::post(request)); }
+    if (request->getMethod() == webserv::POST) { return (webserv::methods::POST(request, location)); }
 
     // I think we can deal with GET and POST like this, on the CGI, and thats
     // that, then all we need is DELETE. I'm not sure how to deal with that

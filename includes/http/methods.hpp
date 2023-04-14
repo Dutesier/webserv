@@ -12,9 +12,9 @@ smt::shared_ptr<HTTPResponse>
 GET(smt::shared_ptr<HTTPRequest>& request,
                     smt::shared_ptr<LocationBlock>& location);
 
-// smt::shared_ptr<HTTPResponse>
-// POST(smt::shared_ptr<HTTPRequest>& request,
-//                     smt::shared_ptr<LocationBlock>& location);
+smt::shared_ptr<HTTPResponse>
+POST(smt::shared_ptr<HTTPRequest>& request,
+                    smt::shared_ptr<LocationBlock>& location);
 
 // smt::shared_ptr<HTTPResponse>
 // HEAD(smt::shared_ptr<HTTPRequest>& request,
