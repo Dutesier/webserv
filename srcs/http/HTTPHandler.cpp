@@ -1,4 +1,5 @@
 #include "http/HTTPHandler.hpp"
+#include "http/methods.hpp"
 
 namespace webserv {
 
@@ -18,6 +19,7 @@ void http_handle(smt::shared_ptr<ServerSocket> sock, int client_fd) {
         // Find the appropriate ServerBlock
         int serverBlockIdx = sock->bestServerBlockForRequest(request);
         serverBlockIdx = (serverBlockIdx == -1 ? 0 : serverBlockIdx);
+    
         // handle request here
         smt::shared_ptr<HTTPResponse> response = process_request(
             request, sock->m_blocks[serverBlockIdx],
@@ -36,18 +38,24 @@ smt::shared_ptr<HTTPResponse>
     process_request(smt::shared_ptr<HTTPRequest> request,
                     smt::shared_ptr<ServerBlock> config, int client_fd) {
 
-    smt::shared_ptr<webserv::LocationBlock> loc =
+    LOG_D("Processing Request");
+    smt::shared_ptr<webserv::LocationBlock> location =
         config->getLocationBlockForRequest(request);
 
+    // What do we do if we cant get location?
+    if (!location) {
+        return (generate_error_response(405, config));
+    }
+
     bool runCGI =
-        (loc) && (loc->m_cgi_enabled) && (loc->m_cgi->isValid());
+        (location) && (location->m_cgi_enabled) && (location->m_cgi->isValid());
     bool isCGI = request->isCGIRequest();
     if (isCGI && runCGI) {
         LOG_D("Running CGI script");
-        return (loc->m_cgi->run(request, client_fd));
+        return (location->m_cgi->run(request, client_fd));
     }
     // getting method
-    // if (request->getMethod == "GET") { return (Method::get(request)); }
+    if (request->getMethod() == webserv::GET) { return (webserv::methods::GET(request, location)); }
     // if (request->getMethod == "POST") { return (Method::post(request)); }
 
     // I think we can deal with GET and POST like this, on the CGI, and thats

@@ -36,8 +36,6 @@ class CGIHandler {
         smt::shared_ptr<webserv::HTTPResponse>
              runAsChildProcess(int fd, smt::shared_ptr<CGIContext>& context,
                                std::string req_content);
-        bool fileExists(std::string pathInDir);
-        bool isCrawler(std::string pathInDir);
 
         CGIContext createContext(smt::shared_ptr<HTTPRequest>& request);
 };

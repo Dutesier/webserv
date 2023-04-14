@@ -125,6 +125,7 @@ std::string HTTPRequest::getPathInfo() {
 }
 
 std::string HTTPRequest::getRefinedResource() {
+    LOG_D("Refined");
     std::size_t queryStart = m_resource.find('?');
     if (queryStart == std::string::npos) { return m_resource; }
     else { return m_resource.substr(0, queryStart); }
