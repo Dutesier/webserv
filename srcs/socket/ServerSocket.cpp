@@ -67,38 +67,49 @@ std::string ServerSocket::getNextRequest(int connectionFd, std::string reqStr) {
 }
 
 // Chooses the right server block from the config file for the request type
-// Need to figure out curl --resolve and host
 smt::shared_ptr<ServerBlock>
     ServerSocket::getConfigFromRequest(smt::shared_ptr<HTTPRequest>& req) {
 
-    std::string host_header = req->getHeader("Host");
-
-    // Getting port and address
-    size_t      n = host_header.find(":");
-    std::string p, a;
-    unsigned    port;
-
-    if (n != std::string::npos) {
-        a = host_header.substr(0, n);
-        if (a == "localhost") { a = "127.0.0.1"; }
-        p = host_header.substr(n + 1);
-    }
-    else { p = host_header; }
-    if (!p.empty()) {
-        std::stringstream ss(p);
-        ss >> port;
-    }
-
-    std::vector< smt::shared_ptr<webserv::ServerBlock> >::iterator it;
-    for (it = m_blocks.begin(); it != m_blocks.end(); it++) {
-        FLOG_D("iterating " + a + " != " + (*it)->m_host);
-        if ((*it)->m_port == port && (a.empty() || (*it)->m_host == a)) {
-            FLOG_D("Getting server block corresponding to " + a + ":" + p);
-            return (*it);
+    std::string serverHeader = req->getHeader("Server-Name");
+    std::vector< smt::shared_ptr<ServerBlock> >::iterator it;
+    if (!serverHeader.empty()) {
+        for (it = m_blocks.begin(); it != m_blocks.end(); it++) {
+            if ((*it)->m_serverName == serverHeader) {
+                FLOG_D("Getting server block corresponding to " + serverHeader);
+                return (*it);
+            }
         }
     }
-    FLOG_D("Getting default server block for host " + host_header);
+    FLOG_D("Getting default server block for host " + serverHeader);
     return (m_blocks[0]);
+    // std::string host_header = req->getHeader("Host");
+
+    // // Getting port and address
+    // size_t      n = host_header.find(":");
+    // std::string p, a;
+    // unsigned    port;
+
+    // if (n != std::string::npos) {
+    //     a = host_header.substr(0, n);
+    //     if (a == "localhost") { a = "127.0.0.1"; }
+    //     p = host_header.substr(n + 1);
+    // }
+    // else { p = host_header; }
+    // if (!p.empty()) {
+    //     std::stringstream ss(p);
+    //     ss >> port;
+    // }
+
+    // std::vector< smt::shared_ptr<webserv::ServerBlock> >::iterator it;
+    // for (it = m_blocks.begin(); it != m_blocks.end(); it++) {
+    //     FLOG_D("iterating " + a + " != " + (*it)->m_host);
+    //     if ((*it)->m_port == port && (a.empty() || (*it)->m_host == a)) {
+    //         FLOG_D("Getting server block corresponding to " + a + ":" + p);
+    //         return (*it);
+    //     }
+    // }
+    // FLOG_D("Getting default server block for host " + host_header);
+    // return (m_blocks[0]);
 }
 
 // int ServerSocket::bestServerBlockForRequest(
