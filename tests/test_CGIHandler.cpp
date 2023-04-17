@@ -17,10 +17,10 @@ TEST(CGIHandler, FileValidity) {
     req->setResource("/test_py/you.py");
     // this is very weird, cause it passes in my machine but not in github's
     // checks
-    // EXPECT_TRUE(cgi.run(req, 1));
-    // req->setResource("/test_php/../test_py/you.py?key=value");
-    // EXPECT_TRUE(cgi.run(req, 1));
-    // req->setResource("test_php/../../srcs");
+    EXPECT_TRUE(cgi.run(req, 1));
+    req->setResource("/test_php/../test_py/you.py?key=value");
+    EXPECT_TRUE(cgi.run(req, 1));
+    req->setResource("test_php/../../srcs");
     EXPECT_FALSE(cgi.run(req, 3));
     req->setResource("/test_php/../test_php/../../srcs");
     EXPECT_FALSE(cgi.run(req, 3));
