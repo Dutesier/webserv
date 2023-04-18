@@ -4,22 +4,20 @@
 namespace webserv {
 
 /* HTTPHandler Class */
-void http_handle(smt::shared_ptr<ServerSocket> sock, int client_fd) {
+void http_handle(smt::shared_ptr<ServerSocket> sock, smt::shared_ptr<SocketConnection> connection, int client_fd) {
 
     // receiving request string
     std::string req_str = sock->recv(client_fd);
 
     // getting the first request from string
-    HTTPParser                   parser;
-    smt::shared_ptr<HTTPRequest> request = parser.getNextRequest(req_str);
-    bool                         has_next = true;
-    while (has_next && request->isValid()) {
+    smt::shared_ptr<HTTPRequest> request = connection->m_parser->getNextRequest(req_str);
+    if (request->isValid()) {
 
         LOG_D("Handling request...");
+
         // Find the appropriate ServerBlock
         int serverBlockIdx = sock->bestServerBlockForRequest(request);
         serverBlockIdx = (serverBlockIdx == -1 ? 0 : serverBlockIdx);
-    
         // handle request here
         smt::shared_ptr<HTTPResponse> response = process_request(
             request, sock->m_blocks[serverBlockIdx],
@@ -27,14 +25,18 @@ void http_handle(smt::shared_ptr<ServerSocket> sock, int client_fd) {
                         // the first block here so that rest of code can run
 
         // sending response to client
-        if (response) {
-            LOG_D("Got response: " + response->to_str());
-            sock->send(client_fd, response->to_str());
+        if (response) sock->send(client_fd, response->to_str());
+        
+        // closing the connection
+        std::map<int, smt::shared_ptr<webserv::SocketConnection> >::iterator connnectionIterator;
+        connnectionIterator = sock->m_connection.find(client_fd); 
+        if (connnectionIterator != sock->m_connection.end()) {
+            // Remove connection from map
+            sock->m_connection.erase(client_fd);
         }
 
-        // checking if there are more requests to handle
-        request = parser.getNextRequest("");
     }
+    LOG_D("No valid request was received");
 }
 
 smt::shared_ptr<HTTPResponse>

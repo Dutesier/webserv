@@ -1,4 +1,5 @@
 #include "http/HTTPParser.hpp"
+#include <cstdlib>
 
 HTTPParser::HTTPParser() {}
 
@@ -137,7 +138,6 @@ smt::shared_ptr<HTTPRequest> HTTPParser::parse_header(std::string& header) {
 
     // Handle lines
     std::string& firstLine = request.at(0);
-    // std::string& secondLine = request.at(1); // unused var
 
     std::pair<webserv::Method, bool> methodANDsuccess = getMethod(firstLine);
     if (!methodANDsuccess.second)
@@ -182,12 +182,7 @@ smt::shared_ptr<HTTPRequest> HTTPParser::getNextRequest(std::string received) {
 
     // Declare variables
     std::string        data;
-    static std::string restOfData;    // Buffer for storing data left over from
-                                      // previous call to recv
-    static bool dataInBuffer = false; // Flag to indicate whether there is data
-                                      // left over in the restOfData buffer
-    // size_t bytes_read = 0;            // Number of bytes read from the socket UNUSED
-
+                                      
     // String to identify the end of the headers in the request
     char const* endOfHeaders = "\r\n\r\n";
     // Position of the end of the headers in the buffer
@@ -200,6 +195,7 @@ smt::shared_ptr<HTTPRequest> HTTPParser::getNextRequest(std::string received) {
 
     // If there is no data left over from a previous call to recv
     if (!dataInBuffer) {
+        // and if we didn't get anything now
         if (received.empty()) {
             return (smt::make_shared(new HTTPRequest(42)));
         }

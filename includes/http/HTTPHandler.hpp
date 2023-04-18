@@ -9,7 +9,8 @@
 
 namespace webserv {
 
-void http_handle(smt::shared_ptr<ServerSocket> sock, int client_fd);
+void http_handle(smt::shared_ptr<ServerSocket> sock,
+                smt::shared_ptr<SocketConnection> connection, int client_fd);
 smt::shared_ptr<HTTPResponse>
     generate_error_response(int code, smt::shared_ptr<ServerBlock> config);
 smt::shared_ptr<HTTPResponse>
