@@ -21,7 +21,7 @@ class HTTPParser {
         HTTPParser();
         ~HTTPParser();
 
-        smt::shared_ptr<HTTPRequest> getNextRequest(std::string received);
+        std::pair<smt::shared_ptr<HTTPRequest>, bool> getNextRequest(std::string received);
 
     private:
 

@@ -57,53 +57,53 @@ class test_HTTPParser : public testing::Test {
 
 TEST_F(test_HTTPParser, getMethod) {
 
-    smt::shared_ptr<HTTPRequest> res1 = parser->getNextRequest(req1);
+    smt::shared_ptr<HTTPRequest> res1 = parser->getNextRequest(req1).first;
     ASSERT_TRUE(res1->isValid());
     EXPECT_EQ(1, res1->getMethod());
 
-    smt::shared_ptr<HTTPRequest> res2 = parser->getNextRequest(req2);
+    smt::shared_ptr<HTTPRequest> res2 = parser->getNextRequest(req2).first;
     ASSERT_TRUE(res2->isValid());
     EXPECT_EQ(2, res2->getMethod());
 
-    smt::shared_ptr<HTTPRequest> res3 = parser->getNextRequest(reqNoMethod);
+    smt::shared_ptr<HTTPRequest> res3 = parser->getNextRequest(reqNoMethod).first;
     ASSERT_FALSE(res3->isValid());
 }
 
 TEST_F(test_HTTPParser, getResource) {
 
-    smt::shared_ptr<HTTPRequest> res1 = parser->getNextRequest(req1);
+    smt::shared_ptr<HTTPRequest> res1 = parser->getNextRequest(req1).first;
     ASSERT_TRUE(res1->isValid());
     EXPECT_STREQ("/hello.htm", res1->getResource().c_str());
 
-    smt::shared_ptr<HTTPRequest> res2 = parser->getNextRequest(req2);
+    smt::shared_ptr<HTTPRequest> res2 = parser->getNextRequest(req2).first;
     ASSERT_TRUE(res2->isValid());
     EXPECT_STREQ("/cgi-bin/process.cgi", res2->getResource().c_str());
 
-    smt::shared_ptr<HTTPRequest> res3 = parser->getNextRequest(reqNoPath);
+    smt::shared_ptr<HTTPRequest> res3 = parser->getNextRequest(reqNoPath).first;
     ASSERT_FALSE(res3->isValid());
 }
 
 TEST_F(test_HTTPParser, getVersion) {
 
-    smt::shared_ptr<HTTPRequest> res1 = parser->getNextRequest(req1);
+    smt::shared_ptr<HTTPRequest> res1 = parser->getNextRequest(req1).first;
     ASSERT_TRUE(res1->isValid());
     EXPECT_STREQ("HTTP/1.1", res1->getVersion().c_str());
 
-    smt::shared_ptr<HTTPRequest> res2 = parser->getNextRequest(req2);
+    smt::shared_ptr<HTTPRequest> res2 = parser->getNextRequest(req2).first;
     ASSERT_TRUE(res2->isValid());
     EXPECT_STREQ("HTTP/1.1", res2->getVersion().c_str());
 
-    smt::shared_ptr<HTTPRequest> res3 = parser->getNextRequest(req3);
+    smt::shared_ptr<HTTPRequest> res3 = parser->getNextRequest(req3).first;
     ASSERT_TRUE(res3->isValid());
     EXPECT_STREQ("HTTP/1.0", res3->getVersion().c_str());
 
-    smt::shared_ptr<HTTPRequest> res4 = parser->getNextRequest(reqNoVersion);
+    smt::shared_ptr<HTTPRequest> res4 = parser->getNextRequest(reqNoVersion).first;
     ASSERT_FALSE(res4->isValid());
 }
 
 TEST_F(test_HTTPParser, parse_header) {
 
-    smt::shared_ptr<HTTPRequest> res1 = parser->getNextRequest(req1);
+    smt::shared_ptr<HTTPRequest> res1 = parser->getNextRequest(req1).first;
     ASSERT_TRUE(res1->isValid());
     EXPECT_EQ(1, res1->getMethod());
     EXPECT_STREQ("/hello.htm", res1->getResource().c_str());
@@ -121,7 +121,7 @@ TEST_F(test_HTTPParser, parse_header) {
     ASSERT_FALSE(res1->getHeader("Connection").empty());
     EXPECT_STREQ(res1->getHeader("Connection").c_str(), " Keep-Alive");
 
-    smt::shared_ptr<HTTPRequest> res2 = parser->getNextRequest(req2);
+    smt::shared_ptr<HTTPRequest> res2 = parser->getNextRequest(req2).first;
     ASSERT_TRUE(res2->isValid());
     EXPECT_EQ(2, res2->getMethod());
     EXPECT_STREQ("/cgi-bin/process.cgi", res2->getResource().c_str());

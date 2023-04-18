@@ -8,35 +8,55 @@ void http_handle(smt::shared_ptr<ServerSocket> sock, smt::shared_ptr<SocketConne
 
     // receiving request string
     std::string req_str = sock->recv(client_fd);
+    bool answeredAtLeastOneRequest = false;
 
     // getting the first request from string
-    smt::shared_ptr<HTTPRequest> request = connection->m_parser->getNextRequest(req_str);
-    if (request->isValid()) {
+    // while there are requests to process we process,
+    // once we've reached end of file we stop processing
+    bool keepAskingForRequests = true;
+    while (keepAskingForRequests)
+    {
+        LOG_D("Looking for the next request that might be cached");
+        std::pair<smt::shared_ptr<HTTPRequest>, bool> requestPair = connection->m_parser->getNextRequest(req_str);
+        smt::shared_ptr<HTTPRequest> request = requestPair.first;
+        keepAskingForRequests = requestPair.second;
+        if (request->isValid()) {
 
-        LOG_D("Handling request...");
+            LOG_D("Found a valid request. Handling request...");
 
-        // Find the appropriate ServerBlock
-        int serverBlockIdx = sock->bestServerBlockForRequest(request);
-        serverBlockIdx = (serverBlockIdx == -1 ? 0 : serverBlockIdx);
-        // handle request here
-        smt::shared_ptr<HTTPResponse> response = process_request(
-            request, sock->m_blocks[serverBlockIdx],
-            client_fd); // TODO: This obviously needs to be fixed, just using
-                        // the first block here so that rest of code can run
+            // Find the appropriate ServerBlock
+            int serverBlockIdx = sock->bestServerBlockForRequest(request);
+            serverBlockIdx = (serverBlockIdx == -1 ? 0 : serverBlockIdx);
+            // handle request here
+            smt::shared_ptr<HTTPResponse> response = process_request(
+                request, sock->m_blocks[serverBlockIdx],
+                client_fd); // TODO: This obviously needs to be fixed, just using
+                            // the first block here so that rest of code can run
 
-        // sending response to client
-        if (response) sock->send(client_fd, response->to_str());
-        
+            // sending response to client
+            if (response) {
+                LOG_D(("Trying to send to fd " + client_fd) + (" response: " + response->to_str()));
+                sock->send(client_fd, response->to_str());
+                answeredAtLeastOneRequest = true;
+            }
+            req_str = "";
+        }
+        else {
+            LOG_D("No valid request was received");
+        }
+    }
+
+    if (answeredAtLeastOneRequest)
+    {
         // closing the connection
+        LOG_D("Closing socket connection to fd:" + client_fd);
         std::map<int, smt::shared_ptr<webserv::SocketConnection> >::iterator connnectionIterator;
         connnectionIterator = sock->m_connection.find(client_fd); 
         if (connnectionIterator != sock->m_connection.end()) {
             // Remove connection from map
             sock->m_connection.erase(client_fd);
         }
-
     }
-    LOG_D("No valid request was received");
 }
 
 smt::shared_ptr<HTTPResponse>

@@ -125,13 +125,11 @@ std::vector<std::string> HTTPParser::separateByCRLF(std::string& raw) {
 smt::shared_ptr<HTTPRequest> HTTPParser::parse_header(std::string& header) {
 
     // Create a shared ptr -> this will delete itself if we dont return it :)
-    // HTTPRequest* dontUse = new HTTPRequest;
-    // smt::shared_ptr<HTTPRequest> pReq(dontUse);
     smt::shared_ptr<HTTPRequest> pReq = smt::make_shared(new HTTPRequest);
 
     std::vector<std::string> request = separateByCRLF(header);
     if (request.size() < 2) {
-        // The method line /  and an empty line to signify end of headers
+        // The method line / and an empty line to signify end of headers
         LOG_E("HTTP Request has less than 2 lines");
         return (smt::make_shared(new HTTPRequest(42)));
     }
@@ -176,7 +174,8 @@ smt::shared_ptr<HTTPRequest> HTTPParser::parse_header(std::string& header) {
 
 // SYSCAL rcv triggers handler -> handler will keep calling getNextRequest()
 // until no request is returned
-smt::shared_ptr<HTTPRequest> HTTPParser::getNextRequest(std::string received) {
+// bool in pair is "keep asking for requests"
+std::pair<smt::shared_ptr<HTTPRequest>, bool> HTTPParser::getNextRequest(std::string received) {
     // When recv is called it returns an HTTP request
     smt::shared_ptr<HTTPRequest> request;
 
@@ -197,7 +196,7 @@ smt::shared_ptr<HTTPRequest> HTTPParser::getNextRequest(std::string received) {
     if (!dataInBuffer) {
         // and if we didn't get anything now
         if (received.empty()) {
-            return (smt::make_shared(new HTTPRequest(42)));
+            return (std::make_pair(smt::make_shared(new HTTPRequest(42)), false));
         }
         else { data = received; }
     }
@@ -219,23 +218,23 @@ smt::shared_ptr<HTTPRequest> HTTPParser::getNextRequest(std::string received) {
 
             LOG_I("More than 8k header size");
             // but actually return 413 Entity Too Large
-            return (smt::make_shared(new HTTPRequest(413)));
+            return (std::make_pair(smt::make_shared(new HTTPRequest(413)), false));
         }
         // Store what we've gotten
         restOfData = data;
         dataInBuffer = true;
         LOG_W("No end of headers found");
-        return (smt::make_shared(new HTTPRequest(42))); // we need more data
+        return (std::make_pair(smt::make_shared(new HTTPRequest(42)), false));
     }
     else {
-
+        // We found the end of headers
         eoh_position += 4;
         header = data.substr(0, eoh_position);
         header.insert(eoh_position, "");
     }
     // Pass the headers to the parser and receive a "valid" HTTPRequest
     request = parse_header(header);
-    if (!request->isValid()) { return (request); }
+    if (!request->isValid()) { return std::make_pair(request, true); }
 
     // If there is more data to be dealt with
     if (data.length() > eoh_position) {
@@ -262,9 +261,9 @@ smt::shared_ptr<HTTPRequest> HTTPParser::getNextRequest(std::string received) {
                     // Store what we've gotten
                     restOfData = data;
                     dataInBuffer = true;
-                    // we need more data
+                    // we need more data to be written in the FD
                     LOG_W("Missing body content");
-                    return (smt::make_shared(new HTTPRequest(42)));
+                    return (std::make_pair(smt::make_shared(new HTTPRequest(42)), false));
                 }
             }
         }
@@ -283,7 +282,7 @@ smt::shared_ptr<HTTPRequest> HTTPParser::getNextRequest(std::string received) {
         }
     }
 
-    return (request);
+    return std::make_pair(request, true);
 }
 
 int HTTPParser::find_next_request(std::string& buff) const {

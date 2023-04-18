@@ -49,8 +49,8 @@ GET(smt::shared_ptr<HTTPRequest>& request,
             responseBody << file.rdbuf();
             resp->m_body = responseBody.str();
             ss << (resp->m_body.length());
-            resp->m_header["Content-Length:"] = ss.str();
-            LOG_D("Setting Content-Length: " + ss.str() + "=> " + resp->m_header["Content-Length:"]);
+            resp->m_header["Content-Length"] = ss.str();
+            LOG_D("Setting Content-Length: " + ss.str() + "=> " + resp->m_header["Content-Length"]);
             file.close();
             return resp;
         } else {
@@ -193,7 +193,7 @@ DELETE(smt::shared_ptr<HTTPRequest>& request,
             LOG_D("RETURNING " + resp->m_status);
             return resp;
         } else {
-            resp->m_header["Content-Length:"] = "0";
+            resp->m_header["Content-Length"] = "0";
             LOG_D("RETURNING " + resp->m_status);
             return resp;
         }
