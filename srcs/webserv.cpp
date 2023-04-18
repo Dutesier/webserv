@@ -33,7 +33,7 @@ void webserv::stop(int signum) {
     try {
 
         smt::shared_ptr<webserv::HTTPServer> srv = get_webserv();
-        LOG("stoping server...");
+        LOG("stoping server..." + signum);
         srv->stop();
     }
     catch (std::exception& e) {

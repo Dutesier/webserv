@@ -72,11 +72,11 @@ void HTTPServer::run(void) {
                 for (it = m_socket.begin(); it != m_socket.end(); it++) {
 
                     smt::shared_ptr<ServerSocket> sock = (*it).second;
-                    if (sock->m_connection.find(events[i].data.fd) !=
-                        sock->m_connection.end()) {
-
+                    std::map<int, smt::shared_ptr<webserv::SocketConnection> >::iterator connnectionIterator;
+                    connnectionIterator = sock->m_connection.find(events[i].data.fd); 
+                    if (connnectionIterator != sock->m_connection.end()) {
                         FLOG_D("webserv::HTTPServer REQ()");
-                        http_handle(sock, events[i].data.fd);
+                        http_handle(sock, connnectionIterator->second, events[i].data.fd);
                         break;
                     }
                 }

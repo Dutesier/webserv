@@ -3,9 +3,12 @@
 namespace webserv {
 
 SocketConnection::SocketConnection(int fd, smt::shared_ptr<SocketAddress> addr)
-    : Socket(fd, addr, SOCK_STREAM) {}
+    : Socket(fd, addr, SOCK_STREAM)
+    , m_parser(smt::make_shared<HTTPParser>(new HTTPParser())) {}
 
-SocketConnection::SocketConnection() : Socket() {}
+SocketConnection::SocketConnection()
+    : Socket()
+    , m_parser(smt::make_shared<HTTPParser>(new HTTPParser())) {}
 
 SocketConnection::~SocketConnection(void) { this->close(); }
 

@@ -35,28 +35,28 @@ void Logger::operator()(std::string const& message, char const* function,
     }
 }
 
-Logger& Debug() {
-    static Logger logger(LogLevel::DEBUG);
+smt::shared_ptr<Logger> Debug() {
+    smt::shared_ptr<Logger> logger = smt::make_shared(new Logger(DEBUG));
     return logger;
 }
 
-Logger& Info() {
-    static Logger logger(LogLevel::INFO);
+smt::shared_ptr<Logger> Info() {
+    smt::shared_ptr<Logger> logger = smt::make_shared(new Logger(INFO));
     return logger;
 }
 
-Logger& Warning() {
-    static Logger logger(LogLevel::WARNING);
+smt::shared_ptr<Logger> Warning() {
+    smt::shared_ptr<Logger> logger = smt::make_shared(new Logger(WARNING));
     return logger;
 }
 
-Logger& Error() {
-    static Logger logger(LogLevel::ERROR);
+smt::shared_ptr<Logger> Error() {
+    smt::shared_ptr<Logger> logger = smt::make_shared(new Logger(ERROR));
     return logger;
 }
 
-Logger& Fatal() {
-    static Logger logger(LogLevel::FATAL);
+smt::shared_ptr<Logger> Fatal() {
+    smt::shared_ptr<Logger> logger = smt::make_shared(new Logger(FATAL));
     return logger;
 }
 
@@ -69,7 +69,7 @@ FileLogger::~FileLogger() {
 
 void FileLogger::setLogFile(std::string filename) {
     remove(filename.c_str());
-    logFile.open(filename, std::ios_base::app);
+    logFile.open(filename.c_str(), std::ios_base::app);
     if (!logFile.good()) {
         logFile.close();
         logToFile = false;
@@ -113,27 +113,27 @@ void FileLogger::operator()(std::string const& message, char const* function,
     }
 }
 
-FileLogger& FileDebug() {
-    static FileLogger fileLogger(LogLevel::DEBUG);
-    return fileLogger;
+smt::shared_ptr<FileLogger> FileDebug() {
+    smt::shared_ptr<FileLogger> logger = smt::make_shared(new FileLogger(DEBUG));
+    return logger;
 }
 
-FileLogger& FileInfo() {
-    static FileLogger fileLogger(LogLevel::INFO);
-    return fileLogger;
+smt::shared_ptr<FileLogger> FileInfo() {
+    smt::shared_ptr<FileLogger> logger = smt::make_shared(new FileLogger(INFO));
+    return logger;
 }
 
-FileLogger& FileWarning() {
-    static FileLogger fileLogger(LogLevel::WARNING);
-    return fileLogger;
+smt::shared_ptr<FileLogger> FileWarning() {
+    smt::shared_ptr<FileLogger> logger = smt::make_shared(new FileLogger(WARNING));
+    return logger;
 }
 
-FileLogger& FileError() {
-    static FileLogger fileLogger(LogLevel::ERROR);
-    return fileLogger;
+smt::shared_ptr<FileLogger> FileError() {
+    smt::shared_ptr<FileLogger> logger = smt::make_shared(new FileLogger(ERROR));
+    return logger;
 }
 
-FileLogger& FileFatal() {
-    static FileLogger fileLogger(LogLevel::FATAL);
-    return fileLogger;
+smt::shared_ptr<FileLogger> FileFatal() {
+    smt::shared_ptr<FileLogger> logger = smt::make_shared(new FileLogger(FATAL));
+    return logger;
 }
