@@ -17,6 +17,7 @@ bool isCrawler(std::string& pathInDir){
     while (word) {
         dirs_in_path.push_back(word);
         word = strtok(NULL, "/");
+        LOG_D("word: " + dirs_in_path.back());
     }
 
     for (std::vector<std::string>::iterator it = dirs_in_path.begin();
@@ -40,7 +41,17 @@ bool fileExists(std::string& directory, std::string& pathInDir){
         filepath
             .c_str()); // Lets make sure that we dont have /cgi/python//fu.py
 
+    LOG_D("File exists: " + filepath);
     return f.good();
+}
+
+std::string formattedFullPath(std::string& directory, std::string& pathInDir) {
+    if (*(directory.rbegin()) == '/') {
+        if (*(pathInDir.begin()) == '/') {
+            return directory.substr(0, directory.size() - 1) + pathInDir;
+        }
+    }
+    return directory + pathInDir;
 }
 
 

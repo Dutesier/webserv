@@ -27,7 +27,10 @@ void http_handle(smt::shared_ptr<ServerSocket> sock, int client_fd) {
                         // the first block here so that rest of code can run
 
         // sending response to client
-        if (response) sock->send(client_fd, response->to_str());
+        if (response) {
+            LOG_D("Got response: " + response->to_str());
+            sock->send(client_fd, response->to_str());
+        }
 
         // checking if there are more requests to handle
         request = parser.getNextRequest("");
@@ -44,6 +47,7 @@ smt::shared_ptr<HTTPResponse>
 
     // What do we do if we cant get location?
     if (!location) {
+        LOG_D("No location found");
         return (generate_error_response(405, config));
     }
 
@@ -54,21 +58,12 @@ smt::shared_ptr<HTTPResponse>
         LOG_D("Running CGI script");
         return (location->m_cgi->run(request, client_fd));
     }
+
     // getting method
     if (request->getMethod() == webserv::GET) { return (webserv::methods::GET(request, location)); }
     if (request->getMethod() == webserv::POST) { return (webserv::methods::POST(request, location)); }
+    if (request->getMethod() == webserv::DELETE) { return (webserv::methods::DELETE(request, location)); }
 
-    // I think we can deal with GET and POST like this, on the CGI, and thats
-    // that, then all we need is DELETE. I'm not sure how to deal with that
-
-    // if (request->getMethod == "DELETE") {
-    // int status = remove(request->getResource().c_str());
-
-    // if (status == 0)
-    //     return (200);
-    // else
-    //     return (404);
-    // return (Method::delete(request)); }
 
     return (generate_error_response(405, config));
 }
@@ -76,7 +71,6 @@ smt::shared_ptr<HTTPResponse>
 smt::shared_ptr<HTTPResponse>
     generate_error_response(int code, smt::shared_ptr<ServerBlock> config) {
 
-    (void)code;
     (void)config;
     return (smt::shared_ptr<HTTPResponse>(
         new HTTPResponse(code, std::map<std::string, std::string>(), "")));

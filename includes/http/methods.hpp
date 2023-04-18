@@ -20,8 +20,8 @@ POST(smt::shared_ptr<HTTPRequest>& request,
 // HEAD(smt::shared_ptr<HTTPRequest>& request,
 //                     smt::shared_ptr<LocationBlock>& location);
 
-// smt::shared_ptr<HTTPResponse>
-// DELETE(smt::shared_ptr<HTTPRequest>& request,
-//                     smt::shared_ptr<LocationBlock>& location);
+smt::shared_ptr<HTTPResponse>
+DELETE(smt::shared_ptr<HTTPRequest>& request,
+                    smt::shared_ptr<LocationBlock>& location);
 
 }
