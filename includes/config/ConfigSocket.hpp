@@ -25,8 +25,8 @@ class ConfigSocket {
                            std::string hostHeader = "");
 
         static smt::shared_ptr<LocationBlock>
-            getLocationBlock(unsigned port, std::string host,
-                             std::string hostHeader, std::string uri);
+            getLocationBlock(unsigned port, std::string host, std::string uri,
+                             std::string hostHeader = "");
 
         static void
             setBlocks(std::vector< smt::shared_ptr<ServerBlock> > blocks);
