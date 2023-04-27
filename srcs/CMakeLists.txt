@@ -1,25 +1,23 @@
 project(webserv_lib)
 
 add_library(${PROJECT_NAME} STATIC
-	webserv.cpp
-	cgi/CGIHandler.cpp
-	cgi/CGIContext.cpp
-	config/Blocks.cpp
-	config/Config.cpp
-	config/ConfigSocket.cpp
-	http/HTTPHandler.cpp
-	http/HTTPParser.cpp
-	http/HTTPRequest.cpp
-	http/HTTPResponse.cpp
-	http/HTTPValidator.cpp
-	server/HTTPServer.cpp
-	socket/Socket.cpp
-	socket/ServerAddress.cpp
-	socket/SocketAddress.cpp
-	socket/SocketConnection.cpp
-	socket/TCPSocket.cpp
-	socket/ServerSocket.cpp
-	utils/Logger.cpp
+    webserv.cpp
+    cgi/CGIContext.cpp
+    cgi/CGIHandler.cpp
+    config/Blocks.cpp
+    config/Config.cpp
+    config/ConfigSocket.cpp
+    http/HTTPHandler.cpp
+    http/HTTPParser.cpp
+    http/HTTPRequest.cpp
+    http/HTTPResponse.cpp
+    http/HTTPValidator.cpp
+    server/HTTPServer.cpp
+    socket/ConnectionAddress.cpp
+    socket/ServerAddress.cpp
+    socket/ServerSocket.cpp
+    socket/SocketConnection.cpp
+    utils/Logger.cpp
 )
 
 add_library(42::${PROJECT_NAME} ALIAS ${PROJECT_NAME})

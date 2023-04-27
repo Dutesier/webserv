@@ -1,138 +1,202 @@
 #include "socket/ServerSocket.hpp"
 
-#include <cstring>
-#include <regex>
-
 namespace webserv {
 
-ServerSocket::ServerSocket(std::vector< smt::shared_ptr<ServerBlock> > blocks)
-    : TCPSocket((*blocks.begin())->m_resolvPort,
-                (*blocks.begin())->m_resolvHost),
-      m_blocks(blocks) {
-
-    // setting socket options
-    int            enable = 1;
-    struct timeval timeout;
-    timeout.tv_sec = 10;
-    timeout.tv_usec = 0;
-    setsockopt(SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int));
-    setsockopt(SOL_SOCKET, SO_REUSEPORT, &enable, sizeof(int));
-    setsockopt(SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(struct timeval));
-
-    // binding socket
-    bind();
-
-    // make socket start listening to requests
-    listen();
-
-    // debugging message
-    std::stringstream ss;
-    ss << m_addr->port();
-    LOG_D("created server socket | " + m_addr->host() + ":" + ss.str());
+ServerSocket::ServerSocket(smt::shared_ptr<ServerAddress>& addr)
+    : m_sockFd(-1), m_addr(addr) {
+    LOG_D("Created " + toString());
 }
 
-ServerSocket::~ServerSocket(void) {}
-
-int ServerSocket::bestServerBlockForRequest(
-    smt::shared_ptr<HTTPRequest>& request) {
-    std::string uri = request->getHeader("Host");
-
-    if (uri.empty()) return (-1);
-    if (startsWithIpAndPort(uri)) return bestServerBlockByIPAndPort(uri);
-    if (startsWithIP(uri)) return bestServerBlockByIPAndPort(uri);
-    if (startsWithServerName(uri)) return bestServerBlockByServerName(uri);
-    return (-1);
+ServerSocket::~ServerSocket(void) {
+    close();
+    LOG_D("Destroying " + toString());
 }
 
-int ServerSocket::bestServerBlockByIPAndPort(std::string& ipAndPort) {
-    char* tempIP = 0;
-    char* tempPort = 0;
-    sscanf(ipAndPort.c_str(), "%s:%s", tempIP, tempPort);
+int ServerSocket::getSockFd(void) const { return (m_sockFd); }
 
-    std::string IP(tempIP);
-    std::string port(tempPort);
-    int         index = 0;
+int ServerSocket::getPort(void) const { return (m_addr->getPort()); }
 
-    for (std::vector< smt::shared_ptr<ServerBlock> >::iterator it =
-             m_blocks.begin();
-         it != m_blocks.end(); it++) {
-        if ((*it)->m_resolvPort == static_cast<unsigned>(atoi(port.c_str())) &&
-            ((*it)->m_resolvHost == IP || (*it)->m_host == "*")) {
-            return index;
-        }
-        index++;
-    }
-    LOG_D("No match found for ideal server block");
-    return -1;
+std::string ServerSocket::getHost(void) const { return (m_addr->getHost()); }
+
+sa_family_t ServerSocket::getFamily(void) const {
+    return (m_addr->getFamily());
 }
 
-int ServerSocket::bestServerBlockByServerName(std::string& serverName) {
-    int index = 0;
+int ServerSocket::getType(void) const { return (m_addr->getType()); }
 
-    for (std::vector<smt::shared_ptr<ServerBlock>>::iterator it =
-             m_blocks.begin();
-         it != m_blocks.end(); it++) {
-        if ((*it)->m_server_name == serverName) { return index; }
-        index++;
-    }
-    LOG_D("No match found for ideal server block");
-    return -1;
+sockaddr* ServerSocket::getAddress(void) const {
+    return (m_addr->getAddress());
 }
 
-bool ServerSocket::startsWithServerName(std::string const& str) {
-    const std::string validChars =
-        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-";
-    int const maxLabelLen = 63;
+socklen_t ServerSocket::getLength(void) const { return (m_addr->getLength()); }
 
-    size_t pos =
-        str.find_first_not_of(validChars); // Find first non-valid character
-    if (pos == std::string::npos) {
-        // Cant start or end with a hyphen.
-        if (str.front() == '-' || str.back() == '-') { return false; }
-        return true;
-    }
-    else {
-        size_t labelStart = 0;
-        while (pos != std::string::npos) {
-            size_t labelLen = pos - labelStart;
-            if (labelLen == 0 || labelLen > maxLabelLen ||
-                str[labelStart] == '-' || str[pos - 1] == '-') {
-                return false;
-            }
-            labelStart = pos + 1;
-            pos = str.find('.', labelStart);
-        }
-        // Check the last label (after the last '.').
-        size_t lastLabelLen = str.length() - labelStart;
-        if (lastLabelLen == 0 || lastLabelLen > maxLabelLen ||
-            str[labelStart] == '-' || str.back() == '-') {
-            return false;
-        }
-        return true;
+void ServerSocket::socket(void) {
+    if ((m_sockFd = ::socket(m_addr->getFamily(), m_addr->getType(), 0)) < 0) {
+        LOG_E(toString() + " failure in ::socket()");
+        throw SocketFailureException();
     }
 }
 
-bool ServerSocket::startsWithIP(std::string const& str) {
-    std::regex pattern(R"(^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})");
-    return std::regex_match(str, pattern);
+smt::shared_ptr<SocketConnection> ServerSocket::getConnection(int connectFd) {
+
+    std::map<int, smt::shared_ptr<SocketConnection> >::iterator it;
+    it = m_connections.find(connectFd);
+    if (it == m_connections.end()) {
+        LOG_E(toString() + " has no connection with fd " +
+              std::to_string(connectFd));
+        throw NoSuchConnectionException();
+    }
+    return ((*it).second);
 }
 
-bool ServerSocket::startsWithIpAndPort(std::string const& str) {
-    std::regex pattern(
-        "(\\d{1,3}\\.){3}\\d{1,3}:\\d+"); // Matches an IPv4 address with a port
-                                          // number
-    return std::regex_match(str, pattern);
+void ServerSocket::bind(void) {
+    if (::bind(m_sockFd, m_addr->getAddress(), m_addr->getLength()) == -1) {
+        LOG_E(toString() + " failure in ::bind()");
+        throw BindFailureException();
+    }
 }
 
-std::string ServerSocket::extractResource(std::string uri) {
-    // Check if the string starts with "http://" or "https://"
-    if (uri.compare(0, 7, "http://") == 0) { uri = uri.substr(7); }
-    else if (uri.compare(0, 8, "https://") == 0) { uri = uri.substr(8); }
+void ServerSocket::listen(void) {
+    if (::listen(m_sockFd, BACKLOG) == -1) {
+        LOG_E(toString() + " failure in ::listen()");
+        throw ListenFailureException();
+    }
+}
 
-    // Extract the server name
-    size_t pos = uri.find('/');
-    if (pos == std::string::npos) { return uri; }
-    else { return ""; }
+void ServerSocket::setsockopt(int level, int optname, void const* optval,
+                              socklen_t optlen) {
+    if (::setsockopt(m_sockFd, level, optname, optval, optlen) == -1) {
+        LOG_E(toString() + " failure in ::setsockopt()");
+        throw SetOptFailureException();
+    }
+}
+
+int ServerSocket::accept(void) {
+
+    sockaddr* connectAddr = new sockaddr;
+    socklen_t len = sizeof(connectAddr);
+
+    int connectFd = ::accept(m_sockFd, connectAddr, &len);
+
+    if (connectFd < 0) {
+        LOG_E(toString() + " failure in ::accept()");
+        throw(AcceptFailureException());
+    }
+
+    smt::shared_ptr< SocketConnection > sockConnect(new SocketConnection(
+        connectFd, reinterpret_cast<sockaddr_in*>(connectAddr), len));
+
+    m_connections[connectFd] = sockConnect;
+    return (connectFd);
+}
+
+void ServerSocket::close(void) {
+
+    if (m_sockFd == -1) {
+        LOG_D(toString() + " is already closed");
+        return;
+    }
+
+    if (::close(m_sockFd) == -1) {
+        LOG_E(toString() + " failure in ::close()");
+        throw CloseFailureException();
+    }
+    m_sockFd = -1;
+}
+
+void ServerSocket::close(int connectFd) {
+
+    std::map<int, smt::shared_ptr<SocketConnection> >::iterator it;
+    it = m_connections.find(connectFd);
+
+    if (it == m_connections.end()) {
+        LOG_E(toString() + " failure in ::close(): no such connection");
+        throw(NoSuchConnectionException());
+    }
+
+    m_connections.erase(it);
+}
+
+std::string ServerSocket::recv(int connectFd) {
+
+    std::map<int, smt::shared_ptr<SocketConnection> >::iterator it;
+    it = m_connections.find(connectFd);
+
+    if (it == m_connections.end()) {
+        LOG_E(toString() + " failure in ::recv(): no such connection");
+        throw(NoSuchConnectionException());
+    }
+
+    std::string request;
+    try {
+        request = m_connections[connectFd]->recv();
+    }
+    catch (SocketConnection::RecvFailureException& e) {
+        LOG_E(toString() + " failure in ::recv(): " + e.what());
+        throw RecvFailureException();
+    }
+    return (request);
+}
+
+void ServerSocket::send(int connectFd, std::string const& response) {
+
+    std::map<int, smt::shared_ptr<SocketConnection> >::iterator it;
+    it = m_connections.find(connectFd);
+
+    if (it == m_connections.end()) {
+        LOG_E(toString() + " failure in ::send(): no such connection");
+        throw(NoSuchConnectionException());
+    }
+
+    try {
+        m_connections[connectFd]->send(response);
+    }
+    catch (SocketConnection::SendFailureException& e) {
+        LOG_E(toString() + " failure in ::send(): " + e.what());
+        throw SendFailureException();
+    }
+}
+
+std::string ServerSocket::toString(void) const {
+    std::ostringstream oss;
+    oss << "Server Socket " << getPort() << ":" << getHost();
+    return (oss.str());
+}
+
+char const* ServerSocket::SocketFailureException::what(void) const throw() {
+    return ("Server Socket: failure in ::socket()");
+}
+
+char const* ServerSocket::BindFailureException::what(void) const throw() {
+    return ("Server Socket: failure in ::bind()");
+}
+
+char const* ServerSocket::ListenFailureException::what(void) const throw() {
+    return ("Server Socket: failure in ::listen()");
+}
+
+char const* ServerSocket::SetOptFailureException::what(void) const throw() {
+    return ("Server Socket: failure in ::setsockopt()");
+}
+
+char const* ServerSocket::AcceptFailureException::what(void) const throw() {
+    return ("Server Socket: failure in ::accept()");
+}
+
+char const* ServerSocket::CloseFailureException::what(void) const throw() {
+    return ("Server Socket: failure in ::close()");
+}
+
+char const* ServerSocket::SendFailureException::what(void) const throw() {
+    return ("Server Socket: failure in ::send()");
+}
+
+char const* ServerSocket::RecvFailureException::what(void) const throw() {
+    return ("Server Socket: failure in ::recv()");
+}
+
+char const* ServerSocket::NoSuchConnectionException::what(void) const throw() {
+    return ("Server Socket: no such connection");
 }
 
 } // namespace webserv

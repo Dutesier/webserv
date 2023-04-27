@@ -60,27 +60,27 @@ void HTTPServer::run(void) {
 
         for (int i = 0; i < nfds; i++) {
 
-            if (m_socket.find(events[i].data.fd) != m_socket.end()) {
+            // if (m_socket.find(events[i].data.fd) != m_socket.end()) {
 
-                FLOG_D("webserv::HTTPServer ACK()");
-                int fd = m_socket[events[i].data.fd]->accept();
-                epoll_add(fd);
-            }
-            else {
+            // FLOG_D("webserv::HTTPServer ACK()");
+            // int fd = m_socket[events[i].data.fd]->accept();
+            // epoll_add(fd);
+            // }
+            // else {
 
-                std::map<int, smt::shared_ptr<ServerSocket> >::iterator it;
-                for (it = m_socket.begin(); it != m_socket.end(); it++) {
+            // std::map<int, smt::shared_ptr<ServerSocket> >::iterator it;
+            // for (it = m_socket.begin(); it != m_socket.end(); it++) {
 
-                    smt::shared_ptr<ServerSocket> sock = (*it).second;
-                    if (sock->m_connection.find(events[i].data.fd) !=
-                        sock->m_connection.end()) {
+            // smt::shared_ptr<ServerSocket> sock = (*it).second;
+            // if (sock->m_connection.find(events[i].data.fd) !=
+            //     sock->m_connection.end()) {
 
-                        FLOG_D("webserv::HTTPServer REQ()");
-                        http_handle(sock, events[i].data.fd);
-                        break;
-                    }
-                }
-            }
+            // FLOG_D("webserv::HTTPServer REQ()");
+            // http_handle(sock, events[i].data.fd);
+            // break;
+            // }
+            // }
+            // }
         }
     }
 }

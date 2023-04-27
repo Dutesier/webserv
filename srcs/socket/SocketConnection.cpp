@@ -2,65 +2,80 @@
 
 namespace webserv {
 
-SocketConnection::SocketConnection(int fd, smt::shared_ptr<SocketAddress> addr)
-    : Socket(fd, addr, SOCK_STREAM) {}
+SocketConnection::SocketConnection(int sockFd, sockaddr_in* addr,
+                                   socklen_t addrLen)
+    : m_addr(new ConnectionAddress(addr, addrLen)), m_sockFd(sockFd) {
+    LOG_D("Created " + toString());
+}
 
-SocketConnection::SocketConnection() : Socket() {}
+SocketConnection::~SocketConnection(void) { close(); }
 
-SocketConnection::~SocketConnection(void) { this->close(); }
+int SocketConnection::getSockFd(void) const { return (m_sockFd); }
+
+int SocketConnection::getPort(void) const { return (m_addr->getPort()); }
+
+std::string SocketConnection::getHost(void) const {
+    return (m_addr->getHost());
+}
+
+sa_family_t SocketConnection::getFamily(void) const {
+    return (m_addr->getFamily());
+}
+
+sockaddr* SocketConnection::getAddress(void) const {
+    return (m_addr->getAddress());
+}
+
+socklen_t SocketConnection::getLength(void) const {
+    return (m_addr->getLength());
+}
 
 void SocketConnection::close(void) {
-
-    if (m_fd == -1) { return; }
-    if (::close(m_fd) < 0) { throw(CloseFailureException()); }
-    m_fd = -1;
+    if (m_sockFd == -1) {
+        LOG_D(toString() + " is already closed");
+        return;
+    }
+    if (::close(m_sockFd) == -1) {
+        LOG_E(toString() + " failure in ::close()");
+        throw CloseFailureException();
+    }
+    m_sockFd = -1;
 }
 
-// void data_to_buff(char* data, char *buff) {
-//     for (int i = 0; i < READING_BUFFER; ++i) {
-//         buff[i] = data[i];
-//         data[i] = 0;
-//     }
-//     buff[READING_BUFFER] = '\0';
-// }
-
-// void buff_to_data(char* buff, char* data) {
-//     for (int i = 0; buff[i] != '\0'; ++i){
-//         data[i] = buff[i];
-//     }
-// }
-
-// Handle incomplete (even when just first word)
-
-// TODO: find smarter ways to get buf
 std::string SocketConnection::recv(void) {
-
-    char buff[READING_BUFFER + 1];
-    int  bytes_read;
-
-    bytes_read = ::recv(m_fd, &buff, READING_BUFFER, 0);
-    if (bytes_read < 0) { throw(SendFailureException()); }
-    if (bytes_read == 0) { return (""); }
-
-    return (std::string(buff, bytes_read));
+    char buffer[READING_BUFFER + 1];
+    int  nBytes = ::recv(m_sockFd, buffer, READING_BUFFER, 0);
+    if (nBytes == -1) {
+        LOG_E(toString() + " failure in ::recv()");
+        throw RecvFailureException();
+    }
+    return (std::string(buffer, nBytes));
 }
 
-void SocketConnection::send(std::string message) {
-
-    if (::send(m_fd, message.c_str(), message.size(), 0) < 0) {
-        throw(SendFailureException());
+void SocketConnection::send(std::string response) {
+    if (::send(m_sockFd, response.c_str(), response.size(), 0) < 0) {
+        LOG_E(toString() + " failure in ::send()");
+        throw SendFailureException();
     }
 }
 
+std::string SocketConnection::toString(void) const {
+    std::ostringstream oss;
+    oss << "Socket Connection " << getPort() << ":" << getHost() << "-"
+        << getSockFd();
+    return (oss.str());
+}
+
 char const* SocketConnection::CloseFailureException::what(void) const throw() {
-    return ("webserv::SocketConnection failure in close()");
+    return ("Socket Connection: failure in ::close()");
 }
 
 char const* SocketConnection::SendFailureException::what(void) const throw() {
-    return ("webserv::SocketConnection failure in send()");
+    return ("Socket Connection: failure in ::send()");
 }
 
 char const* SocketConnection::RecvFailureException::what(void) const throw() {
-    return ("webserv::SocketConnection failure in recv()");
+    return ("Socket Connection: failure in ::recv()");
 }
+
 } // namespace webserv

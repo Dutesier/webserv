@@ -15,20 +15,20 @@ void http_handle(smt::shared_ptr<ServerSocket> sock, int client_fd) {
     while (has_next && request->isValid()) {
 
         LOG_D("Handling request...");
-        // Find the appropriate ServerBlock
-        int serverBlockIdx = sock->bestServerBlockForRequest(request);
-        serverBlockIdx = (serverBlockIdx == -1 ? 0 : serverBlockIdx);
-        // handle request here
-        smt::shared_ptr<HTTPResponse> response = process_request(
-            request, sock->m_blocks[serverBlockIdx],
-            client_fd); // TODO: This obviously needs to be fixed, just using
-                        // the first block here so that rest of code can run
+        // // Find the appropriate ServerBlock
+        // int serverBlockIdx = sock->bestServerBlockForRequest(request);
+        // serverBlockIdx = (serverBlockIdx == -1 ? 0 : serverBlockIdx);
+        // // handle request here
+        // smt::shared_ptr<HTTPResponse> response = process_request(
+        //     request, sock->m_blocks[serverBlockIdx],
+        //     client_fd); // TODO: This obviously needs to be fixed, just using
+        //                 // the first block here so that rest of code can run
 
-        // sending response to client
-        if (response) sock->send(client_fd, response->to_str());
+        // // sending response to client
+        // if (response) sock->send(client_fd, response->to_str());
 
-        // checking if there are more requests to handle
-        request = parser.getNextRequest("");
+        // // checking if there are more requests to handle
+        // request = parser.getNextRequest("");
     }
 }
 
@@ -39,8 +39,7 @@ smt::shared_ptr<HTTPResponse>
     smt::shared_ptr<webserv::LocationBlock> loc =
         config->getLocationBlockForRequest(request);
 
-    bool runCGI =
-        (loc) && (loc->m_cgi_enabled) && (loc->m_cgi->isValid());
+    bool runCGI = (loc) && (loc->m_cgi_enabled) && (loc->m_cgi->isValid());
     bool isCGI = request->isCGIRequest();
     if (isCGI && runCGI) {
         LOG_D("Running CGI script");
