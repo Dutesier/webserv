@@ -58,6 +58,8 @@ class shared_ptr {
 
         ~shared_ptr() { destroy(); }
 
+        T* operator->() const { return this->pointer; }
+
         T* operator->() { return this->pointer; }
 
         T& operator*() { return *(this->pointer); }
