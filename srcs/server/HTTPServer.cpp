@@ -18,24 +18,24 @@ void HTTPServer::start(void) {
     // creating an epoll instance
     if ((m_epollfd = epoll_create1(0)) < 0) { throw(EpollCreateException()); }
 
-    // initializing sockets
-    ConfigSocket socket_init(m_config->blocks());
+    // // initializing sockets
+    // ConfigSocket socket_init(m_config->blocks());
 
-    std::set< std::pair<unsigned, std::string> > specs = socket_init.specs();
-    std::set< std::pair<unsigned, std::string> >::iterator it;
-    for (it = specs.begin(); it != specs.end(); it++) {
+    // std::set< std::pair<unsigned, std::string> > specs = socket_init.specs();
+    // std::set< std::pair<unsigned, std::string> >::iterator it;
+    // for (it = specs.begin(); it != specs.end(); it++) {
 
-        // getting config block associated to socket
-        std::vector< smt::shared_ptr<ServerBlock> > block =
-            socket_init.blocks(*it);
+    // // getting config block associated to socket
+    // std::vector< smt::shared_ptr<ServerBlock> > block =
+    //     socket_init.blocks(*it);
 
-        // creating socket
-        smt::shared_ptr<ServerSocket> sock(new ServerSocket(block));
-        m_socket[sock->sockfd()] = sock;
+    // // creating socket
+    // smt::shared_ptr<ServerSocket> sock(new ServerSocket(block));
+    // m_socket[sock->sockfd()] = sock;
 
-        // adding socket to epoll list
-        epoll_add(sock->sockfd());
-    }
+    // // adding socket to epoll list
+    // epoll_add(sock->sockfd());
+    // }
 
     // updating state
     m_state = started;

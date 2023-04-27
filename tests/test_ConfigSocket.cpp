@@ -1,133 +1,126 @@
-#define GTEST_TESTING 1
-
-#include "config/Config.hpp"
 #include "config/ConfigSocket.hpp"
 
 #include <gtest/gtest.h>
 
-class test_ConfigSocket : public testing::Test {
-
+class testConfigSocket : public ::testing::Test {
     public:
 
         void SetUp(void) {
+            block1 = smt::make_shared(new webserv::ServerBlock());
+            block2 = smt::make_shared(new webserv::ServerBlock());
+            block3 = smt::make_shared(new webserv::ServerBlock());
 
-            // making first webserv::ServerBlock
-            m_srv1 =
-                smt::shared_ptr<webserv::ServerBlock>(new webserv::ServerBlock);
-            m_srv1->m_port = "8080";
-            m_srv1->m_host = "127.0.0.1";
-            m_srv3->m_server_name = "example1.com";
-            m_blocks.push_back(m_srv1);
+            block1->m_port = "8080";
+            block1->m_host = "127.0.0.1";
+            block1->m_server_name = "domain1.com";
 
-            // making second webserv::ServerBlock
-            m_srv2 =
-                smt::shared_ptr<webserv::ServerBlock>(new webserv::ServerBlock);
-            m_srv2->m_port = "8080";
-            m_srv2->m_host = "127.0.0.1";
-            m_srv3->m_server_name = "example1.net";
-            m_blocks.push_back(m_srv2);
+            block2->m_port = "8080";
+            block2->m_host = "127.0.0.1";
+            block2->m_server_name = "domain1.net";
 
-            // making third webserv::ServerBlock
-            m_srv3 =
-                smt::shared_ptr<webserv::ServerBlock>(new webserv::ServerBlock);
-            m_srv3->m_port = "8080";
-            m_srv3->m_host = "127.0.0.1";
-            m_srv3->m_server_name = "example1.pt";
-            m_blocks.push_back(m_srv3);
+            block3->m_port = "8081";
+            block3->m_host = "127.0.0.1";
+            block3->m_server_name = "domain2.com";
 
-            // making forth webserv::ServerBlock
-            m_srv4 =
-                smt::shared_ptr<webserv::ServerBlock>(new webserv::ServerBlock);
-            m_srv4->m_port = "8081";
-            m_srv4->m_host = "127.0.0.1";
-            m_srv4->m_server_name = "example2.com";
-            m_blocks.push_back(m_srv4);
+            block3->m_location["/"] =
+                smt::make_shared(new webserv::LocationBlock("/"));
+            block3->m_location["/cgi"] =
+                smt::make_shared(new webserv::LocationBlock("/cgi"));
+            block3->m_location["/cgi/python"] =
+                smt::make_shared(new webserv::LocationBlock("/cgi/python"));
 
-            // making fifth webserv::ServerBlock
-            m_srv5 =
-                smt::shared_ptr<webserv::ServerBlock>(new webserv::ServerBlock);
-            m_srv5->m_port = "8081";
-            m_srv5->m_host = "127.0.0.1";
-            m_srv5->m_server_name = "example2.net";
-            m_blocks.push_back(m_srv5);
-
-            // making sixth webserv::ServerBlock
-            m_srv6 =
-                smt::shared_ptr<webserv::ServerBlock>(new webserv::ServerBlock);
-            m_srv6->m_port = "8081";
-            m_srv6->m_host = "127.0.0.1";
-            m_srv6->m_server_name = "example2.pt";
-            m_blocks.push_back(m_srv6);
-
-            // making seventh webserv::ServerBlock
-            m_srv7 =
-                smt::shared_ptr<webserv::ServerBlock>(new webserv::ServerBlock);
-            m_srv7->m_port = "443";
-            m_srv7->m_host = "127.0.0.1";
-            m_blocks.push_back(m_srv7);
+            m_blocks.push_back(block1);
+            m_blocks.push_back(block2);
+            m_blocks.push_back(block3);
         }
-
-        void TearDown(void) {}
 
     protected:
 
+        smt::shared_ptr<webserv::ServerBlock>                block1;
+        smt::shared_ptr<webserv::ServerBlock>                block2;
+        smt::shared_ptr<webserv::ServerBlock>                block3;
         std::vector< smt::shared_ptr<webserv::ServerBlock> > m_blocks;
-
-        smt::shared_ptr<webserv::ServerBlock> m_srv1;
-        smt::shared_ptr<webserv::ServerBlock> m_srv2;
-        smt::shared_ptr<webserv::ServerBlock> m_srv3;
-        smt::shared_ptr<webserv::ServerBlock> m_srv4;
-        smt::shared_ptr<webserv::ServerBlock> m_srv5;
-        smt::shared_ptr<webserv::ServerBlock> m_srv6;
-        smt::shared_ptr<webserv::ServerBlock> m_srv7;
 };
 
-TEST_F(test_ConfigSocket, constructor) {
+TEST_F(testConfigSocket, getSpecs) {
+    std::set< std::pair<unsigned, std::string> > cmp;
 
-    smt::shared_ptr<webserv::ConfigSocket> config(
-        new webserv::ConfigSocket(m_blocks));
+    cmp.insert(std::make_pair(8080, "127.0.0.1"));
+    cmp.insert(std::make_pair(8081, "127.0.0.1"));
 
-    // creating stl for comparisson
-    std::set< std::pair<unsigned, std::string> > comp;
-    comp.insert(std::make_pair(8080, "127.0.0.1"));
-    comp.insert(std::make_pair(8081, "127.0.0.1"));
-    comp.insert(std::make_pair(443, "127.0.0.1"));
-
-    ASSERT_EQ(config->m_specs, comp);
+    ASSERT_EQ(webserv::ConfigSocket::getSpecs().size(), 0);
+    webserv::ConfigSocket::setBlocks(m_blocks);
+    ASSERT_EQ(webserv::ConfigSocket::getSpecs().size(), 2);
+    ASSERT_EQ(webserv::ConfigSocket::getSpecs(), cmp);
 }
 
-TEST_F(test_ConfigSocket, destructor) {
+TEST_F(testConfigSocket, getAddress) {
 
-    webserv::ConfigSocket* config(new webserv::ConfigSocket(m_blocks));
-    ASSERT_NO_THROW(delete config);
+    webserv::ConfigSocket::setBlocks(m_blocks);
+
+    std::set< std::pair<unsigned, std::string> > specs =
+        webserv::ConfigSocket::getSpecs();
+
+    std::set< std::pair<unsigned, std::string> >::iterator it;
+    for (it = specs.begin(); it != specs.end(); it++) {
+        smt::shared_ptr<webserv::ServerAddress> addr =
+            webserv::ConfigSocket::getAddress(*it);
+        ASSERT_EQ(addr->getPort(), (*it).first);
+        ASSERT_EQ(addr->getHost(), (*it).second);
+    }
 }
 
-TEST_F(test_ConfigSocket, blocks) {
+TEST_F(testConfigSocket, getConfigBlock) {
 
-    smt::shared_ptr<webserv::ConfigSocket> config(
-        new webserv::ConfigSocket(m_blocks));
+    webserv::ConfigSocket::setBlocks(m_blocks);
 
-    // structure for comparing values
-    std::vector< smt::shared_ptr<webserv::ServerBlock> > comp;
+    std::set< std::pair<unsigned, std::string> > specs =
+        webserv::ConfigSocket::getSpecs();
 
-    // testing 8080 "127.0.0.1"
-    comp.push_back(m_srv1);
-    comp.push_back(m_srv2);
-    comp.push_back(m_srv3);
-    comp.push_back(m_srv4);
-    ASSERT_EQ(config->blocks(std::make_pair(8080, "127.0.0.1")), comp);
+    std::set< std::pair<unsigned, std::string> >::iterator it;
+    for (it = specs.begin(); it != specs.end(); it++) {
+        smt::shared_ptr<webserv::ServerBlock> block =
+            webserv::ConfigSocket::getConfigBlock((*it).first, (*it).second);
+        ASSERT_EQ(block->m_resolvPort, (*it).first);
+        ASSERT_EQ(block->m_resolvHost, (*it).second);
+    }
 
-    // testing 8080 "127.0.0.1"
-    comp.clear();
-    comp.push_back(m_srv5);
-    comp.push_back(m_srv6);
-    ASSERT_EQ(config->blocks(std::make_pair(8081, "127.0.0.1")), comp);
+    ASSERT_EQ(webserv::ConfigSocket::getConfigBlock(8080, "127.0.0.1"), block1);
 
-    // testing 443 "127.0.0.1"
-    comp.clear();
-    comp.push_back(m_srv7);
-    ASSERT_EQ(config->blocks(std::make_pair(443, "127.0.0.1")), comp);
+    ASSERT_EQ(
+        webserv::ConfigSocket::getConfigBlock(8080, "127.0.0.1", "domain1.com"),
+        block1);
 
-    ASSERT_THROW(config->blocks(std::make_pair(555, "whatever")),
-                 webserv::ConfigSocket::NoSuchSpecsException);
+    ASSERT_EQ(
+        webserv::ConfigSocket::getConfigBlock(8080, "127.0.0.1", "domain1.net"),
+        block2);
+
+    ASSERT_EQ(
+        webserv::ConfigSocket::getConfigBlock(8080, "127.0.0.1", "domain1.pt"),
+        block1);
+}
+
+TEST_F(testConfigSocket, getLocationBlock) {
+
+    webserv::ConfigSocket::setBlocks(m_blocks);
+
+    ASSERT_EQ(webserv::ConfigSocket::getLocationBlock(8081, "127.0.0.1", "",
+                                                      "/test.py"),
+              block3->m_location["/"]);
+
+    ASSERT_EQ(webserv::ConfigSocket::getLocationBlock(8081, "127.0.0.1", "",
+                                                      "test.py"),
+              block3->m_location["/"]);
+
+    ASSERT_EQ(webserv::ConfigSocket::getLocationBlock(8081, "127.0.0.1", "",
+                                                      "python/test.py"),
+              block3->m_location["/"]);
+
+    ASSERT_EQ(webserv::ConfigSocket::getLocationBlock(8081, "127.0.0.1", "",
+                                                      "cgi/python/test.py"),
+              block3->m_location["/cgi/python"]);
+
+    ASSERT_EQ(webserv::ConfigSocket::getLocationBlock(8081, "127.0.0.1", "",
+                                                      "cgi/php/test.php"),
+              block3->m_location["/cgi"]);
 }

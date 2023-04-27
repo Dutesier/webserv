@@ -2,46 +2,126 @@
 
 namespace webserv {
 
-ConfigSocket::ConfigSocket(std::vector< smt::shared_ptr<ServerBlock> > blocks)
-    : m_blocks(blocks) {
+std::vector< smt::shared_ptr<ServerBlock> > ConfigSocket::m_blocks;
 
-    // initializing m_specs
-    std::vector< smt::shared_ptr<ServerBlock> >::iterator it;
-    for (it = m_blocks.begin(); it != m_blocks.end(); it++) {
+std::set< std::pair<unsigned, std::string> > ConfigSocket::m_specs;
 
-        smt::shared_ptr<ServerBlock> block = *it;
-        m_specs.insert(
-            std::make_pair(block->m_resolvPort, block->m_resolvHost));
-    }
-}
+std::vector< smt::shared_ptr<ServerAddress> > ConfigSocket::m_addresses;
 
-ConfigSocket::~ConfigSocket(void) {}
-
-std::vector< smt::shared_ptr<ServerBlock> >
-    ConfigSocket::blocks(std::pair<unsigned, std::string> specs) {
-
-    std::vector< smt::shared_ptr<ServerBlock> > ret;
-
-    if (m_specs.find(specs) == m_specs.end()) { throw(NoSuchSpecsException()); }
-
-    std::vector< smt::shared_ptr<ServerBlock> >::iterator it;
-    for (it = m_blocks.begin(); it != m_blocks.end(); it++) {
-
-        smt::shared_ptr<ServerBlock> block = *it;
-        if (block->m_resolvPort == specs.first &&
-            block->m_resolvHost == specs.second) {
-            ret.push_back(block);
+smt::shared_ptr<ServerAddress>
+    ConfigSocket::getAddress(std::pair<unsigned, std::string> specs) {
+    std::vector< smt::shared_ptr<ServerAddress> >::iterator it;
+    for (it = m_addresses.begin(); it != m_addresses.end(); it++) {
+        if ((*it)->getPort() == specs.first &&
+            (*it)->getHost() == specs.second) {
+            return (*it);
         }
     }
-    return (ret);
+    throw NoSuchAddressException();
 }
 
-std::set< std::pair<unsigned, std::string> >& ConfigSocket::specs(void) {
+std::set< std::pair<unsigned, std::string> > ConfigSocket::getSpecs(void) {
     return (m_specs);
 }
 
-char const* ConfigSocket::NoSuchSpecsException::what(void) const throw() {
-    return ("ConfigSocket: no such sockets in config file");
+smt::shared_ptr<ServerBlock>
+    ConfigSocket::getConfigBlock(unsigned port, std::string host,
+                                 std::string hostHeader) {
+    std::vector< smt::shared_ptr<ServerBlock> > correspondingBlocks;
+    smt::shared_ptr<ServerBlock>                block;
+    static std::vector< smt::shared_ptr<ServerBlock> >::iterator it;
+    for (it = m_blocks.begin(); it != m_blocks.end(); it++) {
+        if ((*it)->m_resolvPort == port && (*it)->m_resolvHost == host) {
+            if (!block) { block = *it; }
+            else if ((*it)->m_server_name == hostHeader) { block = *it; }
+        }
+    }
+    if (!block) { throw NoSuchBlockException(); }
+    return (block);
+}
+
+smt::shared_ptr<LocationBlock>
+    ConfigSocket::getLocationBlock(unsigned port, std::string host,
+                                   std::string hostHeader, std::string uri) {
+    smt::shared_ptr<ServerBlock> block = getConfigBlock(port, host, uri);
+    return (getLocationBlock(block, uri));
+}
+
+smt::shared_ptr<LocationBlock>
+    ConfigSocket::getLocationBlock(smt::shared_ptr<ServerBlock> block,
+                                   std::string                  uri) {
+    smt::shared_ptr<LocationBlock>                          loc;
+    std::map< std::string, smt::shared_ptr<LocationBlock> > locations =
+        block->m_location;
+
+    std::vector<std::string> cmd = splitLine(uri);
+    std::map< std::string, smt::shared_ptr<LocationBlock> >::iterator it;
+    int oldCount = -1;
+    for (it = locations.begin(); it != locations.end(); it++) {
+        // figure out how to get the best location block
+        std::vector<std::string> target = splitLine((*it).first);
+
+        int count = getCountOfDirs(cmd, target);
+        if (count > oldCount) {
+            loc = (*it).second;
+            oldCount = count;
+        }
+    }
+    return (loc);
+}
+
+int ConfigSocket::getCountOfDirs(std::vector<std::string> cmd,
+                                 std::vector<std::string> target) {
+    int count = 0;
+    for (size_t i = 0; i < cmd.size() && i < target.size(); i++) {
+        if (cmd[i] == target[i]) { count++; }
+        else { break; }
+    }
+    return (count);
+}
+
+std::vector<std::string> ConfigSocket::splitLine(std::string uri) {
+    std::vector<std::string> cmd;
+
+    char* word = strtok(const_cast<char*>(uri.c_str()), "/");
+    while (word) {
+        cmd.push_back(word);
+        word = strtok(NULL, " \t");
+    }
+    return (cmd);
+}
+
+void ConfigSocket::setBlocks(
+    std::vector< smt::shared_ptr<ServerBlock> > blocks) {
+
+    m_blocks = blocks;
+    smt::shared_ptr<ServerAddress> addr;
+
+    std::vector< smt::shared_ptr<ServerBlock> >::iterator it;
+    for (it = m_blocks.begin(); it != m_blocks.end(); it++) {
+        // getting the corresponding address
+        addr =
+            smt::make_shared(new ServerAddress((*it)->m_port, (*it)->m_host));
+
+        // set resolvHost and resolvPort
+        (*it)->m_resolvPort = addr->getPort();
+        (*it)->m_resolvHost = addr->getHost();
+
+        // seeing if that address already exists
+        std::pair<unsigned, std::string> spec(addr->getPort(), addr->getHost());
+        if (m_specs.find(spec) == m_specs.end()) {
+            m_specs.insert(spec);
+            m_addresses.push_back(addr);
+        }
+    }
+}
+
+char const* ConfigSocket::NoSuchAddressException::what(void) const throw() {
+    return ("Config Socket: failed to find address");
+}
+
+char const* ConfigSocket::NoSuchBlockException::what(void) const throw() {
+    return ("Config Socket: failed to find block");
 }
 
 } // namespace webserv
