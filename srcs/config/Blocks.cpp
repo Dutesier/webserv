@@ -61,52 +61,16 @@ std::string ServerBlock::listen(std::vector<std::string> command) {
         if (!isdigit(command[1][i])) { flag = false; }
     }
 
-    std::string p, a;
-    size_t      n = command[1].find(":");
+    size_t n = command[1].find(":");
 
     if (n != std::string::npos) {
 
-        a = command[1].substr(0, n);
-        if (a == "localhost") { a = "127.0.0.1"; }
-        if (a == "*") { a = "127.0.0.1"; }
+        m_host = command[1].substr(0, n);
+        m_port = command[1].substr(n + 1);
         flag = true;
-        p = command[1].substr(n + 1);
-        for (size_t i = 0; i < p.size(); i++) {
-            if (!isdigit(p[i])) { return (p + ": invalid port"); }
-        }
     }
-    else if (!flag) {
-
-        if (command[1] == "localhost") { a = "127.0.0.1"; }
-        else if (command[1] == "*") { a = "*"; }
-        else { a = command[1]; }
-    }
-    else { p = command[1]; }
-
-    if (!p.empty()) {
-
-        unsigned          port;
-        std::stringstream ss(p);
-        ss >> port;
-
-        // validating port number
-        if (port < 1 || port > 65535) { return (p + ": invalid port"); }
-        m_port = port;
-    }
-    if (!a.empty()) {
-
-        if (a != "*") {
-            // validating address
-            int i1, i2, i3, i4;
-            int matched = sscanf(a.c_str(), "%d.%d.%d.%d", &i1, &i2, &i3, &i4);
-            if (matched != 4 || i1 < 0 || i1 > 255 || i2 < 0 || i2 > 255 ||
-                i3 < 0 || i3 > 255 || i4 < 0 || i4 > 255) {
-                return (a + ": invalid address");
-            }
-        }
-
-        m_host = a;
-    }
+    else if (!flag) { m_host = command[1]; }
+    else { m_port = command[1]; }
 
     return ("");
 }

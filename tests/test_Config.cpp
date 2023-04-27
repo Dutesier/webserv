@@ -5,10 +5,10 @@
 #include <gtest/gtest.h>
 
 #define ARGV(X)                                                                \
- char* argv[2];                                                                \
- argv[0] = (char*)"webserv";                                                   \
- argv[1] = (char*)X;                                                           \
- errno = 0
+    char* argv[2];                                                             \
+    argv[0] = (char*)"webserv";                                                \
+    argv[1] = (char*)X;                                                        \
+    errno = 0
 
 TEST(test_Config, constructor) {
 
@@ -113,7 +113,7 @@ TEST(test_Config, values) {
     smt::shared_ptr<webserv::ServerBlock> server = config->m_blocks[0];
     ASSERT_TRUE(server->m_autoindex);
     ASSERT_EQ(server->m_body_size, BODY_SIZE);
-    ASSERT_EQ(server->m_port, 443);
+    ASSERT_EQ(server->m_port, "443");
     ASSERT_EQ(server->m_host, "128.0.0.1");
     ASSERT_EQ(server->m_index, std::string(D_ROOT_PATH) + "index.html");
     ASSERT_EQ(server->m_root, "../tests/test_web/");
@@ -146,8 +146,8 @@ TEST(test_Config, values) {
     server = config->m_blocks[1];
     ASSERT_FALSE(server->m_autoindex);
     ASSERT_EQ(server->m_body_size, 8000);
-    ASSERT_EQ(server->m_port, 8081);
-    ASSERT_EQ(server->m_host, "*");
+    ASSERT_EQ(server->m_port, "8081");
+    ASSERT_EQ(server->m_host, "localhost");
     ASSERT_EQ(server->m_index, "../tests/test_web/index.html");
     ASSERT_EQ(server->m_root, "../tests/test_web/");
     ASSERT_EQ(server->m_server_name, "");
@@ -159,8 +159,8 @@ TEST(test_Config, values) {
     comp3.clear();
     ASSERT_TRUE(server->m_autoindex);
     ASSERT_EQ(server->m_body_size, BODY_SIZE);
-    ASSERT_EQ(server->m_port, 80);
-    ASSERT_EQ(server->m_host, "*");
+    ASSERT_EQ(server->m_port, "8080");
+    ASSERT_EQ(server->m_host, "localhost");
     ASSERT_EQ(server->m_index, std::string(D_ROOT_PATH) + "index.html");
     ASSERT_EQ(server->m_root, D_ROOT_PATH);
     ASSERT_EQ(server->m_server_name, "");
@@ -180,8 +180,8 @@ TEST(test_Config, values) {
     server = config->m_blocks[3];
     ASSERT_TRUE(server->m_autoindex);
     ASSERT_EQ(server->m_body_size, BODY_SIZE);
-    ASSERT_EQ(server->m_port, 80);
-    ASSERT_EQ(server->m_host, "*");
+    ASSERT_EQ(server->m_port, "8080");
+    ASSERT_EQ(server->m_host, "localhost");
     ASSERT_EQ(server->m_index, std::string(D_ROOT_PATH) + "index.html");
     ASSERT_EQ(server->m_root, D_ROOT_PATH);
     ASSERT_EQ(server->m_server_name, "");

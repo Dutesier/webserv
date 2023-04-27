@@ -10,7 +10,8 @@ ConfigSocket::ConfigSocket(std::vector< smt::shared_ptr<ServerBlock> > blocks)
     for (it = m_blocks.begin(); it != m_blocks.end(); it++) {
 
         smt::shared_ptr<ServerBlock> block = *it;
-        m_specs.insert(std::make_pair(block->m_port, block->m_host));
+        m_specs.insert(
+            std::make_pair(block->m_resolvPort, block->m_resolvHost));
     }
 }
 
@@ -27,7 +28,8 @@ std::vector< smt::shared_ptr<ServerBlock> >
     for (it = m_blocks.begin(); it != m_blocks.end(); it++) {
 
         smt::shared_ptr<ServerBlock> block = *it;
-        if (block->m_port == specs.first && block->m_host == specs.second) {
+        if (block->m_resolvPort == specs.first &&
+            block->m_resolvHost == specs.second) {
             ret.push_back(block);
         }
     }

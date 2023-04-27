@@ -53,13 +53,15 @@ struct ServerBlock {
 
         bool                                                   m_autoindex;
         unsigned                                               m_body_size;
-        unsigned                                               m_port;
+        std::string                                            m_port;
         std::string                                            m_host;
         std::string                                            m_index;
         std::string                                            m_root;
         std::string                                            m_server_name;
         std::map<int, std::string>                             m_error_page;
         std::map<std::string, smt::shared_ptr<LocationBlock> > m_location;
+        unsigned                                               m_resolvPort;
+        std::string                                            m_resolvHost;
 };
 
 } // namespace webserv

@@ -6,7 +6,8 @@
 namespace webserv {
 
 ServerSocket::ServerSocket(std::vector< smt::shared_ptr<ServerBlock> > blocks)
-    : TCPSocket((*blocks.begin())->m_port, (*blocks.begin())->m_host),
+    : TCPSocket((*blocks.begin())->m_resolvPort,
+                (*blocks.begin())->m_resolvHost),
       m_blocks(blocks) {
 
     // setting socket options
@@ -55,8 +56,8 @@ int ServerSocket::bestServerBlockByIPAndPort(std::string& ipAndPort) {
     for (std::vector< smt::shared_ptr<ServerBlock> >::iterator it =
              m_blocks.begin();
          it != m_blocks.end(); it++) {
-        if ((*it)->m_port == static_cast<unsigned>(atoi(port.c_str())) &&
-            ((*it)->m_host == IP || (*it)->m_host == "*")) {
+        if ((*it)->m_resolvPort == static_cast<unsigned>(atoi(port.c_str())) &&
+            ((*it)->m_resolvHost == IP || (*it)->m_host == "*")) {
             return index;
         }
         index++;
