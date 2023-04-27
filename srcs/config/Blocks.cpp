@@ -3,8 +3,9 @@
 namespace webserv {
 
 ServerBlock::ServerBlock(void)
-    : m_autoindex(true), m_body_size(BODY_SIZE), m_port(80), m_host("*"),
-      m_index(std::string(D_ROOT_PATH) + "index.html"), m_root(D_ROOT_PATH) {}
+    : m_autoindex(true), m_body_size(BODY_SIZE), m_port("8080"),
+      m_host("localhost"), m_index(std::string(D_ROOT_PATH) + "index.html"),
+      m_root(D_ROOT_PATH) {}
 
 ServerBlock::~ServerBlock(void) {}
 
