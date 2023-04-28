@@ -30,6 +30,7 @@ class ServerSocket {
         socklen_t   getLength(void) const;
 
         smt::shared_ptr<SocketConnection> getConnection(int connectFd);
+        std::map< int, smt::shared_ptr<SocketConnection> > getConnections(void);
 
         void socket(void);
         void bind(void);
@@ -83,8 +84,8 @@ class ServerSocket {
 
         std::string toString(void) const;
 
-        smt::shared_ptr<ServerAddress> m_addr;
         int                            m_sockFd;
+        smt::shared_ptr<ServerAddress> m_addr;
 
         std::map< int, smt::shared_ptr<SocketConnection> > m_connections;
 };

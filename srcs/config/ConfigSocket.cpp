@@ -4,12 +4,12 @@ namespace webserv {
 
 std::vector< smt::shared_ptr<ServerBlock> > ConfigSocket::m_blocks;
 
-std::set< std::pair<unsigned, std::string> > ConfigSocket::m_specs;
+std::set< std::pair<int, std::string> > ConfigSocket::m_specs;
 
 std::vector< smt::shared_ptr<ServerAddress> > ConfigSocket::m_addresses;
 
 smt::shared_ptr<ServerAddress>
-    ConfigSocket::getAddress(std::pair<unsigned, std::string> specs) {
+    ConfigSocket::getAddress(std::pair<int, std::string> specs) {
     std::vector< smt::shared_ptr<ServerAddress> >::iterator it;
     for (it = m_addresses.begin(); it != m_addresses.end(); it++) {
         if ((*it)->getPort() == specs.first &&
@@ -20,12 +20,12 @@ smt::shared_ptr<ServerAddress>
     throw NoSuchAddressException();
 }
 
-std::set< std::pair<unsigned, std::string> > ConfigSocket::getSpecs(void) {
+std::set< std::pair<int, std::string> > ConfigSocket::getSpecs(void) {
     return (m_specs);
 }
 
 smt::shared_ptr<ServerBlock>
-    ConfigSocket::getConfigBlock(unsigned port, std::string host,
+    ConfigSocket::getConfigBlock(int port, std::string host,
                                  std::string hostHeader) {
     std::vector< smt::shared_ptr<ServerBlock> > correspondingBlocks;
     smt::shared_ptr<ServerBlock>                block;
@@ -41,9 +41,9 @@ smt::shared_ptr<ServerBlock>
 }
 
 smt::shared_ptr<LocationBlock>
-    ConfigSocket::getLocationBlock(unsigned port, std::string host,
+    ConfigSocket::getLocationBlock(int port, std::string host,
                                    std::string hostHeader, std::string uri) {
-    smt::shared_ptr<ServerBlock> block = getConfigBlock(port, host, uri);
+    smt::shared_ptr<ServerBlock> block = getConfigBlock(port, host, hostHeader);
     return (getLocationBlock(block, uri));
 }
 
@@ -108,7 +108,7 @@ void ConfigSocket::setBlocks(
         (*it)->m_resolvHost = addr->getHost();
 
         // seeing if that address already exists
-        std::pair<unsigned, std::string> spec(addr->getPort(), addr->getHost());
+        std::pair<int, std::string> spec(addr->getPort(), addr->getHost());
         if (m_specs.find(spec) == m_specs.end()) {
             m_specs.insert(spec);
             m_addresses.push_back(addr);

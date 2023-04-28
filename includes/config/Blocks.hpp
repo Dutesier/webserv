@@ -60,7 +60,7 @@ struct ServerBlock {
         std::string                                            m_server_name;
         std::map<int, std::string>                             m_error_page;
         std::map<std::string, smt::shared_ptr<LocationBlock> > m_location;
-        unsigned                                               m_resolvPort;
+        int                                                    m_resolvPort;
         std::string                                            m_resolvHost;
 };
 

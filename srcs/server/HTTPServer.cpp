@@ -4,10 +4,12 @@
 
 namespace webserv {
 
-// initializes the Config instance
-HTTPServer::HTTPServer(int argc, char* argv[])
-    : m_state(ready),
-      m_config(smt::shared_ptr<Config>(new Config(argc, argv))) {}
+// initializes the Config instance and adds the blocks to ConfigSocket
+HTTPServer::HTTPServer(int argc, char* argv[]) : m_state(ready) {
+
+    smt::shared_ptr<Config> config(new Config(argc, argv));
+    ConfigSocket::setBlocks(config->getBlocks());
+}
 
 HTTPServer::~HTTPServer(void) {}
 
@@ -18,24 +20,13 @@ void HTTPServer::start(void) {
     // creating an epoll instance
     if ((m_epollfd = epoll_create1(0)) < 0) { throw(EpollCreateException()); }
 
-    // // initializing sockets
-    // ConfigSocket socket_init(m_config->blocks());
-
-    // std::set< std::pair<unsigned, std::string> > specs = socket_init.specs();
-    // std::set< std::pair<unsigned, std::string> >::iterator it;
-    // for (it = specs.begin(); it != specs.end(); it++) {
-
-    // // getting config block associated to socket
-    // std::vector< smt::shared_ptr<ServerBlock> > block =
-    //     socket_init.blocks(*it);
-
-    // // creating socket
-    // smt::shared_ptr<ServerSocket> sock(new ServerSocket(block));
-    // m_socket[sock->sockfd()] = sock;
-
-    // // adding socket to epoll list
-    // epoll_add(sock->sockfd());
-    // }
+    // initializing sockets
+    std::set< std::pair<int, std::string> > specs = ConfigSocket::getSpecs();
+    std::set< std::pair<int, std::string> >::iterator it;
+    for (it = specs.begin(); it != specs.end(); it++) {
+        smt::shared_ptr<ServerAddress> addr = ConfigSocket::getAddress(*it);
+        initSocket(addr);
+    }
 
     // updating state
     m_state = started;
@@ -60,27 +51,31 @@ void HTTPServer::run(void) {
 
         for (int i = 0; i < nfds; i++) {
 
-            // if (m_socket.find(events[i].data.fd) != m_socket.end()) {
+            if (m_sockets.find(events[i].data.fd) != m_sockets.end()) {
 
-            // FLOG_D("webserv::HTTPServer ACK()");
-            // int fd = m_socket[events[i].data.fd]->accept();
-            // epoll_add(fd);
-            // }
-            // else {
+                FLOG_D("webserv::HTTPServer ACK()");
+                int fd = m_sockets[events[i].data.fd]->accept();
+                epoll_add(fd);
+            }
+            else {
 
-            // std::map<int, smt::shared_ptr<ServerSocket> >::iterator it;
-            // for (it = m_socket.begin(); it != m_socket.end(); it++) {
+                std::map<int, smt::shared_ptr<ServerSocket> >::iterator it;
+                for (it = m_sockets.begin(); it != m_sockets.end(); it++) {
 
-            // smt::shared_ptr<ServerSocket> sock = (*it).second;
-            // if (sock->m_connection.find(events[i].data.fd) !=
-            //     sock->m_connection.end()) {
+                    smt::shared_ptr<ServerSocket> sock = (*it).second;
+                    std::map< int, smt::shared_ptr<SocketConnection> >
+                        connections;
+                    connections = sock->getConnections();
+                    if (connections.find(events[i].data.fd) !=
+                        connections.end()) {
 
-            // FLOG_D("webserv::HTTPServer REQ()");
-            // http_handle(sock, events[i].data.fd);
-            // break;
-            // }
-            // }
-            // }
+                        FLOG_D("webserv::HTTPServer REQ()");
+                        http_handle(sock, events[i].data.fd);
+                        sock->close(events[i].data.fd);
+                        break;
+                    }
+                }
+            }
         }
     }
 }
@@ -97,6 +92,31 @@ void HTTPServer::epoll_add(int fd) {
 
     if (epoll_ctl(m_epollfd, EPOLL_CTL_ADD, fd, &event) < 0)
         throw(EpollAddException());
+}
+
+void HTTPServer::initSocket(smt::shared_ptr<ServerAddress> addr) {
+    // initializing socket from address
+    smt::shared_ptr<ServerSocket> sock(new ServerSocket(addr));
+    sock->socket();
+
+    // setting socket options
+    int            enable = 1;
+    struct timeval timeout;
+    timeout.tv_sec = 10;
+    timeout.tv_usec = 0;
+    sock->setsockopt(SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int));
+    sock->setsockopt(SOL_SOCKET, SO_REUSEPORT, &enable, sizeof(int));
+    sock->setsockopt(SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(struct timeval));
+
+    // binding and listening
+    sock->bind();
+    sock->listen();
+
+    // adding socket to epoll list
+    epoll_add(sock->getSockFd());
+
+    // adding socket to sockets list
+    m_sockets[sock->getSockFd()] = sock;
 }
 
 // Exceptions

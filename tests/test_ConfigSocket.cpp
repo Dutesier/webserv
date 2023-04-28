@@ -46,7 +46,7 @@ class testConfigSocket : public ::testing::Test {
 };
 
 TEST_F(testConfigSocket, getSpecs) {
-    std::set< std::pair<unsigned, std::string> > cmp;
+    std::set< std::pair<int, std::string> > cmp;
 
     cmp.insert(std::make_pair(8080, "127.0.0.1"));
     cmp.insert(std::make_pair(8081, "127.0.0.1"));
@@ -61,10 +61,10 @@ TEST_F(testConfigSocket, getAddress) {
 
     webserv::ConfigSocket::setBlocks(m_blocks);
 
-    std::set< std::pair<unsigned, std::string> > specs =
+    std::set< std::pair<int, std::string> > specs =
         webserv::ConfigSocket::getSpecs();
 
-    std::set< std::pair<unsigned, std::string> >::iterator it;
+    std::set< std::pair<int, std::string> >::iterator it;
     for (it = specs.begin(); it != specs.end(); it++) {
         smt::shared_ptr<webserv::ServerAddress> addr =
             webserv::ConfigSocket::getAddress(*it);
@@ -77,10 +77,10 @@ TEST_F(testConfigSocket, getConfigBlock) {
 
     webserv::ConfigSocket::setBlocks(m_blocks);
 
-    std::set< std::pair<unsigned, std::string> > specs =
+    std::set< std::pair<int, std::string> > specs =
         webserv::ConfigSocket::getSpecs();
 
-    std::set< std::pair<unsigned, std::string> >::iterator it;
+    std::set< std::pair<int, std::string> >::iterator it;
     for (it = specs.begin(); it != specs.end(); it++) {
         smt::shared_ptr<webserv::ServerBlock> block =
             webserv::ConfigSocket::getConfigBlock((*it).first, (*it).second);

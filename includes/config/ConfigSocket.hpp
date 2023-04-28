@@ -16,17 +16,21 @@ class ConfigSocket {
     public:
 
         static smt::shared_ptr<ServerAddress>
-            getAddress(std::pair<unsigned, std::string> specs);
+            getAddress(std::pair<int, std::string> specs);
 
-        static std::set< std::pair<unsigned, std::string> > getSpecs(void);
+        static std::set< std::pair<int, std::string> > getSpecs(void);
 
         static smt::shared_ptr<ServerBlock>
-            getConfigBlock(unsigned port, std::string host,
+            getConfigBlock(int port, std::string host,
                            std::string hostHeader = "");
 
         static smt::shared_ptr<LocationBlock>
-            getLocationBlock(unsigned port, std::string host, std::string uri,
+            getLocationBlock(int port, std::string host, std::string uri,
                              std::string hostHeader = "");
+
+        static smt::shared_ptr<LocationBlock>
+            getLocationBlock(smt::shared_ptr<ServerBlock> block,
+                             std::string                  uri);
 
         static void
             setBlocks(std::vector< smt::shared_ptr<ServerBlock> > blocks);
@@ -41,16 +45,12 @@ class ConfigSocket {
 
     private:
 
-        static smt::shared_ptr<LocationBlock>
-            getLocationBlock(smt::shared_ptr<ServerBlock> block,
-                             std::string                  uri);
-
         static std::vector<std::string> splitLine(std::string uri);
         static int getCountOfDirs(std::vector<std::string> cmd,
                                   std::vector<std::string> target);
 
         static std::vector< smt::shared_ptr<ServerBlock> >   m_blocks;
-        static std::set< std::pair<unsigned, std::string> >  m_specs;
+        static std::set< std::pair<int, std::string> >       m_specs;
         static std::vector< smt::shared_ptr<ServerAddress> > m_addresses;
 };
 

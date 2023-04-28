@@ -195,7 +195,7 @@ std::vector<std::string> Config::split_line(std::string line) {
     return (command);
 }
 
-std::vector< smt::shared_ptr<ServerBlock> > Config::blocks(void) {
+std::vector< smt::shared_ptr<ServerBlock> > Config::getBlocks(void) {
     return (m_blocks);
 }
 

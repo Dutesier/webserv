@@ -49,6 +49,11 @@ smt::shared_ptr<SocketConnection> ServerSocket::getConnection(int connectFd) {
     return ((*it).second);
 }
 
+std::map< int, smt::shared_ptr<SocketConnection> >
+    ServerSocket::getConnections(void) {
+    return (m_connections);
+}
+
 void ServerSocket::bind(void) {
     if (::bind(m_sockFd, m_addr->getAddress(), m_addr->getLength()) == -1) {
         LOG_E(toString() + " failure in ::bind()");
