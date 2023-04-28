@@ -3,16 +3,16 @@
 namespace webserv {
 
 /* HTTPHandler Class */
-void http_handle(smt::shared_ptr<ServerSocket> sock, int client_fd) {
+void http_handle(smt::shared_ptr<ServerSocket>     sock,
+                 smt::shared_ptr<SocketConnection> connection, int client_fd) {
 
     // receiving request string
     std::string req_str = sock->recv(client_fd);
 
     // getting the first request from string
-    HTTPParser                   parser;
-    smt::shared_ptr<HTTPRequest> request = parser.getNextRequest(req_str);
-    bool                         has_next = true;
-    while (has_next && request->isValid()) {
+    smt::shared_ptr<HTTPRequest> request =
+        connection->m_parser->getNextRequest(req_str);
+    if (request->isValid()) {
 
         LOG_D("Handling request...");
         // // Find the appropriate ServerBlock
@@ -30,6 +30,7 @@ void http_handle(smt::shared_ptr<ServerSocket> sock, int client_fd) {
         // // checking if there are more requests to handle
         // request = parser.getNextRequest("");
     }
+    LOG_D("No valid request was received");
 }
 
 smt::shared_ptr<HTTPResponse>

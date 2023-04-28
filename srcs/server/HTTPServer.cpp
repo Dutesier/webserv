@@ -63,15 +63,16 @@ void HTTPServer::run(void) {
                 for (it = m_sockets.begin(); it != m_sockets.end(); it++) {
 
                     smt::shared_ptr<ServerSocket> sock = (*it).second;
-                    std::map< int, smt::shared_ptr<SocketConnection> >
+                    std::map<int, smt::shared_ptr<webserv::SocketConnection> >
                         connections;
+                    std::map<int, smt::shared_ptr<webserv::SocketConnection> >::
+                        iterator connnectionIterator;
                     connections = sock->getConnections();
-                    if (connections.find(events[i].data.fd) !=
-                        connections.end()) {
-
+                    connnectionIterator = connections.find(events[i].data.fd);
+                    if (connnectionIterator != connections.end()) {
                         FLOG_D("webserv::HTTPServer REQ()");
-                        http_handle(sock, events[i].data.fd);
-                        sock->close(events[i].data.fd);
+                        http_handle(sock, connnectionIterator->second,
+                                    events[i].data.fd);
                         break;
                     }
                 }

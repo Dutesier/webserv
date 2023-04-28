@@ -10,15 +10,9 @@
 #include <unistd.h>
 #include <vector>
 
-#ifndef READING_BUFFER
-# define READING_BUFFER 8192
-#endif
-
 namespace webserv {
 
-#ifndef READING_BUFFER
-# define READING_BUFFER 8192
-#endif /* READING_BUFFER */
+#define READING_BUFFER 8192
 
 class SocketConnection {
 
@@ -50,6 +44,10 @@ class SocketConnection {
         struct RecvFailureException : public std::exception {
                 char const* what(void) const throw();
         };
+
+        // Every instance of a socket connection point to a different parser
+        // (stores incomplete requests)
+        smt::shared_ptr<HTTPParser> m_parser;
 
     private:
 
