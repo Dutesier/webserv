@@ -12,7 +12,7 @@ server {
 
 	location one/two/three {
 
-		fastcgi_pass   true;
+		fastcgi_pass   .py;
 		root           ../tests/test_web/test_files;
 		allowed_method GET;
 	}

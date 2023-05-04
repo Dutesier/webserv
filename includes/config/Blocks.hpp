@@ -29,7 +29,7 @@ struct LocationBlock {
                 char const* what(void) const throw();
         };
 
-        bool                             m_cgi_enabled;
+        std::string                      m_cgi_enabled;
         smt::shared_ptr<cgi::CGIHandler> m_cgi;
         std::string                      m_target;
         std::string                      m_root;

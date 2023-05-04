@@ -5,10 +5,10 @@
 #include <gtest/gtest.h>
 
 #define ARGV(X)                                                                \
- char* argv[2];                                                                \
- argv[0] = (char*)"webserv";                                                   \
- argv[1] = (char*)X;                                                           \
- errno = 0
+    char* argv[2];                                                             \
+    argv[0] = (char*)"webserv";                                                \
+    argv[1] = (char*)X;                                                        \
+    errno = 0
 
 TEST(test_Config, constructor) {
 
@@ -126,14 +126,14 @@ TEST(test_Config, values) {
     std::set<std::string> comp2;
     comp2.insert("GET");
     comp2.insert("POST");
-    ASSERT_FALSE(location->m_cgi_enabled);
+    ASSERT_TRUE(location->m_cgi_enabled.empty());
     ASSERT_EQ(location->m_target, "two");
     ASSERT_EQ(location->m_root, "");
     ASSERT_EQ(location->m_allowed_methods, comp2);
 
     comp2.erase(comp2.find("POST"));
     location = server->m_location["one/two/three"];
-    ASSERT_TRUE(location->m_cgi_enabled);
+    ASSERT_EQ(location->m_cgi_enabled, ".py");
     ASSERT_EQ(location->m_target, "one/two/three");
     ASSERT_EQ(location->m_root, "../tests/test_web/test_files");
     ASSERT_EQ(location->m_allowed_methods, comp2);
@@ -171,7 +171,7 @@ TEST(test_Config, values) {
     comp2.insert("POST");
     comp2.insert("DELETE");
     location = server->m_location["target"];
-    ASSERT_FALSE(location->m_cgi_enabled);
+    ASSERT_TRUE(location->m_cgi_enabled.empty());
     ASSERT_EQ(location->m_target, "target");
     ASSERT_EQ(location->m_root, "");
     ASSERT_EQ(location->m_allowed_methods, comp2);

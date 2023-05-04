@@ -223,8 +223,7 @@ smt::shared_ptr<LocationBlock> ServerBlock::getLocationBlockForRequest(
     return loc;
 }
 
-LocationBlock::LocationBlock(std::string target)
-    : m_cgi_enabled(false), m_target(target) {
+LocationBlock::LocationBlock(std::string target) : m_target(target) {
 
     // setting up allowed method
     std::string arr[3] = {"GET", "POST", "DELETE"};
@@ -243,16 +242,13 @@ std::string LocationBlock::cgi(std::vector<std::string> command) {
     if (command.size() != 2) { return ("wrong number of arguments"); }
 
     // validating command[1]
-    if (command[1] == "false") { m_cgi_enabled = false; }
-    else if (command[1] == "true") {
-        m_cgi_enabled = true;
-        // TODO: Check scripting language
-        // TODO: Check for the presence of a Script directory
+    if (command[1] == ".py" || command[1] == ".php") {
+        m_cgi_enabled = command[1];
+        // TODO: check whats this for
         m_cgi = smt::make_shared<cgi::CGIHandler>(
             new cgi::CGIHandler(cgi::PYTHON, D_ROOT_PATH));
     }
     else { return (command[1] + ": unrecognized syntax"); }
-
     return ("");
 }
 
@@ -267,7 +263,8 @@ std::string LocationBlock::root(std::vector<std::string> command) {
     closedir(dir);
 
     m_root = command[1];
-    if (m_cgi_enabled && m_cgi->isValid()) m_cgi->updateScriptDirectory(m_root);
+    if (!m_cgi_enabled.empty() && m_cgi->isValid())
+        m_cgi->updateScriptDirectory(m_root);
     return ("");
 }
 

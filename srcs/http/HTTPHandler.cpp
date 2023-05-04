@@ -3,13 +3,15 @@
 namespace webserv {
 
 /* HTTPHandler Class */
-void http_handle(smt::shared_ptr<ServerSocket> sock, smt::shared_ptr<SocketConnection> connection, int client_fd) {
+void http_handle(smt::shared_ptr<ServerSocket>     sock,
+                 smt::shared_ptr<SocketConnection> connection, int client_fd) {
 
     // receiving request string
     std::string req_str = sock->recv(client_fd);
 
     // getting the first request from string
-    smt::shared_ptr<HTTPRequest> request = connection->m_parser->getNextRequest(req_str);
+    smt::shared_ptr<HTTPRequest> request =
+        connection->m_parser->getNextRequest(req_str);
     if (request->isValid()) {
 
         LOG_D("Handling request...");
@@ -26,15 +28,15 @@ void http_handle(smt::shared_ptr<ServerSocket> sock, smt::shared_ptr<SocketConne
 
         // sending response to client
         if (response) sock->send(client_fd, response->to_str());
-        
+
         // closing the connection
-        std::map<int, smt::shared_ptr<webserv::SocketConnection> >::iterator connnectionIterator;
-        connnectionIterator = sock->m_connection.find(client_fd); 
+        std::map<int, smt::shared_ptr<webserv::SocketConnection> >::iterator
+            connnectionIterator;
+        connnectionIterator = sock->m_connection.find(client_fd);
         if (connnectionIterator != sock->m_connection.end()) {
             // Remove connection from map
             sock->m_connection.erase(client_fd);
         }
-
     }
     LOG_D("No valid request was received");
 }
@@ -47,7 +49,7 @@ smt::shared_ptr<HTTPResponse>
         config->getLocationBlockForRequest(request);
 
     bool runCGI =
-        (loc) && (loc->m_cgi_enabled) && (loc->m_cgi->isValid());
+        (loc) && (!loc->m_cgi_enabled.empty()) && (loc->m_cgi->isValid());
     bool isCGI = request->isCGIRequest();
     if (isCGI && runCGI) {
         LOG_D("Running CGI script");
