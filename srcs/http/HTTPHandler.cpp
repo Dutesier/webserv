@@ -1,57 +1,62 @@
 #include "http/HTTPHandler.hpp"
+
 #include "http/methods.hpp"
+
+#include <utils/Logger.hpp>
 
 namespace webserv {
 
 /* HTTPHandler Class */
-void http_handle(smt::shared_ptr<ServerSocket> sock, smt::shared_ptr<SocketConnection> connection, int client_fd) {
+void http_handle(smt::shared_ptr<ServerSocket>     sock,
+                 smt::shared_ptr<SocketConnection> connection, int client_fd) {
 
     // receiving request string
     std::string req_str = sock->recv(client_fd);
-    bool answeredAtLeastOneRequest = false;
+    bool        answeredAtLeastOneRequest = false;
 
     // getting the first request from string
     // while there are requests to process we process,
     // once we've reached end of file we stop processing
     bool keepAskingForRequests = true;
-    while (keepAskingForRequests)
-    {
+    while (keepAskingForRequests) {
         LOG_D("Looking for the next request that might be cached");
-        std::pair<smt::shared_ptr<HTTPRequest>, bool> requestPair = connection->m_parser->getNextRequest(req_str);
+        std::pair<smt::shared_ptr<HTTPRequest>, bool> requestPair =
+            connection->m_parser->getNextRequest(req_str);
         smt::shared_ptr<HTTPRequest> request = requestPair.first;
         keepAskingForRequests = requestPair.second;
         if (request->isValid()) {
 
-            LOG_D("Found a valid request. Handling request...");
+            LOG_D("Valid request was received. Request: " +
+                  request->toString());
 
             // Find the appropriate ServerBlock
             int serverBlockIdx = sock->bestServerBlockForRequest(request);
             serverBlockIdx = (serverBlockIdx == -1 ? 0 : serverBlockIdx);
             // handle request here
-            smt::shared_ptr<HTTPResponse> response = process_request(
-                request, sock->m_blocks[serverBlockIdx],
-                client_fd); // TODO: This obviously needs to be fixed, just using
-                            // the first block here so that rest of code can run
+            smt::shared_ptr<HTTPResponse> response =
+                process_request(request, sock->m_blocks[serverBlockIdx],
+                                client_fd); // TODO: This obviously needs to be
+                                            // fixed, just using the first block
+                                            // here so that rest of code can run
 
             // sending response to client
             if (response) {
-                LOG_D(("Trying to send to fd " + client_fd) + (" response: " + response->to_str()));
+                LOG_D(("Trying to send to fd " + client_fd) +
+                      (" response: " + response->to_str()));
                 sock->send(client_fd, response->to_str());
                 answeredAtLeastOneRequest = true;
             }
             req_str = "";
         }
-        else {
-            LOG_D("No valid request was received");
-        }
+        else { LOG_D("No valid request was received"); }
     }
 
-    if (answeredAtLeastOneRequest)
-    {
+    if (answeredAtLeastOneRequest) {
         // closing the connection
         LOG_D("Closing socket connection to fd:" + client_fd);
-        std::map<int, smt::shared_ptr<webserv::SocketConnection> >::iterator connnectionIterator;
-        connnectionIterator = sock->m_connection.find(client_fd); 
+        std::map<int, smt::shared_ptr<webserv::SocketConnection> >::iterator
+            connnectionIterator;
+        connnectionIterator = sock->m_connection.find(client_fd);
         if (connnectionIterator != sock->m_connection.end()) {
             // Remove connection from map
             sock->m_connection.erase(client_fd);
@@ -82,10 +87,15 @@ smt::shared_ptr<HTTPResponse>
     }
 
     // getting method
-    if (request->getMethod() == webserv::GET) { return (webserv::methods::GET(request, location)); }
-    if (request->getMethod() == webserv::POST) { return (webserv::methods::POST(request, location)); }
-    if (request->getMethod() == webserv::DELETE) { return (webserv::methods::DELETE(request, location)); }
-
+    if (request->getMethod() == webserv::GET) {
+        return (webserv::methods::GET(request, location));
+    }
+    if (request->getMethod() == webserv::POST) {
+        return (webserv::methods::POST(request, location));
+    }
+    if (request->getMethod() == webserv::DELETE) {
+        return (webserv::methods::DELETE(request, location));
+    }
 
     return (generate_error_response(405, config));
 }

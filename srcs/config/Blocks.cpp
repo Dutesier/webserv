@@ -185,19 +185,16 @@ smt::shared_ptr<LocationBlock> ServerBlock::getLocationBlockForRequest(
     smt::shared_ptr<HTTPRequest>& request) {
     smt::shared_ptr<webserv::LocationBlock> loc;
     std::string                             uri;
-    
+
     LOG_D("Getting Location Block for Request");
-    if (m_location.size() > 0) {
-        loc = m_location.begin()->second;
-    } else {
+    if (m_location.size() > 0) { loc = m_location.begin()->second; }
+    else {
         LOG_D("No Location Blocks in ServerBlock");
         return loc;
     }
 
-    if (request)
-        uri = request->getRefinedResource();
-    else
-        return loc;
+    if (request) uri = request->getRefinedResource();
+    else return loc;
 
     // Looking for a perfect match
     if (m_location.find(uri) != m_location.end()) {
@@ -237,7 +234,9 @@ smt::shared_ptr<LocationBlock> ServerBlock::getLocationBlockForRequest(
 
 LocationBlock::LocationBlock(std::string target)
     : m_cgi_enabled(false), m_target(target) {
-
+    // TODO: Remove this (m_index and m_autoindex are temporary)
+    m_index = "";
+    m_autoindex = true;
     // setting up allowed method
     std::string arr[3] = {"GET", "POST", "DELETE"};
     m_allowed_methods = std::set<std::string>(arr, arr + 3);

@@ -1,12 +1,16 @@
 #include "http/pathValidation.hpp"
-#include <vector>
+
+#include "utils/Logger.hpp"
+
 #include <cstring>
 #include <fstream>
-#include "utils/Logger.hpp"
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <vector>
 
 namespace webserv::path {
 
-bool isCrawler(std::string& pathInDir){
+bool isCrawler(std::string& pathInDir) {
     int                      dir_count = 0;
     std::string              previous_dir = "..";
     std::string              current_dir = ".";
@@ -17,7 +21,6 @@ bool isCrawler(std::string& pathInDir){
     while (word) {
         dirs_in_path.push_back(word);
         word = strtok(NULL, "/");
-        LOG_D("word: " + dirs_in_path.back());
     }
 
     for (std::vector<std::string>::iterator it = dirs_in_path.begin();
@@ -34,18 +37,31 @@ bool isCrawler(std::string& pathInDir){
     return false;
 }
 
-bool fileExists(std::string& directory, std::string& pathInDir){
-    std::string filepath = directory + pathInDir;
-    LOG_D("Checking if file exists " + filepath);
+bool fileExists(std::string& formattedFullPath) {
     std::ifstream f(
-        filepath
+        formattedFullPath
             .c_str()); // Lets make sure that we dont have /cgi/python//fu.py
 
-    LOG_D("File exists: " + filepath);
     return f.good();
 }
 
+bool isDirectory(std::string& formattedFullPath) {
+    struct stat s;
+    if (stat(formattedFullPath.c_str(), &s) == 0) {
+        if (s.st_mode & S_IFDIR) { return true; }
+    }
+    return false;
+}
+
 std::string formattedFullPath(std::string& directory, std::string& pathInDir) {
+    // If directory does not end with / and pathInDir does not start with /, we
+    // want to add /
+    if (*(directory.rbegin()) != '/') {
+        if (*(pathInDir.begin()) != '/') { return directory + "/" + pathInDir; }
+    }
+
+    // If directory ends with / and pathInDir starts with /, we dont want to
+    // duplicate /
     if (*(directory.rbegin()) == '/') {
         if (*(pathInDir.begin()) == '/') {
             return directory.substr(0, directory.size() - 1) + pathInDir;
@@ -53,6 +69,5 @@ std::string formattedFullPath(std::string& directory, std::string& pathInDir) {
     }
     return directory + pathInDir;
 }
-
 
 } // namespace webserv::path

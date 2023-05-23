@@ -1,9 +1,9 @@
 #include "cgi/CGIHandler.hpp"
 
+#include "http/pathValidation.hpp"
+
 #include <cstdlib>
 #include <sys/wait.h>
-
-#include "http/pathValidation.hpp"
 
 namespace cgi {
 
@@ -17,8 +17,10 @@ bool CGIHandler::isValid() { return m_type != UNDEFINED; }
 smt::shared_ptr<webserv::HTTPResponse>
     CGIHandler::run(smt::shared_ptr<HTTPRequest>& request, int writeToFD) {
     std::string refined = request->getRefinedResource();
+    std::string filepath =
+        webserv::path::formattedFullPath(m_directory, refined);
     if (webserv::path::isCrawler(refined) ||
-        !webserv::path::fileExists(m_directory, refined)) {
+        !webserv::path::fileExists(filepath)) {
         LOG_W("CGI wont run - Invalid permissions for " +
               request->getRefinedResource());
         return NULL;
@@ -32,8 +34,8 @@ smt::shared_ptr<webserv::HTTPResponse>
 smt::shared_ptr<webserv::HTTPResponse>
     CGIHandler::runAsChildProcess(int fd, smt::shared_ptr<CGIContext>& context,
                                   std::string req_content) {
-	(void) fd;
-	(void) req_content;
+    (void)fd;
+    (void)req_content;
 
     LOG_D("running child process");
     FILE* input = tmpfile();
@@ -99,6 +101,5 @@ smt::shared_ptr<webserv::HTTPResponse>
 }
 
 void CGIHandler::updateScriptDirectory(std::string dir) { m_directory = dir; }
-
 
 }; // namespace cgi

@@ -82,6 +82,9 @@ class HTTPRequest {
         // Check if there isnt a status code -> Valid
         bool isValid() const;
 
+        // Get a string representation of the request
+        std::string toString() const;
+
     private:
 
         webserv::Method                    m_method;

@@ -7,8 +7,8 @@
 #include "utils/utils.hpp"
 
 #include <map>
-#include <string>
 #include <sstream>
+#include <string>
 #include <vector>
 
 #ifndef MAX_HEADER_SIZE
@@ -21,7 +21,10 @@ class HTTPParser {
         HTTPParser();
         ~HTTPParser();
 
-        std::pair<smt::shared_ptr<HTTPRequest>, bool> getNextRequest(std::string received);
+        std::pair<smt::shared_ptr<HTTPRequest>, bool>
+            getNextRequest(std::string received);
+
+        void setMaxBodySize(unsigned int maxBodySize);
 
     private:
 
@@ -38,6 +41,7 @@ class HTTPParser {
         int                          find_next_request(std::string& buff) const;
 
     private:
+
         // Buffer for storing data left over from
         // previous call to recv
         std::string restOfData;
@@ -46,6 +50,8 @@ class HTTPParser {
         // left over in the restOfData buffer
         bool dataInBuffer;
 
+        // Configurable max body size
+        unsigned int m_max_body_size;
 };
 
 #endif /* HTTPPARSER_HPP */
