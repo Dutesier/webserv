@@ -265,7 +265,7 @@ std::string LocationBlock::allowed_methods(std::vector<std::string> command) {
 }
 
 void ServerBlock::createDefaultLocation(void) {
-    if (m_location.find("/") == m_location.end()) { return; }
+    if (m_location.find("/") != m_location.end()) { return; }
     smt::shared_ptr<LocationBlock> loc(new LocationBlock("/"));
     loc->m_root = m_root;
     m_location.insert(std::make_pair("/", loc));

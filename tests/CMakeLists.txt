@@ -5,9 +5,9 @@ if(test)
     # test_Blocks.cpp
     # test_CGIContext.cpp
     # test_CGIHandler.cpp
-    # test_Config.cpp
+    test_Config.cpp
     # test_ConfigSocket.cpp
-    test_HTTPHandler.cpp
+    # test_HTTPHandler.cpp
     # test_HTTPParser.cpp
     # test_HTTPRequest.cpp
     # test_HTTPResponse.cpp

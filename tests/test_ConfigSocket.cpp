@@ -2,24 +2,6 @@
 
 #include <gtest/gtest.h>
 
-std::ostream& operator<<(std::ostream&                                os,
-                         smt::shared_ptr<webserv::ServerBlock> const& block) {
-
-    os << "Block: [" << std::endl;
-    os << " port: " << block->m_port << std::endl;
-    os << " host: " << block->m_host << std::endl;
-    os << " server_name: " << block->m_server_name << std::endl;
-    os << " location: [" << std::endl;
-    for (std::map<std::string,
-                  smt::shared_ptr<webserv::LocationBlock> >::const_iterator it =
-             block->m_location.begin();
-         it != block->m_location.end(); it++)
-        os << "   " << it->first << std::endl;
-    os << " ]" << std::endl;
-    os << "]";
-    return (os);
-}
-
 class testConfigSocket : public ::testing::Test {
     public:
 

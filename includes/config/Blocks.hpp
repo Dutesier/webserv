@@ -2,6 +2,7 @@
 #define BLOCKS_HPP
 
 // #include "cgi/CGIHandler.hpp"
+#include "utils/Logger.hpp"
 #include "utils/smt.hpp"
 #include "utils/utils.hpp"
 
