@@ -16,7 +16,7 @@ smt::shared_ptr<HTTPResponse> POST(smt::shared_ptr<HTTPRequest>&   request,
 smt::shared_ptr<HTTPResponse> DELETE(smt::shared_ptr<HTTPRequest>&   request,
                                      smt::shared_ptr<LocationBlock>& location);
 
-std::string generateAutoIndex(std::string const& directoryPath);
+std::string generateAutoIndex(std::string directoryPath);
 bool        readContentsFromFileToResponse(std::string const&             filepath,
                                            smt::shared_ptr<HTTPResponse>& response);
 

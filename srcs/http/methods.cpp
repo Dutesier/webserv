@@ -61,11 +61,8 @@ bool readContentsFromFileToResponse(std::string const&             filepath,
 // return relativePath;
 // }
 
-std::string generateAutoIndex(std::string root, std::string directoryPath) {
+std::string generateAutoIndex(std::string directoryPath) {
     // Check if the directory exists
-    (void)root;
-    std::string body;
-
     DIR* dir = opendir(directoryPath.c_str());
     if (!dir) {
         LOG_E("Error: Directory does not exist.");
@@ -74,33 +71,78 @@ std::string generateAutoIndex(std::string root, std::string directoryPath) {
     closedir(dir);
 
     // Get the list of files in the directory
-    body = "<html><head><title>Index of " + directoryPath +
-           "</title></head><body>" + "<h1>Index of " + directoryPath + "</h1>" +
-           "<ul>";
+    std::stringstream ss;
+    ss << "<html><head><title>Index of " << directoryPath
+       << "</title></head><body>";
+    ss << "<h1>Index of " << directoryPath << "</h1>";
+    ss << "<ul>";
 
-    DIR*    dirp = opendir(directoryPath.c_str());
-    dirent* dp;
-    while ((dp = readdir(dirp)) != NULL) {
+    dirent* entry;
+    dir = opendir(directoryPath.c_str());
+    while ((entry = readdir(dir)) != NULL) {
         struct stat stat;
-        if (dp->d_name[0] != '.') {
-            if (lstat(
-                    std::string(directoryPath.c_str() + std::string(dp->d_name))
-                        .c_str(),
-                    &stat) != -1 &&
+        if (entry->d_name[0] != '.') {
+            if (lstat(std::string(directoryPath.c_str() +
+                                  std::string(entry->d_name))
+                          .c_str(),
+                      &stat) != -1 &&
                 S_ISDIR(stat.st_mode)) {
-                body += "<a href=\"" + std::string(dp->d_name) + "/\"/>" +
-                        std::string(dp->d_name) + "/</a>\n";
+                ss << "<li><a href=\"" << std::string(entry->d_name) << "/\"/>"
+                   << std::string(entry->d_name) << "/</a></li>\n";
             }
             else {
-                body += "<a href=\"" + std::string(dp->d_name) + "\"/>" +
-                        std::string(dp->d_name) + "</a>\n";
+                ss << "<li><a href=\"" << std::string(entry->d_name) << "\"/>"
+                   << std::string(entry->d_name) << "</a></li>\n";
             }
         }
     }
-    closedir(dirp);
-    body += "</hr></pre>\n</body>\n</html>\n";
+    closedir(dir);
 
-    return body;
+    ss << "</ul>";
+    ss << "</body></html>";
+
+    return ss.str();
+    // // Check if the directory exists
+    // (void)root;
+    // std::string body;
+
+    // DIR* dir = opendir(directoryPath.c_str());
+    // if (!dir) {
+    //     LOG_E("Error: Directory does not exist.");
+    //     return "";
+    // }
+    // closedir(dir);
+
+    // // Get the list of files in the directory
+    // body = "<html><head><title>Index of " + directoryPath +
+    //        "</title></head><body>" + "<h1>Index of " + directoryPath +
+    //        "</h1>" +
+    //        "<ul>";
+
+    // dirent* dp;
+    // DIR*    dirp = opendir(directoryPath.c_str());
+    // while ((dp = readdir(dirp)) != NULL) {
+    //     struct stat stat;
+    //     if (dp->d_name[0] != '.') {
+    //         if (lstat(
+    //                 std::string(directoryPath.c_str() +
+    //                 std::string(dp->d_name))
+    //                     .c_str(),
+    //                 &stat) != -1 &&
+    //             S_ISDIR(stat.st_mode)) {
+    //             body += "<a href=\"" + std::string(dp->d_name) + "/\"/>" +
+    //                     std::string(dp->d_name) + "/</a>\n";
+    //         }
+    //         else {
+    //             body += "<a href=\"" + std::string(dp->d_name) + "\"/>" +
+    //                     std::string(dp->d_name) + "</a>\n";
+    //         }
+    //     }
+    // }
+    // closedir(dirp);
+    // body += "</hr></pre>\n</body>\n</html>\n";
+
+    // return body;
 }
 
 smt::shared_ptr<HTTPResponse> GET(smt::shared_ptr<HTTPRequest>&   request,
@@ -176,7 +218,7 @@ smt::shared_ptr<HTTPResponse> GET(smt::shared_ptr<HTTPRequest>&   request,
         }
 
         // Generate autoindex
-        std::string autoIndex = generateAutoIndex(location->m_root, filepath);
+        std::string autoIndex = generateAutoIndex(filepath);
         // Exit if autoindex generation fails
         if (autoIndex == "") {
             resp->m_status = 403; // FIXME: Check correct status code
