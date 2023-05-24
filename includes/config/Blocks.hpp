@@ -34,6 +34,10 @@ struct LocationBlock {
         std::string                      m_target;
         std::string                      m_root;
         std::set<std::string>            m_allowed_methods;
+
+        // TODO: change from server to location
+        std::string m_index;
+        bool        m_autoindex;
 };
 
 struct ServerBlock {
