@@ -34,10 +34,6 @@ struct LocationBlock {
         std::string                      m_target;
         std::string                      m_root;
         std::set<std::string>            m_allowed_methods;
-
-        // Temporary |To be implemented - just using to mock|
-        bool        m_autoindex;
-        std::string m_index;
 };
 
 struct ServerBlock {
@@ -57,13 +53,15 @@ struct ServerBlock {
 
         bool                                                   m_autoindex;
         unsigned                                               m_body_size;
-        unsigned                                               m_port;
+        std::string                                            m_port;
         std::string                                            m_host;
         std::string                                            m_index;
         std::string                                            m_root;
         std::string                                            m_server_name;
         std::map<int, std::string>                             m_error_page;
         std::map<std::string, smt::shared_ptr<LocationBlock> > m_location;
+        int                                                    m_resolvPort;
+        std::string                                            m_resolvHost;
 };
 
 } // namespace webserv
