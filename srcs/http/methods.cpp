@@ -35,32 +35,6 @@ bool readContentsFromFileToResponse(std::string const&             filepath,
     return true;
 }
 
-// static std::string generatePath(std::string root, std::string directoryPath)
-// {
-//     // Find the position of root in directoryPath
-//     std::size_t rootPos = directoryPath.find(root);
-//     if (rootPos == std::string::npos) {
-//         // Root not found, return the original directoryPath
-//         return directoryPath;
-//     }
-
-// // Extract the relevant part of directoryPath
-// std::string relativePath = directoryPath.substr(rootPos + root.length());
-
-// // Remove leading slashes, if any
-// while (!relativePath.empty() && relativePath[0] == '/') {
-//     relativePath.erase(0, 1);
-// }
-
-// // Add trailing slash if necessary
-// if (!relativePath.empty() &&
-//     relativePath[relativePath.length() - 1] != '/') {
-//     relativePath += '/';
-// }
-
-// return relativePath;
-// }
-
 std::string generateAutoIndex(std::string directoryPath) {
     // Check if the directory exists
     DIR* dir = opendir(directoryPath.c_str());
@@ -102,47 +76,6 @@ std::string generateAutoIndex(std::string directoryPath) {
     ss << "</body></html>";
 
     return ss.str();
-    // // Check if the directory exists
-    // (void)root;
-    // std::string body;
-
-    // DIR* dir = opendir(directoryPath.c_str());
-    // if (!dir) {
-    //     LOG_E("Error: Directory does not exist.");
-    //     return "";
-    // }
-    // closedir(dir);
-
-    // // Get the list of files in the directory
-    // body = "<html><head><title>Index of " + directoryPath +
-    //        "</title></head><body>" + "<h1>Index of " + directoryPath +
-    //        "</h1>" +
-    //        "<ul>";
-
-    // dirent* dp;
-    // DIR*    dirp = opendir(directoryPath.c_str());
-    // while ((dp = readdir(dirp)) != NULL) {
-    //     struct stat stat;
-    //     if (dp->d_name[0] != '.') {
-    //         if (lstat(
-    //                 std::string(directoryPath.c_str() +
-    //                 std::string(dp->d_name))
-    //                     .c_str(),
-    //                 &stat) != -1 &&
-    //             S_ISDIR(stat.st_mode)) {
-    //             body += "<a href=\"" + std::string(dp->d_name) + "/\"/>" +
-    //                     std::string(dp->d_name) + "/</a>\n";
-    //         }
-    //         else {
-    //             body += "<a href=\"" + std::string(dp->d_name) + "\"/>" +
-    //                     std::string(dp->d_name) + "</a>\n";
-    //         }
-    //     }
-    // }
-    // closedir(dirp);
-    // body += "</hr></pre>\n</body>\n</html>\n";
-
-    // return body;
 }
 
 smt::shared_ptr<HTTPResponse> GET(smt::shared_ptr<HTTPRequest>&   request,
