@@ -46,10 +46,11 @@ class HTTPServer {
 
         void epoll_add(int fd);
 
-        t_state                 m_state;
-        smt::shared_ptr<Config> m_config; // this will be deprecated soon
-        std::map<int, smt::shared_ptr<ServerSocket> > m_socket;
-        int                                           m_epollfd;
+        void initSocket(smt::shared_ptr<ServerAddress> addr);
+
+        t_state                                       m_state;
+        std::map<int, smt::shared_ptr<ServerSocket> > m_sockets;
+        int                                           m_epollFd;
 };
 
 } // namespace webserv

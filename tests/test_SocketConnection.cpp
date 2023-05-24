@@ -34,7 +34,7 @@ class test_SocketConnection : public ::testing::Test {
             // preparing client and connection
             this->client = new Client(8080);
             int fd = this->sock->accept();
-            this->connection = this->sock->m_connection[fd];
+            this->connection = this->sock->m_connections[fd];
         }
 
         void TearDown(void) {}

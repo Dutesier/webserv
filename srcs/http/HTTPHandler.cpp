@@ -56,10 +56,10 @@ void http_handle(smt::shared_ptr<ServerSocket>     sock,
         LOG_D("Closing socket connection to fd:" + client_fd);
         std::map<int, smt::shared_ptr<webserv::SocketConnection> >::iterator
             connnectionIterator;
-        connnectionIterator = sock->m_connection.find(client_fd);
-        if (connnectionIterator != sock->m_connection.end()) {
+        connnectionIterator = sock->m_connections.find(client_fd);
+        if (connnectionIterator != sock->m_connections.end()) {
             // Remove connection from map
-            sock->m_connection.erase(client_fd);
+            sock->m_connections.erase(client_fd);
         }
     }
 }
