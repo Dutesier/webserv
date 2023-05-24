@@ -79,8 +79,6 @@ smt::shared_ptr<HTTPResponse>
     smt::shared_ptr<webserv::LocationBlock> location =
         ConfigSocket::getLocationBlock(config, request->getResource());
 
-    // config->getLocationBlockForRequest(request);
-
     // What do we do if we cant get location?
     if (!location) {
         LOG_E("No location found");
@@ -98,25 +96,21 @@ smt::shared_ptr<HTTPResponse>
     // }
 
     // getting method
-    if (request->getMethod() == webserv::GET) {
-        return (webserv::methods::GET(request, location));
-    }
-    if (request->getMethod() == webserv::POST) {
-        return (webserv::methods::POST(request, location));
-    }
-    if (request->getMethod() == webserv::DELETE) {
-        return (webserv::methods::DELETE(request, location));
-    }
+    // if (request->getMethod() == webserv::GET) {
+    //     return (webserv::methods::GET(request, location));
+    // }
+    // if (request->getMethod() == webserv::POST) {
+    //     return (webserv::methods::POST(request, location));
+    // }
+    // if (request->getMethod() == webserv::DELETE) {
+    //     return (webserv::methods::DELETE(request, location));
+    // }
 
     return (generate_error_response(405, config));
 }
 
 smt::shared_ptr<HTTPResponse>
     generate_error_response(int code, smt::shared_ptr<ServerBlock> config) {
-
-    (void)config;
-    return (smt::shared_ptr<HTTPResponse>(
-        new HTTPResponse(code, std::map<std::string, std::string>(), "")));
 
     std::string                        body;
     std::map<std::string, std::string> header;

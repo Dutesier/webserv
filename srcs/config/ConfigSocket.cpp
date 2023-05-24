@@ -29,6 +29,10 @@ smt::shared_ptr<ServerBlock>
                                  std::string hostHeader) {
     std::vector< smt::shared_ptr<ServerBlock> > correspondingBlocks;
     smt::shared_ptr<ServerBlock>                block;
+
+    size_t pos = hostHeader.find(":");
+    if (pos != std::string::npos) { hostHeader = hostHeader.substr(0, pos); }
+
     static std::vector< smt::shared_ptr<ServerBlock> >::iterator it;
     for (it = m_blocks.begin(); it != m_blocks.end(); it++) {
         if ((*it)->m_resolvPort == port && (*it)->m_resolvHost == host) {
