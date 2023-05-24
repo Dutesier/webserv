@@ -60,6 +60,8 @@ class shared_ptr {
 
         T* operator->() { return this->pointer; }
 
+        T* operator->() const { return this->pointer; }
+
         T& operator*() { return *(this->pointer); }
 
         operator bool() const { return (this->pointer != NULL); }
