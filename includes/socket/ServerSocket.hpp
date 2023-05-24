@@ -11,7 +11,7 @@
 namespace webserv {
 
 #ifndef BACKLOG
-# define BACKLOG 10
+# define BACKLOG 42
 #endif
 
 class ServerSocket {

@@ -11,14 +11,16 @@ HTTPServer::HTTPServer(int argc, char* argv[]) : m_state(ready) {
     ConfigSocket::setBlocks(config->getBlocks());
 }
 
-HTTPServer::~HTTPServer(void) {}
+HTTPServer::~HTTPServer(void) { close(m_epollFd); }
 
 // initializes all ServerSockets based on the config file, and adds them to an
 // epoll instance's interest list
 void HTTPServer::start(void) {
 
     // creating an epoll instance
-    if ((m_epollFd = epoll_create1(0)) < 0) { throw(EpollCreateException()); }
+    if ((m_epollFd = epoll_create(EP_MAX_EVENTS)) < 0) {
+        throw(EpollCreateException());
+    }
 
     // initializing sockets
     std::set< std::pair<int, std::string> > specs = ConfigSocket::getSpecs();
@@ -41,6 +43,7 @@ void HTTPServer::run(void) {
     m_state = running;
 
     struct epoll_event events[EP_MAX_EVENTS];
+    memset(events, 0, sizeof(events));
 
     while (m_state == running) {
 
@@ -90,10 +93,11 @@ void HTTPServer::run(void) {
 void HTTPServer::stop(void) { m_state = stopped; }
 
 // adds a socket to epoll's interest list
-void HTTPServer::epoll_add(int fd) {
+void HTTPServer::epoll_add(int fd, int events) {
 
     struct epoll_event event;
-    event.events = EPOLLIN | EPOLLET;
+    memset(&event, 0, sizeof(event));
+    event.events = events;
     event.data.fd = fd;
 
     if (epoll_ctl(m_epollFd, EPOLL_CTL_ADD, fd, &event) < 0)
@@ -103,10 +107,7 @@ void HTTPServer::epoll_add(int fd) {
 // removes a socket from epoll's interest list
 void HTTPServer::epoll_remove(int fd) {
 
-    struct epoll_event event;
-    event.data.fd = fd;
-
-    if (epoll_ctl(m_epollFd, EPOLL_CTL_DEL, fd, &event) < 0)
+    if (epoll_ctl(m_epollFd, EPOLL_CTL_DEL, fd, NULL) < 0)
         throw(EpollRemoveException());
 }
 
@@ -116,20 +117,15 @@ void HTTPServer::initSocket(smt::shared_ptr<ServerAddress> addr) {
     sock->socket();
 
     // setting socket options
-    int            enable = 1;
-    struct timeval timeout;
-    timeout.tv_sec = 10;
-    timeout.tv_usec = 0;
+    int enable = 1;
     sock->setsockopt(SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int));
-    sock->setsockopt(SOL_SOCKET, SO_REUSEPORT, &enable, sizeof(int));
-    sock->setsockopt(SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(struct timeval));
 
     // binding and listening
     sock->bind();
     sock->listen();
 
     // adding socket to epoll list
-    epoll_add(sock->getSockFd());
+    epoll_add(sock->getSockFd(), EPOLLIN);
 
     // adding socket to sockets list
     m_sockets[sock->getSockFd()] = sock;

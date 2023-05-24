@@ -10,14 +10,15 @@ namespace webserv {
 void http_handle(smt::shared_ptr<ServerSocket>     sock,
                  smt::shared_ptr<SocketConnection> connection, int client_fd) {
 
+    // std::map<std::string, std::string> header;
+    // header["Content-Length"] = "0";
+    // sock->send(client_fd,
+    //            smt::make_shared(new HTTPResponse(200, header,
+    //            ""))->to_str());
+    // return;
+
     // receiving request string
-    std::string                  reqStr = sock->recv(client_fd);
-    smt::shared_ptr<ServerBlock> config =
-        ConfigSocket::getConfigBlock(sock->getPort(), sock->getHost());
-    smt::shared_ptr<HTTPResponse> response =
-        generate_error_response(200, config);
-    sock->send(client_fd, response->to_str());
-    return;
+    std::string reqStr = sock->recv(client_fd);
     // bool        answeredAtLeastOneRequest = false;
 
     // getting the first request from string
@@ -30,6 +31,7 @@ void http_handle(smt::shared_ptr<ServerSocket>     sock,
             connection->m_parser->getNextRequest(reqStr);
         smt::shared_ptr<HTTPRequest> request = requestPair.first;
         keepAskingForRequests = requestPair.second;
+        (void)keepAskingForRequests;
         if (request->isValid()) {
             LOG_D("Valid request was received. Request: " +
                   request->toString());
@@ -43,7 +45,7 @@ void http_handle(smt::shared_ptr<ServerSocket>     sock,
                 smt::shared_ptr<HTTPResponse> response =
                     generate_error_response(500, config);
                 sock->send(client_fd, response->to_str());
-                continue;
+                // continue;
             }
 
             // handle request here

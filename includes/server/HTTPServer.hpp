@@ -10,8 +10,8 @@
 #include <map>
 #include <sys/epoll.h>
 
-#define EP_MAX_EVENTS 200
-#define EP_TIMEOUT    3000
+#define EP_MAX_EVENTS 42
+#define EP_TIMEOUT    5000
 
 namespace webserv {
 
@@ -48,7 +48,7 @@ class HTTPServer {
 
     private:
 
-        void epoll_add(int fd);
+        void epoll_add(int fd, int events = EPOLLIN | EPOLLET);
         void epoll_remove(int fd);
 
         void initSocket(smt::shared_ptr<ServerAddress> addr);
