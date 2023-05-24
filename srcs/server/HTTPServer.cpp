@@ -72,8 +72,10 @@ void HTTPServer::run(void) {
                     connnectionIterator = connections.find(events[i].data.fd);
                     if (connnectionIterator != connections.end()) {
                         LOG_D("webserv::HTTPServer REQ()");
-                        // http_handle(sock, connnectionIterator->second,
-                        //             events[i].data.fd);
+                        http_handle(sock, connnectionIterator->second,
+                                    events[i].data.fd);
+                        LOG_D("close() connection");
+                        sock->close(events[i].data.fd);
                         break;
                     }
                 }

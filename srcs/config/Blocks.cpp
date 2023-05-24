@@ -264,23 +264,11 @@ std::string LocationBlock::allowed_methods(std::vector<std::string> command) {
     return ("");
 }
 
-bool operator==(LocationBlock const& lhs, LocationBlock const& rhs) {
-
-    return (lhs.m_cgi_enabled == rhs.m_cgi_enabled &&
-            lhs.m_target == rhs.m_target && lhs.m_root == rhs.m_root &&
-            lhs.m_allowed_methods == rhs.m_allowed_methods
-            /* && lhs.m_cgi == rhs.m_cgi */);
-}
-
-bool operator==(ServerBlock const& lhs, ServerBlock const& rhs) {
-
-    return (lhs.m_autoindex == rhs.m_autoindex &&
-            lhs.m_body_size == rhs.m_body_size && lhs.m_port == rhs.m_port &&
-            lhs.m_host == rhs.m_host && lhs.m_index == rhs.m_index &&
-            lhs.m_root == rhs.m_root &&
-            lhs.m_server_name == rhs.m_server_name &&
-            lhs.m_error_page == rhs.m_error_page &&
-            lhs.m_location == rhs.m_location);
+void ServerBlock::createDefaultLocation(void) {
+    if (m_location.find("/") == m_location.end()) { return; }
+    smt::shared_ptr<LocationBlock> loc(new LocationBlock("/"));
+    loc->m_root = m_root;
+    m_location.insert(std::make_pair("/", loc));
 }
 
 } // namespace webserv

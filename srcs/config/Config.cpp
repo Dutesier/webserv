@@ -177,6 +177,14 @@ Config::Config(int argc, char* argv[]) {
     if (in_server) { ERROR_SYNTAX("unclosed bracket"); }
 
     m_file.close();
+    // iterate server blocks
+    for (std::vector<smt::shared_ptr<ServerBlock> >::iterator it =
+             m_blocks.begin();
+         it != m_blocks.end(); it++) {
+
+        // iterate location blocks
+        (*it)->createDefaultLocation();
+    }
 }
 
 Config::~Config(void) {}

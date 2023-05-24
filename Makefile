@@ -168,7 +168,7 @@ TEST_ROOT	:= tests/
 # DIRS := folder1/:folder2/
 # DIRS += folder1/:folder3/:folder4/
 # DIRS	:= ./:cgi/:config/:http/:server/:socket/:utils/
-DIRS	:= ./:config/:server/:socket/:utils/
+DIRS	:= ./:config/:http/:server/:socket/:utils/
 
 SRC_DIRS_LIST	:= $(addprefix ${SRC_ROOT},${DIRS})
 SRC_DIRS_LIST	:= $(foreach dl,${SRC_DIRS_LIST},$(subst :,:${SRC_ROOT},${dl}))

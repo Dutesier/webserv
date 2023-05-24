@@ -35,8 +35,37 @@ bool readContentsFromFileToResponse(std::string const&             filepath,
     return true;
 }
 
-std::string generateAutoIndex(std::string const& directoryPath) {
+// static std::string generatePath(std::string root, std::string directoryPath)
+// {
+//     // Find the position of root in directoryPath
+//     std::size_t rootPos = directoryPath.find(root);
+//     if (rootPos == std::string::npos) {
+//         // Root not found, return the original directoryPath
+//         return directoryPath;
+//     }
+
+// // Extract the relevant part of directoryPath
+// std::string relativePath = directoryPath.substr(rootPos + root.length());
+
+// // Remove leading slashes, if any
+// while (!relativePath.empty() && relativePath[0] == '/') {
+//     relativePath.erase(0, 1);
+// }
+
+// // Add trailing slash if necessary
+// if (!relativePath.empty() &&
+//     relativePath[relativePath.length() - 1] != '/') {
+//     relativePath += '/';
+// }
+
+// return relativePath;
+// }
+
+std::string generateAutoIndex(std::string root, std::string directoryPath) {
     // Check if the directory exists
+    (void)root;
+    std::string body;
+
     DIR* dir = opendir(directoryPath.c_str());
     if (!dir) {
         LOG_E("Error: Directory does not exist.");
@@ -44,28 +73,29 @@ std::string generateAutoIndex(std::string const& directoryPath) {
     }
     closedir(dir);
 
-    // Get the list of files in the directory
-    std::stringstream ss;
-    ss << "<html><head><title>Index of " << directoryPath
-       << "</title></head><body>";
-    ss << "<h1>Index of " << directoryPath << "</h1>";
-    ss << "<ul>";
-
-    dirent* entry;
-    dir = opendir(directoryPath.c_str());
-    while ((entry = readdir(dir)) != NULL) {
-        std::string fileName = entry->d_name;
-        if (fileName != "." && fileName != "..") {
-            ss << "<li><a href=\"" << fileName << "\">" << fileName
-               << "</a></li>";
+    DIR*    dirp = opendir(directoryPath.c_str());
+    dirent* dp;
+    while ((dp = readdir(dirp)) != NULL) {
+        struct stat stat;
+        if (dp->d_name[0] != '.') {
+            if (lstat(
+                    std::string(directoryPath.c_str() + std::string(dp->d_name))
+                        .c_str(),
+                    &stat) != -1 &&
+                S_ISDIR(stat.st_mode)) {
+                body += "<a href=\"" + std::string(dp->d_name) + "/\"/>" +
+                        std::string(dp->d_name) + "/</a>\n";
+            }
+            else {
+                body += "<a href=\"" + std::string(dp->d_name) + "\"/>" +
+                        std::string(dp->d_name) + "</a>\n";
+            }
         }
     }
-    closedir(dir);
+    closedir(dirp);
+    body += "</hr></pre>\n</body>\n</html>\n";
 
-    ss << "</ul>";
-    ss << "</body></html>";
-
-    return ss.str();
+    return body;
 }
 
 smt::shared_ptr<HTTPResponse> GET(smt::shared_ptr<HTTPRequest>&   request,
@@ -141,7 +171,7 @@ smt::shared_ptr<HTTPResponse> GET(smt::shared_ptr<HTTPRequest>&   request,
         }
 
         // Generate autoindex
-        std::string autoIndex = generateAutoIndex(filepath);
+        std::string autoIndex = generateAutoIndex(location->m_root, filepath);
         // Exit if autoindex generation fails
         if (autoIndex == "") {
             resp->m_status = 403; // FIXME: Check correct status code

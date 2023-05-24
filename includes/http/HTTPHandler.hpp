@@ -1,16 +1,20 @@
 #ifndef HTTP_HANDLER_HPP
 #define HTTP_HANDLER_HPP
 
+#include "config/ConfigSocket.hpp"
 #include "http/HTTPParser.hpp"
 #include "http/HTTPRequest.hpp"
 #include "http/HTTPResponse.hpp"
 #include "socket/ServerSocket.hpp"
 #include "utils/smt.hpp"
 
+#include <dirent.h>
+#include <sys/stat.h>
+
 namespace webserv {
 
-void http_handle(smt::shared_ptr<ServerSocket> sock,
-                smt::shared_ptr<SocketConnection> connection, int client_fd);
+void http_handle(smt::shared_ptr<ServerSocket>     sock,
+                 smt::shared_ptr<SocketConnection> connection, int client_fd);
 smt::shared_ptr<HTTPResponse>
     generate_error_response(int code, smt::shared_ptr<ServerBlock> config);
 smt::shared_ptr<HTTPResponse>

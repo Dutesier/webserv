@@ -1,5 +1,7 @@
 #include "http/HTTPResponse.hpp"
 
+#include "utils/Logger.hpp"
+
 namespace webserv {
 
 std::map<int, std::string> HTTPResponse::s_status_map =

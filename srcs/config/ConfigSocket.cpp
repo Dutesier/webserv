@@ -55,6 +55,7 @@ smt::shared_ptr<LocationBlock>
         block->m_location;
 
     std::vector<std::string> cmd = splitLine(uri);
+
     std::map< std::string, smt::shared_ptr<LocationBlock> >::iterator it;
     int oldCount = -1;
     for (it = locations.begin(); it != locations.end(); it++) {
@@ -86,7 +87,7 @@ std::vector<std::string> ConfigSocket::splitLine(std::string uri) {
     char* word = strtok(const_cast<char*>(uri.c_str()), "/");
     while (word) {
         cmd.push_back(word);
-        word = strtok(NULL, " \t");
+        word = strtok(NULL, "/");
     }
     return (cmd);
 }

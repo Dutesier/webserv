@@ -31,20 +31,20 @@ TEST(test_block, body_size) {
     smt::shared_ptr<webserv::ServerBlock> server(new webserv::ServerBlock());
 
     // checking default values
-    ASSERT_EQ(server->m_body_size, D_BODY_SIZE);
+    ASSERT_EQ(server->m_body_size, BODY_SIZE);
 
     // checking all possible error messages
     std::vector<std::string> command(1, "max_body_size");
     ASSERT_EQ(server->body_size(command), "wrong number of arguments");
-    ASSERT_EQ(server->m_body_size, D_BODY_SIZE);
+    ASSERT_EQ(server->m_body_size, BODY_SIZE);
 
     command.push_back("asad");
     ASSERT_EQ(server->body_size(command), "asad: invalid max body size");
-    ASSERT_EQ(server->m_body_size, D_BODY_SIZE);
+    ASSERT_EQ(server->m_body_size, BODY_SIZE);
 
     command[1] = "32516983297";
     ASSERT_EQ(server->body_size(command), "32516983297: invalid max body size");
-    ASSERT_EQ(server->m_body_size, D_BODY_SIZE);
+    ASSERT_EQ(server->m_body_size, BODY_SIZE);
 
     // checking success
     command[1] = "3251";
@@ -59,40 +59,30 @@ TEST(test_block, listen) {
     smt::shared_ptr<webserv::ServerBlock> server(new webserv::ServerBlock());
 
     // checking default values
-    ASSERT_EQ(server->m_port, 80);
-    ASSERT_EQ(server->m_host, "*");
+    ASSERT_EQ(server->m_port, "8080");
+    ASSERT_EQ(server->m_host, "localhost");
 
     // checking all possible error messages
     std::vector<std::string> command(1, "listen");
     ASSERT_EQ(server->listen(command), "wrong number of arguments");
-    ASSERT_EQ(server->m_port, 80);
-    ASSERT_EQ(server->m_host, "*");
-
-    command.push_back("asad:asad");
-    ASSERT_EQ(server->listen(command), "asad: invalid port");
-    ASSERT_EQ(server->m_port, 80);
-    ASSERT_EQ(server->m_host, "*");
-
-    command[1] = "asad:32516983297";
-    ASSERT_EQ(server->listen(command), "32516983297: invalid port");
-    ASSERT_EQ(server->m_port, 80);
-    ASSERT_EQ(server->m_host, "*");
+    ASSERT_EQ(server->m_port, "8080");
+    ASSERT_EQ(server->m_host, "localhost");
 
     // TODO: make this tests better
     // checking success
-    command[1] = "128.0.0.1";
+    command.push_back("128.0.0.1");
     ASSERT_EQ(server->listen(command), "");
     ASSERT_EQ(server->m_host, "128.0.0.1");
 
     command[1] = "8080";
     ASSERT_EQ(server->listen(command), "");
-    ASSERT_EQ(server->m_port, 8080);
+    ASSERT_EQ(server->m_port, "8080");
 
     command[1] = "127.0.0.1:8081";
     ASSERT_EQ(server->listen(command), "");
 
     // checking values
-    ASSERT_EQ(server->m_port, 8081);
+    ASSERT_EQ(server->m_port, "8081");
     ASSERT_EQ(server->m_host, "127.0.0.1");
 }
 

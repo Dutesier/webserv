@@ -4,7 +4,7 @@ namespace webserv {
 
 SocketConnection::SocketConnection(int sockFd, sockaddr_in* addr,
                                    socklen_t addrLen)
-    : /* m_parser(smt::make_shared<HTTPParser>(new HTTPParser())), */
+    : m_parser(smt::make_shared<HTTPParser>(new HTTPParser())),
       m_addr(new ConnectionAddress(addr, addrLen)), m_sockFd(sockFd) {
     LOG_D("Created " + toString());
 }

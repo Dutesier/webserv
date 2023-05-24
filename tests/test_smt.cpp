@@ -1,5 +1,5 @@
+#include "socket/ServerSocket.hpp"
 #include "socket/SocketConnection.hpp"
-#include "socket/TCPSocket.hpp"
 #include "utils/smt.hpp"
 
 #include <gtest/gtest.h>
@@ -58,20 +58,21 @@ TEST(SmartPointerTests, TestVectorSharedPtr) {
 }
 
 TEST(SmartPointerTests, TestVectorSharedPtrSockets) {
-    webserv::SocketAddress* socketPtr = new webserv::SocketAddress();
+    webserv::ServerAddress* addrPtr =
+        new webserv::ServerAddress("8080", "localhost");
 
-    smt::shared_ptr<webserv::SocketAddress> SocketAddressSharedPtr(socketPtr);
-    smt::shared_ptr<webserv::SocketAddress> SocketAddressOtherSharedPtr(
-        SocketAddressSharedPtr);
+    smt::shared_ptr<webserv::ServerAddress> ServerAddressSharedPtr(addrPtr);
+    smt::shared_ptr<webserv::ServerAddress> ServerAddressOtherSharedPtr(
+        ServerAddressSharedPtr);
 
-    std::vector<smt::shared_ptr<webserv::SocketAddress> > vec;
-    vec.push_back(SocketAddressSharedPtr);
-    vec.push_back(SocketAddressOtherSharedPtr);
-    ASSERT_EQ(vec.at(0)->address(), vec.at(1)->address());
+    std::vector<smt::shared_ptr<webserv::ServerAddress> > vec;
+    vec.push_back(ServerAddressSharedPtr);
+    vec.push_back(ServerAddressOtherSharedPtr);
+    ASSERT_EQ(vec.at(0)->getAddress(), vec.at(1)->getAddress());
 }
 
 TEST(SmartPointerTests, TestMakeShared) {
-    smt::shared_ptr<webserv::SocketAddress> socketAddress =
-        smt::make_shared(new webserv::SocketAddress);
-    ASSERT_TRUE(socketAddress);
+    smt::shared_ptr<webserv::ServerAddress> ServerAddress =
+        smt::make_shared(new webserv::ServerAddress("8080", "localhost"));
+    ASSERT_TRUE(ServerAddress);
 }

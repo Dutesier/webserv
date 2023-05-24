@@ -1,7 +1,7 @@
 #ifndef SOCKET_CONNECTION_HPP
 #define SOCKET_CONNECTION_HPP
 
-// #include "http/HTTPParser.hpp"
+#include "http/HTTPParser.hpp"
 #include "socket/ConnectionAddress.hpp"
 #include "utils/Logger.hpp"
 
@@ -47,7 +47,9 @@ class SocketConnection {
 
         // Every instance of a socket connection point to a different parser
         // (stores incomplete requests)
-        // smt::shared_ptr<HTTPParser> m_parser;
+        // TODO: this only needs to exist inside the HTTPHandler. So maybe its a
+        // good idea to store it elsewhere
+        smt::shared_ptr<HTTPParser> m_parser;
 
     private:
 

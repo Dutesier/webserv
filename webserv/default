@@ -1,9 +1,8 @@
 server {
     listen       8080;
+    root         /home/mlancac/;
+    location / {
+      root /home/mlancac/;
+    }
     server_name  domain1.com;
-}
-
-server {
-	listen localhost:8081;
-	server_name domain2.com;
 }
