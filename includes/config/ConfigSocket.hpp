@@ -2,6 +2,7 @@
 #define CONFIG_SOCKET_HPP
 
 #include "config/Blocks.hpp"
+#include "socket/ServerAddress.hpp"
 #include "utils/Logger.hpp"
 #include "utils/smt.hpp"
 
@@ -14,25 +15,43 @@ class ConfigSocket {
 
     public:
 
-        ConfigSocket(std::vector< smt::shared_ptr<ServerBlock> > blocks);
-        ~ConfigSocket(void);
+        static smt::shared_ptr<ServerAddress>
+            getAddress(std::pair<int, std::string> specs);
 
-        std::vector< smt::shared_ptr<ServerBlock> >
-            blocks(std::pair<unsigned, std::string> specs);
-        std::set< std::pair<unsigned, std::string> >& specs(void);
+        static std::set< std::pair<int, std::string> > getSpecs(void);
 
-        struct NoSuchSpecsException : public std::exception {
+        static smt::shared_ptr<ServerBlock>
+            getConfigBlock(int port, std::string host,
+                           std::string hostHeader = "");
+
+        static smt::shared_ptr<LocationBlock>
+            getLocationBlock(int port, std::string host, std::string uri,
+                             std::string hostHeader = "");
+
+        static smt::shared_ptr<LocationBlock>
+            getLocationBlock(smt::shared_ptr<ServerBlock> block,
+                             std::string                  uri);
+
+        static void
+            setBlocks(std::vector< smt::shared_ptr<ServerBlock> > blocks);
+
+        struct NoSuchAddressException : std::exception {
                 char const* what(void) const throw();
         };
 
-#ifndef GTEST_TESTING
+        struct NoSuchBlockException : std::exception {
+                char const* what(void) const throw();
+        };
 
     private:
 
-#endif /* GTEST_TESTING */
+        static std::vector<std::string> splitLine(std::string uri);
+        static int getCountOfDirs(std::vector<std::string> cmd,
+                                  std::vector<std::string> target);
 
-        std::vector< smt::shared_ptr<ServerBlock> >  m_blocks;
-        std::set< std::pair<unsigned, std::string> > m_specs;
+        static std::vector< smt::shared_ptr<ServerBlock> >   m_blocks;
+        static std::set< std::pair<int, std::string> >       m_specs;
+        static std::vector< smt::shared_ptr<ServerAddress> > m_addresses;
 };
 
 } // namespace webserv
