@@ -73,6 +73,11 @@ std::string generateAutoIndex(std::string root, std::string directoryPath) {
     }
     closedir(dir);
 
+    // Get the list of files in the directory
+    body = "<html><head><title>Index of " + directoryPath +
+           "</title></head><body>" + "<h1>Index of " + directoryPath + "</h1>" +
+           "<ul>";
+
     DIR*    dirp = opendir(directoryPath.c_str());
     dirent* dp;
     while ((dp = readdir(dirp)) != NULL) {
