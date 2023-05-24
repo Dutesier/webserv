@@ -32,7 +32,7 @@ std::string const& HTTPRequest::getVersion() const { return m_version; }
 
 // Set a request header
 void HTTPRequest::setHeader(std::string const& name, std::string const& value) {
-    m_headers[name] = value;
+    m_headers[name] = value.find_first_not_of(" \t");
 }
 
 // Get a request header
