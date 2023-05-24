@@ -11,15 +11,15 @@
 namespace webserv {
 
 #define ERROR_FILE(filename)                                                   \
- LOG_E(filename + ": failed to open");                                         \
- throw(InvalidFileException())
+    LOG_E(filename + ": failed to open");                                      \
+    throw(InvalidFileException())
 
 #define ERROR_SYNTAX(MSG)                                                      \
- std::stringstream ss;                                                         \
- ss << i;                                                                      \
- LOG_E(m_filename + ":" + ss.str() + ": " + line +                             \
-       "\n(syntax error): " + MSG);                                            \
- throw(InvalidSyntaxException())
+    std::stringstream ss;                                                      \
+    ss << i;                                                                   \
+    LOG_E(m_filename + ":" + ss.str() + ": " + line +                          \
+          "\n(syntax error): " + MSG);                                         \
+    throw(InvalidSyntaxException())
 
 class Config {
 
@@ -28,9 +28,9 @@ class Config {
         Config(int argc, char* argv[]);
         ~Config(void);
 
-        std::vector<std::string> split_line(std::string line);
+        std::vector<std::string> splitLine(std::string line);
 
-        std::vector< smt::shared_ptr<ServerBlock> > blocks(void);
+        std::vector< smt::shared_ptr<ServerBlock> > getBlocks(void);
 
         struct InvalidFileException : public std::exception {
                 char const* what(void) const throw();

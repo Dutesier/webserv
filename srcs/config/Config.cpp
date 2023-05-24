@@ -56,7 +56,7 @@ Config::Config(int argc, char* argv[]) {
             }
 
             // allocating a new block::location and setting in_location to true
-            std::vector<std::string> target = split_line(line);
+            std::vector<std::string> target = splitLine(line);
             if (target.size() != 3 || target[2] != "{") {
                 ERROR_SYNTAX("unrecognized syntax");
             }
@@ -101,7 +101,7 @@ Config::Config(int argc, char* argv[]) {
                 // parsing location block directives
 
                 // splitting line
-                std::vector<std::string> command = split_line(line);
+                std::vector<std::string> command = splitLine(line);
                 if (command.empty()) { ERROR_SYNTAX("invalid directory"); }
 
                 // checking if command ends with a comma
@@ -132,7 +132,7 @@ Config::Config(int argc, char* argv[]) {
 
                 // splitting line
                 bool                     f = false;
-                std::vector<std::string> command = split_line(line);
+                std::vector<std::string> command = splitLine(line);
                 if (command.empty()) { ERROR_SYNTAX("invalid directory"); }
 
                 // checking if command ends with a comma
@@ -181,7 +181,7 @@ Config::Config(int argc, char* argv[]) {
 
 Config::~Config(void) {}
 
-std::vector<std::string> Config::split_line(std::string line) {
+std::vector<std::string> Config::splitLine(std::string line) {
 
     std::vector<std::string> command;
 
@@ -195,7 +195,7 @@ std::vector<std::string> Config::split_line(std::string line) {
     return (command);
 }
 
-std::vector< smt::shared_ptr<ServerBlock> > Config::blocks(void) {
+std::vector< smt::shared_ptr<ServerBlock> > Config::getBlocks(void) {
     return (m_blocks);
 }
 

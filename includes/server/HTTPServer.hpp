@@ -46,8 +46,8 @@ class HTTPServer {
 
         void epoll_add(int fd);
 
-        t_state                                       m_state;
-        smt::shared_ptr<Config>                       m_config;
+        t_state                 m_state;
+        smt::shared_ptr<Config> m_config; // this will be deprecated soon
         std::map<int, smt::shared_ptr<ServerSocket> > m_socket;
         int                                           m_epollfd;
 };

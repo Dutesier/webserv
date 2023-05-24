@@ -7,7 +7,10 @@ namespace webserv {
 // initializes the Config instance
 HTTPServer::HTTPServer(int argc, char* argv[])
     : m_state(ready),
-      m_config(smt::shared_ptr<Config>(new Config(argc, argv))) {}
+      m_config(smt::shared_ptr<Config>(new Config(argc, argv))) {
+    // this will create a config instance and will set the blocks to a macro
+    // class This macro class will have all the necessary configurations
+}
 
 HTTPServer::~HTTPServer(void) {}
 
@@ -19,7 +22,7 @@ void HTTPServer::start(void) {
     if ((m_epollfd = epoll_create1(0)) < 0) { throw(EpollCreateException()); }
 
     // initializing sockets
-    ConfigSocket socket_init(m_config->blocks());
+    ConfigSocket socket_init(m_config->getBlocks());
 
     std::set< std::pair<unsigned, std::string> > specs = socket_init.specs();
     std::set< std::pair<unsigned, std::string> >::iterator it;
@@ -72,11 +75,14 @@ void HTTPServer::run(void) {
                 for (it = m_socket.begin(); it != m_socket.end(); it++) {
 
                     smt::shared_ptr<ServerSocket> sock = (*it).second;
-                    std::map<int, smt::shared_ptr<webserv::SocketConnection> >::iterator connnectionIterator;
-                    connnectionIterator = sock->m_connection.find(events[i].data.fd); 
+                    std::map<int, smt::shared_ptr<webserv::SocketConnection> >::
+                        iterator connnectionIterator;
+                    connnectionIterator =
+                        sock->m_connection.find(events[i].data.fd);
                     if (connnectionIterator != sock->m_connection.end()) {
                         FLOG_D("webserv::HTTPServer REQ()");
-                        http_handle(sock, connnectionIterator->second, events[i].data.fd);
+                        http_handle(sock, connnectionIterator->second,
+                                    events[i].data.fd);
                         break;
                     }
                 }
