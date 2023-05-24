@@ -46,6 +46,8 @@ void HTTPServer::run(void) {
 
         int nfds = epoll_wait(m_epollFd, events, EP_MAX_EVENTS, EP_TIMEOUT);
 
+        LOG_D("webserv::HTTPServer run()");
+
         if (m_state != running) { break; }
 
         if (nfds < 0) { throw(EpollWaitException()); }
@@ -74,7 +76,7 @@ void HTTPServer::run(void) {
                         LOG_D("webserv::HTTPServer REQ()");
                         http_handle(sock, connnectionIterator->second,
                                     events[i].data.fd);
-                        LOG_D("close() connection");
+                        epoll_remove(events[i].data.fd);
                         sock->close(events[i].data.fd);
                         break;
                     }
@@ -96,6 +98,16 @@ void HTTPServer::epoll_add(int fd) {
 
     if (epoll_ctl(m_epollFd, EPOLL_CTL_ADD, fd, &event) < 0)
         throw(EpollAddException());
+}
+
+// removes a socket from epoll's interest list
+void HTTPServer::epoll_remove(int fd) {
+
+    struct epoll_event event;
+    event.data.fd = fd;
+
+    if (epoll_ctl(m_epollFd, EPOLL_CTL_DEL, fd, &event) < 0)
+        throw(EpollRemoveException());
 }
 
 void HTTPServer::initSocket(smt::shared_ptr<ServerAddress> addr) {
@@ -130,6 +142,10 @@ char const* HTTPServer::EpollCreateException::what(void) const throw() {
 
 char const* HTTPServer::EpollAddException::what(void) const throw() {
     return ("webserv::HTTPServer epoll_ctl (add) system call failure");
+}
+
+char const* HTTPServer::EpollRemoveException::what(void) const throw() {
+    return ("webserv::HTTPServer epoll_ctl (remove) system call failure");
 }
 
 char const* HTTPServer::EpollWaitException::what(void) const throw() {

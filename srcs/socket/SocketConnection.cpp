@@ -9,7 +9,10 @@ SocketConnection::SocketConnection(int sockFd, sockaddr_in* addr,
     LOG_D("Created " + toString());
 }
 
-SocketConnection::~SocketConnection(void) { close(); }
+SocketConnection::~SocketConnection(void) {
+    close();
+    LOG_D("Destroying " + toString());
+}
 
 int SocketConnection::getSockFd(void) const { return (m_sockFd); }
 

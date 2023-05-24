@@ -38,6 +38,10 @@ class HTTPServer {
                 char const* what(void) const throw();
         };
 
+        struct EpollRemoveException : public std::exception {
+                char const* what(void) const throw();
+        };
+
         struct EpollWaitException : public std::exception {
                 char const* what(void) const throw();
         };
@@ -45,6 +49,7 @@ class HTTPServer {
     private:
 
         void epoll_add(int fd);
+        void epoll_remove(int fd);
 
         void initSocket(smt::shared_ptr<ServerAddress> addr);
 

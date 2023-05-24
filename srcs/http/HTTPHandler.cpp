@@ -11,8 +11,13 @@ void http_handle(smt::shared_ptr<ServerSocket>     sock,
                  smt::shared_ptr<SocketConnection> connection, int client_fd) {
 
     // receiving request string
-    std::string reqStr = sock->recv(client_fd);
-    LOG_F("Received request: " + reqStr);
+    std::string                  reqStr = sock->recv(client_fd);
+    smt::shared_ptr<ServerBlock> config =
+        ConfigSocket::getConfigBlock(sock->getPort(), sock->getHost());
+    smt::shared_ptr<HTTPResponse> response =
+        generate_error_response(200, config);
+    sock->send(client_fd, response->to_str());
+    return;
     // bool        answeredAtLeastOneRequest = false;
 
     // getting the first request from string
@@ -60,7 +65,8 @@ void http_handle(smt::shared_ptr<ServerSocket>     sock,
     // if (answeredAtLeastOneRequest) {
     //     // closing the connection
     //     LOG_D("Closing socket connection to fd:" + client_fd);
-    //     std::map<int, smt::shared_ptr<webserv::SocketConnection> >::iterator
+    //     std::map<int, smt::shared_ptr<webserv::SocketConnection>
+    //     >::iterator
     //         connnectionIterator;
     //     connnectionIterator = sock->m_connections.find(client_fd);
     //     if (connnectionIterator != sock->m_connections.end()) {
