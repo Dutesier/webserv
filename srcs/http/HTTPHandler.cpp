@@ -1,73 +1,101 @@
 #include "http/HTTPHandler.hpp"
 
+#include "http/methods.hpp"
+
+#include <utils/Logger.hpp>
+
 namespace webserv {
 
 /* HTTPHandler Class */
-void http_handle(smt::shared_ptr<ServerSocket> sock, smt::shared_ptr<SocketConnection> connection, int client_fd) {
+void http_handle(smt::shared_ptr<ServerSocket>     sock,
+                 smt::shared_ptr<SocketConnection> connection, int client_fd) {
 
     // receiving request string
     std::string req_str = sock->recv(client_fd);
+    bool        answeredAtLeastOneRequest = false;
 
     // getting the first request from string
-    smt::shared_ptr<HTTPRequest> request = connection->m_parser->getNextRequest(req_str);
-    if (request->isValid()) {
+    // while there are requests to process we process,
+    // once we've reached end of file we stop processing
+    bool keepAskingForRequests = true;
+    while (keepAskingForRequests) {
+        LOG_D("Looking for the next request that might be cached");
+        std::pair<smt::shared_ptr<HTTPRequest>, bool> requestPair =
+            connection->m_parser->getNextRequest(req_str);
+        smt::shared_ptr<HTTPRequest> request = requestPair.first;
+        keepAskingForRequests = requestPair.second;
+        if (request->isValid()) {
 
-        LOG_D("Handling request...");
+            LOG_D("Valid request was received. Request: " +
+                  request->toString());
 
-        // Find the appropriate ServerBlock
-        int serverBlockIdx = sock->bestServerBlockForRequest(request);
-        serverBlockIdx = (serverBlockIdx == -1 ? 0 : serverBlockIdx);
+            // Find the appropriate ServerBlock
+            int serverBlockIdx = sock->bestServerBlockForRequest(request);
+            serverBlockIdx = (serverBlockIdx == -1 ? 0 : serverBlockIdx);
+            // handle request here
+            smt::shared_ptr<HTTPResponse> response =
+                process_request(request, sock->m_blocks[serverBlockIdx],
+                                client_fd); // TODO: This obviously needs to be
+                                            // fixed, just using the first block
+                                            // here so that rest of code can run
 
-        // handle request here
-        smt::shared_ptr<HTTPResponse> response = process_request(
-            request, sock->m_blocks[serverBlockIdx],
-            client_fd); // TODO: This obviously needs to be fixed, just using
-                        // the first block here so that rest of code can run
+            // sending response to client
+            if (response) {
+                LOG_D(("Trying to send to fd " + client_fd) +
+                      (" response: " + response->to_str()));
+                sock->send(client_fd, response->to_str());
+                answeredAtLeastOneRequest = true;
+            }
+            req_str = "";
+        }
+        else { LOG_D("No valid request was received"); }
+    }
 
-        // sending response to client
-        if (response) sock->send(client_fd, response->to_str());
-        
+    if (answeredAtLeastOneRequest) {
         // closing the connection
-        std::map<int, smt::shared_ptr<webserv::SocketConnection> >::iterator connnectionIterator;
-        connnectionIterator = sock->m_connection.find(client_fd); 
+        LOG_D("Closing socket connection to fd:" + client_fd);
+        std::map<int, smt::shared_ptr<webserv::SocketConnection> >::iterator
+            connnectionIterator;
+        connnectionIterator = sock->m_connection.find(client_fd);
         if (connnectionIterator != sock->m_connection.end()) {
             // Remove connection from map
             sock->m_connection.erase(client_fd);
         }
-
     }
-    LOG_D("No valid request was received");
 }
 
 smt::shared_ptr<HTTPResponse>
     process_request(smt::shared_ptr<HTTPRequest> request,
                     smt::shared_ptr<ServerBlock> config, int client_fd) {
 
-    smt::shared_ptr<webserv::LocationBlock> loc =
+    LOG_D("Processing Request");
+    smt::shared_ptr<webserv::LocationBlock> location =
         config->getLocationBlockForRequest(request);
 
+    // What do we do if we cant get location?
+    if (!location) {
+        LOG_D("No location found");
+        return (generate_error_response(405, config));
+    }
+
     bool runCGI =
-        (loc) && (loc->m_cgi_enabled) && (loc->m_cgi->isValid());
+        (location) && (location->m_cgi_enabled) && (location->m_cgi->isValid());
     bool isCGI = request->isCGIRequest();
     if (isCGI && runCGI) {
         LOG_D("Running CGI script");
-        return (loc->m_cgi->run(request, client_fd));
+        return (location->m_cgi->run(request, client_fd));
     }
+
     // getting method
-    // if (request->getMethod == "GET") { return (Method::get(request)); }
-    // if (request->getMethod == "POST") { return (Method::post(request)); }
-
-    // I think we can deal with GET and POST like this, on the CGI, and thats
-    // that, then all we need is DELETE. I'm not sure how to deal with that
-
-    // if (request->getMethod == "DELETE") {
-    // int status = remove(request->getResource().c_str());
-
-    // if (status == 0)
-    //     return (200);
-    // else
-    //     return (404);
-    // return (Method::delete(request)); }
+    if (request->getMethod() == webserv::GET) {
+        return (webserv::methods::GET(request, location));
+    }
+    if (request->getMethod() == webserv::POST) {
+        return (webserv::methods::POST(request, location));
+    }
+    if (request->getMethod() == webserv::DELETE) {
+        return (webserv::methods::DELETE(request, location));
+    }
 
     return (generate_error_response(405, config));
 }
@@ -75,7 +103,6 @@ smt::shared_ptr<HTTPResponse>
 smt::shared_ptr<HTTPResponse>
     generate_error_response(int code, smt::shared_ptr<ServerBlock> config) {
 
-    (void)code;
     (void)config;
     return (smt::shared_ptr<HTTPResponse>(
         new HTTPResponse(code, std::map<std::string, std::string>(), "")));

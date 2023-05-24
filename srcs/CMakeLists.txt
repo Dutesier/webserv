@@ -10,6 +10,8 @@ add_library(${PROJECT_NAME} STATIC
 	http/HTTPRequest.cpp
 	http/HTTPResponse.cpp
 	http/HTTPValidator.cpp
+	http/pathValidation.cpp
+	http/methods.cpp
 	server/HTTPServer.cpp
 	utils/Logger.cpp
 	socket/Socket.cpp

@@ -30,7 +30,7 @@ class test_HTTPRequest : public testing::Test {
 };
 
 TEST_F(test_HTTPRequest, getters) {
-    smt::shared_ptr<HTTPRequest> req = parser->getNextRequest(req1);
+    smt::shared_ptr<HTTPRequest> req = parser->getNextRequest(req1).first;
     std::string                  headers = "Accept: "
                                            "text/html,application/xhtml+xml,application/"
                                            "xml;q=0.9,image/avif,image/webp,image/apng,*/"
@@ -54,7 +54,7 @@ TEST_F(test_HTTPRequest, getters) {
 }
 
 TEST_F(test_HTTPRequest, resource) {
-    smt::shared_ptr<HTTPRequest> req = parser->getNextRequest(req1);
+    smt::shared_ptr<HTTPRequest> req = parser->getNextRequest(req1).first;
 
     ASSERT_EQ(req->getQueriesFromResource(), "param1=value1&param2=value2");
     ASSERT_EQ(req->getRefinedResource(),
@@ -64,7 +64,7 @@ TEST_F(test_HTTPRequest, resource) {
 }
 
 TEST_F(test_HTTPRequest, Validity) {
-    smt::shared_ptr<HTTPRequest> req = parser->getNextRequest(req1);
+    smt::shared_ptr<HTTPRequest> req = parser->getNextRequest(req1).first;
 
     ASSERT_TRUE(req->isCGIRequest());
     ASSERT_TRUE(req->isValid());

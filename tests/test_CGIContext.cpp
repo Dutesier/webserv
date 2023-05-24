@@ -30,7 +30,7 @@ class test_CGIContext : public testing::Test {
 };
 
 TEST_F(test_CGIContext, memb_var) {
-    smt::shared_ptr<HTTPRequest> req = parser->getNextRequest(req1);
+    smt::shared_ptr<HTTPRequest> req = parser->getNextRequest(req1).first;
 
     // req->setResource("/home?key=value");
     // cgi::CGIContext ctx(req, "../webserv/website/cgi/test.py");

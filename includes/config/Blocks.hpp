@@ -34,6 +34,10 @@ struct LocationBlock {
         std::string                      m_target;
         std::string                      m_root;
         std::set<std::string>            m_allowed_methods;
+
+        // Temporary |To be implemented - just using to mock|
+        bool        m_autoindex;
+        std::string m_index;
 };
 
 struct ServerBlock {

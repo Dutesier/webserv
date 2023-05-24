@@ -1,5 +1,7 @@
 #include "http/HTTPRequest.hpp"
 
+#include <sstream>
+
 HTTPRequest::HTTPRequest() : m_statusCode(0) {}
 
 HTTPRequest::HTTPRequest(int statusCode) : m_statusCode(statusCode) {}
@@ -146,9 +148,7 @@ bool HTTPRequest::isCGIRequest() {
         else if (parsedURI.find(".cgi/") != std::string::npos) {
             return (true);
         }
-        else if (parsedURI.find(".py/") != std::string::npos) {
-            return (true);
-        }
+        else if (parsedURI.find(".py/") != std::string::npos) { return (true); }
         else if (parsedURI.find(".php/") != std::string::npos) {
             return (true);
         }
@@ -176,4 +176,10 @@ std::ostream& operator<<(std::ostream& os, HTTPRequest const& req) {
     os << req.getAllHeaders();
     os << req.getContent();
     return os;
+}
+
+std::string HTTPRequest::toString() const {
+    std::ostringstream oss;
+    oss << *this;
+    return oss.str();
 }
