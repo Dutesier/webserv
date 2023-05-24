@@ -96,15 +96,15 @@ smt::shared_ptr<HTTPResponse>
     // }
 
     // getting method
-    // if (request->getMethod() == webserv::GET) {
-    //     return (webserv::methods::GET(request, location));
-    // }
-    // if (request->getMethod() == webserv::POST) {
-    //     return (webserv::methods::POST(request, location));
-    // }
-    // if (request->getMethod() == webserv::DELETE) {
-    //     return (webserv::methods::DELETE(request, location));
-    // }
+    if (request->getMethod() == webserv::GET) {
+        return (webserv::methods::GET(request, location));
+    }
+    if (request->getMethod() == webserv::POST) {
+        return (webserv::methods::POST(request, location));
+    }
+    if (request->getMethod() == webserv::DELETE) {
+        return (webserv::methods::DELETE(request, location));
+    }
 
     return (generate_error_response(405, config));
 }
