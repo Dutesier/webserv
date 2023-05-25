@@ -1,6 +1,7 @@
 #ifndef HTTP_HANDLER_HPP
 #define HTTP_HANDLER_HPP
 
+#include "cgi/CGIHandler.hpp"
 #include "config/ConfigSocket.hpp"
 #include "http/HTTPParser.hpp"
 #include "http/HTTPRequest.hpp"

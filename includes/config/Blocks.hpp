@@ -1,7 +1,6 @@
 #ifndef BLOCKS_HPP
 #define BLOCKS_HPP
 
-// #include "cgi/CGIHandler.hpp"
 #include "utils/Logger.hpp"
 #include "utils/smt.hpp"
 #include "utils/utils.hpp"
@@ -30,9 +29,7 @@ struct LocationBlock {
                 char const* what(void) const throw();
         };
 
-        bool m_cgi_enabled;
-        // TODO: follow best practices here
-        // smt::shared_ptr<cgi::CGIHandler> m_cgi;
+        std::string m_cgi;
 
         std::string           m_target;
         std::string           m_root;
@@ -56,9 +53,6 @@ struct ServerBlock {
         std::string server_name(std::vector<std::string> command);
         std::string error_page(std::vector<std::string> command);
         void        createDefaultLocation(void);
-        // smt::shared_ptr<LocationBlock>
-        //     getLocationBlockForRequest(smt::shared_ptr<HTTPRequest>&
-        //     request);
 
         bool                                                   m_autoindex;
         unsigned                                               m_body_size;

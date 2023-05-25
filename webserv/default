@@ -1,6 +1,10 @@
 server {
     listen       8080;
     root         webserv/website;
+    location /cgi {
+      fastcgi_pass .py;
+      root         webserv/website/cgi;
+    }
     server_name  domain1.com;
 }
 
