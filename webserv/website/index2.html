@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Name List</title>
+</head>
+<body>
+  <h1>Name List</h1>
+  <ul id="name-list">
+    <!-- Existing names will be inserted here by JavaScript -->
+  </ul>
+  <form id="add-name-form" action="/add_name.py" method="post">
+    <label for="name-input">Add a name:</label>
+    <input id="name-input" type="text" name="name">
+    <button type="submit">Add</button>
+  </form>
+  <script src="/update_name_list.js"></script>
+</body>
+</html>

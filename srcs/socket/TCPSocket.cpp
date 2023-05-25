@@ -83,6 +83,7 @@ void TCPSocket::send(int connect_fd, std::string response) {
     if (it == m_connection.end()) { throw(NoSuchConnectionException()); }
 
     m_connection[connect_fd]->send(response);
+    
 }
 
 char const* TCPSocket::BindFailureException::what(void) const throw() {

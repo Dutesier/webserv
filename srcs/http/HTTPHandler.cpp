@@ -30,6 +30,7 @@ void http_handle(smt::shared_ptr<ServerSocket> sock, int client_fd) {
         // checking if there are more requests to handle
         request = parser.getNextRequest("");
     }
+    
 }
 
 smt::shared_ptr<HTTPResponse>
@@ -39,6 +40,8 @@ smt::shared_ptr<HTTPResponse>
     smt::shared_ptr<webserv::LocationBlock> loc =
         config->getLocationBlockForRequest(request);
 
+    // return (smt::make_shared<webserv::HTTPResponse>(new webserv::HTTPResponse(
+    //         200, std::map<std::string, std::string>())));
     bool runCGI =
         (loc != NULL) && (loc->m_cgi_enabled) && (loc->m_cgi->isValid());
     bool isCGI = request->isCGIRequest();

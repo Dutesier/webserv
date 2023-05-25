@@ -80,6 +80,7 @@ void HTTPServer::run(void) {
                         FLOG_D("webserv::HTTPServer REQ()");
                         http_handle(sock, events[i].data.fd);
                         break;
+                        // sock->close();
                     }
                 }
             }
