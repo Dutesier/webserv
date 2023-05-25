@@ -14,12 +14,14 @@ add_library(${PROJECT_NAME} STATIC
   http/HTTPValidator.cpp
   http/methods.cpp
   http/pathValidation.cpp
+  http/Uri.cpp
   server/HTTPServer.cpp
   socket/ConnectionAddress.cpp
   socket/ServerAddress.cpp
   socket/ServerSocket.cpp
   socket/SocketConnection.cpp
   utils/Logger.cpp
+  utils/string.cpp
 )
 
 add_library(42::${PROJECT_NAME} ALIAS ${PROJECT_NAME})

@@ -5,7 +5,7 @@ if(test)
     # test_Blocks.cpp
     # test_CGIContext.cpp
     # test_CGIHandler.cpp
-    test_Config.cpp
+    # test_Config.cpp
     # test_ConfigSocket.cpp
     # test_HTTPHandler.cpp
     # test_HTTPParser.cpp
@@ -18,6 +18,7 @@ if(test)
     # test_ServerSocket.cpp
     # test_smt.cpp
     # test_SocketConnection.cpp
+    test_Uri.cpp
   )
   add_test(webserv_gtest webserv_test)
 

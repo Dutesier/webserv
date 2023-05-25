@@ -6,6 +6,8 @@
 static smt::shared_ptr<webserv::HTTPServer>& get_webserv(int   argc = 0,
                                                          char* argv[] = NULL);
 
+// TODO: need to make sure that every filepath that is passed to the server
+// ends with a slash
 void webserv::webserv(int argc, char* argv[]) {
 
     try {
