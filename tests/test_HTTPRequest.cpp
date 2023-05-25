@@ -56,11 +56,8 @@ TEST_F(test_HTTPRequest, getters) {
 TEST_F(test_HTTPRequest, resource) {
     smt::shared_ptr<HTTPRequest> req = parser->getNextRequest(req1).first;
 
-    ASSERT_EQ(req->getQueriesFromResource(), "param1=value1&param2=value2");
     ASSERT_EQ(req->getRefinedResource(),
               "/cgi-bin/myscript.cgi/path/to/script");
-    ASSERT_EQ(req->getScriptName(), "/cgi-bin/myscript.cgi");
-    ASSERT_EQ(req->getPathInfo(), "/path/to/script");
 }
 
 TEST_F(test_HTTPRequest, Validity) {

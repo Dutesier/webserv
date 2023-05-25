@@ -64,17 +64,8 @@ class HTTPRequest {
         // Get the status code
         int getStatusCode() const;
 
-        // Get the "key=value" query values from URI
-        std::string getQueriesFromResource();
-
         // Get the resource without query params
         std::string getRefinedResource();
-
-        // Get the name of the script
-        std::string getScriptName();
-
-        // Get the extra info after the script name
-        std::string getPathInfo();
 
         // Check if the request is a CGI attempt
         bool isCGIRequest();

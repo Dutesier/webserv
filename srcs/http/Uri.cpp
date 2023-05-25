@@ -44,3 +44,35 @@ void Uri::route(std::string target, std::string root) {
         }
     }
 }
+
+std::string Uri::getPathInfo() {
+    
+    size_t      start;
+    size_t      finish;    finish = this->m_path.length();
+
+    if ((start = this->m_path.find(".py")) != std::string::npos) {
+        return (m_path.substr(start + 3, finish - (start + 3)));
+    }
+    else if ((start = this->m_path.find(".cgi")) != std::string::npos) {
+        return (m_path.substr(start + 4, finish - (start + 4)));
+    }
+    else if ((start = this->m_path.find(".php")) != std::string::npos) {
+        return (m_path.substr(start + 4, finish - (start + 4)));
+    }
+    return "";
+}
+
+std::string Uri::getScriptName() {
+    size_t      pos;
+	
+	if ((pos = this->m_path.find(".py")) != std::string::npos) {
+        return (this->m_path.substr(0, pos + 3));
+    }
+    else if ((pos = this->m_path.find(".cgi")) != std::string::npos) {
+        return (this->m_path.substr(0, pos + 4));
+    }
+    else if ((pos = this->m_path.find(".php")) != std::string::npos) {
+        return (this->m_path.substr(0, pos + 4));
+    }
+    return "";
+}

@@ -26,8 +26,7 @@ smt::shared_ptr<webserv::HTTPResponse>
         return NULL;
     }
 
-    smt::shared_ptr<CGIContext> ctx =
-        smt::make_shared(new CGIContext(request, m_directory));
+    smt::shared_ptr<CGIContext> ctx = smt::make_shared(new CGIContext(request));
     return (runAsChildProcess(writeToFD, ctx, request->getContent()));
 }
 

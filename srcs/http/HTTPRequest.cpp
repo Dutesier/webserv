@@ -69,63 +69,6 @@ void HTTPRequest::setStatusCode(int status) { m_statusCode = status; }
 // Get the status code
 int HTTPRequest::getStatusCode() const { return m_statusCode; }
 
-// Get the "key=value" query values from URI
-std::string HTTPRequest::getQueriesFromResource() {
-    // std::vector<std::string> queries;
-    std::string queryString;
-    std::size_t queryStart = m_resource.find('?');
-
-    if (queryStart == std::string::npos) { return queryString; }
-
-    queryString = m_resource.substr(queryStart + 1);
-    // splitting line into vector of strings
-    // char* keyValuePair = strtok(const_cast<char*>(queryString.c_str()), "&");
-    // while (keyValuePair) {
-    //     queries.push_back(keyValuePair);
-    //     keyValuePair = strtok(NULL, "/");
-    // }
-
-    return queryString;
-}
-
-std::string HTTPRequest::getScriptName() {
-    if (this->isCGIRequest()) {
-        std::string parsedURI = this->getRefinedResource();
-        size_t      pos;
-
-        if ((pos = parsedURI.find(".py")) != std::string::npos) {
-            return (m_resource.substr(0, pos + 3));
-        }
-        else if ((pos = parsedURI.find(".cgi")) != std::string::npos) {
-            return (m_resource.substr(0, pos + 4));
-        }
-        else if ((pos = parsedURI.find(".php")) != std::string::npos) {
-            return (m_resource.substr(0, pos + 4));
-        }
-    }
-    return "";
-}
-
-std::string HTTPRequest::getPathInfo() {
-    if (this->isCGIRequest()) {
-        std::string parsedURI = this->getRefinedResource();
-        size_t      start;
-        size_t      finish;
-
-        finish = parsedURI.length();
-        if ((start = parsedURI.find(".py")) != std::string::npos) {
-            return (m_resource.substr(start + 3, finish - (start + 3)));
-        }
-        else if ((start = parsedURI.find(".cgi")) != std::string::npos) {
-            return (m_resource.substr(start + 4, finish - (start + 4)));
-        }
-        else if ((start = parsedURI.find(".php")) != std::string::npos) {
-            return (m_resource.substr(start + 4, finish - (start + 4)));
-        }
-    }
-    return "";
-}
-
 std::string HTTPRequest::getRefinedResource() {
     std::size_t queryStart = m_resource.find('?');
     if (queryStart == std::string::npos) { return m_resource; }

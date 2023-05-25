@@ -92,3 +92,14 @@ TEST(test_uri, testRoute) {
     uri->route("/", "webserv/cgi/python");
     EXPECT_EQ(uri->m_routedPath, "webserv/cgi/python") << uri->m_routedPath;
 }
+
+TEST(test_uri, resources) {
+
+	smt::shared_ptr<Uri> uri;
+
+	uri = smt::shared_ptr<Uri>(
+        new Uri("/cgi-bin/myscript.cgi/path/to/script?param1=value1&param2=value2"));
+
+    EXPECT_EQ(uri->getScriptName(), "/cgi-bin/myscript.cgi");
+    EXPECT_EQ(uri->getPathInfo(), "/path/to/script");
+}

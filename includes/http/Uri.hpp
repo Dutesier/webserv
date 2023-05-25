@@ -15,6 +15,9 @@ class Uri {
         ~Uri(void);
 
         void route(std::string target, std::string root);
+        std::string getPathInfo(); // Get the extra info after the script name
+        std::string getScriptName(); // Get the name of the script
+
 
         // std::string m_target;
         std::string m_scheme;
