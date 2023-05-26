@@ -10,8 +10,7 @@ string::string(std::string const& s) : std::string(s) {}
 
 std::vector<string> string::split(string const& delimiter) const {
     std::vector<string> substrings;
-
-    std::string const tmp = *this;
+    string              tmp = *this;
 
     char* word = strtok(const_cast<char*>(tmp.c_str()), delimiter.c_str());
     while (word) {
@@ -36,7 +35,7 @@ string& string::trim(void) {
 }
 
 bool string::isnumeric(void) const {
-    for (size_t i = 0; i < size(); ++i) {
+    for (size_t i = ((*this)[0] == '-') ? 1 : 0; i < length(); ++i) {
         if (!isdigit((*this)[i])) { return (false); }
     }
     return (true);

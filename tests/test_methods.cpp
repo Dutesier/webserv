@@ -28,14 +28,17 @@ class TestMethods : public ::testing::Test {
 };
 
 TEST_F(TestMethods, test_GET) {
+
+    system("touch ../tests/test_web/tmp.txt");
+    system("echo \"Hello World\" > ../tests/test_web/tmp.txt");
     // clang-format off
-    std::string indexHTML = "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n\t<meta charset=\"UTF-8\">\n\t<title>Hello!</title>\n</head>\n\n<body>\n\t<h1>Hello World!</h1>\n\t<p>This is a simple paragraph.</p>\n</body>\n\n</html>\n";
     // clang-format on
-    m_request->setResource("/test_web/index.html");
+    m_request->setResource("/test_web/tmp.txt");
     smt::shared_ptr<webserv::HTTPResponse> response =
         webserv::methods::GET(m_request, m_location);
     EXPECT_EQ(response->m_status, 200);
-    EXPECT_EQ(response->m_body, indexHTML);
+    EXPECT_EQ(response->m_body, "Hello World\n");
+    system("rm ../tests/test_web/tmp.txt");
 }
 
 TEST_F(TestMethods, test_GET_directory) {
@@ -43,10 +46,14 @@ TEST_F(TestMethods, test_GET_directory) {
     // index.html exists
     m_request->setResource("/test_web");
     m_location->m_autoindex = false;
-    m_location->m_index = "test_web/index.html";
+
+    system("touch ../tests/test_web/tmp.txt");
+    system("echo \"Hello World\" > ../tests/test_web/tmp.txt");
+
+    m_location->m_index = "test_web/tmp.txt";
 
     // clang-format off
-    std::string indexHTML = "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n\t<meta charset=\"UTF-8\">\n\t<title>Hello!</title>\n</head>\n\n<body>\n\t<h1>Hello World!</h1>\n\t<p>This is a simple paragraph.</p>\n</body>\n\n</html>\n";
+    std::string indexHTML = "Hello World\n";
     // clang-format on
 
     smt::shared_ptr<webserv::HTTPResponse> response =
@@ -80,6 +87,7 @@ TEST_F(TestMethods, test_GET_directory) {
     m_location->m_index = "";
     response = webserv::methods::GET(m_request, m_location);
     EXPECT_EQ(response->m_status, 403);
+    system("rm ../tests/test_web/tmp.txt");
 }
 
 TEST_F(TestMethods, test_POST) {

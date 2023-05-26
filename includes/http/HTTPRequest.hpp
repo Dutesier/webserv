@@ -2,6 +2,7 @@
 #define HTTP_REQUEST_HPP
 
 #include "utils/Logger.hpp"
+#include "utils/string.hpp"
 
 #include <cstring>
 #include <iostream>

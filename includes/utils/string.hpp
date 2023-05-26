@@ -1,3 +1,6 @@
+#ifndef STRING_HPP
+#define STRING_HPP
+
 #include <cstring>
 #include <string>
 #include <vector>
@@ -18,3 +21,5 @@ class string : public std::string {
 };
 
 } // namespace ft
+
+#endif /* STRING_HPP */

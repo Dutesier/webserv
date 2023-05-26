@@ -33,10 +33,10 @@ std::string const& HTTPRequest::getVersion() const { return m_version; }
 // Set a request header
 void HTTPRequest::setHeader(std::string const& name, std::string const& value) {
     // trimming value
-    std::string::size_type first = value.find_first_not_of(' ');
-    std::string::size_type last = value.find_last_not_of(' ');
-    std::string trimmedValue = value.substr(first, (last - first + 1));
-    m_headers[name] = trimmedValue;
+    // std::string::size_type first = value.find_first_not_of(' ');
+    // std::string::size_type last = value.find_last_not_of(' ');
+    // std::string trimmedValue = value.substr(first, (last - first + 1));
+    m_headers[name] = ft::string(value).trim();
 }
 
 // Get a request header

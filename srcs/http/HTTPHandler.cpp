@@ -10,13 +10,6 @@ namespace webserv {
 void http_handle(smt::shared_ptr<ServerSocket>     sock,
                  smt::shared_ptr<SocketConnection> connection, int client_fd) {
 
-    // std::map<std::string, std::string> header;
-    // header["Content-Length"] = "0";
-    // sock->send(client_fd,
-    //            smt::make_shared(new HTTPResponse(200, header,
-    //            ""))->to_str());
-    // return;
-
     // receiving request string
     std::string reqStr = sock->recv(client_fd);
     // bool        answeredAtLeastOneRequest = false;
