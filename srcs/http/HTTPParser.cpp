@@ -74,6 +74,8 @@ std::pair<std::string, std::string>
 bool HTTPParser::setHeader(smt::shared_ptr<HTTPRequest> pReq,
                            std::string& header, std::string mustBe) {
 
+    std::cout << "Setting header " << header << " with mustBe " << mustBe
+              << std::endl;
     std::pair<std::string, std::string> result = getKeyValueHeader(header);
     if (result.first != mustBe) {
 

@@ -65,7 +65,8 @@ TEST_F(test_HTTPParser, getMethod) {
     ASSERT_TRUE(res2->isValid());
     EXPECT_EQ(2, res2->getMethod());
 
-    smt::shared_ptr<HTTPRequest> res3 = parser->getNextRequest(reqNoMethod).first;
+    smt::shared_ptr<HTTPRequest> res3 =
+        parser->getNextRequest(reqNoMethod).first;
     ASSERT_FALSE(res3->isValid());
 }
 
@@ -97,7 +98,8 @@ TEST_F(test_HTTPParser, getVersion) {
     ASSERT_TRUE(res3->isValid());
     EXPECT_STREQ("HTTP/1.0", res3->getVersion().c_str());
 
-    smt::shared_ptr<HTTPRequest> res4 = parser->getNextRequest(reqNoVersion).first;
+    smt::shared_ptr<HTTPRequest> res4 =
+        parser->getNextRequest(reqNoVersion).first;
     ASSERT_FALSE(res4->isValid());
 }
 
@@ -110,16 +112,16 @@ TEST_F(test_HTTPParser, parse_header) {
     EXPECT_STREQ("HTTP/1.1", res1->getVersion().c_str());
 
     ASSERT_FALSE(res1->getHeader("Host").empty());
-    EXPECT_STREQ(res1->getHeader("Host").c_str(), " www.tutorialspoint.com");
+    EXPECT_STREQ(res1->getHeader("Host").c_str(), "www.tutorialspoint.com");
     ASSERT_FALSE(res1->getHeader("User-Agent").empty());
     EXPECT_STREQ(res1->getHeader("User-Agent").c_str(),
-                 " Mozilla/4.0 (compatible; MSIE5.01; Windows NT)");
+                 "Mozilla/4.0 (compatible; MSIE5.01; Windows NT)");
     ASSERT_FALSE(res1->getHeader("Accept-Language").empty());
-    EXPECT_STREQ(res1->getHeader("Accept-Language").c_str(), " en-us");
+    EXPECT_STREQ(res1->getHeader("Accept-Language").c_str(), "en-us");
     ASSERT_FALSE(res1->getHeader("Accept-Encoding").empty());
-    EXPECT_STREQ(res1->getHeader("Accept-Encoding").c_str(), " gzip, deflate");
+    EXPECT_STREQ(res1->getHeader("Accept-Encoding").c_str(), "gzip, deflate");
     ASSERT_FALSE(res1->getHeader("Connection").empty());
-    EXPECT_STREQ(res1->getHeader("Connection").c_str(), " Keep-Alive");
+    EXPECT_STREQ(res1->getHeader("Connection").c_str(), "Keep-Alive");
 
     smt::shared_ptr<HTTPRequest> res2 = parser->getNextRequest(req2).first;
     ASSERT_TRUE(res2->isValid());
@@ -128,21 +130,21 @@ TEST_F(test_HTTPParser, parse_header) {
     EXPECT_STREQ("HTTP/1.1", res2->getVersion().c_str());
 
     ASSERT_FALSE(res2->getHeader("Host").empty());
-    EXPECT_STREQ(res2->getHeader("Host").c_str(), " www.tutorialspoint.com");
+    EXPECT_STREQ(res2->getHeader("Host").c_str(), "www.tutorialspoint.com");
     ASSERT_FALSE(res2->getHeader("User-Agent").empty());
     EXPECT_STREQ(res2->getHeader("User-Agent").c_str(),
-                 " Mozilla/4.0 (compatible; MSIE5.01; Windows NT)");
+                 "Mozilla/4.0 (compatible; MSIE5.01; Windows NT)");
     ASSERT_FALSE(res2->getHeader("Content-Type").empty());
     EXPECT_STREQ(res2->getHeader("Content-Type").c_str(),
-                 " text/xml; charset=utf-8");
+                 "text/xml; charset=utf-8");
     ASSERT_FALSE(res2->getHeader("Content-Length").empty());
-    EXPECT_STREQ(res2->getHeader("Content-Length").c_str(), " 96");
+    EXPECT_STREQ(res2->getHeader("Content-Length").c_str(), "96");
     ASSERT_FALSE(res2->getHeader("Accept-Language").empty());
-    EXPECT_STREQ(res2->getHeader("Accept-Language").c_str(), " en-us");
+    EXPECT_STREQ(res2->getHeader("Accept-Language").c_str(), "en-us");
     ASSERT_FALSE(res2->getHeader("Accept-Encoding").empty());
-    EXPECT_STREQ(res2->getHeader("Accept-Encoding").c_str(), " gzip, deflate");
+    EXPECT_STREQ(res2->getHeader("Accept-Encoding").c_str(), "gzip, deflate");
     ASSERT_FALSE(res2->getHeader("Connection").empty());
-    EXPECT_STREQ(res2->getHeader("Connection").c_str(), " Keep-Alive");
+    EXPECT_STREQ(res2->getHeader("Connection").c_str(), "Keep-Alive");
 }
 
 // TEST_F(test_SocketConnection, hardcore) {
