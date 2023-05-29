@@ -240,7 +240,7 @@ TEST(test_block, fastcgi_pass) {
     // ASSERT_EQ(location->m_cgi_enabled, false);
 
     // checking all possible error messages
-    std::vector<std::string> command(1, "fastcgi_pass");
+    std::vector<std::string> command({"fastcgi_pass"});
     ASSERT_EQ(location->cgi(command), "wrong number of arguments");
 
     command.push_back("oon");
@@ -248,12 +248,12 @@ TEST(test_block, fastcgi_pass) {
     // ASSERT_EQ(location->m_cgi_enabled, false);
 
     // checking success
-    command[1] = "true";
+    command[1] = ".py";
     ASSERT_EQ(location->cgi(command), "");
-    // ASSERT_EQ(location->m_cgi_enabled, true);
-    command[1] = "false";
+    ASSERT_EQ(location->m_cgi, ".py");
+    command[1] = ".php";
     ASSERT_EQ(location->cgi(command), "");
-    // ASSERT_EQ(location->m_cgi_enabled, false);
+    ASSERT_EQ(location->m_cgi, ".php");
 }
 
 TEST(test_block, allowed_methods) {
