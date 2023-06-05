@@ -25,6 +25,7 @@ void Middleware::handleRecv(smt::shared_ptr<net::ServerSocket> sock, int fd) {
         }
         catch (http::Request::MalformedRequestException const&) {
             LOG_E("Malformed request");
+            LOG_D("TODO: Here we should remove the socket and continue");
             status = 404;
         }
 
@@ -33,6 +34,7 @@ void Middleware::handleRecv(smt::shared_ptr<net::ServerSocket> sock, int fd) {
         }
         catch (config::Options::NoSuchOptionsException const&) {
             LOG_E("No config found for this request");
+            LOG_D("TODO: Here we should remove the socket and continue");
             status = 500;
         }
 
