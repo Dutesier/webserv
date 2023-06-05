@@ -15,7 +15,7 @@ CgiHandler::~CgiHandler(void) {
 
     ft::array::erase(m_envp);
     ft::array::erase(m_argv);
-    delete m_path;
+    delete[] m_path;
 }
 
 std::string CgiHandler::run(void) const {

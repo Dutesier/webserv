@@ -24,7 +24,7 @@ if (test)
 endif()
 
 # set(CMAKE_CXX_FLAGS "-g -Wall -Werror -Wextra -std=c++98")
-set(CMAKE_CXX_FLAGS "-g -Wall -Werror -Wextra -g")
+set(CMAKE_CXX_FLAGS "-g -Wall -Werror -Wextra")
 
 include_directories(${CMAKE_SOURCE_DIR}/includes)
 

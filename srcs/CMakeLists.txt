@@ -33,4 +33,6 @@ add_library(${PROJECT_NAME} STATIC
 
 add_library(42::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
+target_compile_options(${PROJECT_NAME} PUBLIC "-Werror" "-Wextra" "-Wall" "-g")
+
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/includes)

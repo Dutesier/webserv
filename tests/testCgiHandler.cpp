@@ -7,6 +7,7 @@
 
 #include <gtest/gtest.h>
 
+// TODO: refactor cgiHandler so that it passes more to argv and make tests better - add asserts, check for leaks, etc.
 TEST(testCgiTypes, testConvertType) {
     EXPECT_EQ(cgi::convertCgiExtension(".py"), cgi::Py);
     EXPECT_EQ(cgi::convertCgiExtension(".php"), cgi::Php);
@@ -58,14 +59,16 @@ TEST(testCgi, testingRequestToIndex) {
     // argv
     char* path = new char[17];
     strcpy(path, "/usr/bin/python3");
-    char** argv = vectorToCharPointerArray(
-        {"/usr/bin/python3", "./websites/cgi/python/index.py"});
+    cgi::Argv argv({"/usr/bin/python3", "./websites/cgi/python/index.py"});
 
-    char** envp = vectorToCharPointerArray(
-        {"REQUEST_METHOD=GET", "SCRIPT_NAME=./websites/cgi/python/index.py",
-         "HTTP_USER_AGENT=Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-         "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.1234.56 "
-         "Safari/537.36"});
+    smt::shared_ptr<http::Request> req(
+        new http::Request("GET "
+                          "/cgi/index.py?param1=value1&param2=value2 HTTP/1.1\r\n"
+                          "Host: example.com\r\n"
+                          "Accept-Encoding: gzip, deflate, br\r\n"
+                          "Accept-Language: en-US,en;q=0.9\r\n"
+                          "Connection: keep-alive\r\n\r\n"));
+    cgi::Envp       envp(req);
 
     cgi::CgiHandler cgi(path, argv, envp);
     auto            resp = cgi.run();
@@ -76,15 +79,20 @@ TEST(testCgi, testingCreatingAFile) {
     char* path = new char[17];
     strcpy(path, "/usr/bin/python3");
 
-    char** argv = vectorToCharPointerArray(
-        {"/usr/bin/python3", "./websites/cgi/python/createFile.py"});
+    cgi::Argv argv({"/usr/bin/python3", "./websites/cgi/python/createFile.py"});
 
-    char** envp = vectorToCharPointerArray(
-        {"REQUEST_METHOD=POST", "CONTENT_LENGTH=12", "CONTENT_TYPE=text/plain",
-         "SCRIPT_NAME=./websites/cgi/python/createFile.py",
-         "HTTP_USER_AGENT=Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-         "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.1234.56 "
-         "Safari/537.36"});
+
+    smt::shared_ptr<http::Request> req(
+        new http::Request("POST "
+                          "/cgi/createFile.py?param1=value1&param2=value2 HTTP/1.1\r\n"
+                          "Host: example.com\r\n"
+                          "Accept-Encoding: gzip, deflate, br\r\n"
+                          "Accept-Language: en-US,en;q=0.9\r\n"
+						  "Content-Length: 12\r\n"
+						  "Content-Type: text/plain\r\n"
+                          "Connection: keep-alive\r\n\r\n"
+						  "Hello World!"));
+    cgi::Envp       envp(req);
     cgi::CgiHandler cgi(path, argv, envp, "Hello World!");
     auto            resp = cgi.run();
     LOG_D(resp);
@@ -94,16 +102,20 @@ TEST(testCgi, testingCreateFile) {
     char* path = new char[17];
     strcpy(path, "/usr/bin/python3");
 
-    char** argv = vectorToCharPointerArray(
-        {"/usr/bin/python3", "./websites/cgi/python/test.py"});
+    cgi::Argv argv({"/usr/bin/python3", "./websites/cgi/python/test.py"});
 
-    char** envp = vectorToCharPointerArray(
-        {"REQUEST_METHOD=POST", "CONTENT_LENGTH=12", "CONTENT_TYPE=text/plain",
-         "SCRIPT_NAME=./websites/cgi/python/test.py",
-         "HTTP_USER_AGENT=Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-         "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.1234.56 "
-         "Safari/537.36",
-         "QUERY_STRING=?param1=value1&param2=value2"});
+    smt::shared_ptr<http::Request> req(
+        new http::Request("POST "
+                          "/cgi/test.py?param1=value1&param2=value2 HTTP/1.1\r\n"
+                          "Host: example.com\r\n"
+                          "Accept-Encoding: gzip, deflate, br\r\n"
+                          "Accept-Language: en-US,en;q=0.9\r\n"
+						  "Content-Length: 12\r\n"
+						  "Content-Type: text/plain\r\n"
+                          "Connection: keep-alive\r\n\r\n"
+						  "Hello World!"));
+    cgi::Envp       envp(req);
+   
     cgi::CgiHandler cgi(path, argv, envp);
     auto            resp = cgi.run();
     LOG_D(resp);
