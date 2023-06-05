@@ -1,3 +1,4 @@
+#include "utils/Route.hpp"
 #include "utils/smt.hpp"
 
 #include <gtest/gtest.h>
@@ -55,22 +56,19 @@ TEST(SmartPointerTests, TestVectorSharedPtr) {
     ASSERT_EQ(*vec.at(1), 42);
 }
 
-// TEST(SmartPointerTests, TestVectorSharedPtrSockets) {
-//     webserv::ServerAddress* addrPtr =
-//         new webserv::ServerAddress("8080", "localhost");
+TEST(SmartPointerTests, TestVectorSharedPtrSockets) {
+    ft::file* addrPtr = new ft::file("./websites");
 
-// smt::shared_ptr<webserv::ServerAddress> ServerAddressSharedPtr(addrPtr);
-// smt::shared_ptr<webserv::ServerAddress> ServerAddressOtherSharedPtr(
-//     ServerAddressSharedPtr);
+    smt::shared_ptr<ft::file> RouteSharedPtr(addrPtr);
+    smt::shared_ptr<ft::file> RouteOtherSharedPtr(RouteSharedPtr);
 
-// std::vector<smt::shared_ptr<webserv::ServerAddress> > vec;
-// vec.push_back(ServerAddressSharedPtr);
-// vec.push_back(ServerAddressOtherSharedPtr);
-// ASSERT_EQ(vec.at(0)->getAddress(), vec.at(1)->getAddress());
-// }
+    std::vector<smt::shared_ptr<ft::file> > vec;
+    vec.push_back(RouteSharedPtr);
+    vec.push_back(RouteOtherSharedPtr);
+    ASSERT_EQ(std::string(*vec.at(0)), std::string(*vec.at(1)));
+}
 
-// TEST(SmartPointerTests, TestMakeShared) {
-//     smt::shared_ptr<webserv::ServerAddress> ServerAddress =
-//         smt::make_shared(new webserv::ServerAddress("8080", "localhost"));
-//     ASSERT_TRUE(ServerAddress);
-// }
+TEST(SmartPointerTests, TestMakeShared) {
+    ASSERT_NO_THROW(smt::shared_ptr<ft::file> Route =
+                        smt::make_shared(new ft::file("./websites/")));
+}

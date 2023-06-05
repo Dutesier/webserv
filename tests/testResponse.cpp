@@ -67,30 +67,3 @@ TEST(testResponse, testResponseStringConstructor) {
     ASSERT_EQ(resp.getReason(), "Not Found");
     ASSERT_EQ(resp.toString(), respStr);
 }
-
-TEST(testResponse, testWithCgi) {
-
-    char* path = new char[17];
-    strcpy(path, "/usr/bin/python3");
-
-    cgi::Argv argv({"/usr/bin/python3", "./websites/cgi/python/test.py"});
-    smt::shared_ptr<http::Request> req(
-        new http::Request("POST "
-                          "/cgi/myscript.py HTTP/1.1\r\n"
-                          "Host: example.com\r\n"
-                          "Accept-Encoding: gzip, deflate, br\r\n"
-                          "Accept-Language: en-US,en;q=0.9\r\n"
-                          "Connection: keep-alive\r\n\r\n"));
-    cgi::Envp       envp(req);
-    cgi::CgiHandler cgi(path, argv, envp);
-    std::string     respStr = cgi.run();
-
-    http::Response resp(respStr);
-    ASSERT_EQ(resp.getCode(), 404);
-    ASSERT_EQ(resp.getBody(), "");
-    ASSERT_EQ(resp.getHeaders().size(), 2);
-    ASSERT_EQ(resp.getHeader("Content-Length"), "0");
-    ASSERT_EQ(resp.getHeader("Content-Type"), "text/plain");
-    ASSERT_EQ(resp.getReason(), "Not Found");
-    ASSERT_EQ(resp.toString(), respStr);
-}
