@@ -12,6 +12,13 @@ namespace methods {
 smt::shared_ptr<http::Response>
     GET(smt::shared_ptr<http::Request> const request,
         smt::shared_ptr<config::Opts> const  opts) {
+
+    // Initialize a response
+    std::string                        body;
+    std::map<std::string, std::string> headers;
+    smt::shared_ptr<http::Response>    response;
+    response = smt::make_shared<webserv::HTTPResponse>(
+        new http::Response(200, headers, body));
     (void)request;
     return (generateErrorResponse(501, opts));
 }

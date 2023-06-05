@@ -3,6 +3,7 @@
 #include "http/methods.hpp"
 #include "utils/ft_string.hpp"
 #include "utils/Logger.hpp"
+#include "utils/smt.hpp"
 
 #include <sstream>
 #include <vector>
@@ -130,6 +131,8 @@ std::string Response::getBody(void) const { return (m_body); }
 std::string Response::getVersion(void) const { return (m_version); }
 
 std::string Response::getReason(void) const { return (m_code); }
+
+void Response::setCode(code) {}
 
 std::string const Response::toString(void) const {
 

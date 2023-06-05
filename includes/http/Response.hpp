@@ -2,6 +2,7 @@
 #define HTTP_RESPONSE_HPP
 
 #include "http/ErrorCode.hpp"
+#include "utils/smt.hpp"
 
 #include <map>
 #include <string>
@@ -31,6 +32,9 @@ class Response {
         std::string getBody(void) const;
         std::string getVersion(void) const;
         std::string getReason(void) const;
+
+        void setCode(ErrorCode code);
+        void setBody(std::string body);
 
         std::string const toString(void) const;
 
