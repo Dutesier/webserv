@@ -45,7 +45,6 @@ void SocketConnection::close(void) {
     m_sockFd = -1;
 }
 
-// TODO: implement this with max body size
 std::string SocketConnection::recv(void) {
     char buffer[READING_BUFFER << 1];
     int  nBytes = ::recv(m_sockFd, buffer, READING_BUFFER, 0);

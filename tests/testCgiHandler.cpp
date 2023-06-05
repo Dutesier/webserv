@@ -7,7 +7,6 @@
 
 #include <gtest/gtest.h>
 
-// TODO: Refactor this with Argv and Envp and better examples and asserts
 TEST(testCgiTypes, testConvertType) {
     EXPECT_EQ(cgi::convertCgiExtension(".py"), cgi::Py);
     EXPECT_EQ(cgi::convertCgiExtension(".php"), cgi::Php);
