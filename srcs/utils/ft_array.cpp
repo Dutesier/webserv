@@ -4,25 +4,25 @@ namespace ft {
 
 array::array(void) {}
 
-array::array(std::vector<std::string> const& argc) : m_argc(argc) {}
+array::array(std::vector<std::string> const& vec) : m_vec(vec) {}
 
 array::array(array const& src) { *this = src; }
 
 array::~array(void) {}
 
 array& array::operator=(array const& rhs) {
-    if (this != &rhs) { m_argc = rhs.m_argc; }
+    if (this != &rhs) { m_vec = rhs.m_vec; }
     return *this;
 }
 
 array::operator char**(void) const {
-    char** arr = new char*[m_argc.size() + 1];
+    char** arr = new char*[m_vec.size() + 1];
 
-    for (size_t i = 0; i < m_argc.size(); ++i) {
-        arr[i] = new char[m_argc[i].size() + 1];
-        strcpy(arr[i], m_argc[i].c_str());
+    for (size_t i = 0; i < m_vec.size(); ++i) {
+        arr[i] = new char[m_vec[i].size() + 1];
+        strcpy(arr[i], m_vec[i].c_str());
     }
-    arr[m_argc.size()] = NULL;
+    arr[m_vec.size()] = NULL;
     return (arr);
 }
 

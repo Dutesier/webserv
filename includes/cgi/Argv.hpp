@@ -1,5 +1,5 @@
-#ifndef CGI_ARGC_HPP
-#define CGI_ARGC_HPP
+#ifndef CGI_ARGV_HPP
+#define CGI_ARGV_HPP
 
 #include <string>
 #include <vector>
@@ -11,7 +11,7 @@ class Argv {
     public:
 
         Argv(void);
-        Argv(std::vector<std::string> const& argc);
+        Argv(std::vector<std::string> const& argv);
         Argv(Argv const& src);
 
         ~Argv(void);
@@ -22,9 +22,9 @@ class Argv {
 
     private:
 
-        std::vector<std::string> m_argc;
+        std::vector<std::string> m_argv;
 };
 
 } // namespace cgi
 
-#endif /* CGI_ARGC_HPP */
+#endif /* CGI_ARGV_HPP */

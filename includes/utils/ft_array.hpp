@@ -11,7 +11,7 @@ class array {
     public:
 
         array(void);
-        array(std::vector<std::string> const& argc);
+        array(std::vector<std::string> const& vec);
         array(array const& src);
 
         ~array(void);
@@ -24,7 +24,7 @@ class array {
 
     private:
 
-        std::vector<std::string> m_argc;
+        std::vector<std::string> m_vec;
 };
 
 } // namespace ft
