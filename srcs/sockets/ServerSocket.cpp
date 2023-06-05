@@ -88,8 +88,14 @@ int ServerSocket::accept(void) {
     smt::shared_ptr< SocketConnection > sockConnect(new SocketConnection(
         connectFd, reinterpret_cast<sockaddr_in*>(connectAddr), len));
 
+    struct timeval timeout;
+    timeout.tv_sec = 10;
+    timeout.tv_usec = 0;
+    ::setsockopt(connectFd, SOL_SOCKET, SO_RCVTIMEO, &timeout,
+                 sizeof(struct timeval));
+
     // m_connections[connectFd] = sockConnect;
-	m_connections.insert(std::make_pair(connectFd, sockConnect));
+    m_connections.insert(std::make_pair(connectFd, sockConnect));
     return (connectFd);
 }
 

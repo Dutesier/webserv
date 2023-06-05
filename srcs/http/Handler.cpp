@@ -30,7 +30,8 @@ smt::shared_ptr<Response>
     request->setRoute(route);
 
     // TODO: check if request is cgi request
-    if (opts->m_cgi_extension == request->getPath().getExtension()) {
+    if (!opts->m_cgi_extension.empty() &&
+        opts->m_cgi_extension == request->getPath().getExtension()) {
         LOG_I("Running Cgi in " << request->routeRequest());
         std::string resp = cgi::runCgiScript(request, opts);
         return (smt::make_shared(new Response(resp)));
