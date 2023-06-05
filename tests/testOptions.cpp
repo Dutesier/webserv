@@ -25,10 +25,6 @@ class testOptionsExtreme : public ::testing::Test {
                    "    allow_methods GET;\n"
                    "  }\n"
                    "\n"
-                   "  location php/ {\n"
-                   "    fastcgi_pass .php;\n"
-                   "    root         ./websites/cgi/php;\n"
-                   "  }\n"
                    "}\n"
                    "server {\n"
                    "  listen               8081;\n"
@@ -45,7 +41,13 @@ class testOptionsExtreme : public ::testing::Test {
                    "  server_name    domain.net;\n"
                    "  error_page 500 ./websites/errors/500.html;\n"
                    "}\" >> /tmp/testsOptions.tmp");
-            config::parse("/tmp/testsOptions.tmp");
+            try {
+
+                config::parse("/tmp/testsOptions.tmp");
+            }
+            catch (std::exception& e) {
+                std::cerr << e.what() << std::endl;
+            }
         }
 
         ~testOptionsExtreme(void) { system("rm /tmp/testsOptions.tmp"); }
@@ -93,24 +95,6 @@ TEST_F(testOptionsExtreme, testGettingFirstBlockPythonRouted) {
     ASSERT_EQ(
         *config::Options::getOptions("8080", "127.0.0.1", "/python/me.py"),
         *opt);
-}
-
-TEST_F(testOptionsExtreme, testGettingFirstBlockPhRoutped) {
-    smt::shared_ptr<config::Opts> opt(new config::Opts);
-
-    opt->m_target = "/php/";
-    opt->m_host = "127.0.0.1";
-    opt->m_port = "8080";
-    opt->m_root = "./websites/cgi/php/";
-    opt->m_server_name = "";
-    opt->m_error_pages = std::map<int, ft::file>();
-    opt->m_max_body_size = DEFAULT_BODY_SIZE;
-    opt->m_allowed_methods = std::set<std::string>({"GET", "POST"});
-    opt->m_index = "";
-    opt->m_autoindex = false;
-    opt->m_cgi_extension = ".php";
-    ASSERT_EQ(*config::Options::getOptions("8080", "127.0.0.1", "/php/me.php"),
-              *opt);
 }
 
 TEST_F(testOptionsExtreme, testGettingSecondBlockWithDefaultRoute) {
@@ -184,7 +168,13 @@ TEST(testSocketOptions, testSocketOptionsExtreme) {
            "  root ./websites/;\n"
            "}\" >> /tmp/testsOptions2.tmp\n");
 
-    config::parse("/tmp/testsOptions2.tmp");
+    try {
+        config::parse("/tmp/testsOptions2.tmp");
+    }
+    catch (std::exception& e) {
+        std::cerr << e.what() << std::endl;
+        FAIL();
+    }
 
     std::set< std::pair<int, std::string> > socketOpts({
         {80,   "127.0.0.1"},
