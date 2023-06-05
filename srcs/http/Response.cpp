@@ -132,8 +132,6 @@ std::string Response::getVersion(void) const { return (m_version); }
 
 std::string Response::getReason(void) const { return (m_code); }
 
-void Response::setCode(code) {}
-
 std::string const Response::toString(void) const {
 
     // converting m_code to string

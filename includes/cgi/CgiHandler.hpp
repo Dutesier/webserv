@@ -11,6 +11,7 @@
 #include <map>
 #include <string>
 #include <sys/wait.h>
+#include <unistd.h>
 #include <vector>
 
 namespace cgi {
