@@ -1,13 +1,11 @@
 #include "webserv.hpp"
 
-#include <iostream>
+int main(int argc, char const* argv[]) {
+    (void)argc;
+    (void)argv;
 
-int main(int argc, char* argv[]) {
-
-    webserv::webserv(argc, argv);
+    std::string filename("config/webserv.conf");
+    if (argc > 1) { filename = argv[1]; }
+    webserv::webserv(filename);
     return (0);
 }
-
-// TODO:
-// - Set max_body_size depending on the server block
-// (exposed in the HTTPParser class)

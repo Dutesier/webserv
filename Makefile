@@ -1,5 +1,46 @@
+# **************************************************************************** #
+# Makefile
+#
+# User: mlanca-c
+# Version: 2.1
+# URL: https://github.com/mlanca-c/utils
+#
+# Description:
+#
+# Makefile by fletcher97
+# Some changes by mlanca-c
+# Version: 2.4
+# Repo: www.github.com/fletcher97/utils
+#
+# v2.4: Added PEDANTIC variable on configs section. If set to true a lot of
+# warning flags will be added to use while compiling. By default this feature is
+# turned on. Setting the variable to anything else will disable extra warnings.
+# Turning it off will still compile with -Wall -Wextra -Werror.
+#
+# A LANG variable was aslo added to to specify what language the program is
+# using so as to be able to detect the extentions of the files (not implemented)
+# and enable more warnings.
+#
+# v2.3: A rule to check if a program can be compiled was added in other to be
+# used for git hooks. A folder with hooks can be found in the same repository
+# this makefile came from.
+#
+# As of version 2.2 this Makefile expects an asan.c file to be present in the
+# asan folder inside the SRC_ROOT directory. A copy of the file is provided
+# with the Makefile. Also it now uses clang instead of gcc.
+#
+# This makefile can be copied to a directory and it will generate the file
+# structure and initialize a git repository with the .init rule. Any variables
+# and rules for the specific project can be added in the appropriate section.
+#
+# By default this makefile assumes that libft, 42's student made library, a copy
+# of which can be obtained by cloning https://github.com/fletcher97/libft.git,
+# is being used. It can be removed by simply commenting any reference to it on
+# the library section.
+# **************************************************************************** #
+
 PROJECT	:= webserv
-VERSION	:= 1
+VERSION	:= 2.0.0
 
 # **************************************************************************** #
 # Project Variables
@@ -78,8 +119,8 @@ ifeq (${LANG},C++)
 endif
 
 # Compiler flags
-CFLAGS := -Wall -Wextra -Werror
-# CFLAGS += -std=c++98
+CFLAGS := -Wall -Wextra -Werror -g
+CFLAGS += -std=c++98
 
 # Pedantic flags
 ifeq (${PEDANTIC},true)
@@ -154,7 +195,7 @@ INC_ROOT	:= includes/
 LIB_ROOT	:= lib/
 OBJ_ROOT	:= obj/
 SRC_ROOT	:= srcs/
-TEST_ROOT	:= tests/
+TEST_ROOT	:= build/tests/
 
 # **************************************************************************** #
 # Content Folders
@@ -167,7 +208,7 @@ TEST_ROOT	:= tests/
 # Exemple:
 # DIRS := folder1/:folder2/
 # DIRS += folder1/:folder3/:folder4/
-DIRS	:= ./:cgi/:config/:http/:server/:socket/:utils/
+DIRS	:= ./:cgi/:config/:http/:utils/:server/:sockets/
 
 SRC_DIRS_LIST	:= $(addprefix ${SRC_ROOT},${DIRS})
 SRC_DIRS_LIST	:= $(foreach dl,${SRC_DIRS_LIST},$(subst :,:${SRC_ROOT},${dl}))
@@ -203,7 +244,7 @@ BINS	:= ${addprefix ${BIN_ROOT},${NAMES}}
 # **************************************************************************** #
 
 BUILD	:= build/
-TEST_NAME	:= ${BUILD}/tests/webserv_test
+TEST_NAME	:= ${TEST_ROOT}webserv_utests
 
 # **************************************************************************** #
 # Conditions
@@ -265,14 +306,16 @@ ${BIN_ROOT}${NAME1}: $$(call get_files,$${@F},$${OBJS_LIST})
 		$(call get_files,${@F},${OBJS_LIST}) ${LIBS} -o $@ ${BLOCK}
 
 # **************************************************************************** #
-# Test Targets     
+# Test Targets
 # **************************************************************************** #
+
+${TEST_NAME}: test
 
 test_run: ${FORCE}
 test_run: ${TEST_NAME}
 	${AT} ./${TEST_NAME} ${BLOCK}
 
-test_re: test_clean run_test
+test_re: test_clean test_run
 
 test_clean:
 	${AT}${MAKE} clean -C ${BUILD} ${BLOCK}
@@ -330,7 +373,7 @@ debug_msan_re: fclean debug_msan
 # Utility Targets
 # **************************************************************************** #
 
-folders:	
+folders:
 	${AT}${MKDIR} ${SRC_ROOT} ${BLOCK}
 	${AT}${MKDIR} ${INC_ROOT} ${BLOCK}
 	${AT}${PRINT} "${_INFO} ${PROJECT}: folder structure created\n" ${BLOCK}

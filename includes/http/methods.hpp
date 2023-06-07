@@ -1,23 +1,61 @@
-#pragma once
+#ifndef HTTP_METHODS_HPP
+#define HTTP_METHODS_HPP
 
-#include "config/Blocks.hpp"
-#include "HTTPRequest.hpp"
-#include "HTTPResponse.hpp"
 #include "utils/smt.hpp"
 
-namespace webserv::methods {
+#include <string>
 
-smt::shared_ptr<HTTPResponse> GET(smt::shared_ptr<HTTPRequest>&   request,
-                                  smt::shared_ptr<LocationBlock>& location);
+namespace config {
+class Opts;
+}
 
-smt::shared_ptr<HTTPResponse> POST(smt::shared_ptr<HTTPRequest>&   request,
-                                   smt::shared_ptr<LocationBlock>& location);
+namespace net {
+class ServerSocket;
+}
 
-smt::shared_ptr<HTTPResponse> DELETE(smt::shared_ptr<HTTPRequest>&   request,
-                                     smt::shared_ptr<LocationBlock>& location);
+namespace http {
 
-std::string generateAutoIndex(std::string const& directoryPath);
-bool        readContentsFromFileToResponse(std::string const&             filepath,
-                                           smt::shared_ptr<HTTPResponse>& response);
+class Request;
+class Response;
 
-} // namespace webserv::methods
+typedef enum {
+    GET,
+    HEAD,
+    POST,
+    PUT,
+    DELETE,
+    CONNECT,
+    OPTIONS,
+    TRACE,
+    PATCH,
+    INVALID,
+    UNKNOWN_METHOD,
+} MethodType;
+
+typedef enum {
+    HTTP_1_1,
+    UNKNOWN_VERSION,
+} Version;
+
+MethodType convertMethod(std::string const& methodStr);
+Version    convertVersion(std::string const& versionStr);
+
+namespace methods {
+
+smt::shared_ptr<http::Response>
+    GET(smt::shared_ptr<http::Request> const request,
+        smt::shared_ptr<config::Opts> const  opts);
+
+smt::shared_ptr<http::Response>
+    POST(smt::shared_ptr<http::Request> const request,
+         smt::shared_ptr<config::Opts> const  opts);
+
+smt::shared_ptr<http::Response>
+    DELETE(smt::shared_ptr<http::Request> const request,
+           smt::shared_ptr<config::Opts> const  opts);
+
+} // namespace methods
+
+} // namespace http
+
+#endif /* HTTP_METHODS_HPP */

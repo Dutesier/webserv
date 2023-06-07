@@ -1,31 +1,38 @@
 project(webserv_lib)
 
 add_library(${PROJECT_NAME} STATIC
-	webserv.cpp
-	config/Blocks.cpp
-	config/Config.cpp
-	config/ConfigSocket.cpp
-	http/HTTPHandler.cpp
-	http/HTTPParser.cpp
-	http/HTTPRequest.cpp
-	http/HTTPResponse.cpp
-	http/HTTPValidator.cpp
-	http/pathValidation.cpp
-	http/methods.cpp
-	server/HTTPServer.cpp
-	utils/Logger.cpp
-	socket/Socket.cpp
-	socket/SocketAddress.cpp
-	socket/SocketConnection.cpp
-	socket/TCPSocket.cpp
-	socket/ServerSocket.cpp
-	cgi/CGIHandler.cpp
-	cgi/CGIContext.cpp
+  cgi/Argv.cpp
+  cgi/CgiHandler.cpp
+  cgi/Envp.cpp
+  config/DirectiveTypeTraits.cpp
+  config/Line.cpp
+  config/LocationOpts.cpp
+  config/Options.cpp
+  config/Parser.cpp
+  config/ServerOpts.cpp
+  http/ErrorCode.cpp
+  http/Handler.cpp
+  http/MimeType.cpp
+  http/methods.cpp
+  http/Request.cpp
+  http/Response.cpp
+  http/Uri.cpp
+  server/Middleware.cpp
+  server/Server.cpp
+  server/webserv.cpp
+  sockets/ServerSocket.cpp
+  sockets/SocketConnection.cpp
+  utils/ft_array.cpp
+  utils/ft_exceptions.cpp
+  utils/ft_filesystem.cpp
+  utils/ft_string.cpp
+  utils/Host.cpp
+  utils/Logger.cpp
+  utils/Route.cpp
 )
 
 add_library(42::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
-# target_compile_options(${PROJECT_NAME} PUBLIC "-Werror" "-Wextra" "-Wall" "-std=c++98")
-target_compile_options(${PROJECT_NAME} PUBLIC "-Werror" "-Wextra" "-Wall")
+target_compile_options(${PROJECT_NAME} PUBLIC "-Werror" "-Wextra" "-Wall" "-g")
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/includes)

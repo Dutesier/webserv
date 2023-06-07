@@ -58,7 +58,13 @@ class shared_ptr {
 
         ~shared_ptr() { destroy(); }
 
+        bool operator==(shared_ptr const& other) const {
+            return (this->pointer == other.pointer);
+        }
+
         T* operator->() { return this->pointer; }
+
+        T* operator->() const { return this->pointer; }
 
         T& operator*() { return *(this->pointer); }
 

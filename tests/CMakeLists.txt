@@ -1,40 +1,52 @@
-if(test)
-	add_executable(webserv_test
-		test.cpp
-		test_Config.cpp
-		test_ConfigSocket.cpp
-		test_Logger.cpp
-		test_smt.cpp
-		test_socket.cpp
-		test_SocketAddress.cpp
-		test_SocketConnection.cpp
-		test_TCPSocket.cpp
-		test_HTTPParser.cpp
-		test_HTTPResponse.cpp
-		test_HTTPRequest.cpp
-		test_CGIHandler.cpp
-		test_CGIContext.cpp
-		test_pathValidation.cpp
-		test_methods.cpp
+cmake_minimum_required(VERSION 2.8)
 
-		# test_HTTPHandler.cpp # took this out of the way because the config
-		# thats going to be received is going to change,
-		# and so will this in a future commit
-	)
-	add_test(webserv_gtest webserv_test)
+include(FetchContent)
+FetchContent_Declare(
+  googletest
+  URL https://github.com/google/googletest/archive/5376968f6948923e2411081fd9372e71a59d8e77.zip
+)
+# For Windows: Prevent overriding the parent project's compiler/linker settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
 
-	target_link_libraries(webserv_test
-		PRIVATE pthread
-		PRIVATE 42::webserv_lib
-		PRIVATE gtest
-		PRIVATE gmock
-	)
+set(PROJECT_NAME webserv_utests)
+project(${PROJECT_NAME})
 
-	SET(CGI_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../webserv/website/cgi)
-	SET(CGI_TEST ${CMAKE_CURRENT_BINARY_DIR})
+enable_testing()
+find_package(PkgConfig)
 
-	EXECUTE_PROCESS(
-		COMMAND "${CMAKE_COMMAND}" -E make_directory "${CGI_TEST}"
-		COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CGI_PATH}" "${CGI_TEST}"
-	)
-endif()
+include_directories(${CMAKE_SOURCE_DIR}/../includes/)
+
+add_executable(${PROJECT_NAME}
+  test.cpp
+  client/Client.cpp
+  testArgv.cpp
+  testArray.cpp
+  testCgiHandler.cpp
+  testDirectives.cpp
+  testEnvp.cpp
+  testErrorCode.cpp
+  testFileSystem.cpp
+  testHost.cpp
+  testLine.cpp
+  testLogger.cpp
+  testMethods.cpp
+  testMimeType.cpp
+  testOptions.cpp
+  testParser.cpp
+  testRequest.cpp
+  testResponse.cpp
+  testRoute.cpp
+  testServerSocket.cpp
+  testSmt.cpp
+  testSocketConnection.cpp
+  testString.cpp
+  testUri.cpp
+)
+
+add_test(webserv_gtest ${PROJECT_NAME})
+
+target_link_libraries(${PROJECT_NAME}
+  PRIVATE 42::webserv_lib
+  PRIVATE gtest_main
+)

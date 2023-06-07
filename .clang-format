@@ -189,4 +189,3 @@ WhitespaceSensitiveMacros:
 BasedOnStyle:    ''
 AllowAllConstructorInitializersOnNextLine: true
 ...
-

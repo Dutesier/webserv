@@ -1,139 +1,89 @@
 #include "utils/Logger.hpp"
 
-Logger::Logger(LogLevel l) : level(l) {}
+/* Logger */
+Logger::Logger(LogLevel::level_t lvl) : m_lvl(lvl), m_ffile(false) {}
 
-Logger::~Logger() {}
+Logger::~Logger() {
+    if (m_ffile) { m_file.close(); }
+}
 
-void Logger::operator()(std::string const& message, char const* function,
-                        char const* file, int line) {
-    switch (level) {
-        case DEBUG:
-            std::cout << "[DEBUG]: "
-                      << "(" << function << ":" << file << ":" << line << ") "
-                      << message << std::endl;
-            break;
-        case INFO:
-            std::cout << "[INFO]: "
-                      << "(" << function << ":" << file << ":" << line << ") "
-                      << message << std::endl;
-            break;
-        case WARNING:
-            std::cout << "[WARNING]: "
-                      << "(" << function << ":" << file << ":" << line << ") "
-                      << message << std::endl;
-            break;
-        case ERROR:
-            std::cout << "[ERROR]: "
-                      << "(" << function << ":" << file << ":" << line << ") "
-                      << message << std::endl;
-            break;
-        case FATAL:
-            std::cout << "[FATAL]: "
-                      << "(" << function << ":" << file << ":" << line << ") "
-                      << message << std::endl;
-            break;
+Logger& Logger::getInstance(void) {
+    static Logger ist;
+    return (ist);
+}
+
+void Logger::setLevel(LogLevel::level_t level) { m_lvl = level; }
+
+int Logger::getLevel(void) const { return (m_lvl); }
+
+std::ofstream& Logger::getFile(void) {
+    if (!m_ffile) { throw ft::InvalidFileException(); }
+    return (m_file);
+}
+
+void Logger::setFile(std::string filename) {
+    if (m_ffile) { m_file.close(); }
+    m_file.open(filename.c_str());
+    if (!m_file.good()) { throw ft::InvalidFileException(); }
+    m_ffile = true;
+}
+
+std::string Logger::log(LogLevel::level_t lvl, std::string file, int line) {
+    switch (lvl) {
+        case LogLevel::Debug: return (Formatter::debug(file, line));
+        case LogLevel::Info: return (Formatter::info(file, line));
+        case LogLevel::Warning: return (Formatter::warning(file, line));
+        case LogLevel::Error: return (Formatter::error(file, line));
+        case LogLevel::Fatal: return (Formatter::fatal(file, line));
+        default: break;
     }
+    return ("");
 }
 
-smt::shared_ptr<Logger> Debug() {
-    smt::shared_ptr<Logger> logger = smt::make_shared(new Logger(DEBUG));
-    return logger;
+/* Colors */
+namespace Color {
+
+const std::string Reset = "\033[0m";
+const std::string Red = "\033[31m";
+const std::string Green = "\033[32m";
+const std::string Yellow = "\033[33m";
+const std::string Blue = "\033[34m";
+const std::string Magenta = "\033[35m";
+
+} // namespace Color
+
+/* Formatter */
+std::string const Logger::Formatter::debug(std::string file, int line) {
+    std::ostringstream oss;
+    oss << "[" << Color::Blue << "DEBUG" << Color::Reset << "]: (" << file
+        << ":" << line << "): ";
+    return oss.str();
 }
 
-smt::shared_ptr<Logger> Info() {
-    smt::shared_ptr<Logger> logger = smt::make_shared(new Logger(INFO));
-    return logger;
+std::string const Logger::Formatter::info(std::string file, int line) {
+    std::ostringstream oss;
+    oss << "[" << Color::Green << "INFO" << Color::Reset << "]: (" << file
+        << ":" << line << "): ";
+    return oss.str();
 }
 
-smt::shared_ptr<Logger> Warning() {
-    smt::shared_ptr<Logger> logger = smt::make_shared(new Logger(WARNING));
-    return logger;
+std::string const Logger::Formatter::warning(std::string file, int line) {
+    std::ostringstream oss;
+    oss << "[" << Color::Yellow << "WARNING" << Color::Reset << "]: (" << file
+        << ":" << line << "): ";
+    return oss.str();
 }
 
-smt::shared_ptr<Logger> Error() {
-    smt::shared_ptr<Logger> logger = smt::make_shared(new Logger(ERROR));
-    return logger;
+std::string const Logger::Formatter::error(std::string file, int line) {
+    std::ostringstream oss;
+    oss << "[" << Color::Red << "ERROR" << Color::Reset << "]: (" << file << ":"
+        << line << "): ";
+    return oss.str();
 }
 
-smt::shared_ptr<Logger> Fatal() {
-    smt::shared_ptr<Logger> logger = smt::make_shared(new Logger(FATAL));
-    return logger;
-}
-
-// File Logger - FLOG
-FileLogger::FileLogger(LogLevel l) : level(l) { setLogFile(LOGFILENAME); }
-
-FileLogger::~FileLogger() {
-    if (logFile) logFile.close();
-}
-
-void FileLogger::setLogFile(std::string filename) {
-    remove(filename.c_str());
-    logFile.open(filename.c_str(), std::ios_base::app);
-    if (!logFile.good()) {
-        logFile.close();
-        logToFile = false;
-    }
-    logToFile = true;
-}
-
-void FileLogger::operator()(std::string const& message, char const* function,
-                            char const* file, int line) {
-    if (!logToFile) {
-        std::cerr << "Failed to open " << LOGFILENAME << " for writing."
-                  << std::endl;
-        return;
-    }
-    switch (level) {
-        case DEBUG:
-            logFile << "[DEBUG]: "
-                    << "(" << function << ":" << file << ":" << line << ") "
-                    << message << std::endl;
-            break;
-        case INFO:
-            logFile << "[INFO]: "
-                    << "(" << function << ":" << file << ":" << line << ") "
-                    << message << std::endl;
-            break;
-        case WARNING:
-            logFile << "[WARNING]: "
-                    << "(" << function << ":" << file << ":" << line << ") "
-                    << message << std::endl;
-            break;
-        case ERROR:
-            logFile << "[ERROR]: "
-                    << "(" << function << ":" << file << ":" << line << ") "
-                    << message << std::endl;
-            break;
-        case FATAL:
-            logFile << "[FATAL]: "
-                    << "(" << function << ":" << file << ":" << line << ") "
-                    << message << std::endl;
-            break;
-    }
-}
-
-smt::shared_ptr<FileLogger> FileDebug() {
-    smt::shared_ptr<FileLogger> logger = smt::make_shared(new FileLogger(DEBUG));
-    return logger;
-}
-
-smt::shared_ptr<FileLogger> FileInfo() {
-    smt::shared_ptr<FileLogger> logger = smt::make_shared(new FileLogger(INFO));
-    return logger;
-}
-
-smt::shared_ptr<FileLogger> FileWarning() {
-    smt::shared_ptr<FileLogger> logger = smt::make_shared(new FileLogger(WARNING));
-    return logger;
-}
-
-smt::shared_ptr<FileLogger> FileError() {
-    smt::shared_ptr<FileLogger> logger = smt::make_shared(new FileLogger(ERROR));
-    return logger;
-}
-
-smt::shared_ptr<FileLogger> FileFatal() {
-    smt::shared_ptr<FileLogger> logger = smt::make_shared(new FileLogger(FATAL));
-    return logger;
+std::string const Logger::Formatter::fatal(std::string file, int line) {
+    std::ostringstream oss;
+    oss << "[" << Color::Magenta << "FATAL" << Color::Reset << "]: (" << file
+        << ":" << line << "): ";
+    return oss.str();
 }
