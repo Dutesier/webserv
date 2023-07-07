@@ -88,12 +88,6 @@ int ServerSocket::accept(void) {
     smt::shared_ptr< SocketConnection > sockConnect(new SocketConnection(
         connectFd, reinterpret_cast<sockaddr_in*>(connectAddr), len));
 
-    struct timeval timeout;
-    timeout.tv_sec = 10;
-    timeout.tv_usec = 0;
-    ::setsockopt(connectFd, SOL_SOCKET, SO_RCVTIMEO, &timeout,
-                 sizeof(struct timeval));
-
     // m_connections[connectFd] = sockConnect;
     m_connections.insert(std::make_pair(connectFd, sockConnect));
     return (connectFd);
@@ -138,11 +132,15 @@ std::string ServerSocket::recv(int connectFd) {
 
     std::string request;
     try {
-        request = m_connections[connectFd]->recv();
+        request = (*it).second->recv();
     }
-    catch (SocketConnection::RecvFailureException& e) {
+    catch (SocketConnection::ConnectionClosedException const& e) {
+        LOG_E(toString() + " failure in ::recv() " + e.what());
+        m_connections.erase(it);
+    }
+    catch (SocketConnection::RecvFailureException const& e) {
         LOG_E(toString() + " failure in ::recv(): " + e.what());
-        throw RecvFailureException();
+        m_connections.erase(it);
     }
     return (request);
 }
@@ -158,11 +156,11 @@ void ServerSocket::send(int connectFd, std::string const& response) {
     }
 
     try {
-        m_connections[connectFd]->send(response);
+        (*it).second->send(response);
     }
     catch (SocketConnection::SendFailureException& e) {
         LOG_E(toString() + " failure in ::send(): " + e.what());
-        throw SendFailureException();
+        m_connections.erase(it);
     }
 }
 
@@ -173,39 +171,39 @@ std::string ServerSocket::toString(void) const {
 }
 
 char const* ServerSocket::SocketFailureException::what(void) const throw() {
-    return ("Server Socket: failure in ::socket()");
+    return ("Server Socket: failure in ::socket().");
 }
 
 char const* ServerSocket::BindFailureException::what(void) const throw() {
-    return ("Server Socket: failure in ::bind()");
+    return ("Server Socket: failure in ::bind().");
 }
 
 char const* ServerSocket::ListenFailureException::what(void) const throw() {
-    return ("Server Socket: failure in ::listen()");
+    return ("Server Socket: failure in ::listen().");
 }
 
 char const* ServerSocket::SetOptFailureException::what(void) const throw() {
-    return ("Server Socket: failure in ::setsockopt()");
+    return ("Server Socket: failure in ::setsockopt().");
 }
 
 char const* ServerSocket::AcceptFailureException::what(void) const throw() {
-    return ("Server Socket: failure in ::accept()");
+    return ("Server Socket: failure in ::accept().");
 }
 
 char const* ServerSocket::CloseFailureException::what(void) const throw() {
-    return ("Server Socket: failure in ::close()");
+    return ("Server Socket: failure in ::close().");
 }
 
 char const* ServerSocket::SendFailureException::what(void) const throw() {
-    return ("Server Socket: failure in ::send()");
+    return ("Server Socket: failure in ::send().");
 }
 
 char const* ServerSocket::RecvFailureException::what(void) const throw() {
-    return ("Server Socket: failure in ::recv()");
+    return ("Server Socket: failure in ::recv().");
 }
 
 char const* ServerSocket::NoSuchConnectionException::what(void) const throw() {
-    return ("Server Socket: no such connection");
+    return ("Server Socket: no such connection.");
 }
 
 /* Address */

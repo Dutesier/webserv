@@ -2,6 +2,7 @@
 
 #include "sockets/ServerSocket.hpp"
 #include "utils/ft_string.hpp"
+#include "utils/Logger.hpp"
 
 namespace config {
 
@@ -25,6 +26,15 @@ smt::shared_ptr<Opts> Options::getOptions(std::string const& port,
                                           std::string const& header) {
     std::vector<ServerOpts> options = getInstance()->m_options;
     smt::shared_ptr<Opts>   opts;
+
+    // check if port is equal to port and then take it off
+    size_t pos = header.find(":");
+    if (pos != std::string::npos) {
+        if (header.substr(pos + 1) != port) {
+            const_cast<std::string&>(header).clear();
+        }
+        else { const_cast<std::string&>(header) = header.substr(0, pos); }
+    }
 
     // Get The Server Block with the Port And Host And Header
     std::vector<ServerOpts>::const_iterator serverIt = options.end();
@@ -80,10 +90,7 @@ std::set< std::pair<int, std::string> > Options::getSocketOptions(void) {
     static std::set< std::pair<int, std::string> > sockOpts;
     for (std::vector<ServerOpts>::const_iterator it = options.begin();
          it != options.end(); ++it) {
-
-        std::stringstream ss((*it).m_port);
-        int               port;
-        ss >> port;
+        int port = ft::string::stoi((*it).m_port);
 
         std::pair<int, std::string> opt(port, (*it).m_host);
         if (sockOpts.find(opt) == sockOpts.end()) { sockOpts.insert(opt); }
@@ -181,42 +188,6 @@ bool Opts::operator==(Opts const& rhs) const {
             m_allowed_methods == rhs.m_allowed_methods &&
             m_index == rhs.m_index && m_autoindex == rhs.m_autoindex &&
             m_cgi_extension == rhs.m_cgi_extension);
-}
-
-std::ostream& operator<<(std::ostream& os, Opts const& rhs) {
-    os << "Opts: " << std::endl
-       << "target: " << rhs.m_target << std::endl
-       << "host: " << rhs.m_host << std::endl
-       << "port: " << rhs.m_port << std::endl
-       << "root: " << rhs.m_root << std::endl
-       << "server_name: " << rhs.m_server_name << std::endl
-       << "max_body_size: " << rhs.m_max_body_size << std::endl
-       << "index: " << rhs.m_index << std::endl
-       << "autoindex: " << rhs.m_autoindex << std::endl
-       << "cgi_extension: " << rhs.m_cgi_extension << std::endl
-       << "error_pages:";
-    for (std::map<int, ft::file>::const_iterator it = rhs.m_error_pages.begin();
-         it != rhs.m_error_pages.end(); ++it) {
-        os << it->first << " (" << std::string(it->second) << ")";
-    }
-    os << std::endl << "allowed_methods:";
-    for (std::set<std::string>::const_iterator it =
-             rhs.m_allowed_methods.begin();
-         it != rhs.m_allowed_methods.end(); ++it) {
-        os << " " << *it;
-    }
-    os << std::endl;
-    return (os);
-}
-
-smt::shared_ptr<config::Opts>
-    getOptions(smt::shared_ptr<net::ServerSocket> sock,
-               smt::shared_ptr<http::Request>     request) {
-
-    std::stringstream ss;
-    ss << sock->getPort();
-    return (Options::getOptions(ss.str(), sock->getHost(), request->getPath(),
-                                request->getHeader("Host")));
 }
 
 } // namespace config

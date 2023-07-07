@@ -7,7 +7,7 @@ namespace config {
 Line::Line(Line const& src) : m_line(src.m_line), m_type(src.m_type) {}
 
 Line::Line(std::string const& line) : m_line(ft::string::trim(line)) {
-    m_type = convertLineType(m_line);
+    m_type = Line::convertLineType(m_line);
 }
 
 Line::~Line(void) {}
@@ -24,7 +24,7 @@ std::string Line::getLine(void) const { return (m_line); }
 
 LineType Line::getType(void) const { return (m_type); }
 
-LineType convertLineType(std::string const& line) {
+LineType Line::convertLineType(std::string const& line) {
     std::vector<std::string> subs = ft::string::split(line, " \t");
     if (subs.empty() || subs[0] == LINE_COMMENT) { return (LineEmpty); }
     if (subs[0] == LINE_SERVER) { return (LineBlock); }

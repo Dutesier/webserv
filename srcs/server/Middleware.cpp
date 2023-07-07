@@ -3,6 +3,7 @@
 #include "config/Options.hpp"
 #include "http/Handler.hpp"
 #include "http/Request.hpp"
+#include "http/RequestBuffer.hpp"
 #include "http/Response.hpp"
 #include "sockets/ServerSocket.hpp"
 
@@ -11,94 +12,71 @@ namespace webserv {
 void Middleware::handleRecv(smt::shared_ptr<net::ServerSocket> sock, int fd) {
     smt::shared_ptr<config::Opts> opts(new config::Opts());
 
-    // receiving request string
+    // receiving string from sockets recv
     std::string reqStr = sock->recv(fd);
 
+    // parsing the request from reqStr
     int status = 0;
-    reqStr = getNextRequest(reqStr);
+    reqStr = http::RequestBuffer::getNextRequest(fd, reqStr);
     while (!reqStr.empty()) {
 
         smt::shared_ptr<http::Request> request;
         try {
+            // creating a http::Request based on string
             request = smt::make_shared(new http::Request(reqStr));
-            LOG_I("Received Request" << std::endl << request->toString());
-        }
-        catch (http::Request::MalformedRequestException const&) {
-            LOG_E("Malformed request");
-            LOG_D("TODO: Here we should remove the socket and continue");
-            status = 404;
-        }
-
-        try {
+            // getting options from config file corresponding with request
             opts = getOptions(sock, request);
         }
+        catch (http::Request::MalformedRequestException const&) {
+            // checking if communication is valid HTTP/1.1
+            LOG_E("Malformed request, socket will respond with a 400.");
+            status = 400;
+            opts = getOptions(sock);
+        }
         catch (config::Options::NoSuchOptionsException const&) {
-            LOG_E("No config found for this request");
-            LOG_D("TODO: Here we should remove the socket and continue");
+            // this error will never happen, but its handled anyways
+            LOG_E("Failure in server, failed to find a config block for this "
+                  "request.");
             status = 500;
+            opts = getOptions(sock);
         }
 
-        // handle request
+        // Setting up route
+        smt::shared_ptr<http::Route> route;
+        route = smt::make_shared(new http::Route(opts->m_target, opts->m_root));
+        request->setRoute(route);
+
+        // handle http request
         smt::shared_ptr<http::Response> response =
             http::processRequest(status, request, opts);
 
-        LOG_D("Response: " << std::endl << response->toString());
-
-        // send response
+        // send response as string
         sock->send(fd, response->toString());
 
-        reqStr = getNextRequest();
+        // getting next request form reqStr if there is one
+        reqStr = http::RequestBuffer::getNextRequest(fd);
     }
-}
-
-std::string Middleware::getNextRequest(std::string const& reqStr) {
-    static std::string buff;
-
-    if (!reqStr.empty()) { buff = reqStr; }
-    std::string ret;
-
-    size_t endHeaders = buff.find("\r\n\r\n");
-    // Request is incomplete
-    if (endHeaders == std::string::npos) {
-        ret = buff;
-        buff.clear();
-        return (ret);
-    }
-
-    // getting request until the end of headers
-    ret = buff.substr(0, endHeaders + 4);
-
-    // getting Content-Length
-    size_t pos;
-    if ((pos = ret.find("Content-Length: ")) != std::string::npos) {
-
-        // getting Content-Length
-        std::string        l;
-        std::istringstream iss(buff.substr(pos + 16));
-        iss >> l;
-
-        // converting to int
-        int               len;
-        std::stringstream ss(l);
-        ss >> len;
-
-        // adding body to ret
-        if (len) { ret += buff.substr(endHeaders + 4, len); }
-    }
-
-    buff = buff.substr(ret.size());
-
-    return (ret);
 }
 
 smt::shared_ptr<config::Opts>
     Middleware::getOptions(smt::shared_ptr<net::ServerSocket> sock,
                            smt::shared_ptr<http::Request>     request) {
 
+    // calling getOptions from options
     std::stringstream ss;
     ss << sock->getPort();
     return (config::Options::getOptions(ss.str(), sock->getHost(),
                                         request->getPath(),
                                         request->getHeader("Host")));
 }
+
+smt::shared_ptr<config::Opts>
+    Middleware::getOptions(smt::shared_ptr<net::ServerSocket> sock) {
+
+    // calling default getOpyions from options
+    std::stringstream ss;
+    ss << sock->getPort();
+    return (config::Options::getOptions(ss.str(), sock->getHost(), "/"));
+}
+
 } // namespace webserv

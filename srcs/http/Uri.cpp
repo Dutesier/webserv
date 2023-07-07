@@ -5,7 +5,7 @@
 
 namespace http {
 
-Uri::Uri(std::string const& uri) {
+Uri::Uri(std::string const& uri) : m_uri(uri) {
 
     std::string str = ft::string::trim(uri);
 
@@ -53,4 +53,9 @@ std::string Uri::getPort(void) const { return (m_port); }
 ft::file Uri::getPath(void) const { return (m_path); }
 
 std::string Uri::getQuery(void) const { return (m_query); }
+
+void Uri::setPath(std::string path) { m_path = path; }
+
+std::string const Uri::toString(void) const { return (m_uri); }
+
 } // namespace http

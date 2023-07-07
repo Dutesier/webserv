@@ -7,133 +7,72 @@
 
 #include <gtest/gtest.h>
 
-// TODO: refactor cgiHandler so that it passes more to argv and make tests better - add asserts, check for leaks, etc.
 TEST(testCgiTypes, testConvertType) {
-    EXPECT_EQ(cgi::convertCgiExtension(".py"), cgi::Py);
-    EXPECT_EQ(cgi::convertCgiExtension(".php"), cgi::Php);
-    EXPECT_EQ(cgi::convertCgiExtension(".cgi"), cgi::Cgi);
-    EXPECT_EQ(cgi::convertCgiExtension(".other"), cgi::Unknown);
-    EXPECT_EQ(cgi::convertCgiExtension("other"), cgi::Unknown);
+    EXPECT_EQ(cgi::CgiHandler::convertCgiExtension(".py"), cgi::Py);
+    EXPECT_EQ(cgi::CgiHandler::convertCgiExtension(".php"), cgi::Php);
+    EXPECT_EQ(cgi::CgiHandler::convertCgiExtension(".cgi"), cgi::Cgi);
+    EXPECT_EQ(cgi::CgiHandler::convertCgiExtension(".other"), cgi::Unknown);
+    EXPECT_EQ(cgi::CgiHandler::convertCgiExtension("other"), cgi::Unknown);
 }
 
-TEST(testSplitInfoFromPath, testAllCases) {
+class testCgi : public ::testing::Test {
+    protected:
 
-    EXPECT_EQ(
-        cgi::splitInfoFromPath("/path/to/script.cgi/param1/param2"),
-        std::vector<std::string>({"/path/to/script.cgi", "/param1/param2"}));
+        void SetUp(void) {
+            std::string reqStr = "GET /python/test.py?name=sotto HTTP/1.1\r\n"
+                                 "Host: x\r\n\r\n";
+            m_req = smt::make_shared(new http::Request(reqStr));
+            smt::shared_ptr<http::Route> route(
+                new http::Route("/python/", "./websites/cgi-bin/"));
+            m_req->setRoute(route);
+        }
 
-    EXPECT_EQ(
-        cgi::splitInfoFromPath("/path/to/script/param1/param2.py"),
-        std::vector<std::string>({"/path/to/script/param1/param2.py", ""}));
+        smt::shared_ptr<http::Request> m_req;
+};
 
-    EXPECT_EQ(cgi::splitInfoFromPath("/path/to/script.conf/param1/param2.py"),
-              std::vector<std::string>(
-                  {"/path/to/script.conf/param1/param2.py", ""}));
-
-    EXPECT_EQ(
-        cgi::splitInfoFromPath("/path/to/script.conf/param2.py/file/info"),
-        std::vector<std::string>(
-            {"/path/to/script.conf/param2.py", "/file/info"}));
+TEST_F(testCgi, testArgv) {
+    cgi::CgiHandler cgi(m_req);
+    char**          argv = cgi.getArgv();
+    EXPECT_STREQ(argv[0], "test.py");
+    EXPECT_STREQ(argv[1], NULL);
 }
 
-char** vectorToCharPointerArray(std::vector<std::string> const& vec) {
-    // Allocate memory for char** array
-    char** charArray = new char*[vec.size() + 1];
-
-    // Copy each string to char* array
-    for (size_t i = 0; i < vec.size(); ++i) {
-        // Allocate memory for each char* element
-        charArray[i] = new char[vec[i].size() + 1];
-
-        // Copy string data to char* element
-        strcpy(charArray[i], vec[i].c_str());
-    }
-
-    // Add NULL as the last element
-    charArray[vec.size()] = NULL;
-
-    return charArray;
+TEST_F(testCgi, testEnvp) {
+    cgi::CgiHandler cgi(m_req);
+    char**          envp = cgi.getEnvp();
+    EXPECT_STREQ(envp[0], "REQUEST_METHOD=GET");
+    EXPECT_STREQ(envp[1], "PATH_INFO=test.py");
+    EXPECT_STREQ(envp[2], "DOCUMENT_ROOT=./websites/cgi-bin/");
+    EXPECT_STREQ(envp[3], "QUERY_STRING=name=sotto");
+    EXPECT_STREQ(envp[4], "CONTENT_LENGTH=");
+    EXPECT_STREQ(envp[5], "CONTENT_TYPE=");
+    EXPECT_STREQ(envp[6], NULL);
 }
 
-TEST(testCgi, testingRequestToIndex) {
-    // argv
-    char* path = new char[17];
-    strcpy(path, "/usr/bin/python3");
-    cgi::Argv argv({"/usr/bin/python3", "./websites/cgi/python/index.py"});
-
-    smt::shared_ptr<http::Request> req(
-        new http::Request("GET "
-                          "/cgi/index.py?param1=value1&param2=value2 HTTP/1.1\r\n"
-                          "Host: example.com\r\n"
-                          "Accept-Encoding: gzip, deflate, br\r\n"
-                          "Accept-Language: en-US,en;q=0.9\r\n"
-                          "Connection: keep-alive\r\n\r\n"));
-    cgi::Envp       envp(req);
-
-    cgi::CgiHandler cgi(path, argv, envp);
-    auto            resp = cgi.run();
-    LOG_D(resp);
+TEST_F(testCgi, testingHelloWorld) {
+    // creating file
+    system("touch ./websites/cgi-bin/test.py");
+    system("chmod +x ./websites/cgi-bin/test.py");
+    system("echo '#!/usr/bin/env python\n"
+           "print(\"Hello World!\")' > "
+           "./websites/cgi-bin/test.py");
+    cgi::CgiHandler cgi(m_req);
+    std::string     res = cgi.run();
+    EXPECT_EQ("Hello World!\n", res);
+    system("rm ./websites/cgi-bin/test.py");
 }
 
-TEST(testCgi, testingCreatingAFile) {
-    char* path = new char[17];
-    strcpy(path, "/usr/bin/python3");
+TEST_F(testCgi, testingQuery) {
+    system("touch ./websites/cgi-bin/test.py");
+    system("chmod +x ./websites/cgi-bin/test.py");
+    system("echo '#!/usr/bin/env python\n"
+           "import cgi\n"
+           "form = cgi.FieldStorage()\n"
+           "print(form.getvalue(\"name\"))' > "
+           "./websites/cgi-bin/test.py");
 
-    cgi::Argv argv({"/usr/bin/python3", "./websites/cgi/python/createFile.py"});
-
-
-    smt::shared_ptr<http::Request> req(
-        new http::Request("POST "
-                          "/cgi/createFile.py?param1=value1&param2=value2 HTTP/1.1\r\n"
-                          "Host: example.com\r\n"
-                          "Accept-Encoding: gzip, deflate, br\r\n"
-                          "Accept-Language: en-US,en;q=0.9\r\n"
-						  "Content-Length: 12\r\n"
-						  "Content-Type: text/plain\r\n"
-                          "Connection: keep-alive\r\n\r\n"
-						  "Hello World!"));
-    cgi::Envp       envp(req);
-    cgi::CgiHandler cgi(path, argv, envp, "Hello World!");
-    auto            resp = cgi.run();
-    LOG_D(resp);
-}
-
-TEST(testCgi, testingCreateFile) {
-    char* path = new char[17];
-    strcpy(path, "/usr/bin/python3");
-
-    cgi::Argv argv({"/usr/bin/python3", "./websites/cgi/python/test.py"});
-
-    smt::shared_ptr<http::Request> req(
-        new http::Request("POST "
-                          "/cgi/test.py?param1=value1&param2=value2 HTTP/1.1\r\n"
-                          "Host: example.com\r\n"
-                          "Accept-Encoding: gzip, deflate, br\r\n"
-                          "Accept-Language: en-US,en;q=0.9\r\n"
-						  "Content-Length: 12\r\n"
-						  "Content-Type: text/plain\r\n"
-                          "Connection: keep-alive\r\n\r\n"
-						  "Hello World!"));
-    cgi::Envp       envp(req);
-   
-    cgi::CgiHandler cgi(path, argv, envp);
-    auto            resp = cgi.run();
-    LOG_D(resp);
-}
-
-TEST(testCgi, testCgiWithArgvAndEnvp) {
-    char* path = new char[17];
-    strcpy(path, "/usr/bin/python3");
-
-    cgi::Argv argv({"/usr/bin/python3", "./websites/cgi/python/test.py"});
-    smt::shared_ptr<http::Request> req(
-        new http::Request("POST "
-                          "/cgi/myscript.py HTTP/1.1\r\n"
-                          "Host: example.com\r\n"
-                          "Accept-Encoding: gzip, deflate, br\r\n"
-                          "Accept-Language: en-US,en;q=0.9\r\n"
-                          "Connection: keep-alive\r\n\r\n"));
-    cgi::Envp       envp(req);
-    cgi::CgiHandler cgi(path, argv, envp);
-    auto            resp = cgi.run();
+    cgi::CgiHandler cgi(m_req);
+    std::string     res = cgi.run();
+    EXPECT_EQ("sotto\n", res);
+    system("rm ./websites/cgi-bin/test.py");
 }

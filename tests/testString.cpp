@@ -59,5 +59,5 @@ TEST(testString, testStoi) {
     ASSERT_EQ(ft::string::stoi("123"), 123);
     ASSERT_EQ(ft::string::stoi("-123"), -123);
     ASSERT_EQ(ft::string::stoi("0"), 0);
-    ASSERT_EQ(ft::string::stoi(""), 0);
+    ASSERT_EQ(ft::string::stoi("+123"), 123);
 }

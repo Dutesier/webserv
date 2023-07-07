@@ -5,6 +5,9 @@
 
 namespace http {
 
+#define SP   " "
+#define CRLF "\r\n"
+
 Request::Request(std::string const& reqStr) : m_reqStr(reqStr) {
     std::vector<std::string> subs;
 
@@ -69,16 +72,14 @@ Request::Request(std::string const& reqStr) : m_reqStr(reqStr) {
     std::string body = reqStr.substr(endPos + 4);
     // convert Content-Length to int
     if (m_headers.find("Content-Length") != m_headers.end()) {
-        size_t            len;
-        std::stringstream ss(m_headers["Content-Length"]);
-        ss >> len;
+        size_t len = ft::string::stoul(m_headers["Content-Length"]);
         if (body.size() != len) {
             LOG_W("Malformed request: invalid body size");
             throw(MalformedRequestException());
         }
         m_body = body;
     }
-    // if (reqStr.size() > endPos + 4) { m_body = reqStr.substr(endPos + 4); }
+    LOG_D(debug());
 }
 
 Request::Request(Request const& src) { *this = src; }
@@ -118,13 +119,23 @@ ft::file Request::getPath(void) const { return (m_uri->getPath()); }
 
 std::string Request::getQuery(void) const { return (m_uri->getQuery()); }
 
-void Request::setRoute(Route const& route) { m_route = route; }
-
-std::string Request::routeRequest(void) const {
-    return (m_route.route(getPath()));
+ft::directory const& Request::getRoot(void) const {
+    return (m_route->getRoot());
 }
 
+void Request::setRoute(smt::shared_ptr<Route> route) { m_route = route; }
+
+std::string Request::routeRequest(void) const {
+    return (m_route->route(getPath()));
+}
+
+void Request::setPath(std::string path) { m_uri->setPath(path); }
+
 std::string const& Request::toString(void) const { return (m_reqStr); }
+
+std::string const Request::debug(void) const {
+    return (m_method + SP + m_uri->toString() + SP + m_version);
+}
 
 char const* Request::MalformedRequestException::what(void) const throw() {
     return ("Request: malformed request.");

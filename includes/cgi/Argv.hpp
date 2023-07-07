@@ -11,7 +11,7 @@ class Argv {
     public:
 
         Argv(void);
-        Argv(std::vector<std::string> const& argv);
+        Argv(std::string const& scriptPath);
         Argv(Argv const& src);
 
         ~Argv(void);

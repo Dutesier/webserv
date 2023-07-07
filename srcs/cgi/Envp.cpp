@@ -2,6 +2,7 @@
 
 #include "http/Request.hpp"
 #include "utils/ft_array.hpp"
+#include "utils/ft_filesystem.hpp"
 #include "utils/Logger.hpp"
 
 namespace cgi {
@@ -9,18 +10,14 @@ namespace cgi {
 Envp::Envp(void) {}
 
 Envp::Envp(smt::shared_ptr<http::Request> request) {
-    fillEnvp("REQUEST_METHOD", request->getMethod());
-    fillEnvp("SCRIPT_NAME", request->routeRequest());
-    fillEnvp("QUERY_STRING", request->getQuery());
-    fillEnvp("CONTENT_LENGTH", request->getHeader("Content-Length"));
-    fillEnvp("CONTENT_TYPE", request->getHeader("Content-Type"));
-    // fillEnvp("DOCUMENT_ROOT", opts->m_root);
-
-    LOG_E("ENVP: ");
-    for (std::vector<std::string>::iterator it = m_envp.begin();
-         it != m_envp.end(); ++it) {
-        LOG_E((*it));
-    }
+    std::string filename = ft::file(request->routeRequest()).getFilename();
+    std::string root = request->getRoot();
+    m_envp.push_back("REQUEST_METHOD=" + request->getMethod());
+    m_envp.push_back("PATH_INFO=" + filename);
+    m_envp.push_back("DOCUMENT_ROOT=" + root);
+    m_envp.push_back("QUERY_STRING=" + request->getQuery());
+    m_envp.push_back("CONTENT_LENGTH=" + request->getHeader("Content-Length"));
+    m_envp.push_back("CONTENT_TYPE=" + request->getHeader("Content-Type"));
 }
 
 Envp::Envp(Envp const& src) { *this = src; }
@@ -32,10 +29,15 @@ Envp& Envp::operator=(Envp const& rhs) {
     return (*this);
 }
 
-Envp::operator char**(void) const { return (ft::array(m_envp)); }
-
-void Envp::fillEnvp(std::string const& key, std::string const& value) {
-    if (!value.empty()) { m_envp.push_back(key + "=" + value); }
+std::string Envp::get(std::string key) const {
+    for (size_t i = 0; i < m_envp.size(); i++) {
+        if (m_envp[i].find(key) == 0) {
+            return (m_envp[i].substr(key.size() + 1));
+        }
+    }
+    return ("");
 }
+
+Envp::operator char**(void) const { return (ft::array(m_envp)); }
 
 } // namespace cgi

@@ -1,15 +1,12 @@
 #ifndef HTTP_RESPONSE_HPP
 #define HTTP_RESPONSE_HPP
 
-#include "http/ErrorCode.hpp"
+#include "utils/ErrorCode.hpp"
 
 #include <map>
 #include <string>
 
 namespace http {
-
-#define SP   " "
-#define CRLF "\r\n"
 
 class Response {
 
@@ -33,6 +30,7 @@ class Response {
         std::string getReason(void) const;
 
         std::string const toString(void) const;
+        std::string const debug(void) const;
 
         struct MalformedResponseException : public std::exception {
                 char const* what(void) const throw();

@@ -30,6 +30,7 @@ std::string const& Route::getTarget(void) const { return (m_target); }
 ft::directory const& Route::getRoot(void) const { return (m_root); }
 
 std::string Route::route(std::string const& path) const {
+    if (m_root == m_target) { return (path); }
     std::string const& target = ft::directory(m_target);
     std::string        str = path;
     str.replace(0, target.size(), m_root);

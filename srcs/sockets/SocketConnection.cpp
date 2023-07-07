@@ -48,6 +48,10 @@ void SocketConnection::close(void) {
 std::string SocketConnection::recv(void) {
     char buffer[READING_BUFFER << 1];
     int  nBytes = ::recv(m_sockFd, buffer, READING_BUFFER, 0);
+    if (nBytes == 0) {
+        LOG_E(toString() << " connection closed");
+        throw ConnectionClosedException();
+    }
     if (nBytes == -1) {
         LOG_E(toString() << " failure in ::recv()");
         throw RecvFailureException();
@@ -69,15 +73,20 @@ std::string SocketConnection::toString(void) const {
 }
 
 char const* SocketConnection::CloseFailureException::what(void) const throw() {
-    return ("Socket Connection: failure in ::close()");
+    return ("Socket Connection: failure in ::close().");
 }
 
 char const* SocketConnection::SendFailureException::what(void) const throw() {
-    return ("Socket Connection: failure in ::send()");
+    return ("Socket Connection: failure in ::send().");
 }
 
 char const* SocketConnection::RecvFailureException::what(void) const throw() {
-    return ("Socket Connection: failure in ::recv()");
+    return ("Socket Connection: failure in ::recv().");
+}
+
+char const* SocketConnection::ConnectionClosedException::what(void) const
+    throw() {
+    return ("Socket Connection: connection closed.");
 }
 
 /* Address */

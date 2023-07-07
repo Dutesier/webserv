@@ -45,6 +45,10 @@ class SocketConnection {
                 char const* what(void) const throw();
         };
 
+        struct ConnectionClosedException : public std::exception {
+                char const* what(void) const throw();
+        };
+
     private:
 
         class Address {

@@ -6,7 +6,7 @@ namespace cgi {
 
 Argv::Argv(void) {}
 
-Argv::Argv(std::vector<std::string> const& argv) : m_argv(argv) {}
+Argv::Argv(std::string const& scriptPath) { m_argv.push_back(scriptPath); }
 
 Argv::Argv(Argv const& src) { *this = src; }
 

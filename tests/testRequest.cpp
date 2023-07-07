@@ -12,36 +12,29 @@ TEST(testRequest, testConstructor) {
     EXPECT_EQ(request.getHeader("Content-Length"), "14");
     EXPECT_EQ(request.getBody(), "This is a body");
 
-    // empty method
     ASSERT_THROW(http::Request(""), http::Request::MalformedRequestException);
 
-    // no path
     ASSERT_THROW(http::Request("GET HTTP/1.1\r\nHost: x\r\nContent-Length: "
                                "15\r\n\r\nThis is a body"),
                  http::Request::MalformedRequestException);
-    // no version
     ASSERT_THROW(http::Request("GET / \r\nHost: x\r\nContent-Length: "
                                "15\r\n\r\nThis is a body"),
                  http::Request::MalformedRequestException);
 
-    // wrong first line
     ASSERT_THROW(
         http::Request(
             "GET somthing somethingelseHTTP/1.1\r\nHost: x\r\nContent-Length: "
             "15\r\n\r\nThis is a body"),
         http::Request::MalformedRequestException);
 
-    // wrong first line
     ASSERT_THROW(
         http::Request("somthing GET / HTTP/1.1\r\nHost: x\r\nContent-Length: "
                       "15\r\n\r\nThis is a body"),
         http::Request::MalformedRequestException);
 
-    // wrong header
     ASSERT_THROW(http::Request("GET / HTTP/1.1\r\nHost:\r\nContent-Length: "
                                "15\r\n\r\nThis is a body"),
                  http::Request::MalformedRequestException);
-    // wrong body
     ASSERT_THROW(
         http::Request("GET / HTTP/1.1\r\nHost:x\r\nContent-Length: 15\r\n\r\n"),
         http::Request::MalformedRequestException);
@@ -123,7 +116,8 @@ TEST(testRequest, testRoutes) {
         "Connection: keep-alive\r\n\r\n";
     smt::shared_ptr<http::Request> request;
     ASSERT_NO_THROW(request = smt::make_shared(new http::Request(req)));
-    http::Route route("/python/", "./websites/python/");
+    smt::shared_ptr<http::Route> route(
+        new http::Route("/python/", "./websites/python/"));
     ASSERT_NO_THROW(request->setRoute(route));
     ASSERT_EQ(request->routeRequest(),
               "./websites/python/me.py/path/to/script");
