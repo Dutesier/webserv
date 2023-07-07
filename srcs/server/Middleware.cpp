@@ -29,7 +29,7 @@ void Middleware::handleRecv(smt::shared_ptr<net::ServerSocket> sock, int fd) {
         }
         catch (http::Request::MalformedRequestException const&) {
             // checking if communication is valid HTTP/1.1
-            LOG_E("Malformed request, socket will responde with a 400.");
+            LOG_E("Malformed request, socket will respond with a 400.");
             status = 400;
             opts = getOptions(sock);
         }
