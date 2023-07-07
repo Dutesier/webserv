@@ -76,12 +76,6 @@ class Opts {
         std::string             m_cgi_extension;
 };
 
-std::ostream& operator<<(std::ostream& os, Opts const& rhs);
-
-smt::shared_ptr<config::Opts>
-    getOptions(smt::shared_ptr<net::ServerSocket> sock,
-               smt::shared_ptr<http::Request>     request);
-
 } // namespace config
 
 #endif /* CONFIG_OPTIONS_HPP */

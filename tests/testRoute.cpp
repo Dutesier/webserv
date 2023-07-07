@@ -59,3 +59,14 @@ TEST(testRoute, testRoutingBasic) {
     // ASSERT_EQ(route.reroute("./websites/cgi/python/index.py"),
     //           "python/index.py");
 }
+
+TEST(testRoute, testRoutingForNoRouting) {
+    http::Route route("/", "/");
+    ASSERT_EQ(route.getTarget(), "/") << route.getTarget();
+    ASSERT_EQ(route.getRoot(), "/") << route.getRoot();
+
+    ASSERT_EQ(route.route("./websites/cgi-bin/index.py"),
+              "./websites/cgi-bin/index.py");
+    // ASSERT_EQ(route.reroute("./websites/cgi/python/index.py"),
+    //           "python/index.py");
+}

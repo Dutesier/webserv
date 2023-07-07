@@ -9,85 +9,83 @@
 
 namespace http {
 
+#define SP   " "
+#define CRLF "\r\n"
+
 Response::Response(Response const& src) { *this = src; }
 
 Response::Response(std::string const& respStr) {
-    LOG_F(respStr);
-    std::vector<std::string> subs;
 
     size_t endPos = respStr.find("\r\n\r\n");
     if (endPos == std::string::npos) {
-        LOG_W("Malformed request: failed to find end of headers");
+        LOG_W("Malformed request: failed to find end of headers.");
         throw(MalformedResponseException());
     }
 
     std::istringstream iss(respStr);
     std::string        startLine;
-    getline(iss, startLine); // getting first line
 
-    // handle headers
+    // getting first line
+    getline(iss, startLine);
+
+    // parsing and validating headers
     std::string line;
     while (getline(iss, line) && line != "\r") {
+
         if (line.find("\r") != line.size() - 1) {
-            LOG_W("Malformed request: invalid header end");
+            LOG_W("Malformed request: invalid header end.");
             throw(MalformedResponseException());
         }
+
         line = line.substr(0, line.size() - 1);
         size_t pos = line.find(": ");
         if (pos == std::string::npos || !pos || pos == line.size() - 2) {
-            LOG_W("Malformed request: failed to parse headers");
+            LOG_W("Malformed request: failed to parse headers.");
             throw(MalformedResponseException());
         }
+
         std::string key = line.substr(0, pos);
         std::string value = line.substr(pos + 2);
         m_headers[key] = value;
     }
 
-    // handle start line
+    // parsing and validating start line
     if (startLine.empty()) {
-        LOG_W("Malformed request: failed to find start line");
+        LOG_W("Malformed request: failed to find start line.");
         throw(MalformedResponseException());
     }
-
-    // getting startLine without \r
     if (startLine.find("\r") != startLine.size() - 1) {
-        LOG_W("Malformed request: invalid start line end");
+        LOG_W("Malformed request: invalid start line end.");
         throw(MalformedResponseException());
     }
-
     startLine = startLine.substr(0, startLine.size() - 1);
-
-    subs = ft::string::split(startLine, " ");
+    std::vector<std::string> subs = ft::string::split(startLine, " ");
     if (subs.size() < 3) {
-        LOG_W("Malformed request: invalid start line number of arguments");
+        LOG_W("Malformed request: invalid start line number of arguments.");
         throw(MalformedResponseException());
     }
-
     if (convertVersion(subs[0]) == UNKNOWN_VERSION) {
-        LOG_W("Malformed request: unknown version");
+        LOG_W("Malformed request: unknown version.");
         throw(MalformedResponseException());
     }
     m_version = subs[0];
-
     if (!ft::string::isnumeric(subs[1])) {
-        LOG_W("Malformed request: invalid status code");
+        LOG_W("Malformed request: invalid status code.");
         throw(MalformedResponseException());
     }
     m_code = ft::string::stoi(subs[1]);
 
-    // handle body
+    // parsing and validation body
     std::string body = respStr.substr(endPos + 4);
-    // convert Content-Length to int
     if (m_headers.find("Content-Length") != m_headers.end()) {
-        size_t            len;
-        std::stringstream ss(m_headers["Content-Length"]);
-        ss >> len;
+        size_t len = ft::string::stoul(m_headers["Content-Length"]);
         if (body.size() != len) {
-            LOG_W("Malformed request: invalid body size");
+            LOG_W("Malformed request: invalid body size.");
             throw(MalformedResponseException());
         }
         m_body = body;
     }
+    LOG_D(debug());
 }
 
 Response::Response(int code, std::map<std::string, std::string> headers,
@@ -102,6 +100,7 @@ Response::Response(int code, std::map<std::string, std::string> headers,
     if (m_headers.find("Content-Type") == m_headers.end()) {
         m_headers["Content-Type"] = "text/plain";
     }
+    LOG_D(debug());
 }
 
 Response::~Response(void) {}
@@ -147,6 +146,15 @@ std::string const Response::toString(void) const {
 
     return (m_version + SP + code + SP + std::string(m_code) + CRLF + headers +
             CRLF + m_body);
+}
+
+std::string const Response::debug(void) const {
+    // converting m_code to string
+    std::stringstream ss;
+    ss << int(m_code);
+    std::string code = ss.str();
+
+    return (m_version + SP + code + SP + std::string(m_code));
 }
 
 char const* Response::MalformedResponseException::what(void) const throw() {

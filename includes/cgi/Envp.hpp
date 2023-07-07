@@ -24,11 +24,11 @@ class Envp {
 
         Envp& operator=(Envp const& rhs);
 
+        std::string get(std::string key) const;
+
         operator char**(void) const;
 
     private:
-
-        void fillEnvp(std::string const& key, std::string const& value);
 
         std::vector<std::string> m_envp;
 };

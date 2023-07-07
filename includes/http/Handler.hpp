@@ -22,9 +22,6 @@ smt::shared_ptr<Response>
     processRequest(int status, smt::shared_ptr<Request> const request,
                    smt::shared_ptr<config::Opts> const opts);
 
-smt::shared_ptr<Response>
-    generateErrorResponse(int code, smt::shared_ptr<config::Opts> const opts);
-
 } // namespace http
 
 #endif /* HTTP_HANDLER_HPP */

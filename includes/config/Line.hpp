@@ -59,9 +59,9 @@ class Line {
 
         std::string m_line;
         LineType    m_type;
-};
 
-LineType convertLineType(std::string const& line);
+        static LineType convertLineType(std::string const& line);
+};
 
 } // namespace config
 

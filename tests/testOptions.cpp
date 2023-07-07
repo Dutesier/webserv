@@ -14,18 +14,18 @@ class testOptionsExtreme : public ::testing::Test {
                    "  allow_methods GET POST;\n"
                    "\n"
                    "  location / {\n"
-                   "    root     ./websites/cgi/;\n"
+                   "    root     ./websites/cgi-bin/;\n"
                    "    autoindex on;\n"
                    "  }\n"
                    "\n"
                    "  location /python/ {\n"
-                   "    root          ./websites/cgi/python;\n"
+                   "    root          ./websites/cgi-bin;\n"
                    "    index         ./websites/index.html;\n"
                    "    fastcgi_pass  .py;\n"
                    "    allow_methods GET;\n"
                    "  }\n"
-                   "\n"
                    "}\n"
+                   "\n"
                    "server {\n"
                    "  listen               8081;\n"
                    "  server_name          domain.com;\n"
@@ -38,32 +38,32 @@ class testOptionsExtreme : public ::testing::Test {
                    "server {\n"
                    "  listen         8081:localhost;\n"
                    "  root           ./websites/;\n"
+                   "  location /python/ {\n"
+                   "    root ./websites/cgi-bin;\n"
+                   "  }\n"
                    "  server_name    domain.net;\n"
                    "  error_page 500 ./websites/errors/500.html;\n"
                    "}\" >> /tmp/testsOptions.tmp");
-            try {
-
-                config::parse("/tmp/testsOptions.tmp");
-            }
-            catch (std::exception& e) {
-                std::cerr << e.what() << std::endl;
-            }
         }
 
         ~testOptionsExtreme(void) { system("rm /tmp/testsOptions.tmp"); }
 };
 
-TEST_F(testOptionsExtreme, testServerOptsExtractionFromOptions) {
-    // tommorrow
-}
-
 TEST_F(testOptionsExtreme, testGettingFirstBlockWithDefaultRoute) {
+
+    try {
+        config::Parser::parse("/tmp/testsOptions.tmp");
+    }
+    catch (std::exception& e) {
+        std::cerr << e.what() << std::endl;
+        FAIL();
+    }
 
     smt::shared_ptr<config::Opts> opt(new config::Opts);
     opt->m_target = "/";
     opt->m_host = "127.0.0.1";
     opt->m_port = "8080";
-    opt->m_root = "./websites/cgi/";
+    opt->m_root = "./websites/cgi-bin/";
     opt->m_server_name = "";
     opt->m_error_pages = std::map<int, ft::file>();
     opt->m_max_body_size = DEFAULT_BODY_SIZE;
@@ -73,18 +73,26 @@ TEST_F(testOptionsExtreme, testGettingFirstBlockWithDefaultRoute) {
     opt->m_cgi_extension = "";
 
     ASSERT_EQ(*config::Options::getOptions("8080", "127.0.0.1", "/"), *opt);
-    ASSERT_EQ(*config::Options::getOptions("8080", "127.0.0.1", "/websites/cgi",
-                                           "domain.com"),
+    ASSERT_EQ(*config::Options::getOptions("8080", "127.0.0.1",
+                                           "/websites/cgi-bin", "domain.com"),
               *opt);
 }
 
 TEST_F(testOptionsExtreme, testGettingFirstBlockPythonRouted) {
-    smt::shared_ptr<config::Opts> opt(new config::Opts);
 
+    try {
+        config::Parser::parse("/tmp/testsOptions.tmp");
+    }
+    catch (std::exception& e) {
+        std::cerr << e.what() << std::endl;
+        FAIL();
+    }
+
+    smt::shared_ptr<config::Opts> opt(new config::Opts);
     opt->m_target = "/python/";
     opt->m_host = "127.0.0.1";
     opt->m_port = "8080";
-    opt->m_root = "./websites/cgi/python/";
+    opt->m_root = "./websites/cgi-bin/";
     opt->m_server_name = "";
     opt->m_error_pages = std::map<int, ft::file>();
     opt->m_max_body_size = DEFAULT_BODY_SIZE;
@@ -98,8 +106,16 @@ TEST_F(testOptionsExtreme, testGettingFirstBlockPythonRouted) {
 }
 
 TEST_F(testOptionsExtreme, testGettingSecondBlockWithDefaultRoute) {
-    smt::shared_ptr<config::Opts> opt(new config::Opts);
 
+    try {
+        config::Parser::parse("/tmp/testsOptions.tmp");
+    }
+    catch (std::exception& e) {
+        std::cerr << e.what() << std::endl;
+        FAIL();
+    }
+
+    smt::shared_ptr<config::Opts> opt(new config::Opts);
     opt->m_target = "/";
     opt->m_host = "127.0.0.1";
     opt->m_port = "8081";
@@ -121,8 +137,16 @@ TEST_F(testOptionsExtreme, testGettingSecondBlockWithDefaultRoute) {
 }
 
 TEST_F(testOptionsExtreme, testThirdBlock) {
-    smt::shared_ptr<config::Opts> opt(new config::Opts);
 
+    try {
+        config::Parser::parse("/tmp/testsOptions.tmp");
+    }
+    catch (std::exception& e) {
+        std::cerr << e.what() << std::endl;
+        FAIL();
+    }
+
+    smt::shared_ptr<config::Opts> opt(new config::Opts);
     opt->m_target = "/";
     opt->m_host = "127.0.0.1";
     opt->m_port = "8081";
@@ -139,7 +163,43 @@ TEST_F(testOptionsExtreme, testThirdBlock) {
         *opt);
 }
 
+TEST_F(testOptionsExtreme, testNoLocationBlock) {
+
+    try {
+        config::Parser::parse("/tmp/testsOptions.tmp");
+    }
+    catch (std::exception& e) {
+        std::cerr << e.what() << std::endl;
+        FAIL();
+    }
+
+    smt::shared_ptr<config::Opts> opt(new config::Opts);
+    opt->m_target = "/";
+    opt->m_host = "127.0.0.1";
+    opt->m_port = "8081";
+    opt->m_root = "./websites/";
+    opt->m_server_name = "domain.net";
+    opt->m_error_pages[500] = "./websites/errors/500.html";
+    opt->m_max_body_size = DEFAULT_BODY_SIZE;
+    opt->m_allowed_methods = std::set<std::string>({"GET", "POST", "DELETE"});
+    opt->m_index = "";
+    opt->m_autoindex = false;
+    opt->m_cgi_extension = "";
+    ASSERT_EQ(*config::Options::getOptions("8081", "127.0.0.1",
+                                           "/someOtherRequest", "domain.net"),
+              *opt);
+}
+
 TEST_F(testOptionsExtreme, testGetSocketOptions) {
+
+    try {
+        config::Parser::parse("/tmp/testsOptions.tmp");
+    }
+    catch (std::exception& e) {
+        std::cerr << e.what() << std::endl;
+        FAIL();
+    }
+
     std::set< std::pair<int, std::string> > socketOpts;
     socketOpts.insert(std::make_pair(8080, "127.0.0.1"));
     socketOpts.insert(std::make_pair(8081, "127.0.0.1"));
@@ -159,6 +219,12 @@ TEST(testSocketOptions, testSocketOptionsExtreme) {
            "}\n"
            "\n"
            "server {\n"
+           "  listen 8080;\n"
+           "  server_name domain.com;\n"
+           "  root ./websites/;\n"
+           "}\n"
+           "\n"
+           "server {\n"
            "  listen 80;\n"
            "  root ./websites/;\n"
            "}\n"
@@ -169,10 +235,11 @@ TEST(testSocketOptions, testSocketOptionsExtreme) {
            "}\" >> /tmp/testsOptions2.tmp\n");
 
     try {
-        config::parse("/tmp/testsOptions2.tmp");
+        config::Parser::parse("/tmp/testsOptions2.tmp");
     }
     catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
+        system("rm /tmp/testsOptions2.tmp");
         FAIL();
     }
 
@@ -186,28 +253,4 @@ TEST(testSocketOptions, testSocketOptionsExtreme) {
     ASSERT_EQ(config::Options::getSocketOptions(), socketOpts);
 
     system("rm /tmp/testsOptions2.tmp");
-}
-
-class TestAgain : public ::testing::Test {
-    protected:
-
-        TestAgain(void) {
-            system("touch /tmp/testsOptions3.tmp");
-            system("echo \"server {\n"
-                   "listen 8080;\n"
-                   "location /python {\n"
-                   "  root ./websites/cgi/python;\n"
-                   "}\n"
-                   "allow_methods GET;\n"
-                   "}\" >> /tmp/testsOptions3.tmp\n");
-            config::parse("/tmp/testsOptions3.tmp");
-        }
-
-        ~TestAgain(void) { system("rm /tmp/testsOptions3.tmp"); }
-};
-
-TEST_F(TestAgain, testFavicon) {
-    ASSERT_EQ(config::Options::getOptions("8080", "127.0.0.1", "/favicon.ico")
-                  ->m_target,
-              "/");
 }

@@ -64,7 +64,7 @@ class Server {
         Server(void);
 
         void startSocket(int port, std::string const& host);
-        void epollAdd(int fd, int events = EPOLLIN | EPOLLET);
+        void epollAdd(int fd, int events = EPOLLIN);
         void epollRemove(int fd);
 
         t_state m_state;

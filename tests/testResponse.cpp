@@ -67,3 +67,25 @@ TEST(testResponse, testResponseStringConstructor) {
     ASSERT_EQ(resp.getReason(), "Not Found");
     ASSERT_EQ(resp.toString(), respStr);
 }
+
+TEST(testResponse, testResponseStringConstructorWithBody) {
+    std::string respStr =
+        "HTTP/1.1 200 OK\r\n"
+        "Content-Type: text/html\r\n"
+        "Content-Length: 148\r\n"
+        "\r\n"
+        "<!DOCTYPE html> <html> <head>   <title>Hello "
+        "Page</title> </head> <body>   <h1>Hello, World!</h1> "
+        "  <p>Welcome to my hello page.</p> </body> </html>";
+
+    http::Response resp(respStr);
+    ASSERT_EQ(resp.getCode(), 200);
+    ASSERT_EQ(resp.getBody(),
+              "<!DOCTYPE html> <html> <head>   <title>Hello "
+              "Page</title> </head> <body>   <h1>Hello, World!</h1>   "
+              "<p>Welcome to my hello page.</p> </body> </html>");
+    ASSERT_EQ(resp.getHeaders().size(), 2);
+    ASSERT_EQ(resp.getHeader("Content-Length"), "148");
+    ASSERT_EQ(resp.getHeader("Content-Type"), "text/html");
+    ASSERT_EQ(resp.getReason(), "OK");
+}

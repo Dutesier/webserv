@@ -27,11 +27,12 @@ class Middleware {
 
         static void handleRecv(smt::shared_ptr<net::ServerSocket> sock, int fd);
 
-        static std::string getNextRequest(std::string const& reqStr = "");
-
         static smt::shared_ptr<config::Opts>
             getOptions(smt::shared_ptr<net::ServerSocket> sock,
                        smt::shared_ptr<http::Request>     request);
+
+        static smt::shared_ptr<config::Opts>
+            getOptions(smt::shared_ptr<net::ServerSocket> sock);
 };
 
 } // namespace webserv

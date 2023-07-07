@@ -2,6 +2,7 @@
 
 #include "config/Options.hpp"
 #include "http/Handler.hpp"
+#include "http/RequestBuffer.hpp"
 #include "server/Middleware.hpp"
 
 namespace webserv {
@@ -17,22 +18,23 @@ void Server::startServer(void) {
         throw(EpollCreateException());
     }
 
-    // initializing sockets
+    // getting socket options from config
     std::set< std::pair<int, std::string> > socketOpts =
         config::Options::getSocketOptions();
 
+    // initializing sockets
     std::set< std::pair<int, std::string> >::iterator it;
     for (it = socketOpts.begin(); it != socketOpts.end(); it++) {
         startSocket((*it).first, (*it).second);
     }
 
-    // updating state
+    // updating state to started
     m_state = Started;
 }
 
 void Server::runServer(void) {
 
-    // updating state
+    // updating state to running
     m_state = Running;
 
     struct epoll_event events[EP_MAX_EVENTS];
@@ -40,13 +42,18 @@ void Server::runServer(void) {
 
     while (m_state == Running) {
 
-        // Wait for events on registered file descriptors
+        // wait for events on registered file descriptors
         int nfds = epoll_wait(m_epollFd, events, EP_MAX_EVENTS, EP_TIMEOUT);
 
+        // checking server state
         if (m_state != Running) { break; }
 
-        if (nfds < 0) { throw(EpollWaitException()); }
+        if (nfds < 0) {
+            LOG_E("Epoll wait failure.");
+            throw(EpollWaitException());
+        }
 
+        // iterating through available fds
         for (int i = 0; i < nfds; i++) {
 
             if (m_sockets.find(events[i].data.fd) != m_sockets.end()) {
@@ -56,26 +63,33 @@ void Server::runServer(void) {
                 epollAdd(fd);
             }
             else {
-                // Existing connection with incoming data
+                // Socket connection is ready for recv
+
+                // finding socket connection
                 std::map<int, smt::shared_ptr<net::ServerSocket> >::iterator it;
                 for (it = m_sockets.begin(); it != m_sockets.end(); it++) {
 
                     smt::shared_ptr<net::ServerSocket> sock = (*it).second;
-                    sock->getConnection(events[i].data.fd);
+                    try {
+                        sock->getConnection(events[i].data.fd);
+                    }
+                    catch (
+                        net::ServerSocket::NoSuchConnectionException const&) {
+                        // Socket connection is not connected to this socket,
+                        // moving on
+                        continue;
+                    }
 
+                    // calling in middleware to handle what the socket has to
+                    // say
                     Middleware::handleRecv(sock, events[i].data.fd);
 
-                    // // checking if connection is done sending data
-                    // try {
-                    //     sock->getConnection(events[i].data.fd);
-                    //     LOG_D("Socket not closed, still needs to receive
-                    //     more"
-                    //           "things");
-                    // }
-                    // catch (
-                    //     net::ServerSocket::NoSuchConnectionException const&)
-                    //     { epollRemove(events[i].data.fd);
-                    // }
+                    if (!http::RequestBuffer::hasRequest(events[i].data.fd)) {
+                        // closing socket connection
+                        http::RequestBuffer::cleanBuffer(events[i].data.fd);
+                        epollRemove(events[i].data.fd);
+                        sock->close(events[i].data.fd);
+                    }
                     break;
                 }
             }
@@ -86,29 +100,25 @@ void Server::runServer(void) {
 void Server::stopServer(void) { m_state = Stopped; }
 
 void Server::startSocket(int port, std::string const& host) {
-    // initializing socket from address
+    // initializing socket with host and port
     smt::shared_ptr<net::ServerSocket> sock;
     sock = smt::make_shared(new net::ServerSocket(port, host));
 
+    // calling socket()
     sock->socket();
 
     // setting socket options
-    int enable = 1;
-    sock->setsockopt(SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int));
+    int yes = 1;
+    sock->setsockopt(SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int));
 
-    struct timeval timeout;
-    timeout.tv_sec = 10;
-    timeout.tv_usec = 0;
-    sock->setsockopt(SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(struct timeval));
-
-    // binding and listening
+    // binding and listening socket
     sock->bind();
     sock->listen();
 
-    // adding socket to epoll list
-    epollAdd(sock->getSockFd(), EPOLLIN);
+    // adding socket to epoll's interest list
+    epollAdd(sock->getSockFd());
 
-    // adding socket to sockets list
+    // adding socket to the server's socket list
     m_sockets.insert(std::make_pair(sock->getSockFd(), sock));
 }
 
@@ -124,7 +134,6 @@ void Server::epollAdd(int fd, int events) {
 }
 
 void Server::epollRemove(int fd) {
-
     if (epoll_ctl(m_epollFd, EPOLL_CTL_DEL, fd, NULL) < 0) {
         throw(EpollRemoveException());
     }
@@ -142,19 +151,19 @@ void Server::run(void) { getInstance()->runServer(); }
 void Server::stop(void) { getInstance()->stopServer(); }
 
 char const* Server::EpollCreateException::what(void) const throw() {
-    return ("webserv::Server epoll_create system call failure");
+    return ("webserv::Server epoll_create system call failure.");
 }
 
 char const* Server::EpollAddException::what(void) const throw() {
-    return ("webserv::Server epoll_ctl (add) system call failure");
+    return ("webserv::Server epoll_ctl (add) system call failure.");
 }
 
 char const* Server::EpollRemoveException::what(void) const throw() {
-    return ("webserv::Server epoll_ctl (remove) system call failure");
+    return ("webserv::Server epoll_ctl (remove) system call failure.");
 }
 
 char const* Server::EpollWaitException::what(void) const throw() {
-    return ("webserv::Server epoll_wait system call failure");
+    return ("webserv::Server epoll_wait system call failure.");
 }
 
 } // namespace webserv

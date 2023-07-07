@@ -12,7 +12,9 @@ namespace config {
 
 Parser::Parser(ft::file filename) : m_line(), m_pos(0) {
 
+    // validating file
     if (!filename.isValid()) { throw ft::InvalidFileException(); }
+    // opening file
     m_file.open(std::string(filename).c_str());
     if (!m_file.is_open()) { throw ft::FailedToOpenFileException(); }
 }
@@ -42,32 +44,66 @@ void Parser::error(void) const {
 template<LineType T>
 void Parser::parseLine(std::vector<std::string> const& args, int level) {
 
+    // creating the directive based on line type
     DirectiveTypeTraits<T> directive(args);
+    // checking if directive is valid
     if (!directive.isValid()) { error(); }
 
+    // checking if the directive's level (position) is valid
     if (level == 0) {
-        if (directive.isBlockDirective() || directive.isRouteDirective()) {
-            LOG_W("config: directive " << directive.getName()
-                                       << " is not a global directive.");
+        // checking if directive is valid outside a server block
+        if (!directive.isGlobalDirective()) {
+            LOG_W("directive " << directive.getName()
+                               << " is not a global directive.");
             error();
         }
+        // updating m_directives
         directive.set(m_directives);
     }
     if (level == 1) {
+        // checking if directive is valid inside server block
         if (!directive.isBlockDirective()) {
-            LOG_W("config: directive " << directive.getName()
-                                       << " is not a server directive.");
+            LOG_W("directive " << directive.getName()
+                               << " is not a server directive.");
             error();
         }
+        // updating m_directives
         directive.set(m_directives.back());
     }
     else if (level == 2) {
+        // checking if directive is valid inside location block
         if (!directive.isRouteDirective()) {
-            LOG_W("config: directive " << directive.getName()
-                                       << " is not a location directive.");
+            LOG_W("directive " << directive.getName()
+                               << " is not a location directive.");
             error();
         }
+        // updating m_directives
         directive.set(m_directives.back().m_locations.back());
+    }
+}
+
+template<>
+void Parser::parseLine<LineEnd>(std::vector<std::string> const& args,
+                                int                             level) {
+    // checking if the directive's level (position) is valid
+    if (level == 0) {
+        LOG_W("directive { is not a global directive.");
+        error();
+    }
+    if (level == 1) {
+        // creating the directive based on line type
+        DirectiveTypeTraits<LineEnd> directive(args, m_directives);
+
+        // checking if directive is valid
+        if (!directive.isValid()) { error(); }
+    }
+    if (level == 2) {
+        // creating the directive based on line type
+        DirectiveTypeTraits<LineEnd> directive(
+            args, m_directives.back().m_locations.back());
+
+        // checking if directive is valid
+        if (!directive.isValid()) { error(); }
     }
 }
 
@@ -75,11 +111,17 @@ char const* Parser::InvalidSyntaxException::what(void) const throw() {
     return ("config::parser: invalid syntax.");
 }
 
-void parse(ft::file const& filename) {
+void Parser::parse(ft::file const& filename) {
+    // creating a config parser for filename
     Parser parser(filename);
-    int    level = 0;
+
+    // parsing file per line
+    int level = 0;
     while (parser.nextLine()) {
+        // creating a line object
         Line line(parser.getLine());
+
+        // checking line type
         switch (line.getType()) {
             case (LineEmpty): break;
 
@@ -138,7 +180,9 @@ void parse(ft::file const& filename) {
             default: parser.error();
         }
     }
-    if (level != 0) { parser.error(); }
+    if (level != 0) { 
+        LOG_W("Failed to find end of block");
+        parser.error(); }
     // initializing options
     Options::getInstance(parser.getOptions());
 }

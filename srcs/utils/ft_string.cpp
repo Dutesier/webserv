@@ -1,5 +1,7 @@
 #include "utils/ft_string.hpp"
 
+#include <sstream>
+
 namespace ft {
 
 std::vector<std::string> string::split(std::string const& str,
@@ -48,18 +50,16 @@ bool string::isnumeric(std::string const& str) {
 }
 
 int string::stoi(std::string const& str) {
-    int result = 0;
-    for (size_t i = (str[0] == '-') ? 1 : 0; i < str.size(); ++i) {
-        result = result * 10 + (str[i] - '0');
-    }
-    return ((str[0] == '-') ? -result : result);
+    std::stringstream ss(str);
+    int               result;
+    ss >> result;
+    return (result);
 }
 
 unsigned long string::stoul(std::string const& str) {
-    unsigned long result = 0;
-    for (size_t i = 0; i < str.size(); ++i) {
-        result = result * 10 + (str[i] - '0');
-    }
+    std::stringstream ss(str);
+    unsigned long     result;
+    ss >> result;
     return (result);
 }
 
